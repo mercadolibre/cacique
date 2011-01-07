@@ -1,0 +1,36 @@
+//Right click on the menu categories to the project
+#menuProject.contextMenu{:style=>"display:none;"}
+  %ul
+    %li#newModule
+      %img{:src=>"/images/iconright/plus.png", :alt=>"plus.png"}
+      =_('New Folder')
+
+//Right click on the menu categories to modules
+#menuCategory.contextMenu{:style=>"display:none;"}
+  %ul
+    %li#newScript
+      %img{:src=>"/images/iconright/plus.png", :alt=>"plus.png"}
+      =_('New Script')
+    %li#newModule
+      %img{:src=>"/images/iconright/plus.png", :alt=>"plus.png"}
+      =_('New Folder')
+    %li#rename
+      %img{:src=>"/images/iconright/page_white_paste.png", :alt=>"page_white_paste.png"}
+      =_('Rename')
+    %li#delete
+      %img{:src=>"/images/iconright/delete.png", :alt=>"delete.png"}
+      =_('Delete')
+
+
+//Right click on the menu categories to scripts
+#menuScript.contextMenu{:style=>"display:none;"}
+  %ul
+    %li#rename
+      %img{:src=>"/images/iconright/page_white_paste.png", :alt=>"page_white_paste.png"}
+      =_('Rename')
+    %li#copy
+      %img{:src=>"/images/iconright/page_white_copy.png", :alt=>"page_white_copy.png"}
+      =_('Copy')
+    %li#delete
+      %img{:src=>"/images/iconright/delete.png", :alt=>"delete.png"}
+      =_('Delete')

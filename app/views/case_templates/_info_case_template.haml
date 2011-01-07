@@ -1,0 +1,117 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+//CASE TEMPLATE
+.info{:id=>"infoCaseTemplate", :style=>"display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoCaseTemplate"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Case')
+      %p{:style=>"text-align:center;"}
+        =_('Is a Data Set for a test case associated with a script')
+        %br
+        =_('You can edit the cases by double click on the field to modify.')
+
+
+    %h3
+      %img{:src => "/images/icons/new.png", :alt=>"new.png"}
+      =_('New Case')
+    %p
+      =_('It add a row to the data set')
+      %br
+      =_('and doing double click in the cell, is possible complete their fields.')
+
+    %h3
+      %img{:src => "/images/icons/column.png", :alt=>"column.png"}
+      =_('Column')
+    %p
+      =_('Allows insert or delete columns in data set')
+
+    %h3
+      %img{:src => "/images/icons/trash.png", :alt=>"trash.png"}
+      =_('Delete Case')
+    %p
+      =_('Delete the selected case. Also be removed:')
+      %br
+      =_('-Execution History.')
+      %br
+      =_('-Suite Relations')
+
+    %h3
+      %img{:src => "/images/icons/clock.png", :alt=>"clock.png"}
+      =_('History')
+    %p
+      =_('Displays the history of execution from the selected case.')
+
+    %h3
+      %img{:src => "/images/icons/eimport.png", :alt=>"eimport.png"}
+      =_('Import')
+    %p
+      =_('Import data set from Excel')
+
+    %h3
+      %img{:src => "/images/icons/eexport.png", :alt=>"eexport.png"}
+      =_('Export')
+    %p
+      =_('Export data set to Excel')
+
+    %h3
+      %img{:src => "/images/icons/config.png", :alt=>"config.png"}
+      =_('Execution Panel')
+    %p
+      =_('You can set different parameters, such as Explorer.')
+      %br
+      =_('Cacique stores last settings used by user.')
+      %br
+
+    %h3
+      %img{:src => "/images/icons/play.png", :alt=>"play.png"}
+      =_('Run')
+    %p
+      =_('Run selected cases')
+      %br
+      %i
+        =_('It will run as configured in ')
+        %img{:src => "/images/icons/config.png", :alt=>"config.png"}
+
+    %h3
+      %img{:src => "/images/icons/queue.png", :alt=>"queue"}
+      =_('Queued Task')
+    %p
+      =_('Shows the number of waiting Executions in the system')
+
+    %h3
+      %img{:src => "/images/icons/ok_1.png", :alt=>"show.png"}
+      =('-')
+      %img{:src => "/images/icons/waiting_1.png", :alt=>"show.png"}
+      =('-')
+      %img{:src => "/images/icons/fail_1.png", :alt=>"show.png"}
+      =_('Result.')
+    %p
+      =_('These icons show the Execution Result.')
+
+   

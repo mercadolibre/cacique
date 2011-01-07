@@ -1,0 +1,124 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+//SUITE INFO
+.info{:id=>"infoSuite", :style=>"display:none; "}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoSuite"}  
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        Suite
+      %p{:style=>"text-align:center;"}
+        =_('A suite is a set of scripts that run one after the other. The scripts in the suite can be related to the execution, to share data. The outputs of a script, can be input to the next.')
+    %h3
+      %img{:src => "/images/icons/new.png", :alt=>"new.png"}
+      =_('New Suite')
+    %p
+      =_('To create a suite you must:')
+      %br
+      =_('* Add scripts.')
+      %br
+      =_('* Establish the order in which they will run.')
+      %br
+      =_('* Select cases for each script.')
+
+    %h3
+      %img{:src => "/images/icons/edit.png", :alt=>"edit.png"}
+      =_('Edit Suite')
+    %p
+      =_('When editing suite you can:')
+      %br
+      =_('* Remove and/or add scripts.')
+      %br
+      =_('* Change the execution order of scripts.')
+      %br
+      =_('* Add and/or remove Cases.')
+
+    %h3
+      %img{:src => "/images/icons/relations.png", :alt=>"relations.png"}
+      =_('Relation')
+
+    %p
+      =_('In this section can be related suites scripts,')
+      =_('relations are always set in pairs (a script is related to another that is going to send data)')
+      %br
+      =_('In the relations can assign as many cases as desired')
+      =_('therefore, is recommended that all necessary cases are added to the Suite before entering in this view.')
+      %br
+      =_('To establish a relation should be:')
+      %br
+      =_('1 - Select a couple of scripts to be related.')
+      %br
+      =_('2 - Determine which variables will be shared.')
+      %br
+      =_('3 - Select the involved cases for each script.')
+
+    %h3
+      %img{:src => "/images/icons/trash.png", :alt=>"trash.png"}
+      =_('Delete Suite')
+    %p
+      =_('Selected suite will be deleted with all their relations.')
+      %br
+      =_('All historical will also be removed.')
+
+    %h3
+      %img{:src => "/images/icons/calendar.png", :alt=>"calendar.png"}
+      =_('Schedule')
+    %p
+      =_('View and create scheduled suites')
+
+    %h3
+      %img{:src => "/images/icons/import.png", :alt=>"import.png"}
+      =_('Import Suite')
+
+    %p
+      =_('Allow import suites from another project, copying all scripts. If you copy the cases, also copied the suite relations.')
+      =_('if not copy the cases only copied fields relations')
+
+    %h3
+      %img{:src => "/images/icons/play.png", :alt=>"play.png"}
+      =_('Run')
+    %p
+      =_('Run the selected Suite.')
+      %br
+
+    %h3
+      %img{:src => "/images/icons/queue.png", :alt=>"queue"}
+      =_('Queued Task')
+    %p
+      =_('Shows the number of waiting Executions in the system')
+
+    %h3
+      %img{:src => "/images/icons/show.png", :alt=>"show.png"}
+      =_('Detail')
+    %p
+      =_('In detail you can see a diagram with the scripts in the suite and its relations.')
+      %br
+      =_('The view lets you select a script and analyze its relationship with others. View of those who receives and sends data.')
+      %br
+
+
+    
+    

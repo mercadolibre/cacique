@@ -1,0 +1,71 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%h1
+  =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), "/context_configurations/new", :title=>_('Add Configuration')
+  =_('Configurable Parameters for Execution')
+-if @context_configurations.empty?
+  %h2
+    %i
+      =_('Without Configurable Parameters')
+-else
+  %table.general{:name=>"table_zebra", :cellspacing=>"0",:style=>"width:600px;border:1px solid grey;"}
+    %tr
+      %th{:style=>"border-right:1px solid grey;"}
+        =_('Name')
+      %th{:style=>"border-right:1px solid grey;"}
+        =_('View Type')
+      %th{:style=>"width:20px;border-right:1px solid grey;"}
+        Default
+      %th{:style=>"border-right:1px solid grey;"}
+        =_('Values')
+      %th
+        =_('Actions')
+    -@context_configurations.each do |context_configuration|
+      %tr
+        %td{:title=>context_configuration.name, :style=>"border-right:1px solid #C6C5C4;"}
+          =truncate(context_configuration.name, :ommision => "...", :length => 30)
+        %td{:title=>context_configuration.view_type, :style=>"border-right:1px solid #C6C5C4;"}
+          =truncate(context_configuration.view_type, :ommision => "...", :length => 30)
+        %td{:style=>"width:20px;border-right:1px solid #C6C5C4;"}
+          =(context_configuration.field_default)? image_tag("icons/check.png", :alt=>"check", :title=> "OK", :style=>"margin-left:40%;"):image_tag("icons/cross.png", :alt=>"cross", :title=> "No", :style=>"margin-left:40%;")
+        %td{:style=>"border-right:1px solid #C6C5C4;"}
+          -context_configuration.all_values.each do |value|
+            =truncate(value, :ommision => "...", :length => 30)
+            %br
+        %td{:style => "width:40px;"}
+          =link_to image_tag('/images/icons/edit.png', :alt=>"edit.png",:style=>"border:none;margin-left:10px;height:14px;",  :title=>_('Edit')), "/context_configurations/edit/#{context_configuration.id}"
+          %a{:onclick => "if(confirm('#{_('Are you sure to delete ') + context_configuration.name}?'))location='/context_configurations/disable/#{context_configuration.id}'", :style => "cursor:pointer;"}
+            %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Delete')}
+
+//Tools menu
+-content_for :tools_menu do
+  =link_to _('General Notes') , "/notes", {:title => _('Add/Remove Notes'), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;text-decoration:none;"}
+  =link_to _("Functions"), "/user_functions", {:title => _("Add/Remove Functions"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Projects"), "/projects", {:title => _("Projects Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Users"), "/users", {:title => _("Users Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Summary"), "/graphs", {:title => _("Summary"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Run Configuration"), "/context_configurations", {:title => _("Run Configuration"), :style => "line-height:30px;padding-left:20px;text-decoration:none;"}

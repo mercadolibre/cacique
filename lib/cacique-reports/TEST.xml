@@ -1,0 +1,1 @@
+<testsuite time="10" failures="0" name="una" test="1" errors="0" hostname="bamboo.ml.com" timestamp="2010-09-17 17:45:25 -0300"> <property value="Firefox on Ubuntu" name="browser"/> <property value="bre" name="environment"/> <testcase time="13.0" classname="hola-1" name="hola-1"/> </testsuite>

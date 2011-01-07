@@ -1,0 +1,3094 @@
+# CACIQUE SPANISH TRANSLATION
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Juan Carlos Luna <juancluna@gmail.com>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: myapp 1.1.0\n"
+"POT-Creation-Date: 2010-09-15 11:30-0300\n"
+"PO-Revision-Date: 2010-09-15 11:30-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: app/controllers/categories_controller.rb:
+msgid "Impossible to modify "
+msgstr "No es posible modificar "
+
+#: app/controllers/categories_controller.rb:
+msgid "ERROR: Can´t delete folder: "
+msgstr "ERROR: No se puede eliminar la carpeta "
+
+#: app/controllers/categories_controller.rb:
+msgid " Folder is not empty."
+msgstr " primero debe eliminar su contenido"
+
+#: app/controllers/categories_controller.rb:
+msgid "Impossible to create "
+msgstr "No es posible crear "
+
+#: app/controllers/categories_controller.rb:
+msgid "You do not have Edit Permissions"
+msgstr "Ud. no posee Permisos de Edición"
+
+#: app/controllers/circuits_controller.rb:
+msgid "This is not the latest version of the Scrip. It has been modified by: "
+msgstr "Esta No es la ultima versión del scrip. Ha sido modificado por: "
+
+#: app/controllers/circuits_controller.rb:
+msgid "-Select-"
+msgstr "-Seleccione-"
+
+#: app/controllers/circuits_controller.rb:
+msgid "FILE NO SAVED "
+msgstr "NO SE GUARDO EL ARCHIVO IMPORTADO"
+
+#: app/controllers/circuits_controller.rb:
+msgid "ERROR TO SAVE FILE IN "
+msgstr "ERROR AL GUARDAR EL ARCHIVO EN "
+
+#: app/controllers/circuits_controller.rb:
+msgid "Modification was successful"
+msgstr "La Modificación se realizo correctamente"
+
+#: app/controllers/circuits_controller.rb:
+msgid "Impossible to edit "
+msgstr "No es posible editar "
+
+#: app/controllers/circuits_controller.rb:
+msgid "Impossible to delete "
+msgstr "No es posible eliminar "
+
+#: app/controllers/circuits_controller.rb:
+msgid "Impossible to create "
+msgstr "No es posdible crear "
+
+#: app/controllers/circuits_controller.rb:
+msgid "You do not have Edit permissions, request permissions."
+msgstr "Ud. no posee Permisos de Edición, solicitelo."
+
+#: app/controllers/graphs_controller.rb:
+msgid "Setting was not saved"
+msgstr "No se pudo guardar la configuración"
+
+#: app/controllers/executions_controller.rb:
+msgid "Weeks"
+msgstr "Semanas"
+
+#: app/controllers/executions_controller.rb:
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: app/controllers/projects_controller.rb:
+msgid "User has no permission to perform this action"
+msgstr "El usuario no tiene permisos para realizar esta acción"
+
+#: app/controllers/projects_controller.rb:
+msgid "The Project was Correctly Create"
+msgstr "El Proyecto se ha Creado Correctamente"
+
+#: app/controllers/projects_controller.rb:
+msgid "The Project was Correctly Modified"
+msgstr "El Proyecto se ha Modificado Correctamente"
+
+#: app/controllers/projects_controller.rb:
+msgid "The User has been modified"
+msgstr "El Usuario ha sido Modificado"
+
+#: app/controllers/projects_controller.rb:
+msgid "The User has been Assign to the Project"
+msgstr "El Usuario ha sido Asignado al Proyecto"
+
+#: app/controllers/sessions_controller.rb:
+msgid "Wellcome to Cacique!"
+msgstr "Bienvenido a Cacique!"
+
+#: app/controllers/sessions_controller.rb:
+msgid "User or Password Incorrect"
+msgstr "Nombre de usuario y/o contraseña incorrecto"
+
+#: app/controllers/sessions_controller.rb:
+msgid "User "
+msgstr "El usuario "
+
+#: app/controllers/sessions_controller.rb:
+msgid " is not active."
+msgstr " no se encuentra activo"
+
+#: app/controllers/sessions_controller.rb:
+msgid "Session Out"
+msgstr "Ha terminado su Sesión"
+
+#: app/controllers/suite_executions_controller.rb:
+msgid "Start date invalid, this parameter is ignored.<br/>"
+msgstr "Fecha de inicio invalida, se ignora este parametro en la búsqueda.<br/>"
+
+#: app/controllers/suite_executions_controller.rb:
+msgid "Start date invalid, current date is used"
+msgstr "Fecha de inicio invalida, se asume la fecha actual"
+
+#: app/controllers/suite_executions_controller.rb:
+msgid "ERROR: Must select any case to run"
+msgstr "Error: No hay seleccionado ningun caso para correr"
+
+#: app/controllers/user_functions_controller.rb:
+msgid "Can't Delete Function: "
+msgstr "No se puede borrar la funcion "
+
+#: app/controllers/user_functions_controller.rb:
+msgid ". This affect the execution\n"
+msgstr " porque afectaria el funcionamiento de la corrida\n"
+
+#: app/controllers/user_functions_controller.rb:
+msgid "This function can not be Deleted"
+msgstr "Esta función no puede ser eliminada"
+
+#: app/controllers/user_functions_controller.rb:
+msgid "Function was created Successfuly"
+msgstr "La Función se creo correctamente"
+
+#: app/controllers/user_functions_controller.rb:
+msgid "Invalid Time Format. Time must be after the current."
+msgstr "Formato de hora invalido. La Hora debe ser posterior a la actual."
+
+#: app/controllers/users_controller.rb:
+msgid "Password was changed successfully. "
+msgstr "La Contraseña fue modificada con éxito. "
+
+#: app/controllers/users_controller.rb:
+msgid " You will receive an email with information about the change. "
+msgstr " Se le enviará un mail con información referente al cambio. "
+
+#: app/controllers/users_controller.rb:
+msgid "Go to Cacique"
+msgstr "Ir a Cacique"
+
+#: app/controllers/users_controller.rb:
+msgid "User not Exist"
+msgstr "No existe un usuario con los datos ingresados"
+
+#: app/controllers/users_controller.rb:
+msgid "Your data is being processed. In few minutes you will receive an email to change your password"
+msgstr "Sus datos estan siendo procesados. En los proximos minutos recibirá un email para modificar su contraseña"
+
+#: app/controllers/users_controller.rb:
+msgid "Access Denied"
+msgstr "Acceso denegado"
+
+#: app/controllers/users_controller.rb:
+msgid "Role assigned to User"
+msgstr "Se ha asignado el rol al usuario"
+
+#: app/controllers/users_controller.rb:
+msgid "Is not possible assign role to user"
+msgstr "No es posible asignar el rol al usuario"
+
+#: app/controllers/users_controller.rb:
+msgid "Permissions updated successfully"
+msgstr "Los permisos han sido actualizado correctamente"
+
+#: app/controllers/users_controller.rb:
+msgid "English"
+msgstr "Ingles"
+
+#: app/controllers/users_controller.rb:
+msgid "Spanish"
+msgstr "Español"
+
+#: app/controllers/users_controller.rb:
+msgid "Portuguese"
+msgstr "Portugues"
+
+#: app/models/case_datum.rb:
+msgid "Must complete circuit_case_column_id"
+msgstr "Debe completar el circuit_case_column_id"
+
+#: app/models/case_datum.rb: app/models/execution.rb:
+msgid "Must complete case_template_id"
+msgstr "Debe completar el case_template_id"
+
+#: app/models/case_template.rb:
+msgid "Must complete User Field"
+msgstr "Debe completar el campo Usuario"
+
+#: app/models/case_template.rb: app/models/circuit_access_registry.rb:
+msgid "Must complete Script Field"
+msgstr "Debe completar el campo Script"
+
+#: app/models/category.rb:
+msgid "Must enter a Name"
+msgstr "Debe ingresar un Nombre"
+
+#: app/models/category.rb:
+msgid "Must enter a Description"
+msgstr "Debe ingresar una Descripcion"
+
+#: app/models/category.rb:
+msgid "Must specify a Project to Category "
+msgstr "Debe ingresar el proyecto al que pertenece la categoria"
+
+#: app/models/category.rb:
+msgid "Must specify Parent Category"
+msgstr "Debe ingresar el parent de la categoria"
+
+#: app/models/circuit.rb:
+msgid "Must complete an Owner"
+msgstr "Debe completar un Usuario Dueño"
+
+#: app/models/circuit.rb:
+msgid "Must complete Name Field"
+msgstr "Debe completar el campo Nombre"
+
+#: app/models/circuit.rb:
+msgid "Must complete Description Field"
+msgstr "Debe completar el campo Descripción"
+
+#: app/models/circuit.rb:
+msgid "Must complete Code Field"
+msgstr "Debe completar el campo Código"
+
+#: app/models/circuit.rb:
+msgid "The Name must be a maximum of 50 characters"
+msgstr "Debe completar el campo Descripción"
+
+
+#: app/models/circuit.rb:
+msgid "Must complete a Parent Category"
+msgstr "Debe completar una Categoria Padre"
+
+#: app/models/circuit.rb:
+msgid "Can´t Add "
+msgstr "No se puede agregar "
+
+#: app/models/circuit.rb:
+msgid ", because Column already Exist \n"
+msgstr ", la columna ya existe \n"
+
+#: app/models/circuit.rb:
+msgid "Enter a Goal"
+msgstr "Ingrese un Objetivo"
+
+#: app/models/circuit_case_column.rb:
+msgid "Must complete circuito_id field"
+msgstr "Debe completar el campo circuito_id"
+
+#: app/models/circuit_case_column.rb:
+msgid "Name Formats is not Correct"
+msgstr "El Formato del Nombre no es correcto"
+
+#: app/models/context_configuration.rb:
+msgid " - Must complete Name field"
+msgstr " - Debe completar el campo Nombre"
+
+#: app/models/context_configuration.rb:
+msgid " - Must enter a name with numbers, letters or underscore"
+msgstr " - Debe ingresar un nombre que contenga solo letras, numeros o guion bajo"
+
+#: app/models/context_configuration.rb:
+msgid " - Must complete a View Mode"
+msgstr " - Debe completar un Modo de Vista"
+
+#: app/models/context_configuration.rb:
+msgid " - Already exists a Configuration with that name"
+msgstr " - Ya existe una Configuración con ese nombre"
+
+#: app/models/context_configuration.rb:
+msgid "View Type not Exists"
+msgstr "No Existe el Tipo de Vista"
+
+#: app/models/context_configuration.rb:
+msgid " ,already exist in Data Set for Script "
+msgstr " ,ya existe en  el set de datos del script "
+
+#: app/models/context_configuration.rb:
+msgid "Column "
+msgstr "La columna "
+
+#: app/models/context_configuration.rb:
+msgid "- For the Type of View selected, you must enter at least 1 value"
+msgstr "- Para el tipo de vista elegido, se debe ingresar por lo menos 1 valor"
+
+#: app/models/data_recovery.rb:
+msgid "Must complete execution_id"
+msgstr "Debe completar el execution_id"
+
+#: app/models/data_recovery.rb:
+msgid "Must complete data_name"
+msgstr "Debe completar el data_name"
+
+#: app/models/data_recovery_name.rb:
+msgid "Must complete circuit_id"
+msgstr "Debe completar circuit_id"
+
+#: app/models/data_recovery_name.rb:
+msgid "Must complete Code Field"
+msgstr "Debe completar el campo Codigo"
+
+#: app/models/execution.rb:
+msgid "Must complete Status Fiel"
+msgstr "Debe completar en campo Estado"
+
+#: app/models/execution.rb:
+msgid "Execution Aborted by User"
+msgstr "Ejecución Cancelada por el Usuario"
+
+#: app/models/execution_configuration_value.rb:
+msgid "Must be associated with a suite_execution"
+msgstr "Debe estar asociado a una suite_execution"
+
+#: app/models/execution_snapshot.rb:
+msgid "Must complete navegar_item_id Field"
+msgstr "Debe completar el campo navegar_item_id"
+
+#: app/models/execution_snapshot.rb:
+msgid "Must complete Content Field"
+msgstr "Debe completar el campo Content"
+
+#: app/models/execution_snapshot.rb:
+msgid "Must complete Name Field"
+msgstr "Debe completar el campo Nombre"
+
+#: app/models/execution_stack.rb:
+msgid "Must complete execution_id Field"
+msgstr "Debe completar el campo execution_id"
+
+#: app/models/note.rb:
+msgid "Impossible create a note without an Assigned User"
+msgstr "No se puede crear una nota sin un usuario asignado"
+
+#: app/models/note.rb:
+msgid "Must specify a Position for the Note"
+msgstr "No se ha especificado una posicion para la nota"
+
+#: app/models/notifier.rb:
+msgid "Cacique --> Welcome!!!"
+msgstr "Cacique --> Bienvenido a Cacique!!!"
+
+#: app/models/notifier.rb:
+msgid "Cacique --> Password Recovery"
+msgstr "Cacique --> Recuperación de password"
+
+#: app/models/notifier.rb:
+msgid "Cacique --> Password Change"
+msgstr "Cacique --> Cambio de password"
+
+#: app/models/notifier.rb:
+msgid "Cacique --> Suite Execution Detail"
+msgstr "Cacique --> Detalle de la ejecución de la suite"
+
+#: app/models/notifier.rb:
+msgid "Cacique --> Case "
+msgstr "Cacique --> Detalle de la ejecución del caso "
+
+#: app/models/project.rb:
+msgid "Enter Project Name"
+msgstr "Ingrese el Nombre del Proyecto"
+
+#: app/models/project.rb:
+msgid "Enter Project Description"
+msgstr "Ingrese la Descripción del Proyecto"
+
+#: app/models/project.rb:
+msgid "Enter Project Status"
+msgstr "Ingrese el Estado del Proyecto"
+
+#: app/models/project.rb:
+msgid "Enter a Project Manager"
+msgstr "Ingrese un Responsable del Proyecto"
+
+#: app/models/project.rb:
+msgid "The project already exists!"
+msgstr "El proyecto que quiere crear ya existe!"
+
+#: app/models/project.rb:
+msgid "User is already assigned to the project"
+msgstr "El usuario ya se encuentra asignado al proyecto"
+
+#: app/models/project.rb:
+msgid "Relation that try delete do not exists"
+msgstr "No existe la relación que intenta eliminar"
+
+#: app/models/project.rb:
+msgid "Unable to deallocate Project Manager"
+msgstr "No es posible desasignar al responsable"
+
+#: app/models/project.rb:
+msgid "Search by Script name is ambiguous"
+msgstr "Busqueda ambigua de Script por nombre"
+
+#: app/models/project_user.rb:
+msgid "Must complete Project Field"
+msgstr "Debe completar el campo Proyecto"
+
+#: app/models/script_runner.rb:
+msgid "Method not found: "
+msgstr "Metodo no encontrado: "
+
+#: app/models/script_runner.rb:
+msgid "Failure to obtain code fragment: Line number "
+msgstr "Falla al obtener el fragmento de codigo: numero de linea "
+
+#: app/models/script_runner.rb:
+msgid "Processing Data Error "
+msgstr "Error al tratar de procesar el dato devuelto "
+
+#: app/models/script_runner.rb:
+msgid "Worker Retry: "
+msgstr "Reintento worker: "
+
+#: app/models/script_runner.rb:
+msgid "Error!. Several Retries"
+msgstr "Error!. Demasiados Intentos"
+
+#: app/models/suite.rb:
+msgid "Enter a Name"
+msgstr "Ingrese un nombre"
+
+#: app/models/suite.rb:
+msgid "Enter a Description"
+msgstr "Ingrese una descripción"
+
+#: app/models/suite.rb:
+msgid "Enter a Project"
+msgstr "Ingrese el Proyecto"
+
+#: app/models/suite.rb:
+msgid "Must add at least one Script to Suite"
+msgstr "Debe agregar al menos un Script a la Suite"
+
+#: app/models/suite_cases_relation.rb:
+msgid "Must complete Suite Field"
+msgstr "Debe completar la suite"
+
+#: app/models/suite_cases_relation.rb:
+msgid "Must complete case_origin"
+msgstr "Debe completar case_origin"
+
+#: app/models/suite_cases_relation.rb:
+msgid "Must complete case_destination"
+msgstr "Debe completar  case_destination"
+
+#: app/models/suite_cases_relation.rb:
+msgid "Must complete circuit_origin"
+msgstr "Debe completar circuit_origin:"
+
+#: app/models/suite_cases_relation.rb:
+msgid "Must complete circuit_destination"
+msgstr "Debe completar circuit_destination"
+
+#: app/models/suite_execution.rb:
+msgid "Must Select any Suite"
+msgstr "Debe seleccionar una Suite"
+
+#: app/models/suite_execution.rb:
+msgid "Must Select any Project"
+msgstr "Debe seleccionar un Proyecto"
+
+#: app/models/suite_execution.rb:
+msgid "Must Complete User Field"
+msgstr "Debe completar un Usuario"
+
+#: app/models/suite_execution.rb:
+msgid "Enter less than 50 characters for the identifier"
+msgstr "El identificador no debe tener mas de 50 caracteres"
+
+#: app/models/suite_execution.rb:
+msgid "Running ..."
+msgstr "Ejecutando..."
+
+#: app/models/suite_execution.rb:
+msgid "Waiting ..."
+msgstr "En lista de espera..."
+
+#: app/models/suite_execution.rb:
+msgid "Comented"
+msgstr "Comentado"
+
+#: app/models/user.rb:
+msgid "User, Name and E-Mail are Mandatory Fields "
+msgstr "Debe ingresar un usuario, un nombre y un email!"
+
+#: app/models/user.rb:
+msgid "Must enter a Password"
+msgstr "Debe ingresar una contraseña!"
+
+#: app/models/user.rb:
+msgid "Debe ingresar la confirmación de contraseña"
+msgstr "Must enter Password Confirmation"
+
+#: app/models/user.rb:
+msgid "Password must contain between 4 and 40 caracters"
+msgstr "El password debe tener entre 4 y 40 caracteres"
+
+#: app/models/user.rb:
+msgid "Password Confirmation is Wrong"
+msgstr "La confirmación del password fue incorrecta!"
+
+#: app/models/user.rb:
+msgid "Existing User"
+msgstr "El usuario que quiere crear ya existe!"
+
+#: app/models/user.rb:
+msgid "Invalid Mail format"
+msgstr "Debe ingresar un mail con formato válido"
+
+#: app/models/user_configuration_value.rb:
+msgid "Must have an associated configuration"
+msgstr "Debe tener una configuracion asociada"
+
+#: app/models/user_configuration_value.rb:
+msgid "Debe tener una Configuración de Usuario asociado"
+msgstr "Must have an User Configuration associated "
+
+#: app/models/user_function.rb:
+msgid "Already Exist a function with that name:\n"
+msgstr "Ya Existe una funcion con ese nombre en los proyectos:\n"
+
+#: app/models/user_function.rb:
+msgid "Already Exist a function with that name in this project"
+msgstr "Ya Existe una funcion con ese nombre dentro del proyecto"
+
+#: app/models/user_function.rb:
+msgid "Already Exist a Generic function with that name"
+msgstr "Ya Existe una funcion Generica con ese nombre"
+
+#: app/models/user_function.rb:
+msgid "You can not delete function "
+msgstr "No se pueden borrar la funcion "
+
+#: app/models/user_function.rb:
+msgid ", because it would affect the running of scripts \n"
+msgstr ", porque afectaria la corrida de scripts \n"
+
+#: app/models/user_function.rb:
+msgid "You can not edit function Name "
+msgstr "No se puede editar el nombre de la funcion "
+
+#: app/models/user_function.rb:
+msgid "Should start with lowercase and only contain letters, numbers or underscore"
+msgstr "Debe comenzar con minúscula y contener sólo letras, números o guión bajo"
+
+#: app/models/user_link.rb:
+msgid "Enter User Name"
+msgstr "Ingrese el usuario"
+
+#: app/views/admin/index.haml:
+msgid "General Configurations"
+msgstr "Configuracón general"
+
+#: app/views/case_templates/_edititem.haml:
+msgid "Data Set"
+msgstr "Set de Datos"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Execution Panel"
+msgstr "Panel de Ejecución"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Send Mail"
+msgstr "Enviar Mail"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Debug Mode"
+msgstr "Modo de Depuración"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Execution Evironment"
+msgstr "Entorno de ejecución"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Automatic"
+msgstr "Automático"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Port:"
+msgstr "Puerto:"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Host or IP:"
+msgstr "Ip o Host:"
+
+#: app/views/case_templates/_execution_config.haml:
+msgid "Save"
+msgstr "Guardar"
+
+#: app/views/case_templates/_import.haml:
+msgid "Import Cases"
+msgstr "Importar Casos"
+
+#: app/views/case_templates/_import.haml:
+#: app/views/layouts/scaffold.haml:
+msgid "File"
+msgstr "Archivo"
+
+#: app/views/case_templates/_import.haml:
+msgid "Import Excel"
+msgstr "Importar Excel"
+
+#: app/views/case_templates/_status.haml:
+msgid "Success"
+msgstr "Exito"
+
+#: app/views/case_templates/index.haml:
+msgid "any case"
+msgstr "un caso"
+
+#: app/views/case_templates/index.haml:
+msgid "Add"
+msgstr "Agregar"
+
+#: app/views/case_templates/index.haml:
+msgid "Delete"
+msgstr "Eliminar"
+
+#: app/views/case_templates/index.haml:
+msgid "Columns"
+msgstr "Columnas"
+
+#: app/views/case_templates/index.haml:
+msgid "New Column:"
+msgstr "Nueva columna:"
+
+#: app/views/case_templates/index.haml:
+msgid "Default Value:"
+msgstr "Valor por Defecto:"
+
+#: app/views/case_templates/index.haml:
+msgid "*this value will be used for all cases previously created"
+msgstr "*este valor sera utilizado para todos los casos creado anteriormente"
+
+#: app/views/case_templates/index.haml:
+msgid "Delete Column:"
+msgstr "Eliminar columna:"
+
+#: app/views/case_templates/index.haml:
+msgid "Select Column to Modify"
+msgstr "Seleccionar columna para modificar"
+
+#: app/views/case_templates/index.haml:
+msgid "New Name:"
+msgstr "Nombre Nuevo:"
+
+#: app/views/case_templates/index.haml:
+msgid "Run Selected"
+msgstr "Ejecutar marcados"
+
+#: app/views/case_templates/index.haml:
+msgid "New"
+msgstr "Nuevo"
+
+#: app/views/case_templates/index.haml:
+msgid "History"
+msgstr "Historial"
+
+#: app/views/case_templates/index.haml:
+msgid "Inset / Delete Column"
+msgstr "Insertar o Eliminar columna"
+
+#: app/views/case_templates/index.haml:
+msgid "Import"
+msgstr "Importar"
+
+#: app/views/case_templates/index.haml:
+msgid "Export"
+msgstr "Exportar"
+
+#: app/views/case_templates/index.haml:
+msgid "Information"
+msgstr "Información"
+
+#: app/views/case_templates/show.haml:
+msgid "No Executions"
+msgstr "Sin Ejecuciones"
+
+#: app/views/case_templates/show.haml:
+msgid "Date"
+msgstr "Fecha"
+
+#: app/views/case_templates/show.haml:
+msgid "Status"
+msgstr "Estado"
+
+#: app/views/case_templates/show.haml:
+msgid "Time"
+msgstr "Tiempo"
+
+#: app/views/case_templates/show.haml:
+msgid "Browser"
+msgstr "Navegador"
+
+#: app/views/case_templates/show.haml:
+msgid "Site"
+msgstr "Site"
+
+#: app/views/case_templates/show.haml:
+msgid "Environment"
+msgstr "Entorno"
+
+#: app/views/case_templates/show.haml:
+msgid "Output"
+msgstr "Salida"
+
+#: app/views/case_templates/show.haml:
+msgid "Data"
+msgstr "Datos"
+
+#: app/views/case_templates/show.haml:
+msgid "Error"
+msgstr "Error"
+
+#: app/views/case_templates/show.haml:
+msgid "Post Error"
+msgstr "Post Error"
+
+#: app/views/categories/_case_confirm.haml:
+msgid "Import Scripts"
+msgstr "Importar Scripts"
+
+#: app/views/categories/_case_confirm.haml:
+msgid "Project:"
+msgstr "Proyecto:"
+
+#: app/views/categories/_case_confirm.haml:
+msgid "To Project:"
+msgstr "Al Proyecto:"
+
+#: app/views/categories/_case_confirm.haml:
+msgid "Selected script will be copied"
+msgstr "Se copiarán los script seleccionados"
+
+#: app/views/categories/_case_confirm.haml:
+msgid "into Drafts Folder"
+msgstr "en la carpeta Borradores"
+
+#: app/views/categories/_case_confirm.haml:
+msgid "Copy Data Set"
+msgstr "Copiar Set de Datos"
+
+#: app/views/categories/_case_confirm.haml:
+msgid "Copy"
+msgstr "Copiar"
+
+#: app/views/categories/_edit.haml:
+msgid "Rename Folder"
+msgstr "Renombrar Carpeta"
+
+#: app/views/categories/_edit.haml:
+msgid "Name"
+msgstr "Nombre"
+
+#: app/views/categories/_edit.haml:
+msgid "Description"
+msgstr "Descripción"
+
+#: app/views/categories/_edit.haml:
+msgid "Modify"
+msgstr "Modificar"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "Import Scripts from other projects"
+msgstr "Importar scripts de otros proyectos"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "Move Scripts to another Folder"
+msgstr "Mover Scripts a otra Carpeta"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "Expand All"
+msgstr "Expandir todo"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "Collapse All"
+msgstr "Contraer todo"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "Copy Script"
+msgstr "Copiar Script"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "The selected script will copy"
+msgstr "Se copiará el script seleccionado"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "in the same folder as the original"
+msgstr "en al misma carpeta donde se encuentra el original"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "New Folder"
+msgstr "Nueva Carpeta"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "Create"
+msgstr "Crear"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "This action will remove this Folder. Are You sure?"
+msgstr "¿Esta seguro que desea eliminar la carpeta?"
+
+#: app/views/categories/_tree_menu.haml:
+msgid "This action will remove Data Set, History and Suite associations. Are You sure?"
+msgstr "Será eliminado el set de datos asociado al script, junto con el historial de ejecuciones y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
+
+#: app/views/categories/admin.haml:
+msgid "Edit"
+msgstr "Editar"
+
+#: app/views/categories/admin.haml:
+msgid "Select Folder"
+msgstr "Seleccione la carpeta"
+
+#: app/views/categories/admin.haml:
+msgid "to administrate"
+msgstr "que desea administrar."
+
+#: app/views/categories/admin.haml:
+msgid "Project Administration"
+msgstr "Administrar Proyectos"
+
+#: app/views/categories/admin.haml:
+msgid "Folders should be used to group Scripts (with same caracteristics)"
+msgstr "Las Carpetas deben ser utilizados para agrupar Scripts que tengan características comunes"
+
+#: app/views/categories/admin.haml:
+msgid "Create Folder"
+msgstr "Crear Carpeta"
+
+#: app/views/categories/admin.haml:
+msgid "Example:"
+msgstr "Ejemplo de agrupación por carpetas:"
+
+#: app/views/categories/admin.haml:
+msgid "Publish"
+msgstr "Publicar"
+
+#: app/views/categories/admin.haml:
+msgid "Property"
+msgstr "Inmueble"
+
+#: app/views/categories/admin.haml:
+msgid "Services"
+msgstr "Servicios"
+
+#: app/views/categories/admin.haml:
+msgid "Grouping Scripts in Folders is used, for example,"
+msgstr "La agrupación de Scripts en carpetas sirve, por ejemplo,"
+
+#: app/views/categories/admin.haml:
+msgid "to share the same Data Set"
+msgstr "para compartir el mismo set de datos."
+
+#: app/views/categories/admin.haml:
+msgid "Edit Folder"
+msgstr "Editar Carpeta"
+
+#: app/views/categories/admin.haml:
+msgid "Edit the Folder name and description"
+msgstr "Permite editar el nombre y descripción de la Carpeta"
+
+#: app/views/categories/admin.haml:
+msgid "Delete Folder"
+msgstr "Eliminar Carpeta"
+
+#: app/views/categories/admin.haml:
+msgid "Delete the selected folder"
+msgstr "Se eliminará la carpeta seleccionada"
+
+#: app/views/categories/admin.haml:
+msgid "You may not remove a folder containing Scripts"
+msgstr "No se podrá eliminar una carpeta que contenga Scripts"
+
+#: app/views/categories/circuits_result.haml:
+msgid "No results were found for the search"
+msgstr "No se encontraron resultados para la busqueda"
+
+#: app/views/categories/circuits_result.haml:
+msgid "Scripts Search Results in All Projects"
+msgstr "Resultados de la Busqueda de Scripts para todos los Proyectos"
+
+#: app/views/categories/import_circuit.haml:
+msgid "Import Scripts to"
+msgstr "Importar scripts a "
+
+#: app/views/categories/import_circuit.haml:
+msgid "Select Script from Projects:"
+msgstr "Elegir scripts de los proyectos:"
+
+#: app/views/categories/move.haml:
+msgid "Move Scripts on"
+msgstr "Mover scripts de carpeta en Proyecto: "
+
+#: app/views/categories/move.haml:
+msgid "1- Choose scripts to move"
+msgstr "1- Elegir scripts"
+
+#: app/views/categories/move.haml:
+msgid "2- Choose destination folder:"
+msgstr "2- Elegir la carpeta destino:"
+
+#: app/views/categories/move.haml:
+msgid "Select destination"
+msgstr "Seleccione destino"
+
+#: app/views/categories/move.haml:
+msgid "Move Script >>"
+msgstr "Mover Script >>"
+
+#: app/views/circuits/_data_recovery.haml:
+msgid "You do not have Edit Permissions for this script"
+msgstr "No tiene permisos de edición sobre el script"
+
+#: app/views/circuits/_data_recovery.haml
+msgid "Modify Data Retrieved"
+msgstr "Modificar los datos recuperados"
+
+#: app/views/circuits/_data_recovery.haml:
+msgid "Completed Fields:"
+msgstr "Campos ya ingresados:"
+
+#: app/views/circuits/_data_recovery.haml:
+msgid "The current script does not retrieve data"
+msgstr "El script actualmente no recupera datos"
+
+#: app/views/circuits/_data_recovery.haml:
+msgid "You can add"
+msgstr "puede agregar los que necesite"
+
+#: app/views/circuits/_edit.haml:
+msgid "Rename Script"
+msgstr "Renombrar Script"
+
+#: app/views/circuits/_functions.haml:
+msgid "Functions"
+msgstr "Funciones"
+
+#: app/views/circuits/_functions.haml:
+msgid "Select the function to add at your Script:"
+msgstr "Seleccione la función para agregar a su Script"
+
+#: app/views/circuits/edit.haml:
+msgid "Version "
+msgstr "Versión "
+
+#: app/views/circuits/edit.haml:
+msgid "Comment"
+msgstr "Comentario"
+
+#: app/views/circuits/edit.haml:
+msgid "Write a comment indicating changes made:"
+msgstr "Escribe un comentario para guardar el script indicando los cambios realizados:"
+
+#: app/views/circuits/edit.haml:
+msgid "Save Changes"
+msgstr "Guardar cambios"
+
+#: app/views/circuits/edit.haml:
+msgid "Without Edit Permissions "
+msgstr "Sin permisos de edición "
+
+#: app/views/circuits/edit.haml:
+msgid "Request permission to edit through Jira"
+msgstr "Solicite a través de jira los permisos para editar éste script"
+
+#: app/views/circuits/edit.haml:
+msgid "Save with Comments"
+msgstr "Guardar agregando un comentario"
+
+#: app/views/circuits/edit.haml:
+msgid "Data Recovery"
+msgstr "Recuperar Datos"
+
+#: app/views/circuits/edit.haml:
+msgid "Previous Version "
+msgstr "Versión anterior "
+
+#: app/views/circuits/edit.haml:
+msgid "Next Version "
+msgstr "Versión siguiente "
+
+#: app/views/circuits/edit.haml:
+msgid "Sintax Check"
+msgstr "Verificar Sintaxis"
+
+#: app/views/circuits/edit.haml:
+msgid "Change History"
+msgstr "Historial de Modificaciones"
+
+#: app/views/circuits/edit.haml:
+msgid "Import Script"
+msgstr "Importar Script"
+
+#: app/views/circuits/edit.haml:
+msgid "Ruby Help"
+msgstr "Ayuda Ruby"
+
+#: app/views/circuits/edit.haml:
+msgid "Run"
+msgstr "Ejecutar"
+
+#: app/views/circuits/edit.haml:
+msgid "By"
+msgstr "Por"
+
+#: app/views/circuits/edit.haml:
+msgid "Suites containing this script"
+msgstr "Suites que contienen este script"
+
+#: app/views/circuits/edit.haml:
+msgid "You have Unsaved Changes, do you want to Save before Exit?"
+msgstr "Tiene Cambios sin guardar, ¿desea guardarlos antes de salir?"
+
+#: app/views/circuits/error.haml:
+msgid "The loaded Script Contains Errors:"
+msgstr "El Script cargado contiene un error:"
+
+#: app/views/circuits/import.haml:
+msgid "Upload Successful!"
+msgstr "Se cargaron con éxito los casos!"
+
+#: app/views/circuits/import.haml:
+msgid "Close"
+msgstr "Cerrar"
+
+#: app/views/circuits/new.haml:
+msgid "New Script for: "
+msgstr "Nuevo script para: "
+
+#: app/views/circuits/new.haml:
+msgid "Create Empty Script"
+msgstr "Crear un Script vacio"
+
+#: app/views/circuits/new.haml:
+msgid "An"
+msgstr "Un"
+
+#: app/views/circuits/new.haml:
+msgid "is an Automated Test."
+msgstr "representa una prueba automatizada."
+
+#: app/views/circuits/new.haml:
+msgid "To use data variables to make repeated test, may accompany with a"
+msgstr "Para utilizar datos variables al realizar repetidas pruebas, es posible acompañarlo con un"
+
+#: app/views/circuits/new.haml:
+msgid "Data Set"
+msgstr "Set de Datos"
+
+#: app/views/circuits/rename.haml:
+msgid "Define Names for"
+msgstr "Defina los nombres de"
+
+#: app/views/circuits/rename.haml:
+msgid "Input Value"
+msgstr "Valor ingresado"
+
+#: app/views/circuits/rename.haml:
+msgid "Field Name"
+msgstr "Nombre del campo"
+
+#: app/views/circuits/rename.haml:
+msgid "Incomplete Fields will not be considered"
+msgstr "Los campos que no contengan valor no seran tenidos en cuenta"
+
+#: app/views/circuits/rename_save.haml:
+msgid "Created Successfuly!"
+msgstr "Creado con Éxito!"
+
+#: app/views/circuits/rename_save.haml:
+msgid "Now, What you want do?"
+msgstr "¿Ahora que desea hacer?"
+
+#: app/views/circuits/rename_save.haml:
+msgid "Add Script"
+msgstr "Agregar casos al Script"
+
+#: app/views/circuits/rename_save.haml:
+msgid "Edit Script"
+msgstr "Editar Script"
+
+#: app/views/circuits/ruby.haml:
+msgid "About Ruby"
+msgstr "Conoce sobre Ruby"
+
+#: app/views/circuits/ruby.haml:
+msgid "Home Page"
+msgstr "Página Principal"
+
+#: app/views/circuits/ruby.haml:
+msgid "20 minutes with Ruby"
+msgstr "Ruby en 20 minutos!"
+
+#: app/views/circuits/ruby.haml:
+msgid "First steps"
+msgstr "Tutorial básico"
+
+#: app/views/circuits/ruby.haml:
+msgid "Regular Expressions"
+msgstr "Expresiones regulares:"
+
+#: app/views/circuits/ruby.haml:
+msgid "Console"
+msgstr "Consola para pruebas"
+
+#: app/views/circuits/ruby.haml:
+msgid "Character Table"
+msgstr "Tabla con caracteres"
+
+#: app/views/circuits/ruby.haml:
+msgid "Common Classes"
+msgstr "Clases comunes"
+
+#: app/views/circuits/ruby.haml:
+msgid "Class Methods"
+msgstr "Métodos de las clases con sus ejemplos"
+
+#: app/views/graphs/index.haml:
+msgid "Indicators"
+msgstr "Indicadores"
+
+#: app/views/graphs/index.haml:
+msgid "Executions"
+msgstr "Ejecuciones"
+
+#: app/views/graphs/index.haml:
+msgid "Select Year"
+msgstr "Seleccione un año"
+
+#: app/views/graphs/index.haml:
+msgid "- Select -"
+msgstr "- Seleccione -"
+
+#: app/views/homes/index.haml:
+msgid "Do it Once, Use it Ever"
+msgstr "Hazlo una vez, Utilízalo Siempre"
+
+#: app/views/homes/index.haml:
+msgid "Do it Once"
+msgstr "Hazlo una vez"
+
+#: app/views/homes/index.haml:
+msgid "Best Practices"
+msgstr "Buenas prácticas"
+
+#: app/views/homes/index.haml:
+msgid " Ruby Tutorial"
+msgstr " Ruby básico"
+
+#: app/views/homes/index.haml:
+msgid "Reference Stuff"
+msgstr "Material de consulta"
+
+#: app/views/homes/index.haml:
+msgid "Cacique on My Computer"
+msgstr "Cacique en mi PC"
+
+#: app/views/homes/index.haml:
+msgid "logo_cacique_ing.png"
+msgstr "logo_cacique_esp.png"
+
+#: app/views/layouts/_click_right_menu.haml:
+msgid "New Script"
+msgstr "Nuevo Script"
+
+#: app/views/layouts/_click_right_menu.haml:
+msgid "Rename"
+msgstr "Renombrar"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "My Projects"
+msgstr "Mis Proyectos"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "Other Projects"
+msgstr "Otros Proyectos"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "Help"
+msgstr "Ayuda"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "About us"
+msgstr "Acerca de"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "Credits"
+msgstr "Creditos"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "Projects"
+msgstr "Proyectos"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "Function"
+msgstr "Funciones"
+
+#: app/views/layouts/_menu_projects.haml:
+msgid "Users"
+msgstr "Usuarios"
+
+#: app/views/layouts/_menues.haml:
+msgid "My Account"
+msgstr "Mi Cuenta"
+
+#: app/views/layouts/_menues.haml:
+msgid "Logout"
+msgstr "Salir"
+
+#: app/views/layouts/_menues.haml:
+msgid "Folders"
+msgstr "Carpetas"
+
+#: app/views/layouts/_menues.haml:
+msgid "header.png"
+msgstr "header_esp.png"
+
+#: app/views/layouts/_projects.haml:
+msgid "No Projects"
+msgstr "Sin Proyectos"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "A suite is a set of scripts that run one after the other. The scripts in the suite can be related to the execution, to share data. The outputs of a script, can be input to the next."
+msgstr "Una Suite es un conjunto de scripts que se ejecutan uno detrás del otro. Los scripts de la suite pueden relacionarse para que en la ejecución, puedan compartir datos. Las salidas de un script, pueden ser datos de entrada para los siguientes."
+
+#: app/views/suites/new.haml:
+msgid "A"
+msgstr "Una"
+
+#: app/views/suites/new.haml:
+msgid "is a set of scripts that run one after the other."
+msgstr "representa un conjunto de scripts que se ejecutan uno detrás del otro."
+
+#: app/views/suites/new.haml:
+msgid "The"
+msgstr "Los"
+
+#: app/views/suites/new.haml:
+msgid "in the suite can be related to share data by"
+msgstr "de la suite pueden compartir datos durante su ejecución mediante"
+
+#: app/views/suites/new.haml:
+msgid "Relations"
+msgstr "Relaciones"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "New Suite"
+msgstr "Nueva Suite"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "To create a suite you must:"
+msgstr "Al crear una suite tu debes:"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "* Add scripts."
+msgstr "* agregar los scripts que la componen."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "* Establish the order in which they will run."
+msgstr "* Establecer el orden en que van a ejecutarse."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "* Select cases for each script."
+msgstr "* Seleccionar los casos para cada script interviniente."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "In implementation view of a suite can Ignore the execution of one or more cases that have been configured before (when you created the suite). It is important to note that it will break all relations with that case."
+msgstr "En la vista de ejecución de suite se puede Omitir la ejecución de uno o varios casos que han sido configurados anterioremente (cuando se creó la suite). Es importante tener en cuenta que se romperan todas las relaciones existentes con ese caso."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "If a script was linked to take as input data for that script will not run, use the existing variables in your dataset."
+msgstr "Si algún script estaba relacionado para tomar como entrada, datos de ese script que no se ejecutará, utilizará las variables existentes en su set de datos."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "You must configure the site and browser in which you want to run the implementation."
+msgstr "Se debe configurar el site y browser en los que se desea que corra al ejecución."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Detail"
+msgstr "Detalle"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "In detail you can see a diagram with the scripts in the suite and its relations."
+msgstr "En el detalle se puede observar un diagrama con los scripts de la suite y sus relaciones."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "These icons show the Execution Result."
+msgstr "Estos iconos muestran el resultado de la Ejecución."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Clicking on them can get more information such as: Position Error or Recovery Data."
+msgstr "Haciendo click en ellos podremos obtener más información como: Posición de Errores o Datos Recuperados."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Show, line by line, the Execution Progress."
+msgstr "Muestra, linea por linea, el Avance de la Ejecución."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "The view lets you select a script and analyze its relationship with others. View of those who receives and sends data."
+msgstr "La vista permite seleccionar un script y analizar su relación con otros. Ver de quienes recibe y a quién le envía datos."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Edit Suite"
+msgstr "Editar Suite"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "When editing suite you can:"
+msgstr "Al editar una suite es posible:"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "* Remove and/or add scripts."
+msgstr "* Quitar y/o agregar scripts."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "* Change the execution order of scripts."
+msgstr "* Cambiar el orden de ejecución de los scripts."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "* Add and/or remove Cases."
+msgstr "* Agregar y/o quitar Casos."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Relation"
+msgstr "Relaciones"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "In this section can be related suites scripts,"
+msgstr "En ésta sección se pueden relacionar scripts de la suite,"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "relations are always set in pairs (a script is related to another that is going to send data)"
+msgstr "las relaciones siempre se establecen de a pares(Se relaciona a un script con otro al que le va a pasar datos)"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "In the relations can assign as many cases as desired"
+msgstr "Dentro de la relación se pueden asignar tantos casos como se desee,"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "therefore, is recommended that all necessary cases are added to the Suite before entering in this view."
+msgstr "por lo cual, es recomendable que la Suite ya tenga agregados todos los casos necesarios al ingresar a esta vista."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "To establish a relation should be:"
+msgstr "Para establecer una relación se debe:"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "1 - Select a couple of scripts to be related."
+msgstr "1- Seleccionar el par de scripts que queremos relacionar."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "2 - Determine which variables will be shared."
+msgstr "2- Determinar que variables van a compartir."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "3 - Select the involved cases for each script."
+msgstr "3- Seleccionar los casos intervinientes para cada script."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Import Suite"
+msgstr "Importar Suite"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Allow import suites from another project, copying all scripts. If you copy the cases, also copied the suite relations."
+msgstr "Permite importar suites de otros proyectos, copiando todos los scripts y en caso de copiar los casos tambien"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "if not copy the cases only copied fields relations"
+msgstr "se copiaran las relaciones de la suite. En el caso de no copiar los casos solo se copiaran las relaciones de campos."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Schedule"
+msgstr "Programar"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "View and create scheduled suites"
+msgstr "Visualización y creación de suites programadas"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Delete Suite"
+msgstr "Eliminar Suite"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Selected suite will be deleted with all their relations."
+msgstr "Se eliminará la suite seleccionada junto con todas sus relaciones."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "All historical will also be removed."
+msgstr "Todo el historial de ejecuciones también será eliminado."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Folder"
+msgstr "Carpeta"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Each folder is a group of scripts."
+msgstr "Cada carpeta es una agrupación de scripts."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "This group is defined by the user and is useful to sort the scripts."
+msgstr "Esta agrupación es definida por el usuario y es útil para ordenar los scripts."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Allows you to import scripts from other projects, including or not the associated data set."
+msgstr "Permite importar scripts de otros proyectos, incluyendo o no su set de datos asociado."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Move Script"
+msgstr "Mover Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Allow to move scripts between folders."
+msgstr "Permite mover scripts entre carpetas."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Allow to Expand All Project tree nodes."
+msgstr "Permite Expandir todos los nodos del árbol de Proyecto."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Allow to Collapse All Project tree nodes."
+msgstr "Permite Contraer todos los nodos del árbol de Proyecto."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "A script is an automated test."
+msgstr "Un script representa una prueba automatizada."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Create New Script"
+msgstr "Crear Nuevo Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "How to Create a New Script"
+msgstr "Cómo Crear un Nuevo Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Save the changes made in the editing of a script."
+msgstr "Guarda los cambios realizados en la edición de un Script."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "If you do not have edit permissions for the script,"
+msgstr "Si no se tienen permisos de edición sobre el script,"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "you will see "
+msgstr "podrá ver el icono"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "To request edit permissions on a particular script, you must send an email to"
+msgstr "Para solicitar permisos de edición sobre un script determinado, debe enviar un mail a"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Cacique Administrator."
+msgstr "su administador de Cacique."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Save Whit Comments"
+msgstr "Guardar con Comentarios"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Save a script, adding comments about the changes"
+msgstr "Permite guardar un Script, agregando comentarios acerca de los cambios"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "being made."
+msgstr "que se estan realizando."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "These comments are visible in the History of Execution"
+msgstr "Éstos comentarios se encuentran visibles en el Historial de Ejecuciones del Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "This option allows you to save execution data results."
+msgstr "Ésta opción permite guardar datos de la ejecución."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "(Example: In a Suite Execution, I need to retrieve a value generated by a Script)"
+msgstr "(Ej: Al correr una Suite, necesito recuperar un valor generado por la ejecución de un Script)"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "You will find here a list of user-generated functions"
+msgstr "Aquí podra encontrar una lista con las funciones generadas por los usuarios."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "These are the most frequently use. Example: selenium_init"
+msgstr "Estas suelen ser las de uso mas frecuente. Ej: selenium_init"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Can be divided into General Functions or belonging to a specific project (Functions per projects)"
+msgstr "Pueden dividirse en Funciones Generales o pertenecientes a un proyecto específico (Funciones por proyecto)"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Previous Version"
+msgstr "Versión anterior"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Go to a previous version of the script"
+msgstr "Permite ir a una versión anterior del Script que se está editando"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Next Version"
+msgstr "Versión siguiente"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Lets go to the next version of the script (this button is shown while editing an old Script)"
+msgstr "Permite ir a la versión siguiente del script que se está editando (este botón se muestra cuando se está editando una versión anterior del Script)"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Check the syntax of your script to rule out possible errors"
+msgstr "Verifique la sintaxis de su Script para descartar posibles errores"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Run your Scripts independently or with a case associated"
+msgstr "Ejecute sus Scripts de forma independiente o con un caso asociado"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Shows the number of waiting Executions in the system"
+msgstr "Muestra la cantidad de Ejecuciones en espera que posee el sistema"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Displays the history of the script with its various versions,"
+msgstr "Se visualiza el historial del script con sus diferentes versiones,"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "the changes and the user who made those changes."
+msgstr "los cambios realizados y el usuario que hizo esos cambios."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "It good practice, save the script with a review of changes,"
+msgstr "Es una buena práctica, guardar el script con un comentario de los cambios realizados,"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "for easily identify changes between versions."
+msgstr "para luego reconocer fácilmente los cambios entre versiones."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Export Script"
+msgstr "Exportar Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Import Scrip"
+msgstr "Importar Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Copy current script into draft folder in selected project"
+msgstr "Realiza una copia del script actual en la carpeta borrador de un proyecto seleccionado"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Learn about Ruby, main classes, methods and regular expressions."
+msgstr "Conoce un poco más acerca de Ruby, sus principales clases con sus métodos y expresiones regulares."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "This will be of great use in your scripts."
+msgstr "Te serán de gran utilidad en tus scripts."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Case"
+msgstr "Caso"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Is a Data Set for a test case associated with a script"
+msgstr "Es un conjunto de datos para un caso de prueba asociados a un Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Run selected cases"
+msgstr "Ejecución de los casos seleccionados de la tabla"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "in environment, platform and site chosen in the control panel."
+msgstr "en el entorno, plataforma y site elegidos en el panel de control."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "It will run as configured in "
+msgstr "Se ejecutará con la configuración establecida en "
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "You can set different parameters, such as Explorer."
+msgstr "Es posible configurar diferentes parametros, como por ejemplo el Explorador."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Cacique stores last settings used by user."
+msgstr "Cacique guarda la última configuración utilizada por el usuario."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Edit Case"
+msgstr "Editar Caso"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "You can edit the cases by double click on the field to modify."
+msgstr "Puedes editar los casos haciendo doble click sobre el campo a modificar."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "New Case"
+msgstr "Nuevo Caso"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "It add a row to the data set"
+msgstr "Se agrega una fila a la tabla de casos del set de datos"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "and doing double click in the cell, is possible complete their fields."
+msgstr "y con doble click en la celda, es posible completar sus campos."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Displays the history of execution from the selected case."
+msgstr "Muestra el historial de ejecución del caso seleccionado."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Column"
+msgstr "Columnas"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Allows insert or delete columns in data set"
+msgstr "Permite insertar o eliminar columnas del set de datos"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Delete Case"
+msgstr "Eliminar Caso"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Delete the selected case. Also be removed:"
+msgstr "Elimina el caso seleccionado. También se eliminará:"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "-Execution History."
+msgstr "-Historial de ejecución."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "-Suite Relations"
+msgstr "-Se quitará de las suites en las que se encuentre involucrado."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Import data set from Excel"
+msgstr "Importa la tabla de casos desde un archivo excel."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Export data set to Excel"
+msgstr "Exporta la tabla de casos a un archivo excel."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Project Execution History"
+msgstr "Historial de ejuciones realizadas dentro de un proyecto"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Export execution result to Excel"
+msgstr "Exporta las ejecuciones a un archivo excel."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Export to PDF"
+msgstr "Exportar a PDF"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Export Selected Execution result to PDF"
+msgstr "Exporta las ejecuciones seleccionadas a un archivo PDF."
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Filter"
+msgstr "Filtros"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Apply filters to search"
+msgstr "Aplica filtros a la búsqueda de ejecuciones"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Version"
+msgstr "Versión"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Script Execution"
+msgstr "Ejecución de Script"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Run the selected Suite."
+msgstr "Ejecuta la Suite seleccionada."
+
+#: app/views/layouts/scaffold.haml:44
+msgid "Import XLS"
+msgstr "Importar Excel"
+
+#: app/views/projects/index.haml:4
+msgid "Project Management"
+msgstr "Gestion de proyectos"
+
+#: app/views/projects/index.haml:
+msgid "Manager"
+msgstr "Responsable"
+
+#: app/views/projects/index.haml:
+msgid "Project"
+msgstr "Proyecto"
+
+#: app/views/projects/index.haml:
+msgid "Assign to Project"
+msgstr "Asignar al Proyecto"
+
+#: app/views/projects/index.haml:
+msgid "Assign"
+msgstr "Asignar"
+
+#: app/views/projects/index.haml:
+msgid "User"
+msgstr "Usuario"
+
+#: app/views/projects/index.haml:
+msgid "Delete Relation"
+msgstr "Eliminar Relación"
+
+#: app/views/projects/index.haml:
+msgid "Deallocate to Project"
+msgstr "Desasignar del Proyecto"
+
+#: app/views/projects/index.haml:
+msgid "Deallocate"
+msgstr "Desasignar"
+
+#: app/views/projects/index.haml:
+msgid "Create Project"
+msgstr "Crear Proyecto"
+
+#: app/views/projects/index.haml:
+msgid "Edit Project"
+msgstr "Editar Proyecto"
+
+#: app/views/projects/index.haml:
+msgid "Sure to remove relations?"
+msgstr "¿Esta seguro de eliminar la relación?"
+
+#: app/views/projects/index.haml:
+msgid "Here you manage all projects. As a "
+msgstr "Aquí gestionaras todos los proyectos. Como Usuario "
+
+#: app/views/projects/index.haml:
+msgid "Root"
+msgstr "Administrador"
+
+#: app/views/projects/index.haml:
+msgid " user, you can create new projects, edit existing and designate Managers."
+msgstr " podras Crear Nuevos Proyectos, Editar ya existentes y designar Responsables."
+
+#: app/views/session/new.haml:
+msgid "Do not have an account?"
+msgstr "¿No tenés una cuenta?"
+
+#: app/views/session/new.haml:
+msgid "Register!"
+msgstr "Registrate!"
+
+#: app/views/session/new.haml:
+msgid "User Name"
+msgstr "Nombre de Usuario"
+
+#: app/views/session/new.haml:
+msgid "Password"
+msgstr "Contraseña"
+
+#: app/views/session/new.haml:
+msgid "Forgot your password?"
+msgstr "¿Olvidaste tu contraseña?"
+
+#: app/views/session/new.haml:
+msgid "Remember Me"
+msgstr "Recordar mi sesión"
+
+#: app/views/session/new.haml:
+msgid "Log in"
+msgstr "Ingresar"
+
+#: app/views/suite_executions/_bar_image.haml:
+msgid "Complete"
+msgstr "Completa"
+
+#: app/views/suite_executions/_bar_image.haml:
+msgid "Waiting"
+msgstr "En lista de espera"
+
+#: app/views/suite_executions/_group_execution_status.haml:
+msgid "Total Time"
+msgstr "Tiempo total"
+
+#: app/views/suite_executions/_history.haml:
+msgid "Identifier:"
+msgstr "Identificador:"
+
+#: app/views/suite_executions/_history.haml:
+msgid "From:"
+msgstr "Desde:"
+
+#: app/views/suite_executions/_history.haml:
+msgid "Until:"
+msgstr "Hasta:"
+
+#: app/views/suite_executions/_history.haml:
+msgid "All"
+msgstr "Todas"
+
+#: app/views/suite_executions/_history.haml:
+msgid "Quantity:"
+msgstr "Cantidad:"
+
+#: app/views/suite_executions/_history.haml:
+msgid "Apply"
+msgstr "Aplicar"
+
+#: app/views/suite_executions/_history_table.haml:
+msgid "See Detail"
+msgstr "Ver Detalle"
+
+#: app/views/suite_executions/_history_table.haml:
+msgid "No results were found"
+msgstr "No se encontaron resultados"
+
+#: app/views/suite_executions/_periodically_call_remote_execution_show.haml:
+msgid "Stop Execution"
+msgstr "Detener Ejecucción"
+
+#: app/views/suite_executions/_periodically_call_remote_execution_show.haml:
+msgid "Execution Complete."
+msgstr "Ejecución completa."
+
+#: app/views/suite_executions/_periodically_call_remote_times.haml:
+msgid "Success:"
+msgstr "Éxitos:"
+
+#: app/views/suite_executions/_periodically_call_remote_times.haml:
+msgid "Errors:"
+msgstr "Errores:"
+
+#: app/views/suite_executions/_periodically_call_remote_times.haml:
+msgid "Execution"
+msgstr "Ejecución"
+
+#: app/views/suite_executions/_periodically_call_remote_times.haml:
+msgid "Result"
+msgstr "Resultado"
+
+#: app/views/suite_executions/_remote_control.haml:
+msgid "Execution Environment"
+msgstr "Entorno de ejecución"
+
+#: app/views/suite_executions/_remote_control.haml:
+msgid "IP or Host:"
+msgstr "Ip o host:"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Select Cases to Run"
+msgstr "Marque los casos que desea correr"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "in Suite Execution"
+msgstr "en la ejecución de la Suite"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "-Select any Script-"
+msgstr "-Seleccione un script-"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Select any Script"
+msgstr "Seleccione un Script"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Broken Relations"
+msgstr "Relaciones Rotas"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Comented case sent data to the following cases:"
+msgstr "El caso comendato le enviaba datos a los siguientes casos:"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Case Source:"
+msgstr "Caso Padre:"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Case Destination:"
+msgstr "Caso Hijo:"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Script without cases"
+msgstr "Este script no tiene casos."
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "Delete implementation of any of the cases in the suite, will break the relations that are associated with this case"
+msgstr "Al eliminar la ejecución de alguno de los casos de la suite, se romperán las relaciones que estén asociadas a ese caso"
+
+#: app/views/suite_executions/_suite_comment.haml:
+msgid "and run cases with the values containing in its data set."
+msgstr "y se correrán los casos relacionados con los valores que contengan en su set de datos."
+
+#: app/views/suite_executions/export_popup.haml:
+msgid "Date:"
+msgstr "Fecha:"
+
+#: app/views/suite_executions/export_popup.haml:
+msgid "Today"
+msgstr "Hoy"
+
+#: app/views/suite_executions/export_popup.haml:
+msgid "Week"
+msgstr "Semana"
+
+#: app/views/suite_executions/export_popup.haml:
+msgid "Month"
+msgstr "Mes"
+
+#: app/views/suite_executions/new.haml:
+msgid "Advanced"
+msgstr "Avanzado"
+
+#: app/views/suite_executions/new.haml:
+msgid "times"
+msgstr "veces"
+
+#: app/views/suite_executions/new.haml:
+msgid "Generate Command"
+msgstr "Generar comando"
+
+#: app/views/suite_executions/times.haml:
+msgid "Execution:"
+msgstr "Ejecución:"
+
+#: app/views/suite_executions/get_report.pdf.prawn:
+msgid "Identifier:"
+msgstr "Identificador de corrida:"
+
+#: app/views/suite_executions/get_report.pdf.prawn:
+msgid "Run Start:"
+msgstr "Inicio de corrida:"
+
+#: app/views/suite_executions/get_report.pdf.prawn:
+msgid "Purpose of Case:"
+msgstr "Objetivo del Caso:"
+
+#: app/views/suite_executions/get_report.pdf.prawn:
+msgid "Executions:"
+msgstr "Ejecuciones:"
+
+#: app/views/suite_executions/show.haml:
+msgid "Action"
+msgstr "Acción"
+
+#: app/views/suite_executions/show.haml:
+msgid "Time"
+msgstr "Tiempo"
+
+#: app/views/suite_executions/show.haml:
+msgid "Date"
+msgstr "Fecha"
+
+#: app/views/suite_executions/show.haml:
+msgid "Description"
+msgstr "Descripción"
+
+#: app/views/suite_executions/show.haml:
+msgid "Duration"
+msgstr "Duración"
+
+#: app/views/suite_executions/show.haml:
+msgid "Identifier"
+msgstr "Identificador"
+
+#: app/views/user_functions/_edit.haml:
+msgid "Edit Functions"
+msgstr "Editar Función"
+
+#: app/views/user_functions/_edit.haml:
+msgid "Arguments"
+msgstr "Argumentos"
+
+#: app/views/user_functions/_edit.haml:
+msgid "Code"
+msgstr "Código"
+
+#: app/views/user_functions/_edit.haml:
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Without Functions"
+msgstr "Sin funciones"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Description:"
+msgstr "Descripción:"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Add Function"
+msgstr "Agregar Función"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Writer:"
+msgstr "Autor:"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Number of Arguments"
+msgstr "Cant. de Argumentos:"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Code:"
+msgstr "Código"
+
+#: app/views/user_functions/_new.haml:
+msgid "New Functions"
+msgstr "Nueva Funciones"
+
+#: app/views/user_functions/_new.haml:
+msgid "New Function"
+msgstr "Nueva Función"
+
+#: app/views/user_functions/_per_project.haml:
+msgid "Select a Project"
+msgstr "Seleccione un Proyecto"
+
+#: app/views/user_functions/_per_project.haml:
+msgid "Functions from "
+msgstr "Funciones de "
+
+#: app/views/user_functions/_per_project.haml:
+msgid "Search Functions by Project"
+msgstr "Buscar Funciones por Proyecto"
+
+#: app/views/user_functions/index.haml:
+msgid "General Functions"
+msgstr "Funciones Generales"
+
+#: app/views/user_functions/index.haml:
+msgid "Go to Functions by Projects --> "
+msgstr "Ir a Funciones Por Proyecto --> "
+
+#: app/views/user_functions/index.haml:
+msgid "Go to General Functions --> "
+msgstr "Ir a Funciones Generales --> "
+
+#: app/views/users/_permissions.haml:
+msgid "Permissions"
+msgstr "Permisos"
+
+#: app/views/users/_permissions.haml:
+msgid "Update"
+msgstr "Actualizar"
+
+#: app/views/users/_update_results.haml:
+msgid "Changes have been made successfully"
+msgstr "Los cambios se han realizado con éxito"
+
+#: app/views/users/_user_form.haml:
+msgid "User:"
+msgstr "Usuario:"
+
+#: app/views/users/_user_form.haml:
+msgid "User Name:"
+msgstr "Nombre de usuario:"
+
+#: app/views/users/_user_form.haml:
+msgid "Active"
+msgstr "Activo"
+
+#: app/views/users/access_denied.haml:
+msgid "You do not have Edit Permissions. Request edit permissions through:"
+msgstr "Tu usuario no tiene permisos para editar, solicitalo a través de"
+
+#: app/views/users/access_denied.haml:
+msgid "Cacique in Jira"
+msgstr "Cacique en Jira"
+
+#: app/views/users/change_password.haml:
+msgid "Back"
+msgstr "Volver"
+
+#: app/views/users/change_password.haml:
+msgid "New Password:"
+msgstr "Nueva Contraseña:"
+
+#: app/views/users/change_password.haml:
+msgid "Confirm Password:"
+msgstr "Confirmar Contraseña:"
+
+#: app/views/users/change_password.haml:
+msgid "Change Password"
+msgstr "Modificar Password"
+
+#: app/views/users/index.haml:
+msgid "User Management"
+msgstr "Gestión de usuarios"
+
+#: app/views/users/index.haml:
+msgid "Select any User"
+msgstr "Seleccione un Usuario"
+
+#: app/views/users/new.haml:
+msgid "Fill with yuor personal data"
+msgstr "Complete sus datos"
+
+#: app/views/users/new.haml:
+msgid "Full Name"
+msgstr "Nombre completo"
+
+#: app/views/users/new.haml:
+msgid "Confirm Password"
+msgstr "Confirmar Contraseña"
+
+#: app/views/users/new.haml:
+msgid "Register"
+msgstr "Registrarse"
+
+#: app/views/users/password_recovery.haml:
+msgid "Fill User or Mail for"
+msgstr "Complete su usuario o email"
+
+#: app/views/users/password_recovery.haml:
+msgid "recover your Password"
+msgstr "para recuperar su Contraseña"
+
+#: app/views/users/password_recovery.haml:
+msgid "Send Email"
+msgstr "Enviar email"
+
+#: app/views/suites/_circuits.haml:
+msgid "Without Added Cases"
+msgstr "Sin Casos Agregados"
+
+#: app/views/suites/_circuits_order.haml:
+msgid "Select an Execution Order"
+msgstr "Elija el orden de Ejecución."
+
+#: app/views/suites/_circuits.haml:
+msgid "Add/Remove cases"
+msgstr "Agregar/Remover casos"
+
+#: app/views/suites/_show_cases.haml:
+msgid "Select a Script to see their Cases"
+msgstr "Seleccione un script para ver sus casos"
+
+#: app/views/suites/_show_circuits.haml:
+msgid "Scripts and Cases Added:"
+msgstr "Script y Casos agregados:"
+
+#: app/views/suites/_show_graph.haml:
+msgid "Without Relations"
+msgstr "Sin relaciones establecidas"
+
+#: app/views/suites/_show_graph.haml:
+msgid "Link Relations"
+msgstr "Establecer Relaciones"
+
+#: app/views/suites/_show_ralations.haml:
+msgid "-Select Script-"
+msgstr "-Seleccione un script-"
+
+#: app/views/suites/_show_ralations.haml:
+msgid "Select any Script"
+msgstr "Seleccione un Script"
+
+#: app/views/suites/_show_raltions.haml:
+msgid "Source"
+msgstr "Origen"
+
+#: app/views/suites/_show_raltions.haml:
+msgid "Without Source"
+msgstr "Sin Origen"
+
+#: app/views/suites/_show_ralations.haml:
+msgid "Destination"
+msgstr "Destino"
+
+#: app/views/suites/_show_ralations.haml:
+msgid "Without Destination"
+msgstr "Sin Destino"
+
+#: app/views/suites/_show_ralations.haml:
+msgid "Relation Fields:"
+msgstr "Campos de la relación:"
+
+#: app/views/suites/_show_ralations.haml:
+msgid "No Cases Related"
+msgstr "Sin casos relacionados"
+
+#: app/views/suites/_show_ralations.haml:
+msgid "Relation Cases"
+msgstr "Casos de la relación:"
+
+#: app/views/suites/_suite_cases.haml:
+msgid "Without Cases"
+msgstr "No tiene casos"
+
+#: app/views/suites/_suite_cases.haml:
+msgid "Create Cases"
+msgstr "Crear Casos"
+
+#: app/views/suites/_suite_show.haml:
+msgid "Graph"
+msgstr "Gráficos"
+
+#: app/views/suites/_suite_show.haml:
+msgid "Scripts and Cases"
+msgstr "Scripts y Casos"
+
+#: app/views/suites/edit.haml:
+msgid "Choose Scripts for your suite:"
+msgstr "Elija los Scripts para su suite:"
+
+#: app/views/suites/edit.haml:
+msgid "Schedules"
+msgstr "Programaciones"
+
+#: app/views/suites/edit.haml:
+msgid "Import suites from other projects"
+msgstr "Importar suites de otros proyectos"
+
+#: app/views/suites/import_suite.haml:
+msgid "Select Suites of Projects:"
+msgstr "Elegir Suites de los proyectos:"
+
+#: app/views/suites/import_suite.haml:
+msgid "Import >>"
+msgstr "Importar >>"
+
+#: app/views/suites/import_suite.haml:
+msgid "Copy Selected Suites"
+msgstr "Se copiarán las suites seleccionadas"
+
+#: app/views/suites/import_suite.haml:
+msgid "with Scripts"
+msgstr "con sus scripts"
+
+#: app/views/suites/index.haml:
+msgid "Suites from Project: "
+msgstr "Suites del Proyecto: "
+
+#: app/views/suites/index.haml:
+msgid "Without Suites"
+msgstr "Sin Suites"
+
+#: app/views/suites/index.haml:
+msgid "Project Without Suites"
+msgstr "Proyecto Sin Suites"
+
+#: app/views/suites/index.haml:
+msgid "Create New Suite"
+msgstr "Crear Nueva Suite"
+
+#: app/views/suites/index.haml:
+msgid "No results were found for"
+msgstr "No se encontraron resultados para"
+
+#: app/views/suites/new_program.haml:
+msgid "Suite Scheduler:"
+msgstr "Programación de Suite:"
+
+#: app/views/suites/new_program.haml:
+msgid "Date & Time:"
+msgstr "Fecha y Horario:"
+
+#: app/views/suites/relations.haml:
+msgid "Next"
+msgstr "Siguiente"
+
+#: app/views/suites/relations.haml:
+msgid "Must Select 2 Scripts"
+msgstr "Debe seleccionar dos Scripts"
+
+#: app/views/suites/relations.haml:
+msgid "Step 1 of 3 - Select 2 Scripts:"
+msgstr "Paso 1 de 3 - Seleccione 2 scripts:"
+
+#: app/views/suites/relations.haml:
+msgid "Suite Scripts"
+msgstr "Scripts de la Suite"
+
+#: app/views/suites/relations.haml:
+msgid "Scripts to Relate"
+msgstr "Scripts a relacionar"
+
+#: app/views/suites/relations2.haml:
+msgid "Step 2 of 3 - Relate Script Fields:"
+msgstr "Paso 2 de 3 - Relacione los campos de los scripts:"
+
+#: app/views/suites/relations2.haml:
+msgid "Established Relations"
+msgstr "Relaciones Establecidas"
+
+#: app/views/suites/relations2.haml:
+msgid "Remember that in order to complete this step your Script must contain cases"
+msgstr "Recuerde que para poder completar este paso sus Script deben contener casos"
+
+#: app/views/suites/relations3.haml:
+msgid "Step 3 of 3 - Indicate Cases in which act the relation:"
+msgstr "Paso 3 de 3 - Indique los casos en los que actuará la relación:"
+
+#: app/views/suites/relations3.haml:
+msgid "Established relations:"
+msgstr "Relaciones establecidas:"
+
+#: app/views/suites/relations3.haml:
+msgid "Relations between cases of the circuits:"
+msgstr "Relacion entre casos de los circuitos:"
+
+#: app/views/suites/relations3.haml:
+msgid "Finish"
+msgstr "Terminar"
+
+#: app/views/suites/relations3.haml:
+msgid "No cases in the Suite for this Script"
+msgstr "No hay casos en la suite para este Script"
+
+#: app/views/case_templates/_table_data.haml:
+msgid "Without Cases"
+msgstr "Sin Casos"
+
+#: app/views/case_templates/_table_data.haml:
+msgid "High"
+msgstr "Alta"
+
+#: app/views/case_templates/_table_data.haml:
+msgid "Medium"
+msgstr "Media"
+
+#: app/views/case_templates/_table_data.haml:
+msgid "Low"
+msgstr "Baja"
+
+#: app/views/suites/calendar.haml:
+msgid "Select a suite to view Scheduling:"
+msgstr "Seleccione una Suite para visualizar su Programación:"
+
+#: app/views/suites/calendar.haml:
+msgid "Select a suite to view Scheduling:"
+msgstr "Seleccione una Suite para visualizar su Programación:"
+
+#: app/views/suites/calendar.haml:
+msgid "All Suites"
+msgstr "Todas las suites"
+
+#: app/views/suites/calendar.haml:
+msgid "New Task"
+msgstr "Nueva Tarea"
+
+#: app/views/suites/calendar.haml:
+msgid "New Task"
+msgstr "Nueva Tarea"
+
+#: app/views/suites/calendar.haml:
+msgid "Without Schedule"
+msgstr "Sin Programación"
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "View Type"
+msgstr "Tipo de Vista"
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "Values"
+msgstr "Valores"
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "Exit Without Save?"
+msgstr "¿Desea salir sin guardar?"
+
+#: app/views/users/my_account.haml:
+msgid "My Account"
+msgstr "Mi Cuenta"
+
+#: app/views/users/my_account.haml:
+msgid "Languange:"
+msgstr "Idioma:"
+
+#: app/controllers/case_templates_controller.rb:
+msgid "Complete an objetive doing double click"
+msgstr "Complete un objetivo haciendo doble click"
+
+#: app/views/suite_executions/index.haml:
+msgid "History of"
+msgstr "Historial de"
+
+#: app/views/suite_executions/index.haml:
+msgid "History of Execution from: "
+msgstr "Historial de Ejecuciones de: "
+
+#: app/views/notes/index.haml:
+msgid "General Notes"
+msgstr "Notas Generales"
+
+#: app/views/notes/index.haml:
+msgid "Summary"
+msgstr "Resumen"
+
+#: app/views/notes/index.haml:
+msgid "Without General Notes"
+msgstr "Sin notas generales"
+
+#: app/views/notes/index.haml:
+msgid "Note:"
+msgstr "Nota:"
+
+#: app/views/notes/index.haml:
+msgid "Add Note"
+msgstr "Agregar Nota"
+
+#: app/views/notes/index:
+msgid "Sure to remove the Note"
+msgstr "¿Esta seguro que desea eliminar la Nota"
+
+#: app/views/notes/edit.haml:
+msgid "Add/Remove Notes"
+msgstr "Agregar/Borrar Notas"
+
+#: app/views/notes/edit.haml:
+msgid "Add/Remove Functions"
+msgstr "Agregar/Borrar Funciones"
+
+#: app/views/notes/edit.haml:
+msgid "Projects Administration"
+msgstr "Administrar Proyectos"
+
+#: app/views/notes/edit.haml:
+msgid "Users Administration"
+msgstr "Administrar Usuarios"
+
+#: app/views/notes/new.haml:
+msgid "New General Note"
+msgstr "Nueva Nota General"
+
+#: app/views/context_configurations/edit.haml:
+msgid "Configurable Parameters for Execution"
+msgstr "Parámetros Configurables para la Ejecución"
+
+#: app/views/context_configurations/edit.haml:
+msgid "Configuration Edit"
+msgstr "Editar Configuración"
+
+#: app/views/context_configurations/new.haml:
+msgid "New Configuration"
+msgstr "Nueva Configuración"
+
+#: app/views/context_configurations/new.haml:
+msgid "Add Configuration"
+msgstr "Agregar Configuración"
+
+#: app/views/context_configurations/index.haml:
+msgid "Without Configurable Parameters"
+msgstr "Sin Parámetros Configurables"
+
+#: app/views/context_configurations/index.haml:
+msgid "Actions"
+msgstr "Acciones"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "To create a Script, first must we do a right click in our Project Folder"
+msgstr "Para crear un Script, primero debemos hacer un Click-Derecho sobre la Carpeta de nuestro Proyecto"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid " to see the popup menu, and press"
+msgstr " para ver el menú emergente, y presionar"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "then, complete"
+msgstr "luego, completamos los campos"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "and"
+msgstr "y"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "Field."
+msgstr " "
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid " checkbox is used to generate a new Script"
+msgstr "debemos seleccionarlo para generar un Script nuevo"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "With"
+msgstr "Con el campo"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "Field, we upload an Script (previuosly generated) to our Folder."
+msgstr "podemos cargar un Script (creado previamente) a nuestra Carpeta."
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "To finish press"
+msgstr "Para finalizar, presionamos el botón"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "Button."
+msgstr " "
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "We will see the body of our new Scrip"
+msgstr "Veremos el cuerpo de nuestro nuevo Script"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "STEP"
+msgstr "PASO"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "Right click"
+msgstr "Click Derecho"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "(in a Folder)"
+msgstr "(en 1 Carpeta)"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "Upload or create empty"
+msgstr "Carga o crea un Script vacio"
+
+#: app/views/circuits/_script_tutorial.haml:
+msgid "Edit!"
+msgstr "Edítalo!"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "Add Scripts"
+msgstr "Agrega Scripts"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "Sort Scripts and Add Cases"
+msgstr "Ordena Scripts y Agrega Casos"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "To create a Suite, first must we do a click in"
+msgstr "Para crear una Suite, primero debemos hacer un Click en"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "below, we must add Scripts at our Suite."
+msgstr "a continuación, debemos agregar los Script que conformaran nuestra Suite"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "To do this, simply select the check-box for our script."
+msgstr "Para hacer esto, simplemente debemos seleccionar la casilla correspondiente a nuestro Script."
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "When we have selected our Scripts, must press"
+msgstr "Cuando hayamos seleccionado nuestos Script, presionaremos el botón"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "We can see 2 new boxes:"
+msgstr "Podremos ver 2 nuevas secciones:"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "added"
+msgstr "agregados"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "is used to add cases to our Suite scripts"
+msgstr "se utiliza para agregar casos a los Scripts de nuestra Suite"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "is used to determinate the execution order of Scripts in our Suite"
+msgstr "se utiliza para seleccionar el orden de ejecución de los Scripts dentro de nuestra Suite"
+
+#: app/views/suites/_suite_tutorial.haml:
+msgid "To Finish our Suite Creation, press"
+msgstr "Para finalizar la creación de nuestra Suite presionamos el botón "
+
+#: app/views/context_configurations/index.haml:
+msgid "Run Configuration"
+msgstr "Configuración de Ejecución"
+
+#: app/views/notifier/signup_mail.erb:
+msgid "Thanks to chouse Cacique!"
+msgstr "Gracias por elegir Cacique!"
+
+#: app/views/notifier/signup_mail.erb:
+msgid "User Data are:"
+msgstr "Los datos de su usuario son:"
+
+#: app/views/notifier/signup_mail.erb:
+msgid "Thanks to chouse Cacique!"
+msgstr "Gracias por elegir Cacique!"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Sure to remove the Function"
+msgstr "¿Esta seguro que desea eliminar la Función"
+
+#: app/views/queue_observers/_queue_icon.haml:
+msgid "Queued Task"
+msgstr "Cola de Tareas"
+
+#: app/views/queue_observers/_show.haml:
+msgid "Conection Error"
+msgstr "Error al conectarse"
+
+#: app/controllers/application_controllers.rb:
+msgid "Invalid Action"
+msgstr "Acción Invalida"
+
+#: app/views/layouts/_js_translate:
+msgid "Successfully Modified File"
+msgstr "Archivo modificado con éxito"
+
+#: app/views/layouts/_js_translate:
+msgid "The script is outdated. Another person edit the same script as you were editing."
+msgstr "El script que se encuentra editando esta desactualizado. Otra persona edito el mismo script mientras lo editabas."
+
+#: app/views/layouts/_js_translate:
+msgid " Steps:"
+msgstr " Pasos a seguir:"
+
+#: app/views/layouts/_js_translate:
+msgid "1- Copy your changes to some temporary location."
+msgstr "1- Copiar sus cambios a algun lugar temporal."
+
+#: app/views/layouts/_js_translate:
+msgid "2- Update the script doing refresh (Ctrl+F5)."
+msgstr "2- Actualizar el script refrescando la página (Ctrl+F5)."
+
+#: app/views/layouts/_js_translate:
+msgid "3- Paste your changes."
+msgstr "3- Pegar sus cambios."
+
+#: app/views/layouts/_js_translate:
+msgid "Details: "
+msgstr "Detalles: "
+
+#: app/views/layouts/_js_translate:
+msgid "Failure of network connection, the script is not saved"
+msgstr "Fallo de conexion a la red, el script no se grabo"
+
+#: app/views/layouts/_js_translate:
+msgid "Unknown error, the script was not saved: "
+msgstr "Error desconocido, el script no se grabo: "
+
+#: app/views/layouts/_js_translate:
+msgid "You must enter all values"
+msgstr "Debe ingresar todos los valores"
+
+#: app/views/layouts/_js_translate:
+msgid "Retrieved data "
+msgstr "El dato recuperado "
+
+#: app/views/layouts/_js_translate:
+msgid " exist"
+msgstr " ya existe"
+
+#: app/views/layouts/_js_translate:
+msgid "Are you sure to delete this data recovered? This delete all relationships in the suite which is involved"
+msgstr "¿Está seguro de borrar éste dato recuperado? Junto con el se eliminarán todas las relaciones de suite en las que se encuentre involucrado"
+
+#: app/views/layouts/_js_translate:
+msgid "You Must Select "
+msgstr "Debe seleccionar "
+
+#: app/views/layouts/_js_translate:
+msgid "You must select at least one case"
+msgstr "Debe seleccionar por lo menos un caso"
+
+#: app/views/layouts/_js_translate:
+msgid "Along with the cases, eliminate your run history. If the case is in a suite will also be removed. Are you sure to remove the case"
+msgstr "Junto con los casos, se eliminará su historial de ejección. Si el caso actúa en alguna suite será también removido. ¿Está seguro de eliminar los casos"
+
+#: app/views/layouts/_js_translate:
+msgid "You must complete the name"
+msgstr "Debe completar el nombre"
+
+#: app/views/layouts/_js_translate:
+msgid "Are you sure you create the column "
+msgstr "¿Esta seguro de crear la columna "
+
+#: app/views/layouts/_js_translate:
+msgid "You must select a column"
+msgstr "Debe seleccionar una columna"
+
+#: app/views/layouts/_js_translate:
+msgid "Sure to remove the column: "
+msgstr "¿Esta seguro de eliminar la columna: "
+
+#: app/views/layouts/_js_translate:
+msgid "Sure to change the column: "
+msgstr "¿Esta seguro de modificar la columna: "
+
+#: app/views/layouts/_js_translate:
+msgid "With it removed the relations that exist in suites."
+msgstr " Con ella se eliminarán las relaciones que existan en la suite."
+
+#: app/views/layouts/_js_translate:
+msgid "Name field is required"
+msgstr "El campo Nombre es obligatorio"
+
+#: app/views/layouts/_js_translate:
+msgid "Description field is required"
+msgstr "El campo Descripción es obligatorio"
+
+#: app/views/layouts/_js_translate:
+msgid "You must complete the fields"
+msgstr "Debe completar los campos"
+
+#: app/views/layouts/_js_translate:
+msgid "No Script Selected"
+msgstr "No selecciono ningun Script"
+
+#: app/views/laysouts/_js_translate:
+msgid "No Suite Selected"
+msgstr "No selecciono ninguna Suite"
+
+#: app/views/layouts/_js_translate:
+msgid "Must Select Destination Folder"
+msgstr "Debe selecionar la carpeta destino"
+
+#: app/views/layouts/_js_translate:
+msgid "Selected scripts will be moved to the Folder "
+msgstr "Los scripts seleccionados serán movidos a la carpeta "
+
+#: app/views/layouts/_js_translate:
+msgid "There are no related fields"
+msgstr "Hay campos sin relacionarse"
+
+#: app/views/layouts/_js_translate:
+msgid "All Script Relations will be eliminated, along with their associated cases"
+msgstr "Se eliminarán todas las relaciones de los Scripts y sus casos asociados"
+
+#: app/views/layouts/_js_translate:
+msgid "There is no Relations between Cases"
+msgstr "No hay ninguna relacion entre Casos"
+
+#: app/views/layouts/_js_translate:
+msgid "Must select an option from each column"
+msgstr "Debe seleccionar una opcion de cada columna"
+
+#: app/views/layouts/_js_translate:
+msgid "This Relations Exists"
+msgstr "Esa Relación ya Existe"
+
+#: app/views/layouts/_js_translate:
+msgid "Complete All Configuration"
+msgstr "Complete toda la configuración"
+
+#: app/views/layouts/_js_translate:
+msgid "Column Name must begin with lowercase"
+msgstr "El Nombre de la columna debe comenzar con minúsculas"
+
+#: app/views/layouts/_js_translate:
+msgid "You must select at least one execution"
+msgstr "Debe selccionar al menos una ejecución"
+
+#: app/views/layouts/_js_translate:
+msgid " for "
+msgstr " por "
+
+#: app/views/suite/_suite_cases.haml:
+msgid "Managing Cases"
+msgstr "Administrar Casos"
+
+#: app/views/suite/relations:
+msgid "Must be at least 2 Scripts added to the Suite to relate"
+msgstr "Debe tener al menos 2 scripts agregados en al suite para relacionarlos"
+
+#: app/views/suite/relations:
+msgid "You can add in section 'Edit Suite':"
+msgstr "Puede agregarlos en la sección de edición de suite:"
+
+#: app/views/models/suite_execution:
+msgid "Not Run"
+msgstr "No se Ejecuto"
+
+#: app/views/suite/index:
+msgid "any suite"
+msgstr "una suite"
+
+#: app/views/suite/index:
+msgid "Execution of:"
+msgstr "Ejecuciones de:"
+
+#: app/views/circuits/error:
+msgid "LINE:"
+msgstr "LINEA:"
+
+#: app/views/circuits/new:
+msgid "Script "
+msgstr "El Script "
+
+#: app/views/circuits/new:
+msgid "Must select a Script to Upload"
+msgstr "Debe Seleccionar el Script que desea Cargar"
+
+#: app/views/circuits/versions:
+msgid "Versions of "
+msgstr "Versiones del Script "
+
+#: app/views/circuits/versions:
+msgid "Without versions"
+msgstr "Sin versiones"
+
+#: app/views/circuits/versions:
+msgid "Initial Version"
+msgstr "Version inicial"
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "Defined if the implementation panel for this new configuration can be selected:"
+msgstr "Definirá si en el panel de ejecución, para esta nueva configuración pueden seleccionarse:"
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "None, one or more options"
+msgstr "Ninguna, una o varias opciones."
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "(Ex: Radiobutton forces to select a single option, Checkbox allows multiple selection or no selection)"
+msgstr "(Ej: Radiobutton obliga a seleccionar una única opción, Checkbox permire seleccion multiple o ninguna,etc..)"
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "Images"
+msgstr "Imágenes"
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "If you add images to format "
+msgstr "Si se agregan imagenes con formato"
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "into the folder"
+msgstr "en la carpeta"
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "for each value entered in the configuration and with the same name,"
+msgstr "por cada valor ingresado en la configuración y con igual nombre,"
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "when viewing the execution, will these images rather than the values used."
+msgstr "al visualizar la ejecución, se verán esas imagenes en vez de los valores utilizados."
+
+#: app/views/context_configurations/_config_info.haml:
+msgid "(Ex: If the configuration is "
+msgstr "(Ej: Si la configuracion es para "
+
+#: app/views/context_configurations/_config_info.haml:
+msgid " will print the selected browser version with an icon.)"
+msgstr " se representará el browser elegido en la ejecución con un ícono.)"
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "Field default"
+msgstr "Campo por defecto"
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "Selecting this option will be added as a column in the data set this configuration."
+msgstr "Al seleccionar ésta opción se agregará como columna en el set de datos ésta configuración."
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "It is used to that at the time of execution, you can choose to take the value of the panel of implementation or change to be taken from your own case."
+msgstr "Se utiliza para que al momento de la ejecución, se pueda optar por tomar el valor del panel de ejecución o en cambio sea tomado del propio caso."
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "Repetitions"
+msgstr "Repeticiones"
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "Comment Cases"
+msgstr "Comentar Casos"
+
+#: app/views/context_configurations/_edit_form.haml:
+msgid "Generate Command"
+msgstr "Generar Comando"
+
+#: app/views/context_configurations/_constant_config.haml:
+msgid "Debug Mode"
+msgstr "Modo Depuración"
+
+#: app/views/context_configurations/index.haml:
+msgid "Are you sure to delete "
+msgstr "Esta seguro de eliminar "
+
+#: app/views/controller/graphs_controller.rb:
+msgid "Unit:"
+msgstr "Unitarias:"
+
+#: app/helpers/application_helper.rb:
+msgid "Suite Execution History"
+msgstr "Historial de ejecución de Suite"
+
+#: app/helpers/application_helper.rb:
+msgid "Script Create"
+msgstr "Crear Script"
+
+#: app/helpers/application_helper.rb:
+msgid "Script Edit"
+msgstr "Editar Script"
+
+#: app/helpers/application_helper.rb:
+msgid "Unit Execution"
+msgstr "Ejecución unitaria"
+
+#: app/helpers/application_helper.rb:
+msgid "Suite Execution"
+msgstr "Ejecución de Suite"
+
+#: app/helpers/application_helper.rb:
+msgid "Unit Execution History"
+msgstr "Historial de Ejecución Unitaria"
+
+#: app/helpers/application_helper.rb:
+msgid "Suite Details"
+msgstr "Detalles de la Suite"
+
+#: app/helpers/application_helper.rb:
+msgid "Suite - Script Relations"
+msgstr "Suite - Relaciones de Script"
+
+#: app/helpers/application_helper.rb:
+msgid "Suite - Field Relations"
+msgstr "Suite - Relaciones de campos"
+
+#: app/helpers/application_helper.rb:
+msgid "Suite - Cases Relations"
+msgstr "Suite - Relaciones de Casos"
+
+#: app/helpers/application_helper.rb:
+msgid "Suites Execution Pannel"
+msgstr "Panel de Ejecucion de Suites"
+
+#: app/views/case_templates/_menu_case_template:
+msgid "Execution History"
+msgstr "Historial de Ejecución"
+
+#: app/controllers/context_configurations_controller.rb:
+msgid ", already exist in Data Set belonging to Script "
+msgstr ", ya existe en el Set de Datos perteneciente al Script "
+
+#: app/controllers/suites_controller.rb:
+msgid "Are You sure to delete Scheduling?"
+msgstr "¿Esta seguro de Eliminar la Programación?"
+
+#: app/views/executions/_error_ok_output.haml:
+msgid "Position Error:"
+msgstr "Posición del Error:"
+
+#: app/views/executions/_error_ok_output.haml:
+msgid "Generated Data:"
+msgstr "Datos Generados:"
+
+#: app/views/executions/_error_ok_output.haml:
+msgid "No data were generated"
+msgstr "No se Generaron Datos"
+
+#: app/views/executions/_error_ok_output.haml:
+msgid "Screenshots"
+msgstr "Capturas de la pagina:"
+
+#: app/views/users/_permissions.haml:
+msgid "Permissions"
+msgstr "Permisos"
+
+#: app/views/users/_permissions.haml:
+msgid "Root option gives Administrator privileges to the User. This allows:"
+msgstr "La opción Root otorga privilegios de Administrador al Usuario. Esto le permite:"
+
+#: app/views/users/_permissions.haml:
+msgid "Create & Edit Proyect"
+msgstr "Crear y Editar Proyectos"
+
+#: app/views/users/_permissions.haml:
+msgid "Assign and Dealocate users to Projects"
+msgstr "Asignar y Desasignar usuarios a los Proyectos"
+
+#: app/views/users/_permissions.haml:
+msgid "Admin Run Configurations"
+msgstr "Administrar la Configuracion de Ejecución"
+
+#: app/views/users/_permissions.haml:
+msgid "Create and Edit Notes"
+msgstr "Crear y Editar Notas"
+
+#: app/views/users/_permissions.haml:
+msgid "Add and Remove Functions"
+msgstr "Agregar y Eliminar Funciones"
+
+#: app/views/users/_permissions.haml:
+msgid "Manage Users"
+msgstr "Gestionar Usuarios"
+
+#: app/views/suite_executions/workling_error.haml:
+msgid "At this time run instances are not available."
+msgstr "En este momento no se encuentran disponibles las instancias de ejecución."
+
+#: app/views/suite_executions/workling_error.haml:
+msgid "Please try again later."
+msgstr "Por favor intentelo mas tarde."
+
+#: app/views/case_templates/menu_case_template.haml:
+msgid "Search case"
+msgstr "Buscar caso"
+
+#: app/views/homes/_links.haml:
+msgid "Edit Links"
+msgstr "Editar Links"
+
+#: app/views/homes/_links.haml:
+msgid "Add Link"
+msgstr "Agregar Links"
+
+#: app/views/homes/_links.haml:
+msgid "Remove Link"
+msgstr "Quitar Links"
+
+#: app/views/homes/_links.haml:
+msgid "Name:"
+msgstr "Nombre:"
+
+#: app/controllers/suites_controller.rb:
+msgid "Field ID must contain only letters, numbers, space or underscore"
+msgstr "El Campo ID sólo puede contener letras, números, espacios o guiones bajos"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Created by:"
+msgstr "Creado por:"
+
+#: app/views/user_functions/_move.haml:
+msgid "Move"
+msgstr "Mover"
+
+#: app/views/user_functions/_move.haml:
+msgid "Move Function "
+msgstr "Mover Función "
+
+#: app/views/user_functions/_move.haml:
+msgid "Move Function"
+msgstr "Mover Función"
+
+#: app/views/user_functions/_move.haml:
+msgid "to project: "
+msgstr "al proyecto: "
+
+#: app/views/user_functions/_move.haml:
+msgid "Move to Generic Functions"
+msgstr "Mover a Funciones Genéricas"
+
+#: app/controllers/user_functions_controller.rb:
+msgid "Function properly moved"
+msgstr "Se movió correctamente la función"
+
+#: app/controllers/user_functions_controller.rb:
+msgid "Unable to move the function"
+msgstr "No se pudo mover la función"
+
+#: app/views/user_functions/_functions_per_project.haml:
+msgid "Search Function"
+msgstr "Buscar Función"
+
+#: app/views/circuits/_info_script.haml:
+msgid "Know the different Suites containing the Scrip in which you are working."
+msgstr "Conozca las diferentes Suites que contienen el Scrip en que se encuentra trabajando."
+
+#: app/controllers/user_functions_controller.rb
+msgid "Function was successfully removed"
+msgstr "Se borro corectamente la funcion"
+
+#: app/controllers/user_functions_controller.rb
+msgid "Function was updated Successfuly"
+msgstr "La función se ha actualizado con exito"
+
+#: app/views/circuits/_suites_of_script.haml
+msgid "Suites containing the script "
+msgstr "Suites que contienen el script "
+
+#: app/views/circuits/_suites_of_script.haml
+msgid "The script is not in any suite"
+msgstr "El script no se encuentra en ninguna suite"
+
+#: app/views/homes/_links.haml
+msgid "No links to eliminate"
+msgstr "No hay links por eliminar"
+
+#: app/controllers/categories_controller.rb
+msgid "Imported"
+msgstr "Importados"
+
+#: app/controllers/categories_controller.rb
+msgid "folder where you saved the script imported"
+msgstr "carpeta donde se guardan los script importados"
+
+
+

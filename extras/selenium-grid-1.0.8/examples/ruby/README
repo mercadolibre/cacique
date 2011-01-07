@@ -1,0 +1,66 @@
+Example using RSpec based web acceptance tests
+
+This example demonstrates how to run tests in parallel to take advantage
+of Selenium Grid functionalities.
+
+Getting Ready
+-------------
+
+To run this example you will need:
+
+  * Have a valid Ruby install: http://www.ruby-lang.org
+  * Have RubyGems installed : http://rubygems.org
+  * Install the RSpec gem  : `sudo gem install rspec`
+    This example has been tested with RSpec 1.0.8
+  * Install the Spec UI gem : `sudo gem install spec_ui`
+    Spec UI provides some nice reporting for Selenium tests
+
+  You are probably better off running this example on Mac OS X or another
+UNIX platform. Be prepared to get your hands dirty if you run this on
+Windows, this has not been tested yet.
+
+
+Running the Tests
+-----------------
+
+  To run the tests you must first launch a Selenium Hub and 4 Selenium
+  remote controls as explained in the Demo:
+  http://seleniumhq.org/selenium-grid/run_the_demo.html
+
+  You can then:
+
+  * Run the tests in sequence:
+
+      $ rake run_in_sequence
+
+  * Run the tests in parallel using Brian Takita's Multi-threaded runner:
+    (only guaranted to work with RSpec 1.0.8 r2338)
+
+     $ rake run_in_parallel_single_process
+
+  * Run the tests in parallel spawning multiple processes:
+
+     $ rake run_in_parallel
+     
+
+  Note that for a realistic web acceptance test suite, running tests in
+parallel using Ruby green threads does not scale very well so I recommend
+using the multi-process runner in real life. The multi-threaded runner is
+very cool though, and should scale well with JRuby.
+
+  For now only RSpec behaviours, not RSpec examples run in parallel
+(i.e files, not tests). We are working on a better solution that can
+efficiently run RSpec examples in parallel.
+  
+Reporting
+---------
+
+  This example also demonstrate how to get some pretty cool reporting
+based on Spec UI. This is very useful to troubleshoot failures
+when your web acceptance build turns red: You get screenshots and HTML
+capture of the current page when a test fails. Pretty cool when tests are
+distributed using Selenium Grid! Make sure to take a look at the ./report
+directory after running `rake run_in_parallel`. Even better: change a
+specification so that a test fails, launch `rake run_in_parallel` and
+look at the new aggregated report.
+ 
