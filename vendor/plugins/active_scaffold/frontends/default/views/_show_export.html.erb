@@ -1,0 +1,39 @@
+<%
+  url_options = params_for(:action => :export, :format => 'csv')
+  export_config = active_scaffold_config.export
+-%>
+
+<%= form_tag url_for(url_options)%>
+<h3><%=as_('Columns to Export')%></h3>
+<div class="columns checkbox-list"> 
+<% export_config.columns.each do |column| -%>
+  <div class="column checkbox-wrapper">
+    <%= content_tag(:label, check_box_tag("export_columns[#{column.name}]", 1, !export_config.default_deselected_columns.include?(column.name)) + "&nbsp;#{column.label}") %>
+  </div>
+<% end -%>  
+&nbsp;
+</div>
+<div class="separator"></div>
+<h3><%=as_('Options')%></h3>
+<div class="options checkbox-list">
+  <div class="option checkbox-wrapper">
+    <%= content_tag(:label, check_box_tag('skip_header', 1, export_config.default_skip_header) + " #{as_('Omit Header')}") %>
+  </div>
+  <div class="option checkbox-wrapper">
+    <%= content_tag(:label, text_field_tag('delimiter', export_config.default_delimiter, :size => 1, :maxlength => 1) + " #{as_('Delimiter')}") %>
+  </div>
+  <div class="separator"></div>
+  <div class="option checkbox-wrapper">
+    <%= content_tag(:label, radio_button_tag('full_download', false, !export_config.default_full_download) + " #{as_('This Page')}") if export_config.allow_full_download %>
+  </div>
+  <div class="option checkbox-wrapper">
+    <%= content_tag(:label, radio_button_tag('full_download', true, export_config.default_full_download) + " #{as_('All Pages')}") if export_config.allow_full_download %>
+  </div>
+  &nbsp;
+</div>
+<div class="separator"></div>
+  
+  <%= submit_tag as_('Export'), :class => "submit" %>
+  <%= link_to as_('Cancel'), params_for(:action => 'list'), :class => 'cancel' %>
+  <%= loading_indicator_tag(:action => :export) %>
+</form>

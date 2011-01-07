@@ -1,0 +1,48 @@
+ #
+ #  @Authors:
+ #      Brizuela Lucia                  lula.brizuela@gmail.com
+ #      Guerra Brenda                   brenda.guerra.7@gmail.com
+ #      Crosa Fernando                  fernandocrosa@hotmail.com
+ #      Branciforte Horacio             horaciob@gmail.com
+ #      Luna Juan                       juancluna@gmail.com
+ #
+ #  @copyright (C) 2010 MercadoLibre S.R.L
+ #
+ #
+ #  @license        GNU/GPL, see license.txt
+ #  This program is free software: you can redistribute it and/or modify
+ #  it under the terms of the GNU General Public License as published by
+ #  the Free Software Foundation, either version 3 of the License, or
+ #  (at your option) any later version.
+ #
+ #  This program is distributed in the hope that it will be useful,
+ #  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ #  GNU General Public License for more details.
+ #
+ #  You should have received a copy of the GNU General Public License
+ #  along with this program.  If not, see http://www.gnu.org/licenses/.
+ #
+@suite_execution.each do |s_exe|
+
+if s_exe.status == 2
+  error=1
+else
+  error=0
+end
+  xml.testsuite(:errors => error, :failures => s_exe.count_failures,:name => s_exe.suite.name ,:hostname => "bamboo.ml.com", :test => s_exe.executions.length, :time => s_exe.time_spent, :timestamp => s_exe.created_at) do 
+    s_exe.execution_configuration_values do |exec_conf_value|
+      xml.property(:name=>exec_conf_value.context_configuration.name, :value=>exec_conf_value.value)
+    end
+  
+    s_exe.executions.each do |exe| 
+      if exe.status == 2
+        xml.testcase(:classname=>"#{exe.circuit.name}-#{exe.id}", :name=>"#{exe.circuit.name}-#{exe.id}", :time=>"#{exe.updated_at - exe.created_at}")
+      else
+          xml.testcase(:classname=>"#{exe.circuit.name}-#{exe.id}", :name=>"#{exe.circuit.name}-#{exe.id}", :time=>"#{exe.updated_at - exe.created_at}") do
+          xml.failure("#{exe.error}" , :message => exe.position_error)
+        end
+      end
+    end
+  end
+end

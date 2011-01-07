@@ -1,0 +1,42 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%img{:src => "/images/icons/new.png",     :alt=>"new.png",    :title=>_('New'),                  :onClick => "location='/case_templates/create?circuit_id=#{@circuit.id}&origin=case_template';", :style=>"margin-left:150px;"}
+%img{:src => "/images/icons/column.png",  :alt=>"column.png", :title=>_('Inset / Delete Column'),:onClick => "document.getElementById('abm_columns').show();"}
+%img{:src => "/images/icons/trash.png",   :alt=>"trash.png",  :title=>_('Delete'),               :onClick => "submit_delete();"}
+%img{:src => "/images/icons/clock.png",   :alt=>"clock.png",  :title=>_('Execution History'),    :onClick => "if(marcado)location.href='/suite_executions?[filter][model]=scripts&[filter][suite_id]=0&[filter][circuit_id]=#{@circuit.id}&[filter][case_id]=' + marcado;"}
+%img{:src => "/images/icons/eimport.png", :alt=>"eimport.png",:title=>_('Import'),               :onClick => ( current_user.has_role?("editor",@circuit) ? "document.getElementById('excel_import').show()" : "alert(msgalert)" ) }
+%img{:src => "/images/icons/eexport.png", :alt=>"eexport.png",:title=>_('Export'),               :onClick => "location='/case_templates/export/1?circuit_id=#{@circuit.id}';"}
+%img{:src => "/images/icons/info.png",    :alt=>"info.png",   :title=>_('Information'),          :onClick => "document.getElementById('infoCaseTemplate').toggle();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;"}
+%img{:src => "/images/icons/config.png",  :alt=>"config.png", :title=>_('Execution Panel'),      :onClick => remote_function(:complete => "document.getElementById('execution_panel').show();", :update => "execution_panel", :url => "/context_configurations/user_context_configuration_values")}
+%img{:src => "/images/icons/play.png",    :alt=>"play.png",   :title=>_('Run Selected'),         :onClick => "submit_play('#{@project_id}','#{@circuit.id}');"}
+=render :partial => "queue_observers/queue_icon"
+
+.buscar
+  - form_for @search do  |f|
+    = f.text_field :objective_like, :style => 'width: 130px; ', :style => 'width: 130px',:value=>_("Search case") , :onblur=>"if (this.value == '') {this.value = '#{_('Search case')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search case')}') {this.value = '';this.style.color='black'}"
+    = f.text_field :circuit_id_equals, :value => @circuit.id, :style => 'display:none;'
+    %input{:type=>"image",:src=>"/images/icons/search.png"}

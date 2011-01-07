@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Selenium Grid Java Sample Test Suite" parallel="methods" thread-count="7" verbose="3" >
+  <test name="Selenium Grid Java Sample Tests"   >
+    <packages>
+      <package name="com.thoughtworks.selenium.grid.examples.java" />
+   </packages>
+ </test>
+</suite>

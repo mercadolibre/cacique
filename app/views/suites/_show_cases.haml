@@ -1,0 +1,50 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+//Cases Tree
+%div{:id=>"circuit_cases",:style=>"display:none; "}
+  %h3
+    _("Select a Script to see their Cases")
+  -for circuit in @suite.circuits do
+    %div{:style=>"margin-bottom:10px; margin-left:20px;"}
+      //Script
+      %img{ :src => "/images/icons/toggle-expand-dark.png", :alt=>"toggle-expand-dark.png", :onClick=>"activarDivCasos(#{circuit.id});", :style=>"display:inline;border: none;cursor:pointer;" }
+      %div{:id=>circuit.id.to_s,:onClick=>"activarDivCasos(#{circuit.id});", :style => 'display:inline;cursor:pointer; color:#31576F; font-size:14px; text-transform: capitalize;'}
+        =circuit.name
+      //Cases
+      %div{:id=>'casos_' + circuit.id.to_s, :style=>"display:none; cursor:default;"}
+        -if suite_cases(circuit,@suite.case_templates).empty?
+          %i{:style => 'margin-left:20px; color:#8f8f8f; font-weight: normal; text-transform: none;'}
+            =_(Script without cases")
+        -else
+          -for case_template in suite_cases(circuit,@suite.case_templates) do
+            .cases_suite_show{:style => 'margin-left:20px;margin-top:5px; color:#8f8f8f; font-family:sans-serif;font-size:12px;'}
+              %div{:title=>"Ir al set de datos",:style=>"color:#4F5DD5; margin-right:5px; float:left; font-weight:bold;"}
+                =link_to case_template.id, '/circuits/' + circuit.id.to_s + '/case_templates'
+                |
+              %div{:title=>case_template.objective, :style=>"color:#2E91B1;float:left;"}         
+                =truncate(case_template.objective, 100)
+            %br
+               

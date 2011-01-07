@@ -1,0 +1,83 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-javascript 'dtree'
+-javascript 'select_all'
+
+%script
+  //Variable que se utiliza para que el arbol de categorias tenga un evento ajax
+  var tree_with_ajax=false;
+  
+.main
+  - form_for :suite,:url => '/suites/create' do |f|
+    %h1
+      =_("New Suite")
+      .form_tag{ :style=>"float:right;padding:0px;margin-right:40px;"}
+        =submit_tag _('Create'), :style=>"cursor:pointer;"
+
+    .form
+      %div{:style=>"width:35%;float:left;"}
+        .form_tag{:style=>"margin-left:40px;padding-left:20px;float:left;width:80%;"}
+          %label{:for => "name"}
+            =_("Name")
+          = f.text_field :name, :style=>"width:300px;"
+          %br
+          %br
+          %label{:for => "description"}
+            =_("Description")
+          = f.text_area :description, :style=>"width:300px;height:30px;"
+        .form_tag{ :style=>"float:left;clear: both;margin-left:40px; width:82%; margin-top:20px;"}
+          %h2{:style=>"font-size:16px;"}
+            =image_tag("icons/suite.png", :alt=>"suite.png")
+            Suite
+          %p{:style=>"margin:20px;text-align:left;"}
+            %i
+              =_('A')
+              %b
+                Suite
+              =_('is a set of scripts that run one after the other.')
+              %br
+              =_('The')
+              %b
+                Scripts
+              =_('in the suite can be related to share data by')
+              %b
+                =_('Relations')
+              =image_tag("icons/relations.png", :alt=>"relations", :title=>"Relations", :style=>"width:15px; height:15px;")
+
+    .form_tag{ :style=>"float:left;padding:0px 0px 20px 20px; width:35%; overflow:hidden;margin-left:40px;"}
+      %h2{:style=>"margin-bottom:10px;"}
+        =_("Choose Scripts for your suite:")
+      %img{ :src=>"/images/dtree/expandall.png", :alt=>"expandall.png", :title=>_("Expand All"),:onclick => "d.openAll();", :style=>"cursor:pointer;"}
+      %img{ :src=>"/images/dtree/colapseall.png",:alt=>"colapseall.png",:title=>_("Collapse All"), :onclick => "d.closeAll();", :style=>"cursor:pointer;"}
+      .content_tree{:style=>"height:90%;"}
+        %script
+          d = new dTree('d');
+          = "d.add(0,-1,#{@project.name.to_javascript_expr});"
+          =category_tree(@categories, 'suite')
+          document.write(d);
+    %div{:style=>"width:200px; float:left;"}
+      .form_show_errors{:style=>"margin-left:30px;"}
+        = error_messages_for :suite

@@ -1,0 +1,53 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+.form_tag{:style=>"width:400px;float:left;text-align:left;"}
+  %b
+    =_('View Type')
+  %br
+  =_('Defined if the implementation panel for this new configuration can be selected:')
+  %br
+  =_('None, one or more options')
+  %br
+  =_('(Ex: Radiobutton forces to select a single option, Checkbox allows multiple selection or no selection)')
+  
+.form_tag{:style=>"width:400px;float:left;text-align:left;margin-top:20px;"}
+  %b
+    =_('Images')
+  %br
+  =_('If you add images to format ')
+  %i
+    \.png
+  =_('into the folder')
+  %i
+    \/public/images/specific
+  =_('for each value entered in the configuration and with the same name,')
+  =_('when viewing the execution, will these images rather than the values used.')
+  %br
+  =_("(Ex: If the configuration is ")
+  %i
+    browser
+  =_(" will print the selected browser version with an icon.)")

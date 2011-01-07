@@ -1,0 +1,118 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-javascript 'relation2' 
+   
+%script
+  
+  //amount of column per box
+  ="var fields1_cant = #{@columns_data_1.length};" 
+  ="var fields2_cant = #{@columns_data_2.length};"
+
+
+  //Column per Box
+  = "var fields1 = new Array(#{ @columns_data_1.map{|x| "\"#{x}\""}.join(",") } );"
+  = "var fields2 = new Array(#{ @columns_data_2.map{|x| "\"#{x}\""}.join(",") } );"
+
+.main
+
+  %form{ :id =>"formRelation2", :name => "menuform", :action => '/suites/relations3/' + @suite.id.to_s, :style=>"width:100%; margin:20 auto; padding: 10px;" }
+    %h1{:title=>@suite_name, :style=>"margin-bottom:5px;"}
+      =truncate(@suite.name,:ommision => "...", :length =>70)
+      .form_button
+        %input{ :onClick => "submitCircuits2()", :type => "Button", :value => _("Next")}
+    %h2{:style=>"float:left; width:60%;"}
+      =_("Step 2 of 3 - Relate Script Fields:")
+      =_("Remember that in order to complete this step your Script must contain cases")
+    %input{:name => "circuit_1", :type => "text", :style=>'display:none;', :value=>@circuit_1.id}
+    %input{:name => "circuit_2", :type => "text", :style=>'display:none;', :value=>@circuit_2.id}  
+    %table.relation{ :id=>"relationTable", :cellspacing=>0, :style=> "padding:10px; margin 0 auto;"}
+      %tr{:style=>"height:50px;"}
+        %td{:colspan=>"4", :style=>"text-align:left;"}
+          %div{:title=>@circuit_1.name,:style=>"float:left; width: 270px; text-align:right; "}
+            =truncate(@circuit_1.name, :ommision => "...", :length => 25)
+          %div{:style=>"float:left; margin-left:30px; width: 530px; text-align:center;"}
+            =_('Established Relations')
+          %div{:title=>@circuit_2.name,:style=>"float:left; margin-left:30px; width: 250px;"}
+            =truncate(@circuit_2.name, :ommision => "...", :length => 25)
+      -if @fields_relation_saved.empty?
+        %tr
+          %td{:colspan=>"4"}  
+            #dhtmlgoodies_dragDropContainer
+              #dhtmlgoodies_listOfItems
+              #dhtmlgoodies_mainContainer
+                .form_tag{:style=>"margin-left: 5px; -moz-border-radius:40px 10px 10px 10px; padding-top: 30px;"}
+                  %ul#box1
+                    -for field_1 in @columns_data_1 do
+                      -if !@exclude_show.include?(field_1.to_sym)
+                        %li{:id => field_1, :title=>field_1}
+                          =truncate(field_1, :ommision => "...", :length => 25)
+                %div{:id => "r1", :style=>"width: 20%; padding-top: 30px;border:2px dotted #4F5DD5;  "}
+                  %ul#box2
+                %div{:id => "contenedor_flechas", :style=>"width: 40px; border: none; margin:0px;  padding-top: 30px;"}           
+                %div{:id => "r2", :style=>"width: 20%; padding-top: 30px; border:2px dotted #4F5DD5;"}
+                  %ul#box3
+                .form_tag{:style=>"-moz-border-radius:10px 40px 10px 10px; padding-top: 30px;"}
+                  %ul#box4
+                    -for field_2 in @columns_data_2 do
+                      -if !@exclude_show.include?(field_2.to_sym)
+                        %li{:id => field_2, :title=>field_2}
+                          =truncate(field_2, :ommision => "...", :length => 25)
+          %ul#dragContent
+          #dragDropIndicator  
+      -else
+        %tr
+          %td{:colspan=>"4"}  
+            #dhtmlgoodies_dragDropContainer
+              #dhtmlgoodies_listOfItems
+              #dhtmlgoodies_mainContainer
+                .form_tag{:style=>"margin-left: 5px; -moz-border-radius:40px 10px 10px 10px; padding-top: 30px;"}
+                  %ul#box1
+                    -for field_1 in @columns_data_1 do
+                      -if ( !@exclude_show.include?(field_1.to_sym) and !@fields_relation_saved.has_key?(field_1) )
+                        %li{:id => field_1, :title=>field_1}
+                          =truncate(field_1, :ommision => "...", :length => 25)
+                %div{:id => "r1", :style=>"width: 20%; padding-top: 30px;border:2px dotted #4F5DD5;"}
+                  %ul#box2
+                    -@fields_relation_saved.each do |origen, destino|
+                      %li{:id => origen, :title=>origen}
+                        =truncate(origen, :ommision => "...", :length => 25)
+                %div{:id => "contenedor_flechas", :style=>"width: 40px; border: none; margin:0px;  padding-top: 30px;"}
+                  -@fields_relation_saved.length.times do |i|
+                    %div{:id => 'flecha_' + i.to_s, :style=>"height:28px; width: 40px; margin:0px; border:none;"}
+                      %img{ :src=>"/images/icons/icon_flecha.png", :alt=>"icon_flecha.png", :style=>"width:23px; height:20px;"}
+                %div{:id => "r2", :style=>"width: 20%; padding-top: 30px; border:2px dotted #4F5DD5;"}
+                  %ul#box3
+                    -@fields_relation_saved.each do |origen, destino|
+                      %li{:id => destino, :title=>destino}
+                        =truncate(destino, :ommision => "...", :length => 25)
+                .form_tag{:style=>" -moz-border-radius:10px 40px 10px 10px; padding-top: 30px;"}
+                  %ul#box4
+                    -for field_2 in @columns_data_2 do
+                      -if ( !@exclude_show.include?(field_2.to_sym)  and !@fields_relation_saved.has_value?(field_2) )
+                        %li{:id => field_2, :title=>field_2}
+                          =truncate(field_2, :ommision => "...", :length => 25)
+          %ul#dragContent
+          #dragDropIndicator                  

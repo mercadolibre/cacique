@@ -1,0 +1,128 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+//SUITE EXECUTIONS SHOW
+.info{:id=>"infoSuiteExecutionShow", :style=>"display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoSuiteExecutionShow"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Suite Execution')
+    %h3
+      %img{:src => "/images/icons/queue.png", :alt=>"queue"}
+      =_('Queued Task')
+    %p
+      =_('Shows the number of waiting Executions in the system')
+
+    %h3
+      %img{:src => "/images/icons/edit.png", :alt=>"edit.png"}
+      =_('Edit Suite')
+    %p
+      =_('When editing suite you can:')
+      %br
+      =_('* Remove and/or add scripts.')
+      %br
+      =_('* Change the execution order of scripts.')
+      %br
+      =_('* Add and/or remove Cases.')
+
+    %h3
+      %img{:src => "/images/icons/relations.png", :alt=>"relations.png"}
+      =_('Relation')
+
+    %p
+      =_('In this section can be related suites scripts,')
+      =_('relations are always set in pairs (a script is related to another that is going to send data)')
+      %br
+      =_('In the relations can assign as many cases as desired')
+      =_('therefore, is recommended that all necessary cases are added to the Suite before entering in this view.')
+      %br
+      =_('To establish a relation should be:')
+      %br
+      =_('1 - Select a couple of scripts to be related.')
+      %br
+      =_('2 - Determine which variables will be shared.')
+      %br
+      =_('3 - Select the involved cases for each script.')
+
+    %h3
+      %img{:src => "/images/icons/show.png", :alt=>"show.png"}
+      =_('Detail')
+    %p
+      =_('In detail you can see a diagram with the scripts in the suite and its relations.')
+      %br
+      =_('The view lets you select a script and analyze its relationship with others. View of those who receives and sends data.')
+      %br
+
+    %h3
+      %img{:src => "/images/icons/ok_1.png", :alt=>"show.png"}
+      =('-')
+      %img{:src => "/images/icons/waiting_1.png", :alt=>"show.png"}
+      =('-')
+      %img{:src => "/images/icons/fail_1.png", :alt=>"show.png"}
+      =_('Result.')
+    %p
+      =_('These icons show the Execution Result.')
+      %br
+      =_('Clicking on them can get more information such as: Position Error or Recovery Data.')
+
+    %h3
+      %img{:src => "/images/icons/output.png", :alt=>"show.png"}
+      =_('Output')
+    %p
+      =_('Show, line by line, the Execution Progress.')
+      %br
+
+//SCRIPT EXECUTIONS SHOW
+.info{:id=>"infoScriptExecutionShow", :style=>"display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoScriptExecutionShow"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Script Execution')
+    %h3
+      %img{:src => "/images/icons/queue.png", :alt=>"queue"}
+      =_('Queued Task')
+    %p
+      =_('Shows the number of waiting Executions in the system')
+
+    %h3
+      %img{:src => "/images/icons/ok_1.png", :alt=>"show.png"}
+      =('-')
+      %img{:src => "/images/icons/waiting_1.png", :alt=>"show.png"}
+      =('-')
+      %img{:src => "/images/icons/fail_1.png", :alt=>"show.png"}
+      =_('Result.')
+    %p
+      =_('These icons show the Execution Result.')
+      %br
+      =_('Clicking on them can get more information such as: Position Error or Recovery Data.')
+
+    %h3
+      %img{:src => "/images/icons/output.png", :alt=>"show.png"}
+      =_('Output')
+    %p
+      =_('Show, line by line, the Execution Progress.')
+      %br

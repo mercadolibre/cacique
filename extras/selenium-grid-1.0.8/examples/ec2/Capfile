@@ -1,0 +1,299 @@
+#
+# Capistrano Recipes to manage EC2 Selenium Grid Clusters
+#
+
+require File.dirname(__FILE__) + '/../../lib/ruby/tcp_socket_extensions'
+
+###### User Level Configuration ######
+
+set :keypair, ENV["EC2_KEYPAIR"]
+set :keypair_name, ENV["EC2_KEYPAIR_NAME"] || "grid-keypair"
+set :remote_control_port_range, "5555-5560"
+set :remote_control_farms_count, 5
+set :launch_timeout, 240
+
+##### Internal Configuration ######
+
+require File.dirname(__FILE__) + '/lib/selenium_grid/aws/ec2'
+require 'erb'
+
+set :selenium_grid_path, "/usr/local/lib/selenium-grid"
+set :ami, ENV["AMI"] || "ami-780fea11"
+set :cloud, SeleniumGrid::AWS::Cloud.load
+set :ec2_client, Class.new.extend(::SeleniumGrid::AWS::Ec2Client)
+
+###### Global Recipes targeting the Entire Grid ######
+
+namespace :grid do
+
+  desc "Boot EC2 Instances for a Selenium Grid of 1 Hub and #{remote_control_farms_count} Remote Control Farms."
+  task :boot do
+    hub.boot
+    remote_control_farms_count.times do
+      rc.boot
+    end
+    
+    if cloud.farms.length == 0
+      puts <<-EOS
+        +++++++++++++++++++++++++++++++++++++++++++++++
+        Error: No remote controls started!
+      
+        Check above output for errors. You probably hit your EC2 instance limit.
+        +++++++++++++++++++++++++++++++++++++++++++++++      
+      EOS
+      exit 1
+    elsif cloud.farms.length != remote_control_farms_count
+      puts <<-EOS
+        +++++++++++++++++++++++++++++++++++++++++++++++
+        Warning: started #{cloud.farms.length} remote controls, requested #{remote_control_farms_count}.
+      
+        Check above output for errors. You probably hit your EC2 instance limit during rc:boot.
+        +++++++++++++++++++++++++++++++++++++++++++++++
+      EOS
+    end
+    ec2_client.authorize_port 22
+    ec2_client.authorize_port 4444
+    ec2_client.authorize_port 5900
+    ec2_client.authorize_port 6000
+    boundaries = remote_control_port_range.split(/\s*-\s*/)
+    Range.new(boundaries.first, boundaries.last).each do |port|
+      ec2_client.authorize_port port
+    end
+  end
+
+  desc "Shutdown EC2 Instance used to run Selenium Hub."
+  task :shutdown do
+    rc.shutdown
+    hub.shutdown
+  end
+
+  desc "Start Selenium Grid Hub."
+  task :start do
+    hub.start
+    rc.vnc.start
+    TCPSocket.wait_for_service :host => cloud.hub.public_dns, :port => 4444, :timeout => launch_timeout
+    rc.start
+  end
+
+  desc "Stop Selenium Grid Hub."
+  task :stop do
+    rc.stop
+    hub.stop
+  end
+
+  desc "Display information about current Selenium Grid"
+  task :info do
+    template = ERB.new <<-EOS
+    
+EC2 Selenium Grid:
+==================
+
+  Hub: 
+  ----
+<% if cloud.hub %>  
+       - Public DNS:  <%= cloud.hub.public_dns %>
+       - Private DNS: <%= cloud.hub.private_dns %>
+       - Console:     <%= cloud.hub.console_url %>
+<% end %>     
+  Remote Control Farms:
+  ---------------------
+<% cloud.farms.each_with_index do |farm, index| %>
+       * Farm #<%= index %>
+           - Public DNS:  <%= farm.public_dns %>
+           - Private DNS: <%= farm.private_dns %>
+           - Port Range: <%= remote_control_port_range %>       
+<% end %>
+    EOS
+    
+    puts template.result(binding)
+  end
+
+  task :refresh_status do
+    SeleniumGrid::AWS::Cloud.update do |cloud|
+      cloud.hub.refresh_status
+    end
+  end
+    
+end
+
+###### Hub Recipes ######
+
+namespace :hub do
+
+  desc "Boot a new EC2 Instance to Run Selenium Grid Hub."
+  task :boot do
+    SeleniumGrid::AWS::Cloud.update do |cloud|
+      puts "Starting a new EC2 Instance..."
+      cloud.hub = SeleniumGrid::AWS::Hub.boot_and_acquire_dns ami, :keypair => keypair_name
+      puts "Started new Hub at #{cloud.hub.public_dns}"
+    end
+    set :cloud, SeleniumGrid::AWS::Cloud.load
+  end
+
+  desc "Shutdown EC2 Instance used to run Selenium Hub."
+  task :shutdown do
+    SeleniumGrid::AWS::Cloud.update do |cloud|
+      puts "Shutting down EC2 Instance #{cloud.hub.public_dns}..."
+      cloud.hub.shutdown
+      cloud.hub = nil
+    end
+    set :cloud, SeleniumGrid::AWS::Cloud.load
+  end
+
+  desc "(Re)start Selenium Grid Hub."
+  task :restart do
+    stop rescue nil
+    start
+  end
+
+  desc "Start Selenium Grid Hub."
+  task :start do
+    cloud.hub.run "nohup rake hub:start BACKGROUND=true", 
+                 :pwd => selenium_grid_path,
+                 :su => "grid",
+                 :keypair => keypair
+  end
+
+  desc("Stop Selenium Grid Hub.")
+  task :stop do
+    cloud.hub.run 'rake hub:stop', 
+                 :pwd => selenium_grid_path,
+                 :su => "grid",
+                 :keypair => keypair    
+  end
+
+  desc "Open Selenium Grid Hub Console in a browser."
+  task :console do
+    launcher = PLATFORM["darwin"] ? "open" : "firefox "
+    system "open #{cloud.hub.console_url}"
+  end
+
+  desc "View Selenium Grid Hub logs."
+  task :logs do
+    cloud.hub.run 'tail -200f #{selenium_grid_path}/log/hub.log', :keypair => keypair
+  end
+  
+end
+
+###### Remote Control Recipes ######
+
+namespace :rc do
+
+  desc "Boot a new EC2 Instance to run a collection of Selenium Grid Remote Controls."
+  task :boot do
+    SeleniumGrid::AWS::Cloud.update do |cloud|
+      puts "Starting a new EC2 Instance..."
+      begin
+        new_farm = SeleniumGrid::AWS::Server.boot_and_acquire_dns ami, :keypair => keypair_name
+        cloud.farms << new_farm
+        puts "Started new Remote Control farm at #{new_farm.public_dns}"
+      rescue
+        puts "Failed to boot new Remote Control farm."
+      end
+    end
+    set :cloud, SeleniumGrid::AWS::Cloud.load
+  end
+
+  desc "Shutdown all EC2 Instances used to run Selenium Grid Remote Controls."
+  task :shutdown do
+    SeleniumGrid::AWS::Cloud.update do |cloud|
+      cloud.farms.each do |farm|
+        puts "Shutting down EC2 Instance #{farm.public_dns}..."
+        farm.shutdown
+      end
+      cloud.farms = []
+    end
+    set :cloud, SeleniumGrid::AWS::Cloud.load
+  end
+
+  namespace :vnc do
+    
+    desc "Start VNC server on all Remote Control Farms"
+    task :start do
+      cloud.farms.each do |farm|
+        farm.run "nohup vncserver :0", :keypair => keypair, :su => "grid"
+      end
+      ec2_client.authorize_port 5900
+      ec2_client.authorize_port 6000
+    end
+    
+  end
+    
+  desc "(Re)start Remote Controls for all farms."
+  task :restart do
+    stop
+    start
+  end
+
+  desc "(Re)start Remote Controls for all farms."
+  task :restart do
+    stop rescue nil
+    start
+  end
+    
+  desc "Start Remote Controls for all farms."
+  task :start do
+    cloud.farms.each do |farm|
+      farm.run "nohup rake rc:start_all HUB_URL=#{cloud.hub.private_url} HOST=#{farm.private_dns} PORTS=#{remote_control_port_range} BACKGROUND=true", 
+               :display => ":0",
+               :path => "/usr/lib/firefox", 
+               :pwd => selenium_grid_path,
+               :su => "grid",               
+               :keypair => keypair
+    end
+  end
+
+  desc "Stop Remote Controls for all farms."
+  task :stop do
+    cloud.farms.each do |farm|
+      farm.run "rake rc:stop_all PORTS=#{remote_control_port_range}", 
+               :pwd => selenium_grid_path,
+               :su => "grid",
+               :keypair => keypair
+    end
+  end
+  
+  desc "Visualize what is happening in Remote Control Farms with VNC"
+  task :view, :roles => :rc do
+    cloud.farms.each do |farm|
+      if File.exists?('/Applications/Chicken of the VNC.app/Contents/MacOS/Chicken of the VNC')
+        system "'/Applications/Chicken of the VNC.app/Contents/MacOS/Chicken of the VNC' --Display 0 --PasswordFile vnc_password #{farm.public_dns} &"
+      else
+        system "vncviewer -passwd vnc_password #{farm.public_dns}:0 &"
+      end
+    end
+  end
+end
+
+###### Settings Recipes ######
+
+namespace :ec2 do
+    
+  desc "Check EC2 related configuration."
+  task :check_settings do
+    puts "Validating environment variables..."
+    %w(EC2_HOME EC2_PRIVATE_KEY EC2_CERT EC2_KEYPAIR).each do |variable|
+      raise <<-EOS unless ENV[variable]
+      
+        +++++++++++++++++++++++++++++++++++++++++++++++
+        You must set #{variable}. 
+        
+        Read http://docs.amazonwebservices.com/AWSEC2/2007-08-29/GettingStartedGuide/?ref=get-started 
+        for more details.
+          
+        ++++++++++++++++++++++++++++++++++++++++++++++++
+      EOS
+    end
+    %w(EC2_PRIVATE_KEY EC2_CERT EC2_KEYPAIR).each do |variable|
+      unless File.exists?(ENV[variable])
+        raise "#{variable} environment variable does not point to a valid path: '#{ENV[variable]}'" 
+      end
+      unless File.file?(ENV[variable])
+        raise "#{variable} environment variable does not point to a valid file: '#{ENV[variable]}'" 
+      end
+    end
+    puts "EC2 Version: #{ec2_client.version}"
+    puts "Validated EC2 settings."
+  end
+  
+end
