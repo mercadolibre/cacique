@@ -1,0 +1,44 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+.tag{:id=>"div_category_edit", :style=>" left: 600px; top: 120px; width:250px; height:240px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"div_category_edit"} 
+  %h3
+    =_('Rename Folder')
+  -remote_form_for :category, :url => "/categories/update/#{@category.id}", :complete => visual_effect(:appear, 'sideBarContentsInner'), :update => "sideBarContentsInner" do
+    %label
+      =_('Name')
+      %br
+      =text_field_tag 'name', @category.name, :id =>"rename_module_name", :style=>"width:220px;margin-left:10px;margin-top:10px;"
+    %br
+    %label
+      =_('Description')
+      %br
+      =text_area_tag 'description', @category.description, :id => "rename_module_descrip", :style=>"width:220px;margin-left:10px;margin-top:10px;"
+    %br
+    .form_button{:style=>"margin-right:10px;"}
+      =submit_tag _('Modify'), :onclick => "return checkrequiredformodule();"
+    

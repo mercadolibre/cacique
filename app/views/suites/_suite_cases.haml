@@ -1,0 +1,45 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+//Script Cases DIV
+%img{:src => "/images/icons/cross_grey.png", :alt=>"cross_grey.png", :onClick => "document.getElementById('div_circuit_cases').style.display='none';", :style=>"cursor:pointer;float:right;"}
+-if case_templates.empty?
+  %h3{:style=>"margin-top:10%;"}
+    %i{:title=>circuit.name.capitalize}
+      =truncate(circuit.name.capitalize,:ommision => "...", :length =>30)
+      =_("Without Cases")
+    %br
+    %br
+    \-->
+    =link_to _("Create Cases"), "/circuits/#{circuit.id}/case_templates", :popup=>true, :style=>"margin-left:10px;"
+    \<--
+-else
+  %h3{:title=>circuit.name.capitalize, :style=>" font: bold 14px sans-serif;color:#31576F; margin-bottom:10px;font-size: 13px;"}
+    =truncate(circuit.name.capitalize,:ommision => "...", :length =>30)
+  %div{ :style=>"background:#EEEEED;border:1px solid #C6C5C4;padding:20px;-moz-border-radius:15px;"}
+    =link_to _("Managing Cases"), "/circuits/#{circuit.id}/case_templates", :popup=>true, :style=>"color:grey;margin-left:10px;"
+    %div{:style=>"height:270px; overflow-x: auto;margin-top:5px;"}
+      =render :partial => '/case_templates/data_set', :locals=>{ :circuit => circuit, :columns_data=>columns_data, :case_templates=>case_templates, :columns_template => columns_template, :exclude_show => exclude_show, :exclude_show_data => exclude_show_data}
+  %input{:value=>"ok",:type=>"button", :onclick=>remote_function(:url => {:controller => "suites", :action => "update_circuit", :id => suite.id}, :complete => visual_effect(:toggle_blind, 'div_circuit_cases') , :update => "suite_circuits"), :style=>"float:right;margin-top:10px;cursor:pointer;"}

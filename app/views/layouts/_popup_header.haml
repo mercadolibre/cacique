@@ -1,0 +1,5 @@
+%img{:src => "/images/icons/cross_grey.png", :alt=>"cross_grey", :onClick => "document.getElementById('#{element}').style.display='none';", :style=>"cursor:pointer;float:right;"}
+  %div{:id=>"handle_#{element}", :style=>"width:90%; height:20px;cursor:move;"}
+  
+=render :partial =>"layouts/drag_element", :locals=>{:element =>"#{element}", :handler=>"'handle_#{element}'"}
+      

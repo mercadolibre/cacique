@@ -1,0 +1,111 @@
+set logfile syslog facility log_daemon
+
+set daemon 120
+set mailserver surgemail.mercadolibre.com
+set mail-format {
+    from: monit@monitorserver.com
+    subject: $SERVICE $EVEN on 10.10.60.122
+   }
+
+set alert robot@mercadolibre.com
+set httpd port 7070 and
+  use address 10.10.60.122
+  allow admin:vivaldi
+
+check process worker_0 with pidfile /home/bender/bender/bender_unstable/log/workling-00.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 0"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 0"
+  mode active
+
+
+check process worker_1 with pidfile /home/bender/bender/bender_unstable/log/workling-10.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 1"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 1"
+  mode active
+
+
+check process worker_2 with pidfile /home/bender/bender/bender_unstable/log/workling-20.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 2"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 2"
+  mode active
+
+
+check process worker_3 with pidfile /home/bender/bender/bender_unstable/log/workling-30.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 3"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 3"
+  mode active
+
+
+check process worker_4 with pidfile /home/bender/bender/bender_unstable/log/workling-40.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 4"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 4"
+  mode active
+
+
+check process worker_5 with pidfile /home/bender/bender/bender_unstable/log/workling-50.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 5"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 5"
+  mode active
+
+
+check process worker_6 with pidfile /home/bender/bender/bender_unstable/log/workling-60.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 6"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 6"
+  mode active
+
+
+check process worker_7 with pidfile /home/bender/bender/bender_unstable/log/workling-70.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 7"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 7"
+  mode active
+
+
+check process worker_8 with pidfile /home/bender/bender/bender_unstable/log/workling-80.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 8"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 8"
+  mode active
+
+
+check process worker_9 with pidfile /home/bender/bender/bender_unstable/log/workling-90.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 9"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 9"
+  mode active
+
+
+check process worker_10 with pidfile /home/bender/bender/bender_unstable/log/workling-100.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 10"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 10"
+  mode active
+
+
+check process worker_11 with pidfile /home/bender/bender/bender_unstable/log/workling-110.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 11"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 11"
+  mode active
+
+
+check process worker_12 with pidfile /home/bender/bender/bender_unstable/log/workling-120.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 12"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 12"
+  mode active
+
+
+check process worker_13 with pidfile /home/bender/bender/bender_unstable/log/workling-130.pid
+  start program = "/home/bender/bender/bender_unstable/script/workling_client start --number 13"
+  stop program  = "/home/bender/bender/bender_unstable/script/workling_client stop --number 13"
+  mode active
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

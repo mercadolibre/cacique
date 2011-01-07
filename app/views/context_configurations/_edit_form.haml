@@ -1,0 +1,85 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+-form_for @context_configuration, :url => { :controller => "context_configurations", :action => "update", :id => @context_configuration.id }, :html => {:id => 'save_context_configuration'} do |f|
+  = error_messages_for :context_configuration
+  =text_field 'old_values','', {:style => "display:none;"} 
+  .form_tag{:style=>"width:350px;float:left;margin-right:20px;"}
+    %label{:for => "view_type"}
+      =_("View Type")
+      \:
+      =f.select :view_type, @view_types, {:include_blank => "-Select-"}, {:onChange => "changeValuesView(this.selectedIndex);"}
+    %div{ :style=>"clear: both"}
+    %br
+    %label{:for => "name", :style=>"float:left;"}
+      =_("Name")
+      %br
+      =f.text_field :name, {:size => 28, :style=>"float:left;"}
+    %div{ :style=>"clear: both"}
+    %br
+    %label{:for => "values"}
+      =_("Values")
+      %br
+      #change_values
+        %table{:id => "table_old_values"}
+          -n=0
+          -@all_values.each do |value|
+            -n += 1
+            %tr{ :id => "row_"+ n.to_s}
+              %td{:title=>value, :style=>"color:#4F5DD5;"}
+                %img{:name => "row_" + n.to_s, :src => "/images/icons/cross.png", :alt => "cross.png", :style => "cursor:pointer; height:12px;width:12px;", :onClick => "eliminarValue(this.name);"}
+                =truncate(value , :ommision => "..",:length => 20) 
+        -if ["checkbox","radiobutton","select"].include?(@context_configuration.view_type)    
+          -one_value_show = 'none'
+          -multi_value_show = 'block'
+        -else
+          -one_value_show = 'block'
+          -multi_value_show = 'none'
+        %div{ :style=>"clear: both"}
+        %br
+        #one_value{:style => "display:#{one_value_show};"}
+          =f.text_field :values, {:size => 30}
+        %table{:id => "multiple_values", :style => "display:#{multi_value_show};"}
+          %tr
+            %td
+              =text_field 'values','value1'
+            %td
+              %input{:id => "add_option", :type => "button", :value => _("Add"), :onClick => "addOption();"} 
+    -view_field_default = (['select', 'checkbox', 'radiobutton'].include?@context_configuration.view_type)? '' :"none"
+    #default_value.form_tag{ :style => "display:#{view_field_default};width:330px;margin-top:10px;"}
+      %b
+        = f.check_box  :field_default, {:checked=>@context_configuration.field_default}
+        =_('Field default')
+      =_('Selecting this option will be added as a column in the data set this configuration.')
+      =_('It is used to that at the time of execution, you can choose to take the value of the panel of implementation or change to be taken from your own case.')
+        
+        
+  =render :partial=> "config_info"
+       
+  %div{ :style=>"clear: both"}              
+  %br
+  %input{:id => 'button_to_submit', :value => _("Save"), :style => "margin-right:10px;cursor:pointer;", :onClick => "addOldValuesAndSubmit();", :type => 'button'}
+  %input{:type=>"button", :value=>_("Cancel"), :onclick => "if(confirm('#{_('Exit Without Save?')}')){location='/context_configurations'};", :style=>"cursor:pointer;"}

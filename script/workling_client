@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'daemons'
+
+number = 0
+for i in 0..ARGV.length
+  if ARGV[i] == '--number'
+    number = ARGV[i + 1]
+    2.times {ARGV.delete_at(i)}
+  end
+end
+
+
+workling = File.join(File.dirname(__FILE__), '..', 'vendor', 'plugins', 'workling', 'script', 'listen.rb')
+options = {
+  :app_name   => "workling-#{number}",
+  :ARGV       => ARGV,
+  :dir_mode   => :normal,
+  :dir        => File.join(File.dirname(__FILE__), '..', 'log'),
+  :log_output => true,
+  :multiple   => true,
+  :backtrace  => true,
+  :monitor    => false
+}
+
+
+
+if ARGV.include?("--foreground-debug") then
+system("rdebug " + workling)
+else
+Daemons.run(workling, options)
+end

@@ -1,0 +1,185 @@
+<project name="Selenium Grid Distribution" basedir=".">
+
+  <description>Selenium Grid Distribution</description>
+  <property file="${basedir}/project.properties"/>
+  <property name="version" value="SNAPSHOT"/>
+
+  <property name="webSite" value="http://images.google.com" />
+  <property name="seleniumHost" value="localhost" />
+  <property name="seleniumPort" value="4444" />
+  <property name="browser" value="*firefox" />
+  <property name="hubPollerIntervalInSeconds" value="30" />
+
+  <taskdef resource="testngtasks" classpath="${basedir}/vendor/testng-5.7-jdk15.jar"/>
+  
+  <path id="remote-control.classpath">
+    <fileset dir="${basedir}/vendor">
+      <include name="selenium-server-*.jar"/>
+    </fileset>
+    <!-- Selenium Server must be first in classpath -->
+    <fileset dir="${basedir}/lib">
+      <include name="selenium-grid-remote-control-standalone-${version}*.jar"/>
+    </fileset>
+    <pathelement path="${java.class.path}/"/>
+  </path>
+
+  <path id="hub.classpath">
+    <pathelement path="${basedir}/"/>
+    <fileset dir="${basedir}/lib">
+      <include name="selenium-grid-hub-standalone-${version}*.jar"/>
+    </fileset>
+    <pathelement path="${java.class.path}/"/>
+  </path>
+
+  <path id="demo.classpath">
+    <fileset dir="${basedir}/lib">
+      <include name="selenium-grid-demo-standalone-${version}*.jar"/>
+    </fileset>
+    <fileset dir="${basedir}/vendor">
+      <include name="testng-*.jar"/>
+      <include name="commons-logging-*.jar"/>
+    </fileset>
+    <pathelement path="${java.class.path}/"/>
+  </path>
+
+  <target name="sanity-check" description="Check that the tools are been installed and configured properly">
+    <property environment="env"/>
+    <echo>${ant.version}</echo>
+    <condition property="ant-7">
+      <antversion atleast="1.7.0"/>
+    </condition>
+    <fail message="You need Ant 1.7 or newer" unless="ant-7"/>
+
+    <echo>Java ${ant.java.version}</echo>
+    <condition property="java-5">
+      <not><matches pattern="^1\.[0-4]" string="${ant.java.version}"/></not>
+    </condition>
+    <fail message="Your must use Java 1.5 or newer. You are currrenltly using '${ant.java.version}'." unless="java-5"/>
+
+    <echo/>
+    <echo>********************************************************************</echo>
+    <echo>Congratulations, your setup looks good. Have fun with Selenium Grid!</echo>
+    <echo>********************************************************************</echo>
+    <echo/>
+    <echo>You can launch a hub by running 'ant launch-hub'</echo>
+    <echo>You can launch a a remote control with 'ant -Dport=4444 launch-remote-control'</echo>
+  </target>
+
+  <target name="launch-hub" description="Launch Selenium Hub">
+    <java classname="com.thoughtworks.selenium.grid.hub.HubServer"
+          classpathref="hub.classpath"
+          fork="true"
+          failonerror="true" >
+
+      <sysproperty key="http.proxyHost" value="${http.proxyHost}"/>
+      <sysproperty key="http.proxyPort" value="${http.proxyPort}"/>
+      <sysproperty key="https.proxyHost" value="${https.proxyHost}"/>
+      <sysproperty key="https.proxyPort" value="${https.proxyPort}"/>
+    </java>
+  </target>
+
+  <property name="host" value="localhost"/>
+  <property name="port" value="5555"/>
+  <property name="hubURL" value="http://localhost:4444"/>
+  <property name="environment" value="*firefox"/>
+  <property name="seleniumArgs" value=""/>  
+  <target name="launch-remote-control" description="Launch A Remote Control">
+    <java classpathref="remote-control.classpath"
+          classname="com.thoughtworks.selenium.grid.remotecontrol.SelfRegisteringRemoteControlLauncher"
+          fork="true"
+          failonerror="true">
+
+      <sysproperty key="http.proxyHost" value="${http.proxyHost}"/>
+      <sysproperty key="http.proxyPort" value="${http.proxyPort}"/>
+      <sysproperty key="https.proxyHost" value="${https.proxyHost}"/>
+      <sysproperty key="https.proxyPort" value="${https.proxyPort}"/>
+
+      <arg value="-port"/>
+      <arg value="${port}"/>
+      <arg value="-host"/>
+      <arg value="${host}"/>
+      <arg value="-hubURL"/>
+      <arg value="${hubURL}"/>
+      <arg value="-env"/>
+      <arg value="${environment}"/>
+      <arg value="-hubPollerIntervalInSeconds"/>
+      <arg value="${hubPollerIntervalInSeconds}"/>
+      <arg line="${seleniumArgs}"/>
+    </java>
+  </target>
+  
+  <target name="run-demo-in-sequence" description="Run Selenium tests one by one">
+    <java classpathref="demo.classpath"
+        classname="org.testng.TestNG"
+        failonerror="true"
+
+        >
+      <sysproperty key="java.security.policy" file="${basedir}/lib/testng.policy"/>
+      <sysproperty key="webSite" value="${webSite}" />
+      <sysproperty key="seleniumHost" value="${seleniumHost}" />
+      <sysproperty key="seleniumPort" value="${seleniumPort}" />
+      <sysproperty key="browser" value="${browser}" />
+
+      <arg value="-suitename" />
+      <arg value="Selenium Grid Demo In Sequence" />
+      <arg value="-d" />
+      <arg value="${basedir}/target/reports" />
+      <arg value="-testclass"/>
+      <arg value="com.thoughtworks.selenium.grid.demo.WebTestForASingleBrowser"/>
+    </java>
+  </target>
+
+  <target name="run-demo-in-parallel" description="Run Selenium tests in parallel">
+    <java classpathref="demo.classpath"
+        classname="org.testng.TestNG"
+        failonerror="true"
+
+        >
+      <sysproperty key="java.security.policy" file="${basedir}/lib/testng.policy"/>
+      <sysproperty key="webSite" value="${webSite}" />
+      <sysproperty key="seleniumHost" value="${seleniumHost}" />
+      <sysproperty key="seleniumPort" value="${seleniumPort}" />
+      <sysproperty key="browser" value="${browser}" />
+
+      <arg value="-d" />
+      <arg value="${basedir}/target/reports" />
+      <arg value="-suitename" />
+      <arg value="Selenium Grid Demo In Parallel" />
+      <arg value="-parallel"/>
+      <arg value="methods"/>
+      <arg value="-threadcount"/>
+      <arg value="10"/>
+      <arg value="-testclass"/>
+      <arg value="com.thoughtworks.selenium.grid.demo.WebTestForASingleBrowser"/>
+    </java>
+  </target>
+
+  <target name="run-demo-for-multiple-environments"
+          description="Run Selenium tests in parallel for multiple environments">
+    <java classpathref="demo.classpath"
+        classname="org.testng.TestNG"
+        failonerror="true"
+
+        >
+      <sysproperty key="java.security.policy" file="${basedir}/lib/testng.policy"/>
+      <sysproperty key="webSite" value="${webSite}" />
+      <sysproperty key="seleniumHost" value="${seleniumHost}" />
+      <sysproperty key="seleniumPort" value="${seleniumPort}" />
+      <sysproperty key="firstEnvironment" value="Firefox on Windows" />
+      <sysproperty key="secondEnvironment" value="Firefox on Windows" />
+      <sysproperty key="thirdEnvironment" value="Firefox on OS X" />
+
+      <arg value="-d" />
+      <arg value="${basedir}/target/reports" />
+      <arg value="-suitename" />
+      <arg value="Selenium Grid Demo In Parallel For Multiple Environments" />
+      <arg value="-parallel"/>
+      <arg value="methods"/>
+      <arg value="-threadcount"/>
+      <arg value="10"/>
+      <arg value="-testclass"/>
+      <arg value="com.thoughtworks.selenium.grid.demo.WebTestInvolvingMultiEnvironments"/>
+    </java>
+  </target>
+
+</project>

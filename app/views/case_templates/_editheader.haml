@@ -1,0 +1,62 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%fieldset{:style=>" background-color:#F8F8F8; border: 1px solid #666699; padding: 10px;"}  
+  %legend
+    Encabezado
+  =text_field_tag "case_template[case_template_id]", "case_template_id", :value => @case_template.id, :style=>"width:200px; display:none;"
+  -for column in @columns_template
+    -if !@exclude_edit.include?(column.to_sym)
+      -case column
+        - when 'objetive'
+          .row
+            %span.label
+              =column.capitalize
+            %span.formw
+              =text_field_tag "case_template[template][#{column}]", column.to_sym, :value => @case_template.send(column), :style=>"width:200px;"        
+        - when 'priority'
+          .row
+            %span.label
+              =column.capitalize 
+            %span.formw
+              %select{ :name => "case_template[template][#{column}]", :value => column }
+                %option{ :value => "Baja"}Baja
+                %option{ :value => "Media"}Media
+                %option{ :value => "Alta",  :selected => ""}Alta   
+        - when 'true_or_false'
+          .row
+            %span.label
+              =column.capitalize 
+            %span.formw
+              %select{ :name => "case_template[template][#{column}]", :value => column }
+                %option{ :value => "true" , :selected => ""}True
+                %option{:value => "false" }False 
+        - else
+          .row
+            %span.label
+              =column.capitalize 
+            %span.formw    
+              %input{ :name => "case_template[template][#{column}]", :type => "text",:value => @case_template.send(column), :style=>"width:200px;"} 

@@ -1,0 +1,69 @@
+h1. JW Flash Player ActionView Helper
+
+h2. What Is It?
+
+*jw-playr-hlpr* is Rails plugin that presents an ActionView wrapper for rendering "JW Player 4.3":http://www.longtailvideo.com/players/jw-flv-player/ using SWOObject
+
+"JW Player":http://www.longtailvideo.com/players/jw-flv-player/ is a popular open source Media (FLV, MP4, MP3, AAC, JPG, PNG and GIF) player.
+
+h2. Getting Started
+
+# Download and extract  into vendor/plugins/jw-playr-hlpr
+# rake jw_player:install to copy over player.swf and swfobject.js to public/swf and pubilc/javascript
+# javascript_include_tag 'swfobject' in your application or page layout
+# inside your view <%= player (:file => '/library/video.flv', :image => '/library/splash.flv)' %> where :file is the FLV video to play and optionally :image which will render a splash image. *Note that both :file and :image are relative to your website's public folder. So if public = /home/my/site/public then :file => '/library/video.flv' will actually be in /home/my/site/public/library/video.flv*. The same applies to :image.
+
+h2. More Info
+
+The jw-playr-hlpr plugin adds the *player(player_options, flash_options)* function to all your views.
+
+*player_options* is a hash that can contain the player's "flashvars":http://developer.longtailvideo.com/trac/wiki/FlashVars variable. The minimum required is {:file  => '/path/from/public_html/video.flv').
+
+*flash_options* is an optional hash to contain additional or override "Adobe flash parameters":http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701&sliceId=2.
+
+The plugin defines the following default *flash_options:*
+<pre>
+ :player_id         => 'jw_player',
+ :id                => 'flash_player',
+ :allowfullscreen   => 'true',
+ :allowscriptaccess => 'true',
+ :play              => 'true',
+ :menu              => 'false',
+ :quality           => 'autohigh',
+ :scale             => 'default',
+ :width             => 400,
+ :height            => 300,
+</pre>
+To override the JW Player dimensions:
+
+@<%= player({:file => '/path/video.flv'},{:width => 640, :height => 480}) %>@
+
+h2. Skins
+
+I've added a selection of skins alongside this plugin:
+
+* "bluemetal":http://www.longtailvideo.com/addons/download-skin.php?addon=60
+* "snel":http://www.longtailvideo.com/addons/skins/24/Snel
+* "dangdang":http://www.longtailvideo.com/addons/skins/18/DangDang
+* "stijl":http://www.longtailvideo.com/addons/skins/25/Stijl
+
+Skins are copied to Rails.root/public/swf/skins and can be set either in the helper:
+
+<pre>
+  <%= player(:file => '/my/file/flv', :skin => 'bluemetal') %>
+</pre>
+
+Alternatively, a default skin can be specified globally by adding the following to your environment.rb:
+
+<pre>
+  PSP::JwPlayerHelper::DEFAULT_SKIN = 'bluemetal'
+</pre>
+
+The plugin assumes that all skin swf files will be stored in *Rails.root/public/swf/skins*. Any new skins can be placed in this folder.
+
+
+h2. Credits
+
+This plugin is based on on "Farooq Ali's Flash Playr Hlpr":http://www.jroller.com/abstractScope/entry/flash_mp3_imageslideshow_media_player excellent plugin
+
+Farooq's Player includes JW Player 3.x and ufo.js. JW Player has since been updated to 4.x to support tasty new features likes skins, plugins and modules.
