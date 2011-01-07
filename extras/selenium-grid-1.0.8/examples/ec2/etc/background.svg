@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1480"
+   height="1024"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45+devel"
+   version="1.0"
+   sodipodi:docname="background.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/Users/ph7/Projects/Selenium Grid/trunk/examples/ec2/etc/background.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient2998">
+      <stop
+         style="stop-color:#000000;stop-opacity:0.66071427;"
+         offset="0"
+         id="stop3000" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.19642857;"
+         offset="1"
+         id="stop3002" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2998"
+       id="linearGradient3004"
+       x1="648.57147"
+       y1="61.142857"
+       x2="648.57147"
+       y2="995.42859"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="1041.8411"
+     inkscape:cy="399.79368"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1057"
+     inkscape:window-height="650"
+     inkscape:window-x="77"
+     inkscape:window-y="24" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       id="rect2419"
+       width="1487.509"
+       height="1024.7954"
+       x="0.63174653"
+       y="-1.0825403"
+       style="fill:url(#linearGradient3004);fill-opacity:1;stroke:none" />
+    <text
+       sodipodi:linespacing="100%"
+       id="text2355"
+       y="398.43076"
+       x="259.96875"
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#ffd5d5;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Lucida Grande"
+       xml:space="preserve"><tspan
+         y="398.43076"
+         x="259.96875"
+         id="tspan2357"
+         sodipodi:role="line">Selenium Grid</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#aa0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Lucida Grande"
+       x="257.96875"
+       y="395.43076"
+       id="text2409"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2411"
+         x="257.96875"
+         y="395.43076">Selenium Grid</tspan></text>
+    <text
+       sodipodi:linespacing="130%"
+       id="text2345"
+       y="755.77026"
+       x="749.03375"
+       style="font-size:100px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:129.99999523%;writing-mode:lr-tb;text-anchor:middle;fill:#cccccf;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="755.77026"
+         x="764.95172"
+         id="tspan2347"
+         sodipodi:role="line">Web Testing That </tspan><tspan
+         y="885.77026"
+         x="749.03375"
+         id="tspan2349"
+         sodipodi:role="line">Doesn't Take Hours!</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:100px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:130%;writing-mode:lr;text-anchor:middle;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="745.03375"
+       y="751.77026"
+       id="text2413"
+       sodipodi:linespacing="130%"><tspan
+         sodipodi:role="line"
+         id="tspan2922"
+         x="757.76813"
+         y="751.77026">Web Testing That </tspan><tspan
+         sodipodi:role="line"
+         id="tspan2924"
+         x="745.03375"
+         y="831.77026">Doesn't Take Hours!</tspan></text>
+    <text
+       sodipodi:linespacing="100%"
+       id="text2351"
+       y="539.26727"
+       x="225.04688"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Lucida Grande"
+       xml:space="preserve"><tspan
+         y="539.26727"
+         x="225.04688"
+         id="tspan2353"
+         sodipodi:role="line">http://selenium-grid.seleniumhq.org</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Lucida Grande"
+       x="223.04688"
+       y="537.26727"
+       id="text3008"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan3010"
+         x="223.04688"
+         y="537.26727">http://selenium-grid.seleniumhq.org</tspan></text>
+  </g>
+</svg>

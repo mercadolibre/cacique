@@ -1,0 +1,53 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-javascript 'richtext.js'
+=stylesheet_link_tag 'editor.css'
+%h1
+  =_('General Notes')
+  %br
+  %br
+  =_('Edit Notes')
+.main
+  %body
+    -form_for :note, :url => {:controller => "notes", :action => "update", :id => @note.id}, :html => {:style=>"width:55%;", :name => "RTEDemo", :onsubmit => "updateRTE('rte1');"} do 
+      = error_messages_for :note
+      %script
+        initRTE("/images/editor/", "/notes/", "");
+        //Usage: writeRichText(fieldname, html, width, height, buttons, readOnly)
+        writeRichText('rte1', "#{@text}", 650, 200, true, false);
+      %div{:style=>" float:right;"}
+        = submit_tag _('Edit'), { :style => "cursor:pointer;" }
+        %input{:type=>"button", :value=>_("Cancel"), :onclick => "if(confirm('Exit Without Save?')){location='/notes'};", :style=>"cursor:pointer;"}
+        
+        
+//Tools menu
+-content_for :tools_menu do
+  =link_to _('General Notes') , "/notes", {:title => _('Add/Remove Notes'), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;text-decoration:none;"}
+  =link_to _("Functions"), "/user_functions", {:title => _("Add/Remove Functions"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Projects"), "/projects", {:title => _("Projects Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Users"), "/users", {:title => _("Users Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Summary"), "/graphs", {:title => _("Summary"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Run Configuration"), "/context_configurations", {:title => _("Run Configuration"), :style => "line-height:30px;padding-left:20px;text-decoration:none;"}

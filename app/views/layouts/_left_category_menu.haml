@@ -1,0 +1,31 @@
+-if @project_actual != nil 
+  //Slider Menu - Category Menu
+  -if @menu_left_extended == 1
+    //Category Menu
+    #sideBar{:style=>"left:-32px"}
+      #sideBarTab{:onclick=>remote_function(:complete =>"extendContract();", :update => "sideBarContentsInner",  :method => "get",  :url => "/categories/show_categories/0" ), :style=>"left:300px;background:url('/images/menu/slide-button.png')"}
+        #vertical_text{:title=>_("Project")}
+          #vertical_img{:style=>"background: url('/images/menu/slide-arrow-active.png'); width:18px; height:18px;margin-left:8px;"}
+          %div{:style=>"-moz-transform:rotate(270deg);margin-top:60px;"}
+            =_('Project')
+      #sideBarContents{ :style => "width:270px;float:left;left:300px;" }
+        #sideBarContentsInner       
+          =render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => nil}
+
+    %script  
+      function setContenHeight(){
+      height = $j(window).height() -140;
+      document.getElementById('layout_content').setAttribute('style', 'width:73%; padding-left:0%;float:right; height:' +height +'px;'  );    
+      $j('#sideBarTab').height(height + 100);}
+              
+                                                  
+  -else
+    #sideBar
+      #sideBarTab{:onclick=>remote_function(:complete =>"extendContract();", :update => "sideBarContentsInner",  :method => "get",  :url => "/categories/show_categories/0" )}
+        #vertical_text{:title=>_("Project")}
+          #vertical_img{:style=>"background: url('/images/menu/slide-arrow.png'); width:18px; height:18px;margin-left:8px;"}
+          %div{:style=>"-moz-transform:rotate(270deg);margin-top:60px;"}
+            =_('Project')
+      #sideBarContents{ :style => "width:0px;float:left;" }
+        #sideBarContentsInner
+

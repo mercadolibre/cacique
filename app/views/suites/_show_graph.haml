@@ -1,0 +1,36 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+%div{:id=>"show_graph", :class=>"div_show",:style=>" display:none;padding:0 20px;height:250px;overflow:auto;"}
+  -if !@suite.suite_fields_relations.empty?
+    %img{:src => "/images/graphs/" + @suite.id.to_s + ".png", :alt=>"#{@suite.id.to_s}.png", :style=>" padding:5px; margin-left:10px; margin-top:10px; margin-bottom: 20px;"}
+  -else
+    %img{:src => "/images/icons/relations.png", :alt=>"relations.png", :title=>'Relaciones', :style=>"float:left;"}
+    %i{:title=>@suite.name.capitalize, :style=>"color:#373737;margin-left:20px;"}
+      =_("Without Relations")
+    %h3{:onClick => "location.href='/suites/relations1/#{@suite.id}';",  :style=>"cursor:pointer;text-decoration:underline;"}
+      \-->
+      =_("Link Relations")
+      \<--

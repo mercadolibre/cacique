@@ -1,0 +1,67 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+%h1
+  =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), url_for(:controller => "notes", :action => "new"), :title=> _('Add Note')
+  =_('General Notes')
+-if @notes.empty?
+  %h2
+    %i
+      =_('Without General Notes')
+-else
+  %div{:id => "all_notes"}
+    -@notes.each do |note|
+      %div{:id => "actions", :style => "text-align:right;"}
+        -msg = _('Sure to remove the Note')
+        =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'notes',:action => 'edit', :id => note.id )
+        %a{:onclick => "if(confirm('#{msg}?'))location='/notes/delete/#{note.id}'", :style => "cursor:pointer;"}
+          %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Delete')}
+      .form_tag
+        %ul
+          %li
+            %b{:title=>note.user.name}
+              =_('Writer:')
+            =truncate(note.user.name, :ommision => "...", :length => 30)
+          %li
+            %b
+              =_('Date:')
+            =note.created_at
+          %li
+            %b
+              =_('Note:')
+            %p{:id => "note_#{note.id}", :style=>"overflow:auto; padding-left:20px;max-width:500px; max-height:200px;"}
+              =note.text
+
+      %br
+      %br
+      
+//Tools menu
+-content_for :tools_menu do
+  =link_to _('General Notes') , "/notes", {:title => _('Add/Remove Notes'), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;text-decoration:none;"}
+  =link_to _("Functions"), "/user_functions", {:title => _("Add/Remove Functions"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Projects"), "/projects", {:title => _("Projects Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Users"), "/users", {:title => _("Users Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Summary"), "/graphs", {:title => _("Summary"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Run Configuration"), "/context_configurations", {:title => _("Run Configuration"), :style => "line-height:30px;padding-left:20px;text-decoration:none;"}

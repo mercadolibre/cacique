@@ -1,0 +1,12 @@
+#!/bin/bash
+case "$1" in
+  start)
+        if [ -f  /path/cacique/log/workling$2.pid ]; then  rm -f  /path/cacique/log/workling$2.pid; fi
+
+   /path/cacique/script/workling_client start
+  ;;
+  stop)
+	kill `cat /path/cacique/log/workling$2.pid`
+	rm -f /path/cacique/log/workling$2.pid
+  ;;
+esac

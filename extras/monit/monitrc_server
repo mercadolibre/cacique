@@ -1,0 +1,50 @@
+set logfile syslog facility log_daemon
+
+set daemon 120
+set mailserver surgemail.mercadolibre.com
+set mail-format {
+from: monit@monitorserver.com
+subject: $SERVICE $EVENT on DEBIAN_CACIQUE
+}
+set alert robot@mercadolibre.com
+set httpd port 7070 and
+  use address 10.10.60.27
+  allow admin:vivaldi
+
+
+check process apache with pidfile /var/run/apache2.pid
+    start program = "/etc/init.d/apache2 start"
+    stop program  = "/etc/init.d/apache2 stop"
+  mode active
+  group bender
+
+check process memcached with pidfile /tmp/memcached.pid
+  start program = "/home/cacique/bender_unstable/script/memcached.sh start"
+  stop program  = "/home/cacique/bender_unstable/script/memcached.sh stop"
+  mode active
+  group memcached
+
+check process starling with pidfile /var/run/starling.pid
+  start program = "/home/cacique/bender_unstable/script/starling start"
+  stop program  = "/home/cacique/bender_unstable/script/starling stop"
+  mode active
+  group starling
+
+
+check process hub with pidfile /tmp/hub.pid
+  start program = "/home/cacique/bender_unstable/script/hub start"
+  stop program  = "/home/cacique/bender_unstable/script/hub stop"
+  mode active
+  group hub
+
+check process mysql with pidfile /var/run/mysqld/mysqld.pid
+   group mysql
+   start program = "/etc/init.d/mysql start"
+   stop program = "/etc/init.d/mysql stop"
+
+check process jobs pidfile /tmp/rake_jobs.pid
+  start program = "/home/cacique/bender_unstable/script/rake_jobs start" 
+  stop program = "/home/cacique/bender_unstable/script/rake_jobs stop"
+  mode active
+  group rake_jobs
+

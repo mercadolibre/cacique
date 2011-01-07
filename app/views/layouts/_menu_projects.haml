@@ -1,0 +1,77 @@
+#menuProject
+  %ul
+    -if !@project_actual.nil?
+
+      %li{:title=>@project_actual.description}
+        %a.parent{ :href => "/circuits",:style=>"color:#ffffff;"}
+          %span
+            =truncate(@project_actual.name.capitalize, :ommision => "...", :length => 25)
+    %li.hover_my_projects
+      %a.parent{ :id=>"my_proyects_hover", :href => "#" }
+        %span
+          =_('My Projects')
+      %ul{:id=>"div_my_projects"}
+
+    %li.hover_all_projects
+      %a.parent{:id=>"all_proyects_hover", :href => "#" }
+        %span
+          =_('Other Projects')
+      %ul{:id=>"div_all_projects"}
+    
+     
+    -if !@project_actual.nil?
+      %li
+        -url_circuit = (!@project_actual.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? "/circuits/edit/#{@user_last_edited_scripts[@project_actual.id].to_s}": "/circuits"
+        %a.parent{ :href => url_circuit }
+          %span
+            Scripts
+      %li
+        %a.parent{ :href => "/suites" }
+          %span
+            Suites
+      %li
+        %a{ :href => "/suite_executions" }
+          %span
+            =_('History')
+
+    //root privileges
+    -if !@root.nil?
+      %li
+        //By default is redirected to notes admin
+        %a{ :href => "/notes" }
+          %span
+            =_('Admin')
+
+    //Help  
+    %li
+      %a.parent{:href => "#" }
+        %span
+          =_('Help')          
+      %ul{:style=>"width:120px;"}
+        %li
+          %a{ :href => "/circuits/script_tutorial"}
+            %span
+              Scripts
+        %li
+          %a{ :href => "/suites/suite_tutorial"}
+            %span
+              Suites
+        %li
+          %a{ :href => "/circuits/ruby", :popup=>"true"}
+            %span
+              Ruby
+        %li
+          %a{ :onClick => "document.getElementById('about').toggle();" }
+            %span
+              =_('About us')  
+              %img{:src=>"/images/icons/star.png", :alt=>"star", :style=>"margin-left:5px;"}
+
+    //Only in circuit
+    -if controller_name() == 'circuits' or controller_name() == 'categories'
+      .buscar{:style=>"margin-top:9px;height:20px;width:160px;background:#868686;border:1px solid #7E7D7D;"}
+        -form_tag :controller=> :categories, :action => 'circuits_result' do
+          -if params.include? "search_pattern"
+            = text_field_tag :search_pattern, h(params[:search_pattern]),{:style=>"width:130px;color:#ffffff;background:#868686;"}
+          - else
+            = text_field_tag :search_pattern, '', {:style=>"width:130px;color:#ffffff;background:#868686;"}
+          %input{:type=>"image",:src=>"/images/icons/search.png",:alt=>"search"}          

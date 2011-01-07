@@ -1,0 +1,4 @@
+Esta carpeta se utiliza para guardar los archivos temporales de los scripts que se suben a Cacique.
+
+This folder is used to store temporary files for the scripts that are uploaded to Cacique.
+

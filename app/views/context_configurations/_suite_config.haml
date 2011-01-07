@@ -1,0 +1,71 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+-javascript 'suite_comment'
+
+%script
+  function submitFormSuiteExec(action){
+  form = document.getElementById('form_to_run_suite');
+  form.action = action;
+  form.submit();
+  }
+
+%script
+  = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
+
+%div{:style=>"width:300px; float:left;padding: 10px; margin-left:20px;"}
+  %h2{:style=>"color:#288EB1;text-align:cenetr;margin-top:10px;"}
+    =_('Execution')
+  .form_tag
+    %div{:style=>"width:270px;height:20px;"}
+      %label{:for => "identifier", :style=>" margin-left:10px;"}
+        ID:
+        =text_field "execution", "identifier", :style => "width: 150px;"
+    %div{:style=>"width:200px;margin-top:10px;height:20px;"}
+      %label{:for => "cant_corridas", :style=>"width: 150px;margin-left:10px;"}
+        =_('Repetitions:')
+        =text_field "execution", "cant_corridas", :value => "1", :style => "width: 25px;text-align:center;"
+
+  %h2{:style=>"color:#288EB1;text-align:cenetr;margin-top:10px;"}
+    Extra
+  .form_tag
+    %div{:onclick=>remote_function(:complete => "$j('#div_suite_comment').toggle();iniciarTabla();", :update => "div_suite_comment", :url => {:controller => 'suite_executions', :action => 'suite_comment', :id => suite_id}), :style=>"width:200px;cursor:pointer;margin-top:10px;height:20px;"}
+      =image_tag('icons/case.png', :alt=>"task.png", :style=>"float:left;margin:0 10px;")
+      %label{:style=>"cursor:pointer"}
+        =_('Comment Cases')
+      =text_field "execution", "case_comment", :style => "display:none;"
+    %div{:onclick=>"submitFormSuiteExec('/suite_executions/generate_command');", :style=>"width:200px;cursor:pointer;margin-top:10px;height:20px;"}
+      =image_tag('icons/console.png', :title=>"Generate Command", :alt => "console.png", :style=>"float:left;margin:0 10px;")
+      %label{:style=>"cursor:pointer"}
+        =_('Generate Command')
+
+  -if command
+    %br
+    %br
+    .form_tag{:id => "command_to_run", :style => "border:1px solid #288EB1;text-align:left;"}
+      =h command
+
+#div_suite_comment

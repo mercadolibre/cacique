@@ -1,0 +1,61 @@
+<div style="margin: 0pt auto; float:left; width: 420px; height: 30px;  padding:10px 10px 0px 10px; font-size: 22px; color: #31576F;">
+          Cacique: Detalle de ejecución
+</div>
+<br>
+<br>
+<br>
+<div style= " font: 15px normal sans-serif; padding-left:20px;color: #31576F;">
+  Se corrio el siguiente caso:<br><br>
+  <div style=" font-size: 14px; ">
+    <% if @execution.status == 2 %> 
+      <div style="color: white; background: #84CC5B;width: 400px; padding:5px;padding-left:15px;-moz-border-radius-topright:20px;-moz-border-radius-topleft:20px;"> 
+         <% if @execution.case_template_id != 0 %>
+           Objetivo: <%= @execution.case_template.objective %><br>
+         <% else %>
+           Objetivo: Caso "Self"<br>
+         <% end %>     
+      </div>
+      <div style=" padding:5px; padding-left:5px; width:408px; border: 1px solid  #84CC5B; -moz-border-radius-bottomright:20px;-moz-border-radius-bottomleft:20px;">       
+    <% else %>
+      <div style="color: white; background: #F57275;width: 400px; padding:5px;padding-left:15px;-moz-border-radius-topright:20px;-moz-border-radius-topleft:20px;"> 
+         <% if @execution.case_template_id != 0 %>
+           Objetivo: <%= @execution.case_template.objective %><br>
+         <% else %>
+           Objetivo: Caso "Self"<br>
+         <% end %>        
+      </div>
+      <div style=" padding:5px; width:408px; border: 1px solid #F57275; -moz-border-radius-bottomright:20px;-moz-border-radius-bottomleft:20px;">       
+    <% end %>      
+    Circuito: <%= @execution.circuit.name %><br>
+    Corrida el día: <%= @execution.updated_at.strftime("%d/%m/%y %H:%M") %><br>
+    Ejecución: <%= @execution.id %><br>
+    Caso: <%= @execution.case_template_id %><br>
+    <% if @execution.status == 2 %>
+      <div style="color:green; font-size:12px; font-weight:bold;"><%= @execution.s_status %></div>
+        <div style="color:green; >  
+          Datos Generados:<br>
+        </div>  
+      	<% if @execution.data_recoveries.empty? %>
+      	  <dd style="color:green;font-style:italic; font-size:12px;">No se generaron datos  
+        <% else %>
+    	  <% @execution.data_recoveries.each do |data_recovery| %>
+    	    <dd style="color:green;"><%= data_recovery.data_name %> ---> <%= data_recovery.data %><br>
+    	  <% end %>
+      	<% end %>   	  
+    <% else %>
+      <div style="color:red; font-size:12px; font-weight:bold;"> <%= @execution.s_status  + ':  ' + @execution.error%></div>
+      <div style="font-size:12px; font-weight:bold;"> 
+        Posicion del error:
+        <br>
+        <% CGI.escapeHTML(@execution.position_error.to_s).split("\n").each do |line| %>
+          <%= line.gsub(/^\*/,"") %>
+          <br>
+        <% end %>
+      </div>
+      
+    <% end %>
+    </div>
+    <br> 
+  </div> 
+  <br>     
+</div>
