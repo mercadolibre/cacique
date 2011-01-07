@@ -1,0 +1,95 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-javascript 'relation1'
+-javascript 'suite_show'
+-alertext= _("Must Select 2 Scripts")
+%script
+  = "var from_array = new Array(#{ @names.map{|x| "\"#{x}\""}.join(",")} );"
+  = @circuit_id_from_name.to_javascript_function("circuitIdFromName")
+  var msgtext = "#{alertext}"
+.main
+  -if @circuits.count < 2
+    %h2{:style=>"margin-top:20px; text-align:center;"}
+      %i
+        =_('Must be at least 2 Scripts added to the Suite to relate')
+        %br
+        =_("You can add in section 'Edit Suite':")
+        %img{:src => "/images/icons/edit.png",   :alt=>"edit.png",      :title=>_('Edit'),     :onClick => "location.href='/suites/#{@suite.id}/edit';", :style=>"cursor:pointer;margin-left:10px;"}
+  -else
+    %form{ :id =>"formRelation", :name => "menuform", :action => '/suites/relations2/' + @suite.id.to_s }
+      %h1{:title=>@suite_name, :style=>"margin-bottom:5px;"}
+        =truncate(@suite.name, :ommision => "...", :length =>70)
+        .form_button
+          %input{ :onClick => "submitCircuits()", :type => "Button", :value => _("Next")}
+      %h2{:style=>"float:left; width:60%;"}
+        =_("Step 1 of 3 - Select 2 Scripts:")
+
+      %table{  :align => "center", :valign => "center", :style => "margin: 10px auto; width:70%;"}
+        %tr{:style=>"height:30px;"}
+          %td
+            %h3{:style=>"text-align:center;"}
+              =_("Suite Scripts")
+          %td{:style=> " width: 5%;"}
+          %td
+            %h3{:style=>"text-align:center;"}
+              =_("Scripts to Relate")
+        %tr
+          %td
+            %select{ :id=>'xxx', :size => "7", :multiple => "", :style => "width:100%; height:100%;" }
+            %script{ :language => "javascript" }
+              for( i=0;i<from_array.length;i++)
+              {
+              select = document.getElementById('xxx');
+              options = select.options;
+              options[options.length] = new Option(from_array[i], from_array[i]);
+              options[options.length - 1].setAttribute('style', 'margin-bottom:2px; color:#31576F; font-size:11px;font-family:sans-serif;');
+              options[options.length - 1].setAttribute('title', from_array[i]);
+              }
+
+          %td
+            %input{ :type => "button", :value => ">>", :onclick => "if(validarCantidad()){moveoutid();}", :style=>"cursor:pointer;" }
+            %input{ :type => "button", :value => "<<", :onclick => "moveinid()", :style=>"cursor:pointer;" }
+          %td
+            %select{ :id=>'yyy', :size => "7", :multiple => "", :style => "width:100%; height:100%;" }
+            %script{ :language => "javascript" }
+              for(var j=0;j<to_array.length;j++)
+              {
+              select = document.getElementById('yyy');
+              options = select.options;
+              options[options.length] = new Option(to_array[j], to_array[j]);
+              options[options.length - 1].setAttribute('title', to_array[j]);
+              }
+
+//Suite show
+.div{:id => "div_suite_show", :style=>"display:none;"}
+
+//Tools menu
+-content_for :tools_menu do
+  %img{:src => "/images/icons/play.png",   :alt=>"play",      :title=>_('Run'),   :onClick => "location.href='/suite_executions/new?suite_id=#{@suite.id}';"}
+  =render :partial => "queue_observers/queue_icon"
+  %img{:src => "/images/icons/edit.png",   :alt=>"edit",      :title=>_('Edit'),     :onClick => "location.href='/suites/#{@suite.id}/edit';"}
+  %img{:src => "/images/icons/show.png",   :alt=>"suite_show",:title=>_('Detail'),    :onClick => remote_function(:complete => "document.getElementById('div_suite_show').toggle();showDiv('show_graph');",:update => "div_suite_show",  :method => "get",  :url =>  "/suites/show/#{ @suite.id.to_s}"  ) }
+  %img{:src => "/images/icons/import.png", :alt=>"import",    :title=>_('Import suites from other projects'),:onClick => "location='/suites/import_suite';"}

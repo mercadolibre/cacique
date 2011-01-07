@@ -1,0 +1,203 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%script
+  function checkrequired() {
+  module_name = document.getElementById("new_module_name");
+  module_descript = document.getElementById("new_module_descrip");
+  if(module_name.value=='')  {alert('#{_('Must complete Name Field')}'); return false;}
+  else{
+  if(module_descript.value=='')  {alert('#{_('Must complete Description Field')}'); return false;}
+  }
+  document.getElementById('parent_id').value = $j('#selected_category').val();
+  return true;
+  }
+
+//Input oculto con el script seleccionado
+%input{:id=>"selected_script", :name=>"circuit_id", :value=>"",:style=>"display:none;"}
+
+//Input oculto con el modulo seleccionado
+%input{:id=>"selected_category", :name=>"category_id", :value=>"",:style=>"display:none;"}
+
+.treeToolbar
+  %img{:src => "/images/icons/import_grey.png", :alt=>"import_grey.png", :title=>_('Import Scripts from other projects'),:onClick => "location='/categories/import_circuit';"}
+  %img{:src => "/images/icons/move.png",        :alt=>"move.png",        :title=>_('Move Scripts to another Folder'),    :onClick => "location='/categories/move'"}
+  %img{ :src=>"/images/dtree/expandall.png",    :alt=>"expandall.png",   :title=>_('Expand All'),   :onclick => "d.openAll();", :style=>"cursor:pointer;margin-left:5px;"}
+  %img{ :src=>"/images/dtree/colapseall.png",   :alt=>"colapseall.png",  :title=>_('Collapse All'), :onclick => "d.closeAll();",:style=>"cursor:pointer;"}
+  %img{:src => "/images/icons/info_grey.png",   :alt=>"info_grey.png",   :title=>_('Information'),  :onClick => "document.getElementById('infoCategory').toggle();"}
+
+.content_tree{:style=>"width:267px;"}
+  .result{:id=>"category_error",:style=>"margin-top: 10px;color:red; text-align:left; padding: 0 8px 5px;"}
+    -if text_error
+      =text_error
+  %div{:id=>"category_tree"}
+    %script
+      d = new dTree('d');
+      = "d.add(0,-1,'<c id=0 name=project title =#{h(@project_actual.description)}>#{truncate(h(@project_actual.name), :length =>60)}</c>');"
+      =category_tree(@categories, 'index')
+      container =  document.getElementById("category_tree");
+      container.innerHTML = d;
+      $j('.content_tree').height($j(window).height() -110);
+
+.tag{ :id => "copy_circuit", :style=>"display:none; left: 600px; top: 120px; width:250px; height:170px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"copy_circuit"} 
+  %h3
+    =_('Copy Script')
+  %label{:style=>"text-align:center;"}
+    =_('The selected script will copy')
+    %br
+    =_('in the same folder as the original')
+  %br
+  %br
+  -remote_form_for :circuit, :url => { :controller => 'circuits', :action => 'copy'}, :complete => visual_effect(:appear, 'sideBarContentsInner'), :update => "sideBarContentsInner" do
+    =text_field_tag 'circuit_id', '', :style => "display:none;"
+    =check_box_tag 'cases', 'true', {},{:style=>"margin-left:20px;float:left;"}
+    %label{:style=>"float:left;"}
+      =_('Copy Data Set')
+    %br
+    =submit_tag _('Copy'), :style => "float:right;cursor:pointer;", :onclick=>"document.getElementById('circuit_id').value = $j('#selected_script').val();"
+     
+//Nuevo módulo
+.tag{ :id => "category_new", :style=>"display:none;  width:230px; height:220px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"category_new"} 
+  %h3
+    =_('New Folder')
+  -remote_form_for :category, :url => { :controller => 'categories', :action => 'create'}, :complete => visual_effect(:appear, 'sideBarContentsInner'),:update => "sideBarContentsInner" do
+    %label
+      =_('Name')
+      %br
+      =text_field_tag 'name', "",:id =>"new_module_name", :style=>"width:220px;"
+    %br
+    %label
+      =_('Description')
+      %br
+      =text_area_tag 'description', "",:id => "new_module_descrip", :style=>"width:220px"
+    %label
+      =text_field_tag "parent_id", 0, :style=>"display:none;"
+    %br
+    =submit_tag _('Create'), :style => "float:right; margin-right:20px;cursor:pointer;", :onclick => "return checkrequired();"
+   
+
+//Rename módulo
+%div{ :id => "category_edit"}
+
+//Rename script
+%div{ :id => "script_edit"}
+
+%script
+  //Click left on scripts
+  $j('[name="script"]').click(function () {
+  location='/circuits/edit/' + $(this).id;
+  });
+
+  //Click rights menues
+
+  //MENU for project
+  $j('[name="project"]').contextMenu('menuProject', {
+  menuStyle: {
+  width: '150px'
+  },
+  bindings: {
+  'newModule': function(t) {
+  $j('#selected_category').attr('value', t.id);
+  document.getElementById('category_new').toggle();
+  },
+  }
+  });
+
+  //MENU for category
+  $j('[name="category"]').contextMenu('menuCategory', {
+  menuStyle: {
+  width: '150px'
+  },
+  bindings: {
+  'newScript': function(t) {
+  $j('#selected_category').attr('value', t.id);
+  location='/circuits/new?cat=' + t.id
+  },
+  'newModule': function(t) {
+  $j('#selected_category').attr('value', t.id);
+  document.getElementById('category_new').toggle();
+  },
+  'rename': function(t) {
+  $j('#selected_category').attr('value', t.id);
+  =remote_function(:update => "category_edit", :method => "get",  :url =>  {:controller=>"categories", :action=>"edit"}, :with => "'category_id=' + t.id" )
+  },
+  'delete': function(t) {
+  if(confirm('#{_('This action will remove this Folder. Are You sure?')}'))
+  =remote_function(:update => "sideBarContentsInner",  :method => "get",  :url =>  {:controller=>"categories", :action=>"delete", :id=>0}, :with => "'category_id=' + t.id"   )
+  }
+  }
+  });
+
+  //MENU for script
+  $j('[name="script"]').contextMenu('menuScript', {
+  menuStyle: {
+  width: '150px'
+  },
+  bindings: {
+  'rename': function(t) {
+  $j('#selected_script').attr('value', t.id);
+  =remote_function(:update => "script_edit",  :method => "get",  :url =>  {:controller=>"circuits", :action=>"editName"}, :with => "'circuit_id=' + t.id" )
+  },
+  'copy': function(t) {
+  $j('#selected_script').attr('value', t.id);
+  document.getElementById('copy_circuit').toggle();
+  },
+  'delete': function(t) {
+  if(confirm("#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}"))
+  =remote_function(:update => "sideBarContentsInner",  :method => "get",  :url =>  {:controller=>"circuits", :action=>"delete", :id=>0}, :with => "'circuit_id=' + t.id"   )
+  }
+  }
+  });
+
+  function checkrequiredformodule() {
+
+  module_name2 = document.getElementById("rename_module_name");
+  module_descript2 = document.getElementById("rename_module_descrip");
+  if(module_name2.value=='')  {alert('#{_('Must complete Name Field')}'); return false;}
+  else{
+  if(module_descript2.value=='')  {alert('#{_('Must complete Description Field')}'); return false;}
+  }
+  document.getElementById('parent_id').value = $j('#selected_category').val();
+  return true;
+  }
+
+  function checkrequiredforscript() {
+
+  script_name = document.getElementById("script_n");
+  script_descript = document.getElementById("script_d");
+  if(script_name.value=='')  {alert('#{_('Must complete Name Field')}'); return false;}
+  else{
+  if(script_descript.value=='')  {alert('#{_('Must complete Description Field')}'); return false;}
+  }
+  document.getElementById('parent_id').value = $j('#selected_category').val();
+  return true;
+  }
+
+//Help 
+=render :partial => "categories/info_category"
+

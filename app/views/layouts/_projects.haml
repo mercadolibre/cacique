@@ -1,0 +1,21 @@
+-if projects.empty?
+  %li
+    %a{ :href => "#" }
+      %span
+        =_('No Projects')
+-projects.each do |project|
+  //Build url
+  -case controller_from
+    -when  "suites"
+      -url_project = "/suites?project_id=#{project.id}"
+    -when  "suite_executions"
+      -url_project = "/suite_executions?project_id=#{project.id}"      
+    -else
+      -last_edited =  user_last_edited_scripts[project.id]
+      -url_project = (last_edited.nil?)? "/circuits?project_id=#{project.id}" : "/circuits/edit/#{last_edited.to_s}?project_id=#{project.id}"
+
+  %a{:title=>project.name.capitalize, :href => url_project }
+    %li
+      %span
+        =truncate(project.name.capitalize, :ommision => "...", :length => 18)
+  %div{ :style=>"clear: both"}

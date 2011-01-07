@@ -1,0 +1,46 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+%h2
+  =_('Scripts and Cases Added:')
+%ul{:style=>"overflow:auto; height: 300px;padding:0px 20px;"}
+  -circuits.each do |circuit|
+    %h3{:title=>circuit.name}
+      =truncate(circuit.name.capitalize,:ommision => "...", :length =>30)
+    //Cases
+    .form_tag{:style=>"padding:0px; 10px; min-height:50px;"}
+      .div_hover{:title=>_("Add/Remove cases"),:onclick=>remote_function(:url => {:controller => "suites", :action => "edit_cases", :id => suite_id}, :complete => "$j('#div_circuit_cases').toggle(); iniciarTabla();", :with => "'circuit_id=#{circuit.id}'", :update => 'div_circuit_cases'), :style=>"float:right; height:25px;padding:0;width:25px;padding:0;border-top:0px; border-right:0px; -moz-border-radius:0px 5px 0px 5px;"}
+        =image_tag('icons/case.png', :alt=>"cases", :style=>"cursor:pointer;margin:5px;")
+      -if suite_cases(circuit,case_templates).empty?
+        %br
+        %i{:style=>"text-align:center;margin-left:20px;color:#31576F;"}
+          =_("Without Added Cases")
+      -else
+        -suite_cases(circuit,@suite.case_templates).each do |case_template|
+          .cases_suite_show{:style => 'margin-left:20px;margin-top:5px;padding-bottom:3px;'}
+            %li{:title=>case_template.objective, :style=>"float:left;color:#31576F;"}
+              =truncate(case_template.objective,:ommision => "...", :length =>40)
+          %br
+        %div{ :style=>"clear: both"}

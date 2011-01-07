@@ -1,0 +1,52 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+-case context_configuration.view_type
+  -when 'checkbox'
+    -default_actived = @user_configuration_values[context_configuration.name].include?("default")
+    -context_configuration.all_values.each do |value|
+      %div{:title=>value}
+        - value_actived = (!@user_configuration_values[context_configuration.name].nil? and @user_configuration_values[context_configuration.name].include?(value))
+        -if value == "default"
+          =check_box_tag "execution[#{context_configuration.name}][]", value, value_actived, {:onclick => "change_default(this, '#{context_configuration.name}');"}
+        -else       
+          =check_box_tag "execution[#{context_configuration.name}][]", value, value_actived, {:disabled => default_actived, :class=>"options_of_#{context_configuration.name}"}
+        =truncate(value, :ommision => "...", :length => 20)
+  -when 'radiobutton'
+    -context_configuration.all_values.each do |value|
+      %div{:title=>value}
+        -if !@user_configuration_values[context_configuration.name].nil? and @user_configuration_values[context_configuration.name].include?(value)
+          =radio_button_tag "execution[#{context_configuration.name}][]", value, true
+        -else
+          =radio_button_tag "execution[#{context_configuration.name}][]", value, false
+        =truncate(value, :ommision => "...", :length => 20)
+  -when 'select'
+    = select "execution", context_configuration.name, context_configuration.all_values, {:selected => @user_configuration_values[context_configuration.name]}, :style=>"width:190px;"
+  -when 'input'
+    =text_field "execution", context_configuration.name, :value => context_configuration.values, :style=>"width:150px;"
+  -when 'boolean'
+    =check_box_tag "execution[#{context_configuration.name}][]", "1", @user_configuration_values[context_configuration.name]=="1"
+    =context_configuration.name

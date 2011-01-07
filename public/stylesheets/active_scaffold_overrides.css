@@ -1,0 +1,916 @@
+/*Se cambio el ancho (antes min-width: 1500px;	min-height: 760px;)*/
+#wrapper{
+	min-height: 760px;
+	min-width: 1000px;
+	/*width: expression((documentElement.clientWidth <1281) ? "1280px" : "1000px" );
+	height: expression((documentElement.clientHeight <1000) ? "1000px" : "760px" );
+*/}
+
+/*Se cambio el ancho: width: 1500px;)*/
+.header {
+  background: #FFFFFF url(/images/background/img1.gif) repeat-x;
+  height: 160px;
+  width: 100%;/* scaffold*/
+}
+
+.header_main {
+  min-width: 300px;
+	height: 160px;
+	margin: 0 auto;
+	float:left;
+}
+
+.header_option{
+	width: 300px;
+	color: #e5e5e5;
+	float: right;
+ 	margin: 103px 5px 0px 5px;
+}
+
+.header_option a{
+	color: inherit;		 	
+}
+
+.header_option label{	
+	width: auto;
+}
+
+.header_main * {
+	margin: 0;
+	padding: 0;
+	color: #FFFFFF;
+}
+
+.header_main a {
+	display: block;
+	float: left;
+	height: 25px;
+	margin: 0 0 0 8px;
+	padding: 12px 10px 0 10px;
+	background: #ABBA47 url(/images/img3.gif) repeat-x;
+	text-decoration: none;
+	font-weight: bold;
+  text-transform: capitalize;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #8F8F8F;
+}
+h1 {
+  margin:5px;
+  letter-spacing: -1px;
+	font-size: 26px;
+	font-weight: normal;
+  color: #31576F;
+  text-align:center;
+}
+
+ul {
+	margin-left: 0;
+	padding-left: 0;
+	list-style-position: inside;
+}
+
+a {
+  color:#ACBB48;
+  font-weight: bold;
+}
+
+/*Se cambio el ancho (antes min-width: 1500px)*/
+.content{
+	min-height: 720px;
+	padding-bottom:20px;
+  width: 1240px;/* scaffold*/
+}
+/*Se cambio el ancho (antes min-width: 1240px)*/
+.main {
+	min-height: 650px;
+  margin-left: 200px; 
+  padding-right:10px;
+  width: 85%;/* scaffold*/
+  text-align:left;
+}
+
+/************************* Footer ******************************/
+
+#footer {
+	clear: both;
+	width: 400px;
+ 	height:20px;
+	margin: 0 auto;
+	padding: 30px 0;
+	background: url(/images/img7.gif) repeat-x
+}
+
+#footer p {
+	margin: 0;
+	text-align: center;
+	text-transform: capitalize;
+}
+
+
+
+/************************ menu ********************************/
+
+.menu{
+  margin-top: 10px;
+  width: 190px;
+  float:left;
+  color:#003333;
+}
+.menu ul{
+  padding:10px;
+  margin:0px;
+  list-style-type:none;
+}
+.menu li{
+  padding-bottom:5px;
+}
+.menu ul a{
+  padding-left:30px;
+  font-size: 11px;
+  background: url('/images/eee2.gif') no-repeat;
+}
+.menuItem {
+  background: url('/images/eee.gif') no-repeat ;
+  height:26px;
+  width: 193px;
+  text-indent:25px;
+  padding-left:10px;
+  padding-top:8px;
+}
+.menuItem a{
+  font-size:12px;
+  padding-top:8px;
+  height:26px;
+  padding-left:10px;
+  font-family:'Helvetica';
+  color:#003333;
+  text-decoration: none;
+}
+.menuItem a:hover{
+ color:#6699CC;
+ font-size:13px;
+}
+/******************************table********************************/
+
+.active-scaffold #case_templates-id-column{
+  width:35px;
+}
+.active-scaffold #case_templates-priority-column{
+  width:80px;
+}
+.active-scaffold #case_templates-created_at-column{
+  width:160px;
+} 
+.active-scaffold #case_templates-true_or_false-column{
+  width:50px;
+}
+.active-scaffold #case_templates-objective-column{
+  width:225px;
+}
+
+.active-scaffold form,
+.active-scaffold table,
+.active-scaffold p,
+.active-scaffold fieldset {
+  margin: 0;
+  padding: 0;
+}
+.active-scaffold table th,tr, td{
+  height:8px;
+}
+
+/*************************** PRUEBA*/
+
+table.rename{
+  width:500px;
+  text-align:center;
+  padding-bottom: 20px;
+}
+
+table.rename td{
+  background-color:	#F8F8F8;
+  font: 13px Helvetica, Arial, sans-serif;
+  width:200px;
+  color:#606060;
+}
+
+table.rename tr{
+  font: bold 14px Helvetica, Arial, sans-serif;
+  width:200px;
+
+}
+
+table.rename td.ti{
+  background-color:#F0F0F0;
+  font: 15px Helvetica, Arial, sans-serif;
+}
+/***************************************************************/
+
+/*div grandote*/
+.active-scaffold {
+/*Cambio del margen (antes:   margin: 5px auto;)*/
+  margin: 30px;
+}
+.active-scaffold table {
+  border-collapse: separate;
+}
+
+.active-scaffold a,
+.active-scaffold a:visited {
+  color:#ACBB48;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.active-scaffold a.disabled {
+color: #999;
+}
+
+
+.active-scaffold .clear-fix {
+clear: both;
+}
+
+noscript.active-scaffold {
+border-left: solid 5px #f66;
+background-color: #31576F;
+font-size: 11px;
+font-weight: bold;
+padding: 5px 20px 5px 5px;
+color: #8f8f8f;
+}
+
+/* Header
+   ======================== */
+
+/***Cambio en el tamaño del la barra de acciones ***/
+.active-scaffold-header {
+  position: relative;
+  width: 100%;  
+}
+/***Cambio en el tamaño del header ***/
+.active-scaffold-header h2 {
+  padding: 4px 0px;
+  margin: 0;
+  color: #31576F;
+  width: 85%;
+}
+
+.active-scaffold-header div.actions a {
+  float: right;
+  letter-spacing: -1px;
+  text-decoration: none;
+  padding: 1px 2px;
+  white-space: nowrap;
+  margin-left: 5px;
+  background-position: 1px 50%;
+  background-repeat: no-repeat;
+}
+
+.view .active-scaffold-header div.actions a {
+float: left;
+}
+
+.active-scaffold-header div.actions a.disabled {
+color: #666;
+opacity: 0.5;
+}
+
+
+
+.active-scaffold-header div.actions a.new,
+.active-scaffold-header div.actions a.new_existing,
+.active-scaffold-header div.actions a.show_search {
+padding-left: 19px;
+background-position: 1px 50%;
+background-repeat: no-repeat;
+}
+
+.active-scaffold-header div.actions a.new,
+.active-scaffold-header div.actions a.new_existing {
+background-image: url(../../../images/active_scaffold/default/add.gif);
+}
+
+.active-scaffold-header div.actions a.show_search {
+background-image: url(../../../images/active_scaffold/default/magnifier.png);
+}
+
+
+.active-scaffold-header div.actions a.disabled:hover {
+background-color: transparent;
+cursor: default;
+}
+
+.active-scaffold-header div.actions {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  text-align: right;
+}
+
+/* Table :: Column Headers
+   ============================= */
+
+.active-scaffold th {
+background-color: #31576F;
+text-align: left;
+}
+
+.active-scaffold th a,
+.active-scaffold th p {
+display: block;
+background-color: #31576F;
+}
+
+.active-scaffold th a {
+color: #fff;
+padding: 2px 15px 2px 5px;
+}
+
+.active-scaffold th p {
+color: #eee;
+padding: 2px 5px;
+}
+
+.active-scaffold th.sorted {
+background-color: #31576F;
+}
+
+.active-scaffold th.asc a,
+.active-scaffold th.asc a:hover {
+background: #31576F url(../../../images/active_scaffold/default/arrow_up.gif) right 50% no-repeat;
+}
+
+.active-scaffold th.desc a,
+.active-scaffold th.desc a:hover {
+background: #31576F url(../../../images/active_scaffold/default/arrow_down.gif) right 50% no-repeat;
+}
+
+.active-scaffold th.loading a,
+.active-scaffold th.loading a:hover {
+background: #31576F url(../../../images/active_scaffold/default/indicator-small.gif) right 50% no-repeat;
+}
+
+/* Table :: Record Rows
+   ============================= */
+
+.active-scaffold tr.record td {
+  padding: 3px 4px;
+  color: #8f8f8f;
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  background-color: #F9F9F9;
+}
+
+.active-scaffold tr.even-record td {
+  background-color: #ffffff;
+}
+
+.active-scaffold tr.record td.sorted {
+  background-color:#F9F9F9 ;
+}
+
+.active-scaffold tr.even-record td.sorted {
+  background-color:#ffffff;
+}
+
+.active-scaffold tbody.records td.empty {
+  color: #ffffff;
+  text-align: center;
+}
+
+.active-scaffold td.numeric,
+.active-scaffold-calculations td {
+  text-align: center;
+}
+
+/* Table :: Actions (Edit, Delete)
+   ============================= */
+/*
+.active-scaffold tr.record td.actions {
+  padding: 0;
+  min-width: 1%;
+}
+
+
+.active-scaffold tr.record td.actions table td {
+  border: none;
+  text-align: right;
+}
+
+.active-scaffold tr.record td.actions a {
+  letter-spacing: -1px;
+  padding: 2px;
+  margin: 0 2px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+*/
+/* Table :: Inline Adapter
+   ============================= */
+
+.active-scaffold .view {
+background-color: #e8f6e3;
+padding: 4px;
+border: solid 1px #31576F;
+}
+
+.active-scaffold .view th a {
+  color: #fff;
+  padding: 2px 15px 2px 5px;
+}
+
+.active-scaffold .view a {
+  color: #7d8e16;
+}
+
+.active-scaffold tbody.records td.inline-adapter-cell .view {
+  border-top: none;
+}
+
+.active-scaffold .before-header td.inline-adapter-cell .view {
+  padding:15px;
+  border-top: solid 1px #31576F;
+}
+
+.active-scaffold a.inline-adapter-close {
+  float: right;
+  text-indent: 20px;
+  height: 16px;
+  background: url(../../../images/active_scaffold/default/close.gif) 0 0 no-repeat;
+}
+
+/* Nested
+   ======================== */
+
+.active-scaffold .active-scaffold .active-scaffold-header h2 {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.active-scaffold .active-scaffold .active-scaffold-header div.actions a {
+  padding: 0 2px 1px 17px;
+}
+
+.active-scaffold .active-scaffold  td {
+  background-color: #fff;
+}
+
+.active-scaffold .active-scaffold .active-scaffold-footer {
+  font-size: 11px;
+}
+
+/* Footer
+   ========================== */
+
+.active-scaffold-calculations td {
+  background-color: #eee;
+  border-top: 2px solid #005CB8;
+}
+
+.active-scaffold .active-scaffold-footer {
+  padding: 3px;
+  font-weight: bold;
+  font-size:13px;
+  color: #31576F;
+}
+
+.active-scaffold-footer .active-scaffold-pagination {
+  float: right;
+  white-space: nowrap;
+  margin-right: 5px;
+}
+
+
+.active-scaffold-footer a {
+  text-decoration: none;
+  letter-spacing: 0;
+  padding: 0 2px;
+  margin: 0 -2px;
+}
+
+.active-scaffold-footer .next {
+  margin-left: 0;
+  padding-left: 5px;
+  border-left: solid 1px #ccc;
+}
+
+.active-scaffold-footer .previous {
+  margin-right: 0;
+  padding-right: 5px;
+  border-right: solid 1px #ccc;
+}
+
+/* Messages
+   ========================= */
+
+.active-scaffold .messages-container,
+.active-scaffold .active-scaffold .messages-container{
+padding: 0;
+margin: 0 7px;
+border: none;
+}
+
+.active-scaffold .empty-message, .active-scaffold .filtered-message {
+background-color: #e8e8e8;
+padding: 4px;
+text-align: center;
+color: #666;
+}
+
+.active-scaffold .message {
+font-size: 11px;
+font-weight: bold;
+padding: 5px 20px 5px 5px;
+color: #333;
+position: relative;
+margin: 2px 7px;
+line-height: 12px;
+}
+
+.active-scaffold .message a {
+position: absolute;
+right: 10px;
+top: 4px;
+padding: 0;
+letter-spacing: -1px;
+}
+
+.active-scaffold .messages-container .message {
+  margin: 0;
+}
+
+.active-scaffold .error-message {
+  border-left: solid 5px #f66;
+  background-color: #fbb;
+}
+
+.active-scaffold .warning-message {
+  border-left: solid 5px #ff6;
+  background-color: #ffb;
+}
+
+.active-scaffold .info-message {
+border-left: solid 5px #66f;
+background-color: #bbf;
+}
+
+/* Error Styling
+   ========================== */
+
+.active-scaffold .errorExplanation {
+background-color: #fcc;
+margin: 2px 0;
+border: solid 1px #f66;
+}
+
+.active-scaffold fieldset {
+clear: both;
+}
+
+.active-scaffold .errorExplanation h2 {
+padding: 2px 5px;
+color: #333;
+font-size: 11px;
+margin: 0;
+letter-spacing: 0;
+background-color: #f66;
+}
+
+.active-scaffold .errorExplanation ul {
+margin: 0;
+padding: 0 2px 4px 25px;
+list-style: disc;
+}
+
+.active-scaffold .errorExplanation p {
+font-size: 11px;
+padding: 2px 5px;
+margin: 0;
+}
+
+.active-scaffold .errorExplanation ul li {
+letter-spacing: -1px;
+margin: 0;
+padding: 0;
+background-color: transparent;
+}
+
+/* Loading Indicators
+   ============================== */
+
+.active-scaffold .loading-indicator {
+vertical-align: bottom;
+width: 16px;
+margin: 0;
+}
+
+.active-scaffold .active-scaffold-header .loading-indicator {
+margin-bottom: 3px;
+}
+
+/* Show
+   ============================= */
+.active-scaffold .show-view dl {
+  margin: 15px;
+}
+
+.active-scaffold .show-view dt {
+  text-align:left;
+  width:130px;
+  padding: 5px;
+  float: left;
+  clear: left;
+  color: #8f8f8f;
+  font-weight: bold;
+  line-height: 16px;
+}
+
+.active-scaffold .show-view dd {
+  height: 5px;
+  margin-top:6px;
+  float: left;
+}
+
+/* Form
+   ============================== */
+
+.active-scaffold .submit {
+font-weight: bold;
+font-size: 14px;
+letter-spacing: 0;
+margin: 0;
+margin-top: 5px;
+}
+
+.active-scaffold form p {
+  clear: both;
+}
+
+.active-scaffold fieldset {
+border: none;
+}
+
+.active-scaffold h4,
+.active-scaffold h5 {
+  padding: 2px;
+  margin: 0;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: none;
+  color: #31576F;
+  letter-spacing: 0;
+}
+
+.active-scaffold h5 {
+padding: 0;
+margin: 5px 0 2px 0;
+font-size: 14px;
+letter-spacing: 0;
+}
+
+.active-scaffold ol {
+clear: both;
+float: none;
+padding: 2px;
+margin-left: 5px;
+list-style: none;
+}
+
+.active-scaffold p.form-footer {
+clear: both;
+}
+
+.active-scaffold a.cancel,
+.active-scaffold p.form-footer a {
+letter-spacing: 0;
+}
+
+/* Form :: Fields
+   ============================== */
+
+.active-scaffold li.form-element {
+clear: both;
+padding-top: 2px;
+}
+
+.active-scaffold label {
+color: #555;
+}
+
+.active-scaffold li.form-element dt {
+float: left;
+width: 12em;
+padding: 6px 0;
+}
+
+.active-scaffold li.form-element dd {
+float: left;
+}
+
+.active-scaffold .form dd {
+margin: 0;
+}
+
+
+.active-scaffold .description {
+color: #999;
+font-size: 10px;
+margin-left: 5px;
+}
+
+.active-scaffold .required label {
+font-weight: bold;
+}
+
+.active-scaffold label.example {
+font-size: 11px;
+color: #888;
+}
+
+.active-scaffold input.text-input,
+.active-scaffold select {
+letter-spacing: 0;
+border: solid 1px #1F7F00;
+}
+
+.active-scaffold input.text-input {
+padding: 2px;
+}
+
+.active-scaffold .fieldWithErrors input.text-input,
+.active-scaffold .fieldWithErrors select {
+border: solid 1px #f00;
+}
+
+.active-scaffold select {
+  padding: 1px;
+  width:100px;
+}
+
+.active-scaffold input.example {
+  color: #aaa;
+}
+
+
+.active-scaffold textarea {
+font-size: 12px;
+padding: 1px;
+border: solid 1px #1F7F00;
+width:400px;
+height:100px;
+
+}
+
+.active-scaffold .checkbox-list {
+padding-left: 0px;
+}
+
+.active-scaffold .checkbox-list li {
+padding-right: 5px;
+display: inline;
+}
+
+.active-scaffold .checkbox-list li label {
+padding: 0 0 0 2px;
+}
+
+.active-scaffold .draggable-list {
+float: left;
+/*width: 300px;*/
+margin-right: 15px;
+min-height: 30px;
+max-height: 100px;
+overflow: auto;
+background-color: #FFFF88;
+}
+
+.active-scaffold .draggable-list.hover {
+opacity: 0.5;
+}
+
+.active-scaffold .draggable-list.selected {
+background-color: #7FCF00;
+}
+
+.active-scaffold .draggable-list li {
+display: block;
+}
+
+.active-scaffold .draggable-list input {
+display: none;
+}
+
+/* Form :: Sub-Sections
+   ============================== */
+
+.active-scaffold li.sub-section {
+/*clear: left;*/
+padding: 5px 0;
+}
+
+/* Form :: Association Sub-Forms
+   ============================== */
+
+.active-scaffold .sub-form {
+/*display:none;
+clear: left;*/
+
+padding: 5px 0;
+padding-left: 5px;
+}
+
+.active-scaffold .sub-form h5 {
+margin-left: -5px;
+}
+
+.active-scaffold .sub-form table,
+.active-scaffold .sub-form table td {
+/*width: auto;*/
+background: none;
+}
+
+.active-scaffold .sub-form table th {
+color: #555;
+padding: 0 5px 0 1px;
+background: none;
+}
+
+.active-scaffold .sub-form label {
+display: none;
+}
+
+.active-scaffold .sub-form .checkbox-list {
+padding: 0 2px 2px 2px;
+background-color: #fff;
+border: solid 1px #1F7F00;
+}
+
+.active-scaffold .sub-form .checkbox-list label {
+display: block;
+}
+
+.active-scaffold .sub-form table td {
+border: none;
+background-color: transparent;
+padding: 1px;
+vertical-align: top;
+color: #999;
+}
+
+.active-scaffold .sub-form table td.actions {
+vertical-align: middle;
+background-color: transparent;
+}
+
+.active-scaffold .sub-form .association-record a.destroy {
+font-weight: bold;
+display: block;
+height: 16px;
+padding: 0;
+width: 16px;
+text-indent: -4000px;
+background: url(../../../images/active_scaffold/default/cross.png) 0 0 no-repeat;
+}
+
+.active-scaffold .sub-form .locked a.destroy {
+display: none;
+}
+
+.active-scaffold .sub-form input.text-input,
+.active-scaffold .sub-form select {
+letter-spacing: 0;
+}
+
+.active-scaffold .sub-form .footer-wrapper {
+margin-top: 3px;
+margin-right: 10px;
+}
+
+.active-scaffold .sub-form .footer {
+color: #999;
+padding: 3px 5px;
+}
+
+.active-scaffold .sub-form .footer select,
+.active-scaffold .sub-form .footer input {
+font-weight: bold;
+font-size: 12px;
+padding: 0;
+}
+
+.active-scaffold a.visibility-toggle {
+font-size: 100%;
+}
+
+.active-scaffold-found {
+ /* float:left;*/
+}

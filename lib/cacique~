@@ -1,0 +1,238 @@
+#!/usr/bin/env bash
+
+
+function show_help(){
+        echo "Consulta"
+        echo  "$0 show <execution_id> -u username -p password          Muestra informacion relacionada con una corrida existente"
+        echo "Ejecucion:"
+        echo "$0 run suite_id -u username -p password [OPTIONS]        Ejecuta una suite"
+        echo " "
+		echo "Ejecucion de lista"
+		echo "$0 runlist <directorio de salida> -in <archivo de entrada>"
+		echo "ARGUMENTOS"
+		echo "-u <usuario>               Usuario de Cacique"
+		echo "-p <password>              Password de Cacique"
+		echo " "
+        echo "OPTIONS:"
+        echo "-i <identifier>            Cambia el identificador de la ejecucion"
+        echo "-n <number>                Especifica la cantidad de veces que se va a ejecutar la suite, por defecto es 1"
+        echo "-queries <true|false>            Indica si se va a ejecutar la suite con queries o no, por defecto es true"
+        echo "-ip <ip_address>           Indica la direccion de ip para ejecutar BenderEnMiPc"       
+        echo "-port <port>               Indica el numero de puerto con el que se va a conectar a BenderEnMiPc por defecto es 4444"
+        echo "-c <case_id>               Comenta los casos al ejecutar la suite"
+        echo "-sm <email>				 Mail al cual se va a enviar el logueo de la corrida"
+        echo "-server_ip  <ip addr>      Ip del servidor de Cacique"
+        echo "-server_port <port>        Puerto del servidor de Cacique"
+		echo "-format <text|xml|json>    Formato en el que Cacique va a devolver los resultados, por defecto xml"
+		echo "-in <archivo de lista>     se especifica un archivo de lista con argumentos"
+		echo "-out <file>                archivo en el cual se va a mostrar los resultados, por defecto es la salida standar"    
+		echo "-dir <directory>"          directorio de salida 
+}
+
+
+MAX_REFRESH=900 #90 * 10 segundos son 15 minutos, al cabo de 15 minutos debe terminar la ejecucion
+REFRESH_TIME=10 #tiempo de refresco de status  en segundos
+SERVER_IP=localhost
+SERVER_PORT=80
+USER_NAME=""
+USER_PASS=""
+
+ACTION=$1
+shift
+id=$1
+shift
+
+IDENTIFIER="ejecutado el dia `date`"
+N_TIMES=1
+QUERY_FLAG=true
+RC_MODE=hub
+PLATAFORM=""
+SITES=""
+CASE_COMMENT=""
+ENVIROMENT="stage"
+SEND_MAIL=""
+PORT_CLIENT=4444
+IP_CLIENT=10.10.35.30
+FORMAT="application/xml"
+PLATAFORM=""
+CACIQUE_LIST="cacique_list"
+CACIQUE_FILE_OUT="TEST.xml"
+CACIQUE_DIR_OUT="cacique-reports"
+CONFIGURATION=""
+
+for i in  $@ ; do
+ if [ "$i" = "-h" ]; then
+   show_help
+   exit
+ fi
+  if [ "$i" = "-vv" ]; then
+    echo "usuer:pass: $USER_NAME:$USER_PASS" 
+    echo "suite_id: $id"
+    echo "identificador: $IDENTIFIER"
+    echo "times: $N_TIMES" 
+    echo "queryflag: $QUERY_FLAG" 
+    echo "queryrc $RC_MODE" 
+    echo "ipclient: $IP_CLIENT" 
+    echo "case_coment: $CASE_COMMENT" 
+    echo "port_clien: $PORT_CLIENT"
+    echo "send_mail $SEND_MAIL"
+  fi
+done
+
+
+#realiza una nueva corrida unitaria, recive como parametro el ID del caso luego pregunta el status hasta que termine la ejecucion
+function suite_execution() {
+    #la siguiente linea muestra el comando que se va a lanzar con las opciones pasadas, descomentar para ver el comando 
+   
+    #echo "curl -X POST -u $USER_NAME:$USER_PASS -s -H \"Accept: text/plain\"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d \"[execution][suite_id]=$id\" -d \"[execution][identifier]=$IDENTIFIER\" -d \"[execution][cant_corridas]=$N_TIMES\" -d \"[execution][send_mail]=true\" $SEND_MAIL -d \"[execution][remote_control_mode]=$RC_MODE\" -d \"[execution][remote_control_addr]=$IP_CLIENT\" -d \"[execution][cases_comment]=$CASE_COMMENT\" -d \"[execution][remote_control_port]=$PORT_CLIENT\" $CONFIGURATION"
+
+    SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$id" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" -d "[execution][send_mail]=true" $SEND_MAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION`
+}
+
+
+#consulta si hay que seguir refrescando el resultado, en caso de que se realice por mas de $limit veces (por defecto 90 veces) el script terminara. 
+function refresh_status() {
+        VALUE="true"
+	counter=1
+        while [ "$VALUE" = "true" ]
+        do
+		if [ $counter = $MAX_REFRESH ]; then
+			exit
+		fi 
+                sleep $REFRESH_TIME
+                VALUE=`curl -X GET -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/refresh -d "id=$SUITE_EXE_ID"`
+		counter=`expr $counter + 1`
+        done
+
+}
+
+#Muestra los resultados de una ejecucion de suite determinada
+function show_suite_run() {
+        RESULT=`curl -s -X GET -s -u $USER_NAME:$USER_PASS -s -H "Accept: $FORMAT"  http://$SERVER_IP:$SERVER_PORT/suite_executions/$SUITE_EXE_ID`
+	mkdir -p "$CACIQUE_DIR_OUT"
+	touch "$CACIQUE_DIR_OUT/$CACIQUE_FILE_OUT"
+        echo $RESULT > "$CACIQUE_DIR_OUT/$CACIQUE_FILE_OUT"
+}
+
+#Espera el logueo de la corrida
+function wait_log(){
+    echo $SUITE_EXE_ID
+    if [ $SUITE_EXE_ID != 0 ]; then
+    	refresh_status $SUITE_EXE_ID
+    	show_suite_run $SUITE_EXE_ID
+    else
+	echo "Por favor chequee el los parametros enviados"
+    fi
+}
+
+#se rellenan los parametros enviados por el usuario
+while (( $# ))
+  do
+  case $1 in
+   -u )
+ 	USER_NAME=$2
+	shift
+	;;
+   -p )
+	USER_PASS=$2
+	shift
+	;;
+   -host )
+	BENDER_HOST=$2
+	shift
+	;;
+   -port )
+	BENDER_PORT=$2
+	shift
+	;;
+    -i)
+	IDENTIFIER=$2
+	shift
+	;;
+    -n)	
+	N_TIMES=$2
+	shift
+	;;
+    -sm)
+	SEND_MAIL="$SEND_MAIL -d [execution][emails_to_send][]=$2"
+	shift
+	;;
+    -ip)
+	RC_MODE=rc
+        IP_CLIENT=$2
+	shift
+	;;
+    -port)
+	PORT_CLIENT=$2
+	shift
+	;;
+	
+    -c)
+    	CASE_COMMENT=$2
+	shift
+	;;
+    -e) 
+	ENVIROMENT=$2
+	shift
+	;;
+    -server_ip)
+	SERVER_IP=$2
+	shift
+	;;
+    -server_port)
+	SERVER_PORT=$2
+	shift
+	;;
+    -format)
+	if [ "$2" = "text" ]; then 
+		FORMAT="text/plain"
+	fi
+	if [ "$2" = "json" ];then
+		FORMAT="application/json"
+	fi
+	shift
+    ;;
+    -out )
+	CACIQUE_FILE_OUT=$2
+	shift
+    ;;
+    -dir )
+        CACIQUE_DIR_OUT=$2
+	shift
+    ;;
+    * )
+        CONFIGURATION="$CONFIGURATION -d [execution][${1/-/}][]=$2"
+        shift
+        ;;
+  esac
+shift
+done
+
+case $ACTION in
+		run)
+			suite_execution	$ID
+			wait_log 
+			;;
+		show)
+			show_suite_run  $ID
+			mkdir -p $CACIQUE_DIR_OUT
+			echo $XML_RESULT > "$CACIQUE_DIR_OUT/$CACIQUE_FILE_OUT"
+			;;
+		program)
+			suite_execution $ID
+			;;
+		runlist)
+			#en ACTION tiene el $1 inicial y en id tiene el $2 inicial
+			file_counter=0
+			CACIQUE_DIR_OUT=$id
+			while read line
+			do
+ 			 $0 $line -dir "$CACIQUE_DIR_OUT" -out "TEST-$file_counter.xml"
+			 file_counter=`expr $file_counter + 1`
+			done < $CACIQUE_LIST 
+			;;
+		* )
+			show_help
+			;;
+esac
+exit 0
