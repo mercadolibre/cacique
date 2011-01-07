@@ -1,0 +1,64 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%h1
+  =_("Summary")
+
+%div{:style=>"width:300px; float:right;"}
+  %h2
+    Total Scripts:
+    %e{:style=>"color:grey; font-weight:normal;"}
+      =@tot_scripts
+  %h2
+    Total Suites:
+    %e{:style=>"color:grey; font-weight:normal;"}
+      =@tot_suites
+
+-form_tag({:url=>"/graphs/graph"}, {:id=>"form_graph"}) do |f|
+  %h2
+    Scripts
+    =radio_button_tag  'view', 'Scripts', true, :onClick => remote_function(:complete => visual_effect(:toggle,'show_graph'),:update => "show_graph",  :method => "get",  :url => { :controllers => :graph, :action => :graph},:submit => "form_graph")
+    |
+    =_('Executions')
+    =radio_button_tag  'view', _('Executions'), false, :onClick => remote_function(:complete => "#{visual_effect(:toggle,'show_graph')};fdTableSort.initEvt();",:update => "show_graph",  :method => "get",  :url => { :controllers => :graph, :action => :graph},:submit => "form_graph")
+    %br
+    %br
+    =_('Select Year')
+    =select("year", "", @years, {:include_blank => _("- Select -")},  :onchange => remote_function(:complete => visual_effect(:toggle,'show_graph'),:update => "show_graph",  :method => "get",  :url => { :controllers => :graph, :action => :graph},:submit => "form_graph") )
+
+
+.div{:id=>"show_graph", :style=>"margin-left:40px;"}
+  =render :partial => "show_graph"
+  
+//Tools menu
+-content_for :tools_menu do
+  =link_to _('General Notes') , "/notes", {:title => _('Add/Remove Notes'), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;text-decoration:none;"}
+  =link_to _("Functions"), "/user_functions", {:title => _("Add/Remove Functions"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Projects"), "/projects", {:title => _("Projects Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Users"), "/users", {:title => _("Users Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Summary"), "/graphs", {:title => _("Summary"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
+  =link_to _("Run Configuration"), "/context_configurations", {:title => _("Run Configuration"), :style => "line-height:30px;padding-left:20px;text-decoration:none;"}
+   

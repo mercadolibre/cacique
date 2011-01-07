@@ -1,0 +1,65 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+%div{:id => "functions"}
+  -if paginate
+    %div{ :style=>"float:right;margin-right:5%;"}
+      = will_paginate user_functions
+  %br
+  %br
+  %table.general{:name=>"table_zebra", :cellspacing=>"0",:style=>"border:1px solid grey;"}
+    %tr
+      %th{:style=>"width:25%;border-right:1px solid grey;"}
+        =_('Name')
+      %th{:style=>"border-right:1px solid grey;"}
+        =_('Description:')
+      %th{:style=>"width:10%;border-right:1px solid grey;"}
+        =_('Actions')
+    -user_functions.each do |function|
+      %tr
+        %td{:title=>function.name, :style=>"width:25%;height:50px;border-right:1px solid #C6C5C4;font-size:12px;font-weight:bold;color:#668AA2;text-decoration:underline;cursor:pointer;", :onClick => "document.getElementById('code_#{function.id}').style.display='block';"}
+          =function.name
+        %td{:title=>function.description, :style=>"border-right:1px solid #C6C5C4;"}
+          =function.description
+        %td{:title=>function.description, :style=>"width:10%;border-right:1px solid #C6C5C4;"}
+          =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
+          -if can_move
+            %img{:src => "/images/icons/move.png", :alt=>"move.png", :title=>_('Move Function'), :onClick => remote_function(:url => {:controller => "user_functions", :action => "show_move", :id => function.id}, :complete =>  "$j('#move').show();" , :update => "move")}
+          -msg = _('Sure to remove the Function')
+          %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
+            %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Delete')}
+          
+      .tag{:id => "code_#{function.id}", :style => "display:none;top:25%;left:15%;width:70%;"}
+        //=render :partial =>"layouts/popup_header", :locals=>{:element =>"otro_#{function.id}"}
+        %img{:src => "/images/icons/cross_grey.png", :alt=>"cross_grey", :onClick => "document.getElementById('code_#{function.id}').style.display='none';", :style=>"cursor:pointer;float:right;"}
+        %h3
+          =function.name
+        %h2
+          =_('Created by:')
+          =function.user.name
+        %p{:style=>"min-height: 220px;max-height: 300px; overflow:auto;"}
+          =function.source_code.gsub("\n","<br>") 
+          
+.tag{:id => "move", :style => "display:none;top:25%;left:30%;width:40%;"}

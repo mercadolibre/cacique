@@ -1,0 +1,38 @@
+%script
+  var isExtended = "#{@menu_left_extended}"; //The menu slider is extended?
+
+.header
+  #menubar{:style=>"margin-left:0px;padding-left:0px;margin-top:0;padding-top:0px;"}
+    %img{:src=>"/images/cacique/header.png", :alt=>"cacique", :style=>"float:left;cursor:pointer;top:0px;", :onclick=>"location='/homes'"}
+      #menuProject{:style => "background:none;float:right;height:20px;max-width:130px;"}
+        %ul
+          %li{:style => "background:none;"}
+            %a{ :href => "#" , :style=>"line-height:20px;height:22px;padding-right:0px;"}
+              %span{:style=>"text-align:right; min-width:100px;"}
+                =  (truncate(current_user.login, :ommision => "...", :length => 12)) if current_user              
+                =image_tag('/images/icons/arrow_down.gif', :alt=>"arrow_down.gif", :style=>"border:none;")
+
+            %ul{:id=>"options_user", :style=>"top:22px;width:120px;-moz-border-radius:0px 0px 10px 10px;"}
+              %li
+                %a{ :href => "/users/my_account" }
+                  %span
+                    =_('My Account')                  
+              %li
+                %a{ :href => "/sessions/destroy" }
+                  %span
+                    =_('Logout')
+            
+  //Projects Menu
+  =render :partial => "layouts/menu_projects"
+  %div{ :style=>"clear: both"}
+
+  //Tools Menu
+  .cssMenu
+    = yield :tools_menu
+  =render :partial => "layouts/about"
+
+  //Category Menu
+  = yield :left_category_menu
+
+
+

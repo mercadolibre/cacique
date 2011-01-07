@@ -1,0 +1,155 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%style
+
+  table{
+  width:600px;
+  margin-top:15px;
+  color:#6E6E6E;
+  border-collapse:collapse;
+  }
+
+  table th{
+  width:100px;
+  border:solid #A4A4A4 1px;
+  text-align:center;
+  padding:5px;
+  }
+
+  table td{
+  width:50px;
+  border:solid #A4A4A4 1px;
+  text-align:center;
+  padding:5px;
+  }
+
+  table td.i{
+  width:400px;
+  }
+
+  table td.i{
+  text-align:left;
+  }
+
+%table
+  %tr
+    %th
+      %strong
+        Expresión
+    %th
+      %strong
+        Significado
+  %tr
+    %td
+      \.
+    %td.i
+      cualquier caracter
+  %tr
+    %td
+      []
+    %td.i
+      especificación por rango. P.ej: [a-z], una letra de la a, a la z
+  %tr
+    %td
+      \\w
+    %td.i
+      letra o número; es lo mismo que [0-9A-Za-z]
+  %tr
+    %td
+      \\W
+    %td.i
+      cualquier carácter que no sea letra o número
+  %tr
+    %td
+      \\s
+    %td.i
+      carácter de espacio; es lo mismo que [ \t\n\r\f]
+  %tr
+    %td
+      \\S
+    %td.i
+      cualquier carácter que no sea de espacio
+  %tr
+    %td
+      \\d
+    %td.i
+      número; lo mismo que [0-9]
+  %tr
+    %td
+      \\D
+    %td.i
+      cualquier carácter que no sea un número
+  %tr
+    %td
+      \\b
+    %td.i
+      retroceso (0x08), si está dentro de un rango
+  %tr
+    %td
+      \\b
+    %td.i
+      límite de palabra, si NO está dentro de un rango
+  %tr
+    %td
+      \\B
+    %td.i
+      no límite de palabra
+  %tr
+    %td
+      *
+    %td.i
+      cero o más repetd.iciones de lo que le precede
+  %tr
+    %td
+      +
+    %td.i
+      una o más repetd.iciones de lo que le precede
+  %tr
+    %td
+      $
+    %td.i
+      fin de la línea
+  %tr
+    %td
+      {m,n}
+    %td.i
+      como menos m, y como mucho n repetd.icioes de lo que le precede
+  %tr
+    %td
+      ?
+    %td.i
+      al menos una repetd.ición de lo que le precede; lo mismo que {0,1}
+  %tr
+    %td
+      ()
+    %td.i
+      agrupar expresiones
+  %tr
+    %td
+      ||
+    %td.i
+      operador lógico O, busca lo de antes o lo después

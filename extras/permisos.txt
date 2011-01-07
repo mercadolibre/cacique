@@ -1,0 +1,35 @@
+u = User.find(:first)
+
+# asignar rol
+u.has_role("root")
+
+# desasignar rol
+u.has_no_role("root")
+
+# asignar rol sobre un objeto
+u.has_role("viewer", project)
+
+# asignar rol sobre un objeto
+u.has_no_role("viewer", project)
+
+
+Roles posibles sobre proyectos y otros objetos:
+
+viewer:        permite LEER y EJECUTAR
+editor:         permite HACER CAMBIOS
+
+Roles posibles del usuario
+
+root:           ACCESO TOTAL sobre todos los objetos (necesario para accesar el abm de proyectos)
+
+Roles para control mas "fino" sobre objetos
+
+security:     permite cambiar atributos de seguridad de un objeto
+
+Por ejemplo:
+
+user.has_role("security", circuit)
+
+permite que el usuario user cambie los atributos de seguridad de un objeto (como por asignar roles a otros usuarios sobre ese objeto, etc..)
+
+editor y viewer se pueden definir tb para cualquier objeto
