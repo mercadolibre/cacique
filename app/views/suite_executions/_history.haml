@@ -1,0 +1,76 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-display = params[:filter]? '': 'none'
+
+.history_filter{:id=>"filter_form", :style => "display:#{display};margin-bottom:10px;"}
+  -form_for :suite_execution, :url => {:controller => 'suite_executions', :action => :index} do
+    .error{:style => "color:Tomato;font-family:sans-serif; font-size:11px;font-weight:normal;"}
+      %ul
+        -@errores.each do |error|
+          %li
+            =error
+
+    .form_tag{:style=>"width:500px;float:left;margin-bottom:10px;"}
+      .filter{:style=>" font-size:12px; color: #31576F; font-family:font-family:arial,sans-serif;font-weight:normal ;margin-top: 10px;float:left; "}
+
+      //Identifier
+      %label{:style=>" display:inline;"}
+        =_('Identifier:')
+      -value = display== '' && params[:filter][:identifier]  ? params[:filter][:identifier]: ''
+      =text_field("filter", "identifier", {:value=>value, :style => "color:black ;width: 125px;"})
+
+      //Model: suite or script
+      %label{:style=>"margin-left: 20px;display:inline;"}
+        =_('Execution of:')
+      -value = display== '' && params[:filter][:model]  ? params[:filter][:model]: ''
+      =select("filter", "model", [_('All'), 'suites', 'scripts'],{ :selected => value}, {:onchange => remote_function(:update => "filter_model_div",  :method => "get",  :url => { :controllers => :suite_execution, :action => :show_model_filter},:with => 'Form.Element.serialize(this)') })
+      %br
+      %br
+
+      //Date From
+      %label{:style=>"display:inline;"}
+        =_('From:')
+      -value = display== '' && params[:filter][:init_date] ? params[:filter][:init_date]: ''
+      =calendar_date_select_tag "filter[init_date]", HISTORY_INIT_DATE,:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date < (new Date()).stripTime()", :popup => :force, :year_range => "1.1.2010".to_datetime..0.years.ago
+
+      //Date Until
+      %label{:style=>"margin-left: 10px;display:inline;"}
+        =_('Until:')
+      -value = display== '' && params[:filter][:finish_date] ? params[:filter][:finish_date]: ''
+      =calendar_date_select_tag "filter[finish_date]", @finish_date.strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date <= (new Date()).stripTime()", :popup => :force, :year_range => "1.1.2010".to_datetime..0.years.ago, :after_show => "set_date();",:onchange => "set_hour();"
+
+      //Quantity
+      %label{:style=>"margin-left: 10px;display:inline;"}
+        =_('Quantity:')
+      -value = display== '' && params[:filter][:paginate] ? params[:filter][:paginate].to_i: ''
+      =select("filter","paginate",[7,10,20,30], {:selected => value})
+
+    #filter_model_div
+      -if  display== '' && params[:filter][:model]
+        =render :partial => "filter_model_div", :locals => {:show_model =>@show_model, :suite_names=>@suite_names, :script_names=>@script_names, :case_names=>@case_names}
+    .form_button
+      %label{:style=>"display:inline;"}
+      =submit_tag _("Apply")

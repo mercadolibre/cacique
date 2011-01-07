@@ -1,0 +1,77 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+-javascript 'suite_execution_emails'
+
+%div{:style=>"float:left;overflow:hidden;padding:10px;width:250px;"}
+
+  %h2{:style=>"color:#288EB1;text-align:cenetr;margin-top:10px;"}
+    =_("Execution Evironment")
+  .form_tag
+    -if user_configuration.remote_control_mode == "hub"
+      %input{ :id => "execution_remote_control_mode_hub", :type => "radio", :value => "hub", :name => 'execution[remote_control_mode]', :onClick => "document.getElementById('direccion_rc_mode').hide();", :checked => "checked"}
+    -else
+      %input{ :id => "execution_remote_control_mode_hub", :type => "radio", :value => "hub", :name => 'execution[remote_control_mode]', :onClick => "document.getElementById('direccion_rc_mode').style.display = 'none'"}
+    =_("Automatic")
+    %br
+    -if user_configuration.remote_control_mode == "rc"
+      %input{ :id => "execution_remote_control_mode_rc", :type => "radio", :value => "rc", :name => 'execution[remote_control_mode]', :onClick => "document.getElementById('direccion_rc_mode').hide();", :checked => "checked"}
+    -else
+      %input{ :id => "execution_remote_control_mode_rc", :type => "radio", :value => "rc", :name => 'execution[remote_control_mode]', :onClick => "document.getElementById('direccion_rc_mode').style.display = ''"}
+    Manual
+    %br
+    %br
+    %div{ :id => "direccion_rc_mode", :style => ( user_configuration.remote_control_mode == "rc" ? "" : "display: none;margin-top:10px;" )  }
+      %label{:style=>"float:left; width: 70px;"}
+        =_("Port:")
+        =text_field "execution", "remote_control_port", :value => user_configuration.remote_control_port.to_s, :style => "width: 50px;"
+      %label{:style=>"float:left; width: 90px;"}
+        =_("Host or IP:")
+        =text_field "execution", "remote_control_addr", :value => user_configuration.remote_control_addr.to_s, :style => "width: 80px;"
+      %div{ :style=>"clear: both"}
+
+
+
+  %h2{:style=>"color:#288EB1;text-align:cenetr;margin-top:10px;"}
+    General
+  .form_tag
+    %label{:for => "send_mail"}
+      -if !@user_configuration.nil? and @user_configuration.send_mail
+        =check_box_tag "execution[send_mail][]", "true", true, :onClick => "showHideInput();"
+        -show_emails ='block'
+      -else
+        =check_box_tag "execution[send_mail][]", "true", false, :onClick => "showHideInput();"
+        -show_emails='none'
+      =_("Send Mail")
+      =text_field "execution", "emails_to_send", :value => current_user.email, :size => "26", :style => "display:#{show_emails}; width:220px;margin: 10px 0px; "
+
+    %label{:for=> "debug_mode"}
+      -if !user_configuration.nil? and user_configuration.debug_mode
+        =check_box_tag "execution[debug_mode][]", "true", true
+      -else
+        =check_box_tag "execution[debug_mode][]", "true", false
+      =_('Debug Mode')
+

@@ -1,0 +1,196 @@
+#
+# Rakefile managing Selenium Grid components
+#
+require "net/http"
+require "yaml"
+require File.dirname(__FILE__) + '/lib/ruby/tcp_socket_extensions'
+require File.dirname(__FILE__) + '/lib/ruby/file_extensions'
+require File.dirname(__FILE__) + '/lib/ruby/java/classpath'
+require File.dirname(__FILE__) + '/lib/ruby/java/vm'
+require File.dirname(__FILE__) + '/lib/ruby/s_grid/hub'
+require File.dirname(__FILE__) + '/lib/ruby/s_grid/remote_control'
+
+desc "Print help"
+task :help do
+  puts <<-EOS
+  
+ Rake tasks to manage a Selenium Grid on a *single* machine.
+
+   NOTE: To manage a Grid accross *multiple* machines use the 
+         Capistrano recipes provided with Selenium Grid distribution
+ 
+ 
+ Start the Hub and 15 Remote Controls
+ ------------------------------------
+ 
+    rake all:start
+   
+ Stop the Hub and 15 Remote Controls
+ -----------------------------------
+ 
+    rake all:stop
+   
+ Restart the Hub and 15 Remote Controls
+ --------------------------------------
+
+    rake all:restart
+
+ Start the Hub with only 10 Remote Controls, ports 5000 to 5010
+ --------------------------------------------------------------
+
+    rake all:restart PORTS=5000-5010
+
+  Stop them with
+
+    rake all:stop PORTS=5000-5010
+  
+ Start 5 Remote Controls with the Hub, ports 6500 to 6505
+ --------------------------------------------------------
+
+   rake rc:start_all PORTS=6500-6505
+
+ Start a single Remote Control on port 6666
+-------------------------------------------
+
+    rake rc:start PORT=6666
+
+   
+  EOS
+end
+
+desc "Restart all  services (Hub a Remote Controls"
+task :'all:restart' do
+  Rake::Task[:'all:stop'].execute([]) rescue nil
+  Rake::Task[:'all:start'].execute []
+end
+
+desc "Launch all  services (Hub a Remote Controls"
+task :'all:start' do
+  ENV['BACKGROUND'] = "true"
+  Rake::Task[:'hub:start'].execute []
+  puts "Waiting for Hub to come up..."
+  hub.wait_until_up_and_running
+  Rake::Task[:'rc:start_all'].execute []
+end
+
+desc "Stop all  services (Hub a Remote Controls"
+task :'all:stop' do
+  puts "Stopping all Selenium Grid servers..."
+  Rake::Task[:'rc:stop_all'].execute []
+  Rake::Task[:'hub:stop'].execute [] rescue nil
+end
+
+desc "Launch Hub"
+task :'hub:start' do
+  SGrid::Hub.new.start \
+      :background => ("true" == ENV['BACKGROUND']),
+      :log_file => File.native_path(File.dirname(__FILE__) + "/log/hub.log"),
+      :pid_file => File.join(File.dirname(__FILE__), "pid", "hub.pid")
+end
+
+desc "Stop Hub"
+task :'hub:stop' do
+  puts "Shutting down Selenium Grid hub..."
+  hub.shutdown rescue EOFError
+  FileUtils.rm_f File.join(File.dirname(__FILE__), "pid", "hub.pid")
+end
+
+desc "Launch Remote Control"
+task :'rc:start' do
+  port = ENV['PORT'] || 5555  
+  remote_control(:port => port).start \
+      :background => ENV['BACKGROUND'],
+      :log_file => File.join(File.dirname(__FILE__), "log", "rc-#{port}.log"),
+      :pid_file => File.join(File.dirname(__FILE__), "pid", "rc-#{port}.pid")
+end
+
+desc "Stop Remote Control"
+task :'rc:stop' do
+  remote_control.shutdown rescue EOFError
+  FileUtils.rm_f File.join(File.dirname(__FILE__), "pid", "rc-#{port}.pid")
+end
+
+desc "Launch Remote Control"
+task :'rc:start_all' do
+  ports = ENV['PORTS'] || "5000-5015"
+  port_range = Range.new(*ports.split("-"))
+  port_range.each do |port|
+    remote_control(:port => port, :background => true).start \
+        :background => true,
+        :log_file => File.join(File.dirname(__FILE__), "log", "rc-#{port}.log"),
+        :pid_file => File.join(File.dirname(__FILE__), "pid", "rc-#{port}.pid")
+  end
+end
+
+desc"Stop Remote Controls. Usage rake rc:stop PORTS=5555-5560"
+task :'rc:stop_all' do
+  ports = ENV['PORTS'] || "5000-5015"
+  port_range = Range.new(*ports.split("-"))
+  port_range.each do |port|
+    begin
+      puts "Stopping Remote Control on port #{port}"
+      rc = SGrid::RemoteControl.new :host => ENV['HOST'] || "localhost",      
+                                    :port => port
+      rc.shutdown
+      FileUtils.rm_f File.join(File.dirname(__FILE__), "pid", "rc-#{port}.pid")
+    rescue Exception => e
+      STDERR.puts "Could not properly shutdown remote control #{port} : #{e}"
+    end
+  end
+end
+
+desc "Launch a Xvnc server"
+task :'xvnc:start' do
+  sh "Xvnc :1 -alwaysshared -geometry 1280x1024 -depth 24 -desktop 'Selenium Grid' 2>&1 >#{File.join(File.dirname(__FILE__), "log", "X.log")} &"
+end
+
+desc "Fully Automated Demo (for continuous integration)"
+task :'ci:demo' do
+  begin
+    Rake::Task["all:restart"].execute []
+    sh "ant run-demo-in-parallel" unless running_on_openqa_servers
+    sh "ant run-demo-in-sequence"
+  ensure
+    Rake::Task["all:stop"].execute []
+  end
+end
+
+desc "Fully Automated Ruby Example (for continuous integration)"
+task :'ci:ruby-example' do
+  begin
+    Rake::Task["all:restart"].execute []
+    sh "(cd  examples/ruby; rake tests:run_in_parallel)" unless running_on_openqa_servers
+    sh "(cd  examples/ruby; rake tests:run_in_sequence)"
+  ensure
+    Rake::Task["all:stop"].execute []
+  end
+end
+
+def config
+  @config ||= YAML.load(File.read(File.dirname(__FILE__) + "/grid_configuration.yml"))
+end
+
+def hub_port
+  (ENV["HUB_PORT"] || config["hub"]["port"]).to_i
+end
+
+def hub
+  SGrid::Hub.new :port => hub_port
+end
+
+def remote_control(options={})
+  SGrid::RemoteControl.new(
+      :host => ENV['HOST'] || "localhost",
+      :port => (options[:port] || ENV['PORT'] || 5555),
+      :hub_url => (ENV['HUB_URL'] || "http://localhost:#{hub_port}"),
+      :shutdown_command => ENV['RC_SHUTDOWN_COMMAND'])
+end
+
+# Network is slow as hell on these VMs
+def running_on_openqa_servers
+  begin
+    not `hostname -s`.grep(/(xserve|osxvm)/).empty?
+  rescue Exception
+    false
+  end
+end

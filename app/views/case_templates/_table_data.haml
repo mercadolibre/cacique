@@ -1,0 +1,94 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%div{:id=>"div_to_refresh_#{circuit.id}"}
+  -no_permission_alert = "alert('No tiene permisos para realizar esta accion')"
+  -case_templates.each do |case_template|
+    %tr{:id=>case_template.id.to_s, :onclick=>"marcar(this, '#CBE3BE');"}
+
+      //     CASE TEMPLATE INDEX
+      -if @controller_data == 'case_templates'
+        //Ejecutar
+        %td{:style=>"padding-left:8px;width:10px;"}
+          =check_box_tag "execution_run[]", case_template.id, false, :id => "case_"+circuit.id.to_s
+        //Status
+        %td{:style=>"width:10px;"}
+          %div{:id=>'status_' + case_template.id.to_s}
+            =render :partial => 'status', :locals => {:execution => case_template.last_execution, :case_template_id => case_template.id}
+
+      //    SUITE COMMENT
+      -if @controller_data == 'suite_executions'
+        %td{:style=>"width:10px;"}
+          %input{ :id => "case_"+circuit.id.to_s, :type => "checkbox", :checked=>"checked", :name => "cases[]", :value => case_template.id, :onClick=>"RelacionesRotas(this,#{circuit.id}, #{case_template.id});"}
+
+      //   SUITE EDIT
+      -if @controller_data == 'suites'
+        %td{:style=>"width:10px;"}
+          //Si ya pertenece a la suite se chekea
+          -if (@suite.case_template_ids.include?(case_template.id))
+            %input{ :type => "checkbox", :checked=>true, :id => "case_"+circuit.id.to_s, :name => "case_templates[]", :value => case_template.id,:onClick=>"update_cases(this.checked,#{@suite.id},#{case_template.id});"}
+          -else
+            %input{ :type => "checkbox", :checked=>false, :id => "case_"+circuit.id.to_s, :name => "case_templates[]", :value => case_template.id,:onClick=>"update_cases(this.checked, #{@suite.id},#{case_template.id});"}
+
+      //  GENERAL
+      -for column in columns_template
+        -@exclude_show ||= exclude_show
+        -if !@exclude_show.include?(column.to_sym)
+          -case column
+            - when 'id'
+              %td{:name=>case_template.readonly ? "" : "id", :id=>column, :title => case_template.send(column), :style=>"width:40px;text-align:center;"}
+                =truncate(case_template.send(column).to_s, :ommision => "..",:length => 8)
+                  
+            - when 'objective'
+              %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>column, :title => case_template.send(column), :style=>"width:300px;",:ondblclick => no_permission_alert}
+                %div{:style=>"width:300px;"}
+                  =truncate(case_template.send(column).to_s,  :ommision => "...",:length => 40)
+            - when 'created_at', 'updated_at'
+              %td{ :title => case_template.send(column)}
+                =case_template.send(column).to_s(:short).split("-")[1]
+            -when 'priority'
+              %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>column, :title => case_template.send(column), :ondblclick => no_permission_alert}
+                =case_template.send(column)
+            -else
+              %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>column, :title => case_template.send(column), :ondblclick => no_permission_alert}
+                =truncate(case_template.send(column).to_s,  :ommision => "...", :length => 20)
+      -@columns_data = columns_data
+      -for column in @columns_data
+        -if !@exclude_show_data.include?(column.to_sym) 
+          //if the column is field_default
+          -if @cell_selects.keys.include?(column)
+            %td{:name=>case_template.readonly ? "" : "edit_cell_select", :id=>column, :title => case_template.get_case_data[column], :ondblclick => no_permission_alert}
+              =truncate(case_template.get_case_data[column].to_s, :ommision => "..." ,:length => 20)
+          -else
+            %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>column, :title => case_template.get_case_data[column], :ondblclick => no_permission_alert}
+              .div{:style=>"width:150px;"}
+                =truncate(case_template.get_case_data[column].to_s, :ommision => "..." ,:length => 20)
+
+%script
+  = [_('High'), _('Medium'), _('Low')].to_javascript("priority")
+
+
+

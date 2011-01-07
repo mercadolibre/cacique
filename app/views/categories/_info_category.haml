@@ -1,0 +1,60 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+//CATEGORY INFO
+.info{:id=>"infoCategory", :style=>"display:none;left:310px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoCategory"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Folder')
+      %p
+        =_('Each folder is a group of scripts.')
+        %br
+        =_('This group is defined by the user and is useful to sort the scripts.')
+        %br
+    %h3
+      %img{:src => "/images/icons/import.png", :alt=>"import.png"}
+      =_('Import Script')
+    %p
+      =_('Allows you to import scripts from other projects, including or not the associated data set.')
+    %h3
+      %img{:src => "/images/icons/move.png", :alt=>"move.png"}
+      =_('Move Script')
+    %p
+      =_('Allow to move scripts between folders.')
+    %h3
+      %img{:src => "/images/dtree/expandall.png", :alt=>"expandall"}
+      =_('Expand All')
+    %p
+      =_('Allow to Expand All Project tree nodes.')
+    %h3
+      %img{:src => "/images/dtree/colapseall.png", :alt=>"colapseall"}
+      =_('Collapse All')
+    %p
+      =_('Allow to Collapse All Project tree nodes.')
+
+    

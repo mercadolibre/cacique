@@ -1,0 +1,61 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+
+
+//Should receive the variables:
+//@columns_template
+//@exclude_show
+//@exclude_show_data
+
+%script
+  //Selected filed in table
+  var marcado  = "";
+  var anterior = "";
+  var color_anterior = "";
+  
+//To find out if called from case template, edit suite or suite comment
+-@controller_data = self.controller.controller_name()
+
+%div{ :style=>"clear: both"}
+  -if case_templates.empty? && params[:search].nil?
+    #cases_table{:style => "width:99%;  margin:auto;"}
+      %h2{:style=>"margin-top:30px; margin-left:5px;"}
+        =_("Without Cases")
+      %br
+  -elsif case_templates.empty? && !params[:search].nil?
+    #cases_table{:style => "width:99%;  margin:auto;"}
+      %h2{:style=>"text-align:center;margin-top:30px;"}
+        %i
+          =_("No results were found for")
+          =params[:search][:objective_like]
+  -else
+    #cases_table{:style => "width:99%;  margin:auto;"}
+      %table.general{  :id=>'table_' + circuit.id.to_s, :cellspacing=>"1", :name=>"table_zebra", :style=>"margin-top:0px;max-width:100%;"}
+        =render :partial => '/case_templates/table_titles', :locals=>{ :columns_data=>columns_data, :columns_template=>@columns_template, :circuit => circuit}
+        =render :partial => '/case_templates/table_data', :locals=>{ :circuit=> circuit, :case_templates=>case_templates, :columns_data=>columns_data, :columns_template=>@columns_template }
+
+%div{ :style=>"clear: both"}
