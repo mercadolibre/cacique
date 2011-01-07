@@ -1,0 +1,144 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+%div{:id=>'show_relations', :class=>"div_show", :style=>" display:none;padding:0 20px;height:250px;overflow:auto;"}
+  %img{:src => "/images/icons/relations.png", :alt=>"relations.png", :title=>'Relaciones', :style=>"float:left;"}
+  -if @suite.suite_fields_relations.empty?
+    %i{:title=>@suite.name.capitalize, :style=>"color:#373737;margin-left:20px;"}
+      =_("Without Relations")
+    %h3{:onClick => "location.href='/suites/relations1/#{@suite.id}';",  :style=>"cursor:pointer;text-decoration:underline;"}
+      \-->
+      =_("Link Relations")
+      \<--
+  -else
+    %select{ :id=>'select_circuits', :onChange=>"showCircuit();", :style=>"width:200px;"}
+      %option{ :label => "none", :selected =>_("-Select Script-"), :value =>_("-Select Script-") }
+        \-
+        =_("Select any Script")
+        \-
+      -for circuit in @suite.circuits do
+        %option{ :id=>circuit.name, :label => circuit.name, :value => circuit.id, :title=>circuit.name}
+          =truncate(circuit.name,:ommision => "...", :length =>40)
+                 
+  -for circuit in @suite.circuits do
+    .div_relations{:id=>'div_circuit' + circuit.id.to_s, :style=>" display:none;margin-top:10px;"}
+
+      %div{:style=>"width: 30%;float:left;"}
+        //SOURCE
+        .form_tag{:style=>"background-color:#EEEEEE;padding:5px;min-height:100px;"}
+          %h2{:style=>"text-align:center;"}
+            =_("Source")
+          //Source script table
+          //Relations Format : [ [source], [destination] ]
+          -parent_relations = Array.new
+          //@circuit_relations Format : circuito -> [ [source], [destination] ]
+          -parent_relations = @circuit_relations[circuit.id]
+          -if parent_relations[0].length == 0
+            %br
+            %br
+            %i{:style=>"margin-left:30%"}
+              =_("Without Source")
+          -else
+            %table{:id=>'table_parents_' + circuit.id.to_s, :style=>"margin: 0 auto; width: 90%;", :cellspacing=>"5"}
+              - for parent in parent_relations[0] do
+                %tr
+                  %td
+                    %input{:id=>"options", :type=>"button", :title=>@circuit_names[parent], :value=>truncate(@circuit_names[parent],:length => 20),  :onclick=> "showCases('div_cases_' + #{parent} + '_' + #{circuit.id})", :style=>" cursor:pointer; -moz-border-radius:30px; color:#373737; font-size:11px; width:200px; padding:2px 0;"}
+
+      %div{:style=>"float:left;width:33%;padding:0 10px;"}
+        //SCRIPT
+        %img{ :src=>"/images/icons/icon_flecha.png", :alt=>"con_flecha.png", :style=>"width:23px; height:20px;margin-top:5%;float:left;"}
+        %input{ :type=>"button", :value=>truncate(circuit.name,:ommision => "...", :length =>20),:title=>circuit.name, :disabled=>'disabled', :style=>" margin:0 5px; float:left;-moz-border-radius:10px; color:#31576F; font-weight: bold; text-transform: capitalize; padding-left: 5%; font-size:12px; width:77%; height:50px; "}
+        %img{ :src=>"/images/icons/icon_flecha.png", :alt=>"con_flecha.png", :style=>"width:23px; height:20px;margin-top:5%;float:left;"}
+         
+      %div{:style=>"width: 32%;float:left;"}
+        .form_tag{:style=>"background-color:#EEEEEE;padding:5px;min-height:100px;"}
+          //Destination
+          %h2{:style=>"text-align:center;"}
+            =_("Destination")
+          //Script destination table
+          //relations Format : [ [source], [destination] ]
+          -childrens_relations = Array.new
+          //@circuit_relations Formato : circuito -> [ [source], [destination] ]
+          -childrens_relations = @circuit_relations[circuit.id]
+          -if childrens_relations[1].length == 0
+            %br
+            %br
+            %i{:style=>"margin-left:32%;"}
+
+              =_("Without Destination")
+          %table{:id=>'table_childrens_' + circuit.id.to_s, :style=>"margin: 0 auto; width: 100%;", :cellspacing=>"5"}
+            -for children in childrens_relations[1] do
+              %tr
+                %td
+                  %input{:id=>"options", :type=>"button", :value=>truncate(@circuit_names[children],:length => 20)  ,  :onclick=> "showCases('div_cases_' + #{circuit.id} + '_' + #{children});", :title=>@circuit_names[children], :style=>" cursor:pointer; -moz-border-radius:30px; color:#373737; font-size:11px; width:200px; padding:2px 0;"}
+
+
+  //CASES AND FIELDS
+  %div{ :style=>"clear: both"}
+  -@circuits_fields_relation.each do |k,fields|
+    .div_circuit_cases{:id=>"div_cases_"+ k, :style=>"display:none;margin-top:20px;width:100%;border:1px solid #C3C3C3;background-color:#EEEEEE;"}
+      %h2{:style=>"text-align:center;"}
+        =truncate(@circuit_names[k.split('_')[0].to_i],:ommision => "...", :length =>25)
+        \-->
+        =truncate(@circuit_names[k.split('_')[1].to_i],:ommision => "...", :length =>25)
+
+      //FIELDS
+      %div{:style=>"width: 47%; float:left; padding:0 10px;color:#373737;"}
+        %h3
+          =_("Relation Fields:")
+        %ul{:style=>"padding:0 20px;text-align:center;"}
+          -if @circuits_fields_relation[k].empty?
+            %i
+              =_("No Cases Related")
+          -else
+            -@circuits_fields_relation[k].each do |fields|
+              %li{:title=>fields[0] + '-->' + fields[1]}
+                =truncate(fields[0],:ommision => "...", :length =>20)
+                \-->
+                =truncate(fields[1],:ommision => "...", :length =>20)
+      //CASES
+      %div{:style=>"width: 47%; float:left; padding:0 10px;"}
+        %h3
+          =_("Relation Cases")
+        %ul{:style=>"padding:0 20px;color:#373737;text-align:center;"}
+          -if @circuits_cases[k].nil?
+            %i
+              =_("No Cases Related")
+          -else
+            -@circuits_cases[k].each do |cases|
+              %li
+                =cases[0]
+                \-->
+                =cases[1]
+
+      %div{ :style=>"clear: both"}
+
+
+
+
+
+
+

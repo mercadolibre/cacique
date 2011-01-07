@@ -1,0 +1,70 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+//Data recoveries
+-permission_denied = "alert('#{_("You do not have Edit Permissions for this script")}')"
+.tag{ :id => "data_recoveries", :style=>"left: 30%; height:280px; width:400px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"data_recoveries"}  
+  %h3
+    =_('Modify Data Retrieved')
+  %br
+  %label{:style=>"width:60px; float:left;"}
+    =_('Name')
+  %input{ :id=>"return_1", :type => "input", :style=>"width:120px; float:left;" }
+  %label{:style=>"width:50px; float:left;margin-left:10px;"}
+    =_('Data')
+  =select "return_", "2", @columns_names,{:include_blank => _('All')},{:style=>"float:left;width:120px;"}
+  %input{:id => "return_3", :type => "text", :style=>'width:120px; display:none;float:left;'}
+  %img{:id =>"img2_return", :src => "/images/icons/edit.png",  :alt => "edit", :style => "cursor:pointer; float:left; margin-left:5px;", :onClick => "changeInput();"}
+  %input{ :type => "Button", :value => _("Add"), :style=>"float:left; cursor:pointer;float:right;margin-top:10px;", :onClick => ( @readonly ? permission_denied : remote_function(:complete => "addDataRecoveryIntoTable('#{@circuit.id}');", :url => {:controller => "circuits", :action => "updateDataRecovery", :id => @circuit.id}, :with => "findParamsDataRecovery()", :condition=>"checkNewDataRecovery()" ) ) }
+  
+  %div{ :style=>"clear: both"}
+  %h3
+    =_('Completed Fields:')
+  %div{ :id=>'campos_ya_ingresados', :style=>"text-align:center; color:#31576F;max-height:120px; overflow:auto;"}
+    -if @data_recovery_names.empty?
+      =_('The current script does not retrieve data')
+      %br
+      =_('You can add')
+    -else
+      %table.detail{:id=>"data_recovery_table",:CELLSPACING=>0, :style=>"width:95%; margin: 0 auto; margin-top:0px; margin-bottom: 10px; padding: 10px;text-align:left;"}
+        %tr
+          %th{:style=>"padding:3px;"}
+            =_('Name')
+          %th{:style=>"padding:3px;"}
+            Data          
+          %th{:style=>"width:10px;padding:3px;"}
+
+        -i = 0
+        -@data_recovery_names.each do |name|
+          %tr{:id=>"row_" + name}
+            %td{:title=>name, :name=>"data_recovery_names"}
+              =truncate(name,  :ommision => "...",:length => 20)
+            %td{:title=>@data_recovery_values[i]}
+              =truncate(@data_recovery_values[i],  :ommision => "...",:length => 20)
+            %td{:style=>"width:10px;"}
+              %img{:src => '/images/icons/cross.png', :alt=>"cross", :name=>"#{@data_recovery_names[i]}",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;", :onclick=>( @readonly ? permission_denied : "if(confirm(msgjs10)){ #{ remote_function(:complete => "deleteDataRecoveryTable('#{i+1}');", :url => {:controller => "circuits", :action => "deleteDataRecovery", :id => @circuit.id}, :with => "'name=' + this.name" )  } }")}              
+          -i = i + 1

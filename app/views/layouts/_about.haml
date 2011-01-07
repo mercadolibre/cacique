@@ -1,0 +1,67 @@
+//About
+.tag{:id=>"about", :style=>"display:none;width:350px;height: 420px; left:33%; top: 15%;"}
+  %img{ :src => "/images/icons/cross_grey.png",:alt=>"cross_grey.png", :onClick => "javascript:document.getElementById('about').style.display='none';", :style=>"cursor:pointer;float:right;"}
+  .cacique_about#cacique_about
+    %img{:src=>"/images/cacique/cacique.png", :alt=>"cacique", :style=>"margin:15px 90px 0;width:150px;"} 
+    %h3  
+      =_('Version')
+      =CACIQUE_VERSION     
+               
+    %p{:style=>"height:50px"}
+      Copyright © 2009-
+      =Time.now.year
+      MercadoLibre S.R.L  
+      %br
+      It is released under the terms of the GNU 
+      %br
+      General Public License (
+      =link_to "GPL" , "http://www.gnu.org/copyleft/gpl.html" , :popup=>"true"
+      )
+
+    =link_to image_tag("/images/cacique/logo_site.png", :alt=>"mercado_libre", :style=>"border:none;margin:12px 35%;width:100px;"), "http://www.mercadolibre.com", :popup=>true
+  .cacique_credits{:id=>"cacique_credits"}
+    %ul
+      =link_to image_tag("/images/cacique/logo_site.png", :alt=>"mercado_libre", :style=>"border:none;width:100px;margin:0 20px 20px;"), "http://www.mercadolibre.com"
+      %li            
+        =mail_to "rodrigo.guzman@mercadolibre.com", "Rodrigo Guzman"     
+      %li                   
+        =mail_to "lula.brizuela@gmail.com", "Lucia Brizuela"      
+      %li        
+        =mail_to "brenda.guerra.7@gmail.com", "Brenda Guerra "         
+      %li      
+        =mail_to "crosafernando@gmail.com ","Fernando Crosa"
+      %li                        
+        =mail_to "horaciob@gmail.com", "Horacio Branciforte "                    
+      %li                 
+        =mail_to "juancluna@gmail.com", "Juan Carlos Luna"                                      
+
+
+
+    %p{:style=>"font-size:11px;"}
+      We are greatful to MercadoLibre's 
+      %br
+      team for making this possible           
+                         
+    %div{ :style=>"clear: both"}                
+  %input{:type=>"button",:id=>"about_button",:value=>_("Credits"), :onclick=>"show_credits();", :style=>"float:right;margin-top:5px;cursor:pointer;"}
+  
+%script
+  function show_credits() {
+  credits = $j("#cacique_credits")
+  about   = $j("#cacique_about")
+  button  = $j("#about_button");
+  if ($j("#cacique_credits:first").is(":hidden")) {
+  about.hide();
+  button.attr("value",'#{_('About us')}');
+  credits.fadeIn(1500);
+  
+  } else {
+  credits.hide();
+  button.attr("value",'#{_('Credits')}');
+  about.fadeIn(1500);
+  }
+  }
+  
+
+    
+    

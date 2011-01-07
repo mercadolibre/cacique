@@ -1,0 +1,62 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+-permission_denied = "alert('No tiene permisos de edición sobre el script')"
+.tag{ :id => "div_functions", :style=>" left: 25%; height:400px; width:600px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"div_functions"}
+  %h3
+    =_('Functions')
+  .data{:id => "FUNC", :style=>"height:80%;overflow:auto;"}
+    %h2{:style=>"width:100%;"}
+      =_('Select the function you want to add:')
+    %select{ :id => "functions", :onChange=>"document.getElementById('botonAgregar').style.display=''; activarDiv(this.value)" }
+      %option{ :label => "none", :selected => "-Seleccione-", :value => "-Seleccione-" } -Seleccione-    
+      -@methods.each do |method|
+        %option{ :label => "none", :value =>  method.name, :title=>method.name.capitalize }
+          =truncate(method.name, :ommision => "...", :length => 30)
+    
+    -@methods.each do |method|
+      .div{ :id=>method.name, :name=>"div_function", :style=>'display:none;'}
+        %br
+        .functionInfo{:style=>"font: 12px sans-serif;line-height:normal;width:60%;"}
+          .title{:title=>method.name.capitalize + ":" + method.description.capitalize}
+            %b
+              =truncate(method.name.capitalize , :ommision => "...", :length => 30)
+          =method.description.capitalize               
+        .div{ :style=>'float:left; width:30%;font: 12px sans-serif;'}
+          %b
+
+          =method.name
+          (
+          -method.cant_args.times do  |num|
+            %label{ :title => "argument_#{num}", :style=>"margin-top:5px;"}
+              %input{ :id => method.name + '_'+ num.to_s, :name=>method.name, :type => "text", :style=>'width:80px;'}
+          )
+          %br
+    %br
+    %br
+    .form_button
+      %input{ :id=>"botonAgregar", :onClick =>"buscar_argumentos();", :type => "Button", :value => _("Add"), :style=>'display:none;' }

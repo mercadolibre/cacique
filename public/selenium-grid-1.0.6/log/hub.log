@@ -1,0 +1,137 @@
+Nov 3, 2010 2:28:48 PM com.thoughtworks.selenium.grid.hub.HubRegistry gridConfiguration
+INFO: Loaded grid configuration:
+--- 
+hub: 
+  environments: 
+    - 
+      browser: "*firefox"
+      name: Firefox2 on Windows
+    - 
+      browser: "*firefox"
+      name: Firefox3 on Windows
+    - 
+      browser: "*firefox"
+      name: Firefox3.5 on Windows
+    - 
+      browser: "*firefox"
+      name: Firefox on Windows
+    - 
+      browser: "*firefox"
+      name: Firefox on OS X
+    - 
+      browser: "*iehta"
+      name: IE on Windows
+    - 
+      browser: "*firefox /usr/lib/firefox-3.5.8/firefox"
+      name: Firefox on Ubuntu
+    - 
+      browser: "*firefox /usr/lib/firefox-3.5.8/firefox"
+      name: Firefox3 on Ubuntu
+    - 
+      browser: "*iehta"
+      name: IE6 on Windows
+    - 
+      browser: "*iehta"
+      name: IE7 on Windows
+    - 
+      browser: "*iehta"
+      name: IE8 on Windows
+    - 
+      browser: "*safari"
+      name: Safari on OS X
+    - 
+      browser: "*firefox"
+      name: "*firefox"
+    - 
+      browser: "*firefox2"
+      name: "*firefox2"
+    - 
+      browser: "*firefox3"
+      name: "*firefox3"
+    - 
+      browser: "*chrome"
+      name: "*chrome"
+    - 
+      browser: "*iexplore"
+      name: "*iexplore"
+    - 
+      browser: "*iehta"
+      name: "*iehta"
+    - 
+      browser: "*safari"
+      name: "*safari"
+    - 
+      browser: "*opera"
+      name: "*opera"
+    - 
+      browser: "*googlechrome"
+      name: "*googlechrome"
+    - 
+      browser: "*firefoxproxy"
+      name: "*firefoxproxy"
+    - 
+      browser: "*pifirefox"
+      name: "*pifirefox"
+    - 
+      browser: "*iexploreproxy"
+      name: "*iexploreproxy"
+    - 
+      browser: "*piiexplore"
+      name: "*piiexplore"
+    - 
+      browser: "*safariproxy"
+      name: "*safariproxy"
+
+2010-11-03 14:28:48.884::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
+2010-11-03 14:28:49.426::INFO:  jetty-6.0.x
+2010-11-03 14:28:51.226::INFO:  Started SocketConnector @ 0.0.0.0:4444
+Nov 3, 2010 2:31:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:34:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:37:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:40:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:43:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:46:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:49:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:52:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:55:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 2:58:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:01:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:04:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:07:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:10:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:13:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:16:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:19:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:22:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:25:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:28:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:31:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:34:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:37:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:40:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...
+Nov 3, 2010 3:43:49 PM com.thoughtworks.selenium.grid.hub.remotecontrol.RemoteControlPoller garbageCollectRemoteControls
+INFO: Garbage collecting unavailable RCs and stale sessions...

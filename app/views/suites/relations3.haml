@@ -1,0 +1,123 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-javascript 'relation3'
+
+%script
+  function objective_by_case_id() {
+  var retorno = new Hash();
+  =@casos_origin.map{|c| "retorno['#{c.id}'] = '#{c.objective}'"}.join(";\n")
+  =@casos_destination.map{|c| "retorno['#{c.id}'] = '#{c.objective}'"}.join(";\n")
+  =";"
+  return retorno;
+  }
+
+  function onload(){
+  count = 0;
+  ="relation_pairs.splice(0,relation_pairs.length);\n" if @suite_cases_relations.empty?
+  =@suite_cases_relations.map{|c| "relation_pairs[count] = [#{c.case_origin},#{c.case_destination}];\n count+=1 " }.join(";\n")
+  }
+
+.main
+  %h1{:title=>@suite_name, :style=>"margin-bottom:5px;"}
+    =truncate(@suite.name, :ommision => "...", :length =>70)
+    .form_button
+      %input{ :onClick => "enviar_relaciones();", :type => "Button", :value => _("Finish")}
+  %h2{:style=>"float:left; width:60%;"}
+    =_("Step 3 of 3 - Indicate Cases in which act the relation:")
+
+  %div{:style=>" margin:auto; width: 90%; padding:20px; min-height:200px;clear:both;"}
+    .form_tag_flap{:style=>"float:left; width:300px;"}
+      %h3{:style=>"margin:0;"}
+        =_('Relations between cases of the circuits:')
+    %table{:id=>"relationTable", :style=>"clear:both;font-size:11px; text-align:left;float:left; width: 45%;border:1px solid #C3C3C3; -moz-border-radius:0px 10px 10px;  padding: 10px;"}
+      %tr{:style=>"height:30px;"}
+        %td{:title=>@circuit_origin.name,:valign=>'top',:style=>"color:#31576F;font-weight:bold;"}
+          =truncate(@circuit_origin.name, :ommision => "...", :length => 25)
+        %td{:title=>@circuit_destination.name, :valign=>'top',:style=>"color:#31576F;font-weight:bold;padding-left:10px;"}
+          =truncate(@circuit_destination.name, :ommision => "...", :length => 25)
+      %tr
+        %td{:style => "width:280px;"}
+          %table{:id=>"fields_1", :style=>"float-left; height:90%;"}
+            -ids_origin = Array.new
+            -if @casos_origin.empty?
+              %tr
+                %td{:style=>"color:#D77A7A;font-size:11px;font-weight:bold; text-align:left;"}
+                  %i
+                    =_("No cases in the Suite for this Script")
+            -else
+              -for caso_1 in @casos_origin do
+                -ids_origin << caso_1.id
+                %tr
+                  %td{:style=>"width:10%"}
+                    %input{:name =>"caso_1_group", :type=>"radio", :style=>"float:right;", :id => caso_1.id, :value => caso_1.objective}
+                  %td{:title=>caso_1.objective, :style=>"width:90%; color:#31576F;  text-align:left;"}
+                    =truncate(caso_1.objective, :ommision => "...", :length => 25)
+        %td{:style => "width:280px;"}
+          %table{:id=>"fields_2", :style=>"height:90%;"}
+            -ids_destination = Array.new
+            -if @casos_destination.empty?
+              %tr
+                %td{:style=>"color:#D77A7A;font-weight:bold; text-align:left;"}
+                  %i
+                    =_("No cases in the Suite for this Script")
+            -else
+              -for caso_2 in @casos_destination do
+                -ids_destination << caso_2.id
+                %tr
+                  %td{:style=>"width:10%;"}
+                    %input{:name =>"caso_2_group", :type=>"radio", :style=>"float:right;", :id => caso_2.id, :value => caso_2.objective}
+                  %td{:title=>caso_2.objective, :style=>"width:90%; color:#31576F;font: 12px Arial; text-align:left;"}
+                    =truncate(caso_2.objective, :ommision => "...", :length => 25)
+    %div{:style=>" width:10%; float:left;"}
+      %input{ :name => "agregar_relacion", :type => "button" , :value => ">>",  :onclick => "agregar_relacion_onclick()", :style=>"margin-left: 25%;margin-top: 50%; cursor:pointer;"}
+
+    .form_tag_flap{:style=>" width: 220px;margin-left:55%; "}
+      %h3{:style=>"margin:0;"}
+        =_('Established relations:')
+    %table{ :id=>"relationListTable", :style=> "float:left;font-size:11px; text-align:left; padding:10px;  width: 45%; border:1px solid #C3C3C3; -moz-border-radius:0px 10px 10px;"}
+      %tr{:style=>"height:30px;"}
+        %td{:title=>@circuit_origin.name,:valign=>'top', :style=>"color:#31576F;font-weight:bold;"}
+          =truncate(@circuit_origin.name, :ommision => "...", :length => 25)
+        %td{:title=>@circuit_destination.name, :valign=>'top',:style=>"color:#31576F;font-weight:bold; padding-left:10px;"}
+          =truncate(@circuit_destination.name, :ommision => "...", :length => 25)
+      -i=0
+      -@suite_cases_relations.each do |case_relation|
+        %tr
+          -obj_origin = CaseTemplate.find(case_relation.case_origin).objective
+          %td{:title=>obj_origin , :style => "width:50px; color:#31576F;font: 12px Arial; text-align: left; border-bottom: #EAECEE 0.5px solid; "}
+            =truncate(obj_origin, :ommision => "...", :length => 25)
+          -obj_destination = CaseTemplate.find(case_relation.case_destination).objective
+          %td{:title=>obj_destination, :style => "width:50px;padding-left: 10px;color:#31576F;font: 12px Arial; text-align: left; border-bottom: #EAECEE 0.5px solid;"}
+            =truncate(obj_destination, :ommision => "...", :length => 25)
+          %td{:style => "width:5px;padding-left: 10px;"}
+            %img{:id => "img_delete_" + i.to_s, :name => i.to_s, :src => "/images/icons/cross.png",  :alt => "cross.png",  :style => "display: block;cursor:pointer;", :onclick => "delete_relation( this.name );"}
+        -i+=1
+    %div{ :style=>"clear: both"}
+
+%form{ :id =>"send_relations", :action => '/suites/send_relations/' + @suite.id.to_s, :style=>"display:none;" }
+  %input{ :type => "hidden", :name => "content", :value => ""}
+  %input{ :type => "hidden", :name => "ids_cases_origin", :value => ids_origin.join(";")}
+  %input{ :type => "hidden", :name => "ids_cases_destination", :value => ids_destination.join(";")}

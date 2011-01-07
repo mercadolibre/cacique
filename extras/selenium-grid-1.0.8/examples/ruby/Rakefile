@@ -1,0 +1,101 @@
+# Selenium Grid Ruby Example Rakefile
+#
+# Document best practices to drive Selenium tests written in Ruby and
+# targetting Selenium Grid.
+
+#
+# Loading required dependencies  
+#
+
+require "rubygems"
+gem "rspec", "=1.1.8"
+require 'rake'
+require 'spec/rake/spectask'
+
+gem "selenium-client", "=1.2.7"
+require "selenium/rake/tasks"
+
+# Make sure we pick up the reporter from the appropriate selenium-client
+# install as RSpec runner --require does not discriminate between multiple
+# selenium-client gems.
+gem_executable = Config::CONFIG["host_os"] =~ /mswin/ ? "gem.bat" : "gem"
+report_formatter_path = `#{gem_executable} which -q "selenium/rspec/reporting/selenium_test_report_formatter"`.chomp
+report_formatter_path.gsub! /selenium-client-\d+\.\d+.\d+/, "selenium-client-1.2.7"
+
+
+gem "deep_test", "=1.2.2"
+require "deep_test/rake_tasks"
+
+task :default => :'tests:run_in_parallel'
+
+#
+# Recommended way to run tests in parallel and leverage Selenium Grid.
+#
+
+desc("Run all tests in parallel using DeepTest.")
+Spec::Rake::SpecTask.new("tests:run_in_parallel") do |t|
+  t.spec_files = FileList['./**/*_spec.rb']
+  t.deep_test :number_of_workers => 6,
+              :timeout_in_seconds => 300
+  t.spec_opts << '--color'
+  t.spec_opts << "--require 'rubygems,#{report_formatter_path}'"
+  t.spec_opts << "--format=Selenium::RSpec::SeleniumTestReportFormatter:./tmp/test_report.html"
+  t.spec_opts << "--format=progress"
+end  
+task :'tests:run_in_parallel' => :create_report_dir
+
+#
+# Running tests in sequence (without taking advantage of Selenium Grid),
+# useful to troubleshoot problems with the parallel run.
+#  
+
+
+desc "Run all behaviors in sequence"
+Spec::Rake::SpecTask.new('tests:run_in_sequence') do |t|
+  t.pattern = "**/*_spec.rb"
+  t.spec_opts << '--color'
+  t.spec_opts << "--require 'rubygems,#{report_formatter_path}'"
+  t.spec_opts << "--format=Selenium::RSpec::SeleniumTestReportFormatter:./tmp/test_report.html"
+  t.spec_opts << "--format=progress"                
+  t.fail_on_error = true
+end
+task :'tests:run_in_sequence' => :create_report_dir
+
+
+#
+# Legacy way to drive tests in parallel before DeepTest RSpec support.
+# Kept to document a simple way to run the tests in parallel for non-Ruby
+# platforms.
+#
+
+desc("[DEPRECATED] Run all behaviors in parallel spawing multiple processes. DeepTest offers a better alternative.")
+task :'tests:run_in_parallel:multiprocess' => :create_report_dir do
+  require File.expand_path(File.dirname(__FILE__) + '/lib/multi_process_behaviour_runner')
+  runner = MultiProcessSpecRunner.new(10)
+  runner.run(Dir['*_spec.rb'])
+end 
+
+task :create_report_dir do
+  rm_f File.expand_path(File.dirname(__FILE__) + "/tmp/rspec_report")
+  mkdir_p File.expand_path(File.dirname(__FILE__) + "/tmp/rspec_report")
+  ENV['SELENIUM_TEST_REPORT_FILE'] = "./tmp/test_report.html" # Workaround for DeepTest reports
+end
+
+desc "Check whether you installed all dependencies and you environmnet is OK."
+task :sanity_check do
+  require report_formatter_path
+  STDOUT.puts <<-EOS
+
+ Congratulations, your environment is set properly.
+ 
+ Run the tests in parallel with:
+ 
+   rake tests:run_in_parallel
+   
+ Or in sequence with:
+ 
+   rake tests:run_in_sequence
+   
+  EOS
+end
+

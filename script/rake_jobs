@@ -1,0 +1,12 @@
+#!/bin/bash
+case "$1" in
+  start)
+        cd /path/cacique/
+        exec rake jobs:work RAILS_ENV=production > /dev/NULL &
+        pgrep -f jobs:work > /tmp/rake_jobs.pid
+  ;;
+  stop)
+        rm /tmp/rake_jobs.pid
+        kill `pgrep -f jobs:work`
+  ;;
+esac

@@ -1,0 +1,90 @@
+<project name="Selenium Grid Java Example" default="run" basedir=".">
+
+  <description>Selenium Grid Java Example</description>
+
+  <property name="rootdir" value="${basedir}/../.."/>
+  <property file="${rootdir}/project.properties"/>
+  <property name="name" value="Selenium Grid Demo"/>
+  <property name="artifact" value="selenium-grid-demo"/>
+  <property name="version" value="SNAPSHOT"/>
+  <property name="selenium.version" value="SET ME"/>
+
+  <property name="build.src" location="src"/>
+
+  <import file="${rootdir}/lib/build/common-build.xml" />
+
+  <property name="webSite" value="http://images.google.com" />
+  <property name="seleniumHost" value="localhost" />
+  <property name="seleniumPort" value="4444" />
+  <property name="browser" value="*firefox" />
+
+  <path id="compile.classpath">
+    <fileset dir="${rootdir}/vendor">
+      <include name="selenium-java-client-driver-${selenium.version}.jar"/>
+      <include name="testng-5.7-jdk15.jar"/>
+      <include name="commons-logging-1.0.4.jar"/>
+    </fileset>
+    <pathelement location="${rootdir}/tools/target/classes"/>
+    <pathelement location="${rootdir}/tools/target/dist/lib/selenium-grid-tools-standalone-${version}.jar"/>
+    <pathelement location="${rootdir}/lib/selenium-grid-tools-standalone-${version}.jar"/>
+    <pathelement path="${java.class.path}/"/>
+  </path>
+
+  <path id="runtime.classpath">
+    <path refid="compile.classpath"/>
+    <pathelement path="${build.output}/"/>
+  </path>
+
+  <target name="run" depends="compile" description="Run Selenium tests in parallel (20 threads)">
+    <echo>${seleniumHost}</echo>
+    <java classpathref="runtime.classpath"
+        classname="org.testng.TestNG"
+        failonerror="true">
+
+      <sysproperty key="java.security.policy" file="${rootdir}/lib/testng.policy"/>
+      <sysproperty key="webSite" value="${webSite}" />
+      <sysproperty key="seleniumHost" value="${seleniumHost}" />
+      <sysproperty key="seleniumPort" value="${seleniumPort}" />
+      <sysproperty key="browser" value="${browser}" />
+      <arg value="-d" />
+      <arg value="${basedir}/target/reports" />
+      <arg value="-suitename" />
+      <arg value="Selenium Grid Java Sample Test Suite" />
+      <arg value="-parallel"/>
+      <arg value="methods"/>
+      <arg value="-threadcount"/>
+      <arg value="15"/>
+      <arg value="testng.xml"/>
+    </java>
+
+  </target>
+
+  <target name="run-in-sequence" depends="compile" description="Run Selenium tests in sequence">
+    <echo>${seleniumHost}</echo>
+    <java classpathref="runtime.classpath"
+        classname="org.testng.TestNG"
+        failonerror="true">
+
+      <sysproperty key="java.security.policy" file="${rootdir}/lib/testng.policy"/>
+      <sysproperty key="webSite" value="${webSite}" />
+      <sysproperty key="seleniumHost" value="${seleniumHost}" />
+      <sysproperty key="seleniumPort" value="${seleniumPort}" />
+      <sysproperty key="browser" value="${browser}" />
+      <arg value="-d" />
+      <arg value="${basedir}/target/reports" />
+      <arg value="-suitename" />
+      <arg value="Selenium Grid Java Sample Test Suite" />
+      <arg value="-parallel"/>
+      <arg value="methods"/>
+      <arg value="-threadcount"/>
+      <arg value="20"/>
+      <arg value="testng-slow.xml"/>
+    </java>
+
+  </target>
+
+  <target name="build" depends="compile"/>
+  <target name="dist" depends="build"/>
+  <target name="coverage-analysis" />
+  
+</project>

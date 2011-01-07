@@ -1,0 +1,38 @@
+%script
+  // $j --> jquery
+  // $  --> prototype
+  var $j = jQuery.noConflict();
+
+  //Menu of projects with sensitivity hover
+  $j(document).ready(function() {
+
+  function show_my_projects() {
+  var menu = $j(this);
+  menu.children("ul").slideDown();
+  =remote_function(:update => "div_my_projects",  :method => "get",  :url =>"/projects/get_my_projects", :condition=>"$j('#div_my_projects').children().length==0", :with=>"'controller_from=#{controller_name()}'")
+  }
+
+  function show_all_projects() {
+  var menu = $j(this);
+  menu.children("ul").slideDown();
+  =remote_function(:update => "div_all_projects",  :method => "get",  :url =>"/projects/get_all_projects", :condition=>"$j('#div_all_projects').children().length==0", :with=>"'controller_from=#{controller_name()}'")
+  }
+
+  function hide() {
+  var menu = $j(this);
+  menu.children("ul").slideUp();
+  }
+
+  $j(".hover_my_projects").hoverIntent({sensitivity: 1,interval: 50,over: show_my_projects,timeout: 300,out: hide});
+  $j(".hover_all_projects").hoverIntent({sensitivity: 1,interval: 50,over: show_all_projects, timeout: 300,out: hide});
+
+  setContenHeight();
+  
+  });
+
+
+%script
+  function setContenHeight(){
+  $j('#layout_content').height($j(window).height() -140);
+  }
+    
