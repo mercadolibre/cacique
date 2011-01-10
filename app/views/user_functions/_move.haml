@@ -28,12 +28,13 @@
   =_('Move')
   
 .form{:style=>" margin-left:30px; margin-top:20px;"}
-  =_('Move Function ')
+  %label
+    =_('Move Function: ')
+  %label{:style=>"color:#373737;"}
+    =truncate(user_function.name, :ommision => "...", :length => 60)
   %br
-  .div{:style => "font-weight:bold;"}
-    =user_function.name
-  %br
-  =_('to project: ')
+  %label
+    =_('to project: ')
 
   -form_for @user_function, :url => { :controller => 'user_functions', :action => 'move', :id => user_function.id} do |f|
     %label{ :for => "project" }
@@ -41,7 +42,10 @@
     %br
     -if can_move_to_generico
       %label{ :for => "generico" }
-        =check_box_tag "user_function[move_generico][]", "1", false, :onClick => "showHideSelect();"
+        =check_box_tag "user_function[move_generico][]", "1", false, :onClick => "select_projects=$j('#user_function_project'); select_projects.attr('disabled',!select_projects.attr('disabled')) ;"
         =_('Move to Generic Functions')
-      %br
-    =submit_tag _('Move') ,:style => "margin-right:10px;cursor:pointer;"
+    %br
+    .form_button{:style=>"margin-right:20px;"}
+      =submit_tag _('Move')
+    %br
+    %br

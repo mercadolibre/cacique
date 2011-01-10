@@ -37,6 +37,8 @@
     =link_to image_tag("icons/fail_1.png", :style=>'border:none;', :alt => "fail_1", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
   -when 5
     =link_to image_tag("icons/fail_execution.png", :style=>'border:none;', :alt => "fail_execution", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
+  -when 6
+    =link_to image_tag("icons/cancel.png", :style=>'border:none;', :alt => "cancel_execution", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"    
   -when 0
     %script
       ejecucion_completa_#{suite_execution.id}=false  

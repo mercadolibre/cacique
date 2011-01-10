@@ -45,7 +45,7 @@
           .title{:title=>method.name.capitalize + ":" + method.description.capitalize}
             %b
               =truncate(method.name.capitalize , :ommision => "...", :length => 30)
-          =method.description.capitalize               
+          =method.description.gsub("\n","<br>")               
         .div{ :style=>'float:left; width:30%;font: 12px sans-serif;'}
           %b
 

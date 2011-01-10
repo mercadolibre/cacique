@@ -75,7 +75,7 @@
           -@arguments.each do |argument|
             %tr{ :id => "row_"+ n.to_s}
               %td
-                %input{ :id => "user_function_args_input_" + n.to_s, :name => "user_function[args][input_#{n}]", :value => argument}
+                %input{ :id => "user_function_args_" + n.to_s, :name => "user_function[args][#{n}]", :value => argument}
               %td
                 %img{:name => "row_" + n.to_s, :src => "/images/icons/cross.png", :alt => "cross.png", :style => "cursor:pointer; height:12px; width:12px; margin-left:10px;", :onClick => "eliminarArgument(this.name);"}
             -n += 1

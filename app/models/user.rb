@@ -55,6 +55,8 @@ class User < ActiveRecord::Base
   has_many :user_links, :dependent => :destroy
   has_many :suite_executions, :dependent => :destroy
   has_many :user_functions
+  has_many :task_programs, :dependent => :destroy
+
   acts_as_authorized_user
   # Virtual attribute for the unencrypted password
   attr_accessor :password

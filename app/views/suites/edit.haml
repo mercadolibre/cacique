@@ -67,7 +67,6 @@
   .form_tag{ :id => "suite_circuits", :style=>"float:left; margin-left:20px; width:350px; height: 350px; padding-right:0px;"}
     =render :partial => "circuits", :locals => {:circuits => @circuits, :case_templates => @suite.case_templates, :suite_id => @suite.id}
 
-
   //CASES
   %form{:id=>"casos"}
     .tag{:id => 'div_circuit_cases', :name=>"div_circuit", :style => "display:none; width:850px;height:400px;left:200px;"}
@@ -84,5 +83,8 @@
   =render :partial => "queue_observers/queue_icon"
   %img{:src => "/images/icons/relations.png",:alt=>"relations", :title=>_('Relation'),    :onClick => "location.href='/suites/relations1/#{@suite.id}';"}
   %img{:src => "/images/icons/show.png", :alt=>"suite_show",:title=>_('Detail'), :onClick => remote_function(:complete => "document.getElementById('div_suite_show').toggle();showDiv('show_graph');",:update => "div_suite_show",  :method => "get",  :url =>  "/suites/show/#{ @suite.id.to_s}"  ) }
-  %img{:src => "/images/icons/calendar.png", :alt=>"calendar",  :title=>_('Schedules'),:onClick => "location='/suites/calendar/#{@suite.id}'"}
+  %img{:src => "/images/icons/info.png",    :alt=>"info.png",    :title=>_('Information'),    :onClick => "document.getElementById('infoSuiteEdit').toggle();"}
 
+//Help 
+=render :partial => "info_suite_edit"
+  

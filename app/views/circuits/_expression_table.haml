@@ -59,97 +59,97 @@
   %tr
     %th
       %strong
-        Expresión
+        =_('Expression')
     %th
       %strong
-        Significado
+        =_('Meaning')
   %tr
     %td
       \.
     %td.i
-      cualquier caracter
+      =_('any character')
   %tr
     %td
       []
     %td.i
-      especificación por rango. P.ej: [a-z], una letra de la a, a la z
+      =_('specification of range. Eg: [a-z] a letter, a to z')
   %tr
     %td
       \\w
     %td.i
-      letra o número; es lo mismo que [0-9A-Za-z]
+      =_('letter or number, is the same as [0-9A-Za-z]')
   %tr
     %td
       \\W
     %td.i
-      cualquier carácter que no sea letra o número
+      =_('any characters except letters or numbers')
   %tr
     %td
       \\s
     %td.i
-      carácter de espacio; es lo mismo que [ \t\n\r\f]
+      =_('space character, it is the same as [\t\n\r\f]')
   %tr
     %td
       \\S
     %td.i
-      cualquier carácter que no sea de espacio
+      =_('any character other than space')
   %tr
     %td
       \\d
     %td.i
-      número; lo mismo que [0-9]
+      =_('number, the same as [0-9]')
   %tr
     %td
       \\D
     %td.i
-      cualquier carácter que no sea un número
+      =_('any character other than a number')
   %tr
     %td
       \\b
     %td.i
-      retroceso (0x08), si está dentro de un rango
+      =_('recoil (0x08), if within range')
   %tr
     %td
       \\b
     %td.i
-      límite de palabra, si NO está dentro de un rango
+      =_('word boundary, if not within a range')
   %tr
     %td
       \\B
     %td.i
-      no límite de palabra
+      =_('no word boundary')
   %tr
     %td
       *
     %td.i
-      cero o más repetd.iciones de lo que le precede
+      =_('zero or more repetitions of what precedes it')
   %tr
     %td
       +
     %td.i
-      una o más repetd.iciones de lo que le precede
+      =_('one or more repetitions of what precedes it')
   %tr
     %td
       $
     %td.i
-      fin de la línea
+      =_('end of line')
   %tr
     %td
       {m,n}
     %td.i
-      como menos m, y como mucho n repetd.icioes de lo que le precede
+      =_('as less than m, and at most n repetitions of what precedes it')
   %tr
     %td
       ?
     %td.i
-      al menos una repetd.ición de lo que le precede; lo mismo que {0,1}
+      =_('at least one repetition of what precedes it, the same as {0.1}')
   %tr
     %td
       ()
     %td.i
-      agrupar expresiones
+      =_('grouping expressions')
   %tr
     %td
       ||
     %td.i
-      operador lógico O, busca lo de antes o lo después
+      =_('logical OR, find it before or after')

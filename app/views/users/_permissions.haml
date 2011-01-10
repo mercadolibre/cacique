@@ -24,7 +24,7 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 .permissions{:id=>"permissions"}
-  .r{:id=>"permition_result", :style => "inline"}
+  .r{:id=>"permition_result", :style => "color:green"}
   -form_remote_tag :update => 'permition_result', :url => {:controller => "users", :action => "update_permitions",:id=>@user.id} do
     %b
       =_('Permissions')
