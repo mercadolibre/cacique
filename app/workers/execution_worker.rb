@@ -48,6 +48,7 @@ end
 require "#{RAILS_ROOT}/lib/suites/suite_cases_runner.rb"
 require "#{RAILS_ROOT}/lib/suites/suite_cases_runner_db.rb"
 require "#{RAILS_ROOT}/lib/suites/suite_relation.rb"
+require "#{RAILS_ROOT}/lib/suites/fake_oracle.rb"
 #Requires to prevent cahcing errors
 require_dependency "#{RAILS_ROOT}/app/models/circuit.rb"
 require_dependency "#{RAILS_ROOT}/app/models/case_template.rb"

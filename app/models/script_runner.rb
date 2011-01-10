@@ -25,6 +25,7 @@
  #
 require "#{RAILS_ROOT}/lib/runner/wrapper_selenium.rb"
 require "#{RAILS_ROOT}/lib/runner/fake_selenium_logger.rb"
+require "#{RAILS_ROOT}/lib/runner/fake_oracle_logger.rb"
 
 class ScriptRunner < ActiveRecord::Base
 
