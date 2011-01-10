@@ -48,7 +48,7 @@ class SuiteCasesRunnerDb
 			# Find fields relations for relation
 			field_relations = SuiteFieldsRelation.find(:all, :conditions => [ "circuit_origin_id = ? AND circuit_destination_id = ?", father_execution.circuit_id, execution.circuit_id] )
 
-			 raise "El caso Padre #{f.case_origin} dio error y por eso no se ejecuta." if father_execution.status == 3 and father_execution.status != 4
+			 raise FatherRelationError.new(f.case_origin) if father_execution.status == 3 and father_execution.status != 4
 			# recorrer los data_recoveries de esa execution
 			father_execution.data_recoveries.each do |datarec|
 				# Verify if data_recovery have field_relation
@@ -68,5 +68,18 @@ class SuiteCasesRunnerDb
 	#Added the method to avoid errors in retry to execute run_execution
 	def process_return_values(id, forward_rels, args, devuelve)
 	end
+	
+	##############################################################
+    class FatherRelationError < Exception
+      def initialize(father)
+        @father = father
+      end
+    
+      def to_s
+        "El caso Padre #{@father} dio error y por eso no se ejecuta."
+      end
+    end
+##############################################################
+
 end
 

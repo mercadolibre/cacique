@@ -63,8 +63,9 @@ class NotesController < ApplicationController
   end
   
   def update
-    @note = Note.find params[:id]
-    @note.text = params[:rte1]
+    @note         = Note.find params[:id]
+    @note.user_id = current_user.id
+    @note.text    = params[:rte1]
     if @note.save
       redirect_to "/notes"
     else

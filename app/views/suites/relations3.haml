@@ -44,9 +44,15 @@
   %h1{:title=>@suite_name, :style=>"margin-bottom:5px;"}
     =truncate(@suite.name, :ommision => "...", :length =>70)
     .form_button
-      %input{ :onClick => "enviar_relaciones();", :type => "Button", :value => _("Finish")}
+      %input{ :name=>"/suites/relations1/#{@suite.id}", :onClick => "send_relation(this.name);", :type => "Button", :value => _("New Relation")}
+    %br
+    %br
+    .form_button
+      %input{ :name=>"/suites/index", :onClick => "send_relation(this.name);", :type => "Button", :value => _("Finish")}
+
   %h2{:style=>"float:left; width:60%;"}
     =_("Step 3 of 3 - Indicate Cases in which act the relation:")
+    =_("Remember that in order to complete this step your Script must contain cases")
 
   %div{:style=>" margin:auto; width: 90%; padding:20px; min-height:200px;clear:both;"}
     .form_tag_flap{:style=>"float:left; width:300px;"}
@@ -121,3 +127,4 @@
   %input{ :type => "hidden", :name => "content", :value => ""}
   %input{ :type => "hidden", :name => "ids_cases_origin", :value => ids_origin.join(";")}
   %input{ :type => "hidden", :name => "ids_cases_destination", :value => ids_destination.join(";")}
+  %input{ :type => "hidden", :name => "next_action", :value => ""}

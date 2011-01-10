@@ -44,10 +44,18 @@ class ProjectsController < ApplicationController
   def new
     permit "root" do
        unless params[:project].nil?
-         @project = Project.create(params[:project])
-         @project.creater_user_relation(params[:project][:user_id])
-         flash[:notice] = _("The Project was Correctly Create") if @project.valid?
-         render :index
+         
+         projectname = params[:project].to_s
+         if projectname.match(/'+/)
+           flash[:notice] = _("ATENTION: Project Name can´t contain single quotes")
+           render :index         
+         else
+           @project = Project.create(params[:project])
+           @project.creater_user_relation(params[:project][:user_id])
+           flash[:notice] = _("The Project was Correctly Create") if @project.valid?
+           render :index
+         end
+       
        else
          redirect_to :projects
        end

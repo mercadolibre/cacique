@@ -3,7 +3,7 @@
   -if @menu_left_extended == 1
     //Category Menu
     #sideBar{:style=>"left:-32px"}
-      #sideBarTab{:onclick=>remote_function(:complete =>"extendContract();", :update => "sideBarContentsInner",  :method => "get",  :url => "/categories/show_categories/0" ), :style=>"left:300px;background:url('/images/menu/slide-button.png')"}
+      #sideBarTab{:onclick=>remote_function(:complete =>"extendContract();", :update => "sideBarContentsInner",  :method => "get",  :url => "/categories/show_categories/0" ), :style=>"left:290px;background:url('/images/menu/slide-button.png')"}
         #vertical_text{:title=>_("Project")}
           #vertical_img{:style=>"background: url('/images/menu/slide-arrow-active.png'); width:18px; height:18px;margin-left:8px;"}
           %div{:style=>"-moz-transform:rotate(270deg);margin-top:60px;"}

@@ -29,12 +29,15 @@ class UserFunctionsController < ApplicationController
   permit "root" , :only => [:index, :show_move, :move]
 
   def index
-    @search = UserFunction.find(:all, :conditions=>"project_id = 0 and name like '%#{params[:search].to_s}%' or description like '%#{params[:search].to_s}%'", :order=> "name ASC")
+
+    @projects   = Project.all
+    @project_id = params[:filter] ? params[:filter][:project_id].to_s : ""
+    @can_move = true   
+    @search = UserFunction.get_user_functions_with_filters(@project_id, params)   
     @user_functions = @search.paginate :page => params[:page], :per_page => 20
     (!params[:search].nil?)? @param_search = params[:search] : @param_search = ""
-    @can_move = true
-  end
 
+  end
 
   def new
       @user_function = UserFunction.new
@@ -42,13 +45,6 @@ class UserFunctionsController < ApplicationController
       @readonly = !current_user.has_role?("root")
       @arguments = []
   end
-
-
-  def per_project
-    #Searching all projects to which the user has permissions
-    @projects = current_user.my_projects_admin.collect{ |x| [x.name.downcase,x.id] }
-  end
-  
   
   def find
     if params[:project_id].empty?
@@ -78,9 +74,8 @@ class UserFunctionsController < ApplicationController
       args = []
       if !params[:user_function][:args].nil?
         params[:user_function][:args].delete_if{|k,v| v== ""}
-        aux_args = params[:user_function][:args]
-        aux_args.to_a.sort.each do |arg|
-          args << arg[1]
+        params[:user_function][:args].keys.map{|x|x.to_i}.sort.each do |key|
+          args << params[:user_function][:args][key.to_s]
         end
       end  
     
@@ -98,14 +93,9 @@ class UserFunctionsController < ApplicationController
 
       if @user_function.save
         @func_mod = _("Function was created Successfuly")
-        if params[:user_function][:project_id] == "0"
-          # function create confirmation and redirect to function list
-          @js = "top.location='/user_functions'; alert('#{@func_mod}')"
-          render :inline => "<%= javascript_tag(@js) %>", :layout => true
-        else
-          @js = "top.location='/user_functions/per_project'; alert('#{@func_mod}')"
-          render :inline => "<%= javascript_tag(@js) %>", :layout => true
-        end  
+        # function create confirmation and redirect to function list
+        @js = "top.location='/user_functions?filter[project_id]=#{params[:user_function][:project_id].to_s}' ; alert('#{@func_mod}')"
+        render :inline => "<%= javascript_tag(@js) %>", :layout => true
       else
         @user_function.source_code = params[:user_function][:source_code]
         @source_code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
@@ -135,11 +125,10 @@ class UserFunctionsController < ApplicationController
       args = []
       if !params[:user_function][:args].nil?
         params[:user_function][:args].delete_if{|k,v| v== ""}
-        aux_args = params[:user_function][:args]
-        aux_args.to_a.sort.each do |arg|
-          args << arg[1]
+        params[:user_function][:args].keys.map{|x|x.to_i}.sort.each do |key|
+          args << params[:user_function][:args][key.to_s]
         end
-      end 
+      end
 
       @user_function.name = params[:user_function][:name]
       @user_function.description = params[:user_function][:description].to_s
@@ -148,17 +137,13 @@ class UserFunctionsController < ApplicationController
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
       source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
+
       @user_function.source_code = source_code
     
       if @user_function.save
-        @func_mod = _("Function was updated Successfuly")
-        if @user_function.project_id == 0
-          @js = "top.location='/user_functions'; alert('#{@func_mod}')"
-          render :inline => "<%= javascript_tag(@js) %>", :layout => true
-        else
-          @js = "top.location='/user_functions/per_project'; alert('#{@func_mod}')"
-          render :inline => "<%= javascript_tag(@js) %>", :layout => true
-        end
+        @func_mod = _("Function was successfuly updated")
+        @js = "top.location= '/user_functions?filter[project_id]=#{@user_function.project_id.to_s}'; alert('#{@func_mod}')"        
+        render :inline => "<%= javascript_tag(@js) %>", :layout => true        
       else
         @user_function.source_code = params[:user_function][:source_code]
         @source_code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
@@ -177,21 +162,16 @@ class UserFunctionsController < ApplicationController
     if ( @user_function.project_id != 0 and current_user.my_projects_admin.include?( @user_function.project )) or current_user.has_role?("root")
       project_id = @user_function.project_id
       if @user_function.destroy
-        if project_id == 0
-          @func_mod =  _("Function was successfully removed")
-          @js = "top.location='/user_functions'; alert('#{@func_mod}')"
-          render :inline => "<%= javascript_tag(@js) %>", :layout => true
-        else
-          @func_mod =  _("Function was successfully removed")
-          @js = "top.location='/user_functions/per_project'; alert('#{@func_mod}')"
-          render :inline => "<%= javascript_tag(@js) %>", :layout => true
-        end
+        @func_mod =  _("Function was successfully removed")
+        @js = "top.location='/user_functions?filter[project_id]=#{project_id.to_s}'; alert('#{@func_mod}')"
+        render :inline => "<%= javascript_tag(@js) %>", :layout => true
       else
-        @func_mod =  _("This function can not be Deleted")
+        text_error = Array.new
+        func_mod = @user_function.errors.full_messages.each {|error|  text_error << error }   
+        @func_mod = func_mod.join(', ') 
         @js = "top.location='/user_functions'; alert('#{@func_mod}')"
         render :inline => "<%= javascript_tag(@js) %>", :layout => true
-      end
-    
+      end  
     else
       redirect_to "/users/access_denied?source_uri=user_functions"
     end
@@ -216,20 +196,22 @@ class UserFunctionsController < ApplicationController
         redirect = "/user_functions"
       else
         project_id = params[:user_function][:project]
-        redirect = "/user_functions/per_project"
+        redirect =  "/user_functions?filter[project_id]=#{params[:user_function][:project]}"   
       end
     
       if @user_function.move_project(project_id)
-        @func_mov = _('Se movio correctamente la funcion')
+        @func_mov = _('Function was successfuly moved')
         @js = "top.location='#{redirect}'; alert('#{@func_mov}')"
         render :inline => "<%= javascript_tag(@js) %>", :layout => true
       else
-        @func_mov = _('No se pudo mover la funcion')
-        @js = "top.location='#{redirect}'; alert('#{@func_mov}, #{@user_function.errors.first[1].to_s.gsub!('\n',"")}')"
+        text_error = Array.new
+        func_mod = @user_function.errors.full_messages.each {|error|  text_error << error }   
+        @func_mod = func_mod.join(', ') 
+        @js = "top.location='/user_functions'; alert('#{@func_mod}')"
         render :inline => "<%= javascript_tag(@js) %>", :layout => true
       end
     else
-      @func_mov = _('No se pudo mover la funcion')
+      @func_mov = _('Could not move the function')
       @js = "top.location='/user_functions'; alert('#{@func_mov}')"
       render :inline => "<%= javascript_tag(@js) %>", :layout => true
     end

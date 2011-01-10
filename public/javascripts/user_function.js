@@ -34,7 +34,7 @@ var cant_args_add = 0;
   		row = table.insertRow(table.rows.length);
   		row.id = 'row_' + table.rows.length;
   		cell = row.insertCell(0);
-	    cell.innerHTML = '<input name=user_function[args][input_' + cant_args_add + '] id=user_function_args_input_' + cant_args_add + '>';
+	    cell.innerHTML = '<input name=user_function[args][' + cant_args_add + '] id=user_function_args_' + cant_args_add + '>';
 	    cell = row.insertCell(1);
 	    
 		elemento = document.createElement('img');

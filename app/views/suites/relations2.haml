@@ -45,7 +45,7 @@
         %input{ :onClick => "submitCircuits2()", :type => "Button", :value => _("Next")}
     %h2{:style=>"float:left; width:60%;"}
       =_("Step 2 of 3 - Relate Script Fields:")
-      =_("Remember that in order to complete this step your Script must contain cases")
+      
     %input{:name => "circuit_1", :type => "text", :style=>'display:none;', :value=>@circuit_1.id}
     %input{:name => "circuit_2", :type => "text", :style=>'display:none;', :value=>@circuit_2.id}  
     %table.relation{ :id=>"relationTable", :cellspacing=>0, :style=> "padding:10px; margin 0 auto;"}

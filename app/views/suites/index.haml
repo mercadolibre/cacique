@@ -81,9 +81,9 @@
           - for suite in @suites_pag  do
             %tr{:onClick=>"marcar(this,'#BBD5DF');", :id=>suite.id.to_s, :style=>"cursor:pointer;"}
               %td{:title=>suite.name.capitalize, :style=>"width:120px;font-weight:bold; padding-left:20px;"}
-                =truncate(suite.name.capitalize,:ommision => "...", :length =>70)
+                =truncate(suite.name.capitalize,:ommision => "...", :length =>60)
               %td{:title=> suite.description}
-                =truncate(suite.description.capitalize,:ommision => "...", :length =>70)
+                =truncate(suite.description.capitalize,:ommision => "...", :length =>60)
               %td
                 %img{:src => "/images/icons/show.png", :alt=>"suite_show.png",:title=>_('Detail'), :onClick => remote_function(:complete => "document.getElementById('div_suite_show').show();showDiv('show_graph');",:update => "div_suite_show",  :method => "get",  :url =>  "/suites/show/#{ suite.id.to_s}"  ) }
 
@@ -91,21 +91,6 @@
 //Suite show
 .div{:id => "div_suite_show", :style=>"display:none;"}
 
-
 //Tools menu
 -content_for :tools_menu do
-  %img{:src => "/images/icons/new.png" ,      :alt=>"new",       :title=>_('New'),          :onClick => "location='/suites/new'", :style=>"margin-left:150px;"}
-  %img{:src => "/images/icons/edit.png",      :alt=>"edit",      :title=>_('Edit'),         :onClick => "if(is_marked(marcado, anysuite))location.href='/suites/'+ marcado +'/edit';"}
-  %img{:src => "/images/icons/relations.png", :alt=>"relations", :title=>_('Relations'),     :onClick => "if(is_marked(marcado, anysuite))location.href='/suites/relations1/' + marcado;"}
-  %img{:src => "/images/icons/trash.png" ,    :alt=>"trash",     :title=>_('Delete'),       :onClick => "if(is_marked(marcado, anysuite) && confirm(msgalert))location='/suites/delete/'+ marcado;"}
-  %img{:src => "/images/icons/calendar.png",  :alt=>"calendar",  :title=>_('Schedule'), :onClick => "if(marcado)location='/suites/calendar/'+marcado;else location='/suites/calendar/';"}
-  %img{:src => "/images/icons/import.png" ,   :alt=>"import",    :title=>_('Import suites from other projects'), :onClick => "location='/suites/import_suite';"}
-  %img{:src => "/images/icons/info.png",      :alt=>"info",      :title=>_('Information'),:onClick => "document.getElementById('infoSuite').toggle();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;"}
-  %img{:src => "/images/icons/play.png",      :alt=>"run",      :title=>_('Run'),       :onClick => "if(is_marked(marcado, anysuite))location.href='/suite_executions/new?suite_id='+ marcado;"}
-  =render :partial => "queue_observers/queue_icon"
-  .buscar
-    - form_for :search, url_for(:controller=>"suite", :action=>"index", :project_id=>@project.id) do |f|
-      = f.text_field '', :value=>@param_search, :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = 'Search suite'; ;this.style.color='grey'}", :onfocus=>"if (this.value == 'Search suite') {this.value = '';this.style.color='black'}"
-      %input{:type=>"image",:src=>"/images/icons/search.png"}
-//Help 
-=render :partial => "info_suite"
+  =render :partial=>"menu_suite"  
