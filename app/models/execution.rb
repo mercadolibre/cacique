@@ -97,6 +97,8 @@ class Execution < ActiveRecord::Base
         _("Comented")
       when 5
         _("Not Run")
+      when 6
+        _("Canceled")
       else
         _("Complete")
     end
@@ -111,6 +113,15 @@ class Execution < ActiveRecord::Base
        self.save
        suite_execution.destroy
     end
+  end
+  
+  def self.change_status(id, status, message=nil)
+    execution = Execution.find id
+    execution.status = status
+    execution.output = message
+    execution.save
+    
+    Rails.cache.write("exec_#{id}",execution)
   end
   
 end

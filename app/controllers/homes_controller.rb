@@ -43,7 +43,7 @@ class HomesController < ApplicationController
 
   def  delete_links
     if params[:links_to_delete]
-     UserLink.destroy(params[:links_to_delete])
+      UserLink.destroy(params[:links_to_delete])
     end
     redirect_to "/homes"
   end

@@ -45,11 +45,55 @@
 
 require "#{RAILS_ROOT}/lib/run_suite_program.rb"
 class DelayedJob < ActiveRecord::Base
-  belongs_to :suite
+  unloadable
+  belongs_to :task_program
+  validates_presence_of :task_program_id,   :message => _("Must complete task program")
+  validates_presence_of :status,            :message => _("Must complete status")
   
-  def add_suite_id(suite_id)
-    self.suite_id = suite_id
-    self.save
+  before_destroy :verify_status
+  
+  def verify_status
+     task_program = TaskProgram.find self.task_program_id
+    if self.status == 2
+      next_program = task_program.find_next_program(self.id)
+      if next_program
+        next_program.status = 2
+        next_program.save
+      else
+        previous_program = task_program.find_previous_program(self.id)
+        if previous_program
+          previous_program.status = 2
+          previous_program.save
+        end
+      end
+    end
+    
+    true
+  end
+  
+  def s_status
+    case self.status
+      when 0 
+        return _("To be confirmed")
+      when 1
+        return _("Confirmed")
+      when 2
+        return _("Last Confirmed")
+    end
+  end
+  
+  def self.create_run(params, time, status, task_program_id)
+    #Creo la programacion con params incompleto.
+    dj = Delayed::Job.enqueue(RunSuiteProgram.new(params), 1, time)
+    #Recupero el id de la programacion creada y lo agrego a params
+    params[:delayed_job_id] = dj.id
+    
+    job = DelayedJob.find dj.id
+    job.task_program_id = task_program_id
+    job.status = status
+    job.handler = RunSuiteProgram.new(params)
+    job.save
+    return job 
   end
   
 end

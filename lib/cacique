@@ -42,7 +42,7 @@ shift
 id=$1
 shift
 
-IDENTIFIER="ejecutado el dia `date`"
+IDENTIFIER="Ejecucion_por_Comando"
 N_TIMES=1
 QUERY_FLAG=true
 RC_MODE=hub
@@ -229,7 +229,7 @@ case $ACTION in
 			do
  			 $0 $line -dir "$CACIQUE_DIR_OUT" -out "TEST-$file_counter.xml"
 			 file_counter=`expr $file_counter + 1`
-			done < $CACIQUE_LIST 
+			done < $CACIQUE_DIR_OUT
 			;;
 		* )
 			show_help

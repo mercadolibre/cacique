@@ -1,17 +1,21 @@
-<div style="margin: 0pt auto; float:left; width: 420px; height: 30px;  padding:10px 10px 0px 10px; font-size: 22px; color: #31576F;">
-          Cacique: Detalle de ejecución
+<div style="margin: 0pt auto; background: #293484 none repeat scroll 0% 0%; min-width: 500px; height: 40px; float: left; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; -moz-border-radius:10px; font-size: 40px; color: white;padding:10px; padding-left:20px">
+          Cacique
 </div>
-<br><br><br>
+<br><br><br><br>
 
 <div style= " font: 15px normal sans-serif; padding-left:20px;color: #31576F;">
+	  <b style="font-size: 20px; color:#293484; font-family:sans-serif; font-size:15px; font-weight:bold;">
+		  Detalle de ejecución
+	  </b>
+	  
   Se corrio la siguiente suite:<br><br>
-    <% if @suite_execution.executions_cache(@suite_execution.executions.map(&:id)).map(&:status).include?(3) %>
-        <div style="color: white; background: #F57275; padding:5px;padding-left:15px;-moz-border-radius-topright:20px;-moz-border-radius-topleft:20px;">
+    <% if @suite_execution.status == 3 %>
+      <div style="color: white; background: #F57275; padding:5px;padding-left:15px;-moz-border-radius-topright:20px;-moz-border-radius-topleft:20px;">
         <%= @suite_execution.suite.name %>
       </div>
       <div style=" padding:5px; border: 1px solid #F57275; -moz-border-radius-bottomright:20px;-moz-border-radius-bottomleft:20px;">
     <% else %>
-      <div style="color: white; background: #84CC5B;padding:5px;padding-left:15px;-moz-border-radius-topright:20px;-moz-border-radius-topleft:20px;font-size:20px;">
+      <div style="color: white; background: #84CC5B; padding:5px;padding-left:15px;-moz-border-radius-topright:20px;-moz-border-radius-topleft:20px;font-size:20px;">
         <%= @suite_execution.suite.name %>
       </div>
       <div style="padding:5px; padding-left:5px;border: 1px solid  #84CC5B; -moz-border-radius-bottomright:20px;-moz-border-radius-bottomleft:20px;">
@@ -61,4 +65,4 @@
     </div>
     <br><br><br>
 </div>
-        
+

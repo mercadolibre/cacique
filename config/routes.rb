@@ -13,16 +13,16 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :case_data
   map.resources :case_templates, :collection => { :create=>:get, :update_data=>:get, :update_status=>:get } 
   map.resources :categories, :collection => { :circuits_result => :get, :create=>:get, :delete=>:get, :edit=>:get, :update=>:get, :save_import_circuit=>:get, :import_circuit=>:get, :move=>:get, :move_save=>:get }
-  
   map.resources :executions, :collection => { :retry_run=>:get, :show_snapshot=>:get, :stop=>:get }
   map.resources :homes, :collection => { :add_link=>:get, :delete_links=>:get, :about=> :get}
-  map.resources :projects, :collection =>{ :assign=>:get, :get_all_projects=>:get, :get_my_projects=>:get,:edit => :get, :deallocate=>:get }
+  map.resources :projects, :collection =>{ :assign=>:get, :get_all_projects=>:get, :get_my_projects=>:get,:edit => :get }
   map.resources :suites, :collection => { :sort=>:post, :index=>:get, :new_program=>:get, :import_suite=>:get, :save_import_suite=>:get, :delete_suite_case=>:get, :add_suite_case=>:get, :show=>:get, :suite_tutorial=>:get, :calendar=>:get}
   map.resources :suite_executions, :collection =>  { :workling_error=>:get, :index=>:get, :create => :post,:apply_filter=>:get, :export_popup=>:get, :refresh=>:get, :export=>:get, :get_report=>:get, :update_data=>:get, :show_model_filter=>:get, :show_cases_filter =>:get, :create=>:get, :update_suite_execution_status_index=>:get, :update_suite_execution_status_show=>:get }
   map.resources :users, :collection => { :password_recovery=>:get, :admin_panel=>:get , :show_user_form=>:get,:save=> :get, :update_permitions=>:get, :access_denied=>:get, :my_account=>:get }
-  map.resource :QueueObservers => { :show=>:get} 
-  map.resource :user_functions => { :show_move=>:get, :move=>:get}
- 
+  map.resources  :task_programs, :collection => {:index=>:get, :show_suites_of_project =>:get, :get_task_programs=>:get, :get_task_program_detail=>:get}
+  map.resources  :queue_observers, :collection => {:quick_view => :get, :refresh=>:get, :show=>:get} 
+  map.resources  :user_functions, :collection => { :show_move=>:get, :move=>:get}
+
   map.root :controller => 'sessions', :action => 'new'
 
   # The priority is based upon order of creation: first created -> highest priority.

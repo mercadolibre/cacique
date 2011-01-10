@@ -36,10 +36,12 @@ class UsersController < ApplicationController
     end
   end
   
+  
   # render new.rhtml
   def new
      render :layout => "session"
   end
+
 
   def create
     cookies.delete :auth_token
@@ -49,7 +51,7 @@ class UsersController < ApplicationController
        self.current_user = @user
        redirect_to '/homes'
     else
-      render :action => 'new', :layout => "session"
+       render :action => 'new', :layout => "session"
     end
   end
 
@@ -57,10 +59,12 @@ class UsersController < ApplicationController
      render :layout => "session"
   end
 
+
   def change_password
      @user = User.find_by_salt params[:id] if @user.nil?
      render :layout => "session"
   end
+
 
   def save_password
       user = User.find params[:id]
@@ -78,8 +82,9 @@ class UsersController < ApplicationController
       end
   end
 
+
   def email_password_recovery
-      server_port = request.port #Se obtiene el puerto
+      server_port = request.port #Obtain port number
       if !params[:user][:login].empty?
         user = User.find_by_login params[:user][:login]
       elsif !params[:user][:email].empty?
@@ -93,9 +98,11 @@ class UsersController < ApplicationController
       end
   end
 
+
   def access_denied
     @dir = params[:source_uri].split('?')[0].capitalize
   end
+  
   
   def show_user_form
      if current_user.has_role?("root")
@@ -123,6 +130,8 @@ class UsersController < ApplicationController
      render :text => _("Access Denied")
     end
   end
+
+
   def update_permitions
     @user = User.find(params[:id])
     if params.include?("permitions")
@@ -145,9 +154,13 @@ class UsersController < ApplicationController
     @user = User.find params[:id]
     params[:user][:language]=params[:user][:language].to_s
     if @user.update_attributes(params[:user])
-      redirect_to "/users/my_account"
+      #redirect_to "/users/my_account"
+      @conf = _('Changes have been made successfully')
+      @js = "top.location='/users/my_account' ; alert('#{@conf}')"
+      render :inline => "<%= javascript_tag(@js) %>", :layout => true
     else 
       render :action => :my_account
     end
    end
+   
 end

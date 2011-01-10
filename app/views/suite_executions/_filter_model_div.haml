@@ -32,7 +32,11 @@
         Suite:
       -value =  params[:filter][:suite_id] && !params[:filter][:suite_id].empty? ? params[:filter][:suite_id].to_i : ""
       =select("filter", "suite_id", suite_names.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60), p.id ] }.sort!,{ :include_blank => _('All'), :selected => value},{ :style => "width: 132px; magin-left: 90px; margin-bottom:5px;"})
-
+      //Programs
+      -value =  params[:filter][:programs]  ? params[:filter][:programs]: false
+      =check_box_tag "filter[programs]", "1", value, :style=>"margin-left:10px;"
+      %label{:style=>"display:inline;"}
+        Programadas      
 //Script
 -if show_model == 'scripts' 
   .filter_model{:id=>"filter_scripts", :style=>" float:left;margin-left:10px;"}

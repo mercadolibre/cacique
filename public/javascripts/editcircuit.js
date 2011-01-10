@@ -75,7 +75,10 @@ function buscar_argumentos(){
     //Add *
     if(add_asterisk){
     	document.getElementById('modified_file').innerHTML = "<image src='/images/icons/s-edit.png'></img>";
-    	add_asterisk = false;
+    	document.getElementById('save_button').style.visibility = "visible"; 
+	document.getElementById('savewc_button').style.visibility = "visible"; 
+	add_asterisk = false;
+
     }
   }
 
@@ -125,7 +128,6 @@ function buscar_argumentos(){
 
 
 //-------------------------- SEND CHANGES -------------------------//
-
 //Function to send the name and description of the circuit
 function sendCircuitUpdate(){
   c_name        = document.getElementById('circuit_name').value;
@@ -149,7 +151,6 @@ function sendCircuitUpdate(){
     //If the values are not completed
     if ( input1.value == "" || (input3.style.display != 'none' && input3.value == "" )|| (input2.style.display != 'none' &&  input2.value == ""  ) ) 
     {alert(msgjs6);return false;}
-
     //It verifies that does not repeat
       //You get all those in the table
       names = document.getElementsByName('data_recovery_names');
@@ -243,10 +244,10 @@ function sendCircuitUpdate(){
 	   cell = row.insertCell(2);
 	   cell.setAttribute('style','width:10px;padding:0 10px;');
      elemento = document.createElement('img');
-  	 elemento.src = '/images/icons/cross.png';
-  	 elemento.alt = 'cross.png';
-  	 elemento.name = new_name;
-  	 elemento.setAttribute('style', 'cursor:pointer; height:12px; width:12px; margin-left:10px;');
+     elemento.src = '/images/icons/cross.png';
+     elemento.alt = 'cross.png';
+     elemento.name = new_name;
+     elemento.setAttribute('style', 'cursor:pointer; height:12px; width:12px;margin:0 auto;');
      elemento.onclick = function(){ if(confirm(msgjs10)){new Ajax.Request('/circuits/deleteDataRecovery/' + circuit_id , {asynchronous:true, evalScripts:true, onComplete:function(request){deleteDataRecoveryTable( row.rowIndex );}, parameters:'name=' + new_name }) } }
   	 cell.appendChild(elemento);
   	    
