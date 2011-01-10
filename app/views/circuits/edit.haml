@@ -71,7 +71,10 @@
             %script
               //Adding '*'
               document.getElementById('modified_file').innerHTML = "<image src='/images/icons/s-edit.png'></img>";
+              document.getElementById('save_button').style.visibility = "visible";
+              document.getElementById('savewc_button').style.visibility = "visible"; 
               add_asterisk = false;
+              
     %div{ :style=>"width:150px;float:right;margin-left:10px;text-align:right;",  :title=>@circuit.user.name}
       =_('By')
       =truncate(@circuit.user.name, :ommision => "...", :length => 20)
@@ -92,31 +95,7 @@
 -content_for :tools_menu do
   = render :partial=> "menu_edit"
   
-//Save with comment
-=render :partial => "save_with_comment"
 
-//Import script
-=render :partial => "import_script"
-
-//Data recovery
-#div_data_recoveries{:style=>"display:none;"}
-
-//Functions
-#div_with_functions{:style=>"display:none;"}
-
-//Check data
-#checker{:style=>"display:none;"}
-
-//Suites of script
-#suites_of_script{:style=>"display:none;"}
-
-//Execution pannel
-.div{:id=>"execution_panel",:style => "display:none; "}
-
-
-  
-//Help 
-=render :partial => "info_script"
 
 
 

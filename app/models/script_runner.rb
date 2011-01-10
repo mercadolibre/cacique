@@ -44,35 +44,33 @@ class ScriptRunner < ActiveRecord::Base
 		@output = String.new
 	end
 	
-	#only for obtain position_error variable, through an extend
-	module PositionErrorHolder
-		attr_accessor	:position_error
-	end
+    #only for obtain position_error variable, through an extend
+    module PositionErrorHolder
+      attr_accessor	:position_error
+    end
 	
 	
     def evaluate_data( dat )	
-		#Class String
-		return dat if dat.instance_of? String
+      #Class String
+      return dat if dat.instance_of? String
 		
-		#Class Symbol
-        return self.data[dat] if dat.instance_of? Symbol
+      #Class Symbol
+      return self.data[dat] if dat.instance_of? Symbol
 
-        #Class Hash
-		if dat.instance_of? Hash
-			if dat[:default]
-				return self.evaluate_data( dat[:default] )
-			end
-			raise "No se puede encontrar cadena correspondiente al site para "+"#{dat.inspect}"
-		end
+      #Class Hash
+	  if dat.instance_of? Hash
+	     if dat[:default]
+		    return self.evaluate_data( dat[:default] )
+		 end
+		 raise "No se puede encontrar cadena correspondiente al site para "+"#{dat.inspect}"
+	  end
 		
-        #Class Fixnum o Bignum
-		return dat.to_s if dat.instance_of? Fixnum or dat.instance_of? Bignum
+      #Class Fixnum o Bignum
+	  return dat.to_s if dat.instance_of? Fixnum or dat.instance_of? Bignum
 
       return dat
 	end
-
-
-    #to generate cacique's functions
+  #to generate cacique's functions
 	def method_missing(m,*x)
 	  UserFunction
 	   #I search the function in cache
@@ -116,6 +114,9 @@ class ScriptRunner < ActiveRecord::Base
 	
 	#Script Run
 	def run_source_code( file_code )
+        
+        Rails.cache.write WORKER_CACHE_KEY, execution
+		
 		#format checker
 		generated_module_name = "M#{rand(100000000)}"
 
@@ -137,7 +138,7 @@ class ScriptRunner < ActiveRecord::Base
 
 		#add ContextConfiguration arguments
         configuration_values.each do |key,value|
-          arguments_init_code += "def #{key.to_s}; \"#{value}\"; end\n"
+          arguments_init_code += "def #{key.to_s}; if @#{key.to_s}; return @#{key.to_s}; else; return \"#{value}\"; end ; end\n"
         end
         
 		eval(arguments_init_code)	
@@ -173,28 +174,26 @@ class ScriptRunner < ActiveRecord::Base
 			devuelve.merge! retorno if retorno.instance_of? Hash
 		
 		rescue Exception => e
-            ######################################################################
-			###########              Running error handling           ############
-			error_run_script
-
-			e.extend PositionErrorHolder
-			eval_line = e.backtrace.select{ |str| str =~ /^\(eval\)/ }.first
-			line_number = eval_line.split(":")[1].to_i - 3
-
-			piso = line_number - 4
-			piso = piso < 0 ? 0 : piso
-			lnum = piso
-
-            fragmento = file_code.split("\n")[piso..piso+7]
-            if fragmento
-  			   e.position_error = fragmento.map{|x| "#{lnum==line_number-1 ? "*" : ""}#{ (lnum+=1) }: #{x}" }.join("\n") + "..."
-    	    else
-               print _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
-               e.position_error = _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
-            end
-            # solo en debug mode imprime el error y el stack del error
-			print "---> Error: #{e.to_s} <---\n" if debug_mode
-			raise e
+          ######################################################################
+		  ###########          Running error handling           ############
+          Rails.cache.delete WORKER_CACHE_KEY
+		  error_run_script
+		  e.extend PositionErrorHolder
+		  eval_line = e.backtrace.select{ |str| str =~ /^\(eval\)/ }.first
+		  line_number = eval_line.split(":")[1].to_i - 3
+		  piso = line_number - 4
+		  piso = piso < 0 ? 0 : piso
+		  lnum = piso
+          fragmento = file_code.split("\n")[piso..piso+7]
+          if fragmento
+  		    e.position_error = fragmento.map{|x| "#{lnum==line_number-1 ? "*" : ""}#{ (lnum+=1) }: #{x}" }.join("\n") + "..."
+    	  else
+            print _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
+            e.position_error = _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
+          end
+          # solo en debug mode imprime el error y el stack del error
+		  print "---> Error: #{e.to_s} <---\n" if debug_mode
+		  raise e
 		ensure
 		    ######################################################################
 			###########                Run script footer             ############
@@ -213,7 +212,6 @@ class ScriptRunner < ActiveRecord::Base
             devuelve_aux[key.to_s] = value
           end
         end
-
 		return devuelve_aux
 	end
     
@@ -230,7 +228,6 @@ class ScriptRunner < ActiveRecord::Base
               end
 			end
 		end
-
 		devuelve
 	end
 
@@ -255,8 +252,6 @@ class ScriptRunner < ActiveRecord::Base
     def reset_output
 		@output = String.new
     end
-	
+    
 end
-
-
 

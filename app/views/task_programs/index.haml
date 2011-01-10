@@ -1,0 +1,52 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+=@script_to_run
+
+%script
+  var text_to_ask='#{_('Are You sure to delete Scheduling?')}'
+      
+.main{:style=>"padding:1.5% 1%;"}
+  %h1
+    =_("Select a suite to view Scheduling:")
+    
+  //Filter
+  =render :partial=>"filter_index"   
+  %div{ :style=>"clear: both"}  
+    
+  //Table    
+  -if params[:program]
+    = will_paginate @delayed_jobs, :params => { 'program' => params[:program]} 
+  -else
+    = will_paginate @delayed_jobs   
+  =render :partial => "table", :locals => {:delayed_jobs => @delayed_jobs}
+  
+//Tools menu
+-content_for :tools_menu do
+  =render :partial=>"menu_task_program"  
+  
+
+  

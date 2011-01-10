@@ -1,0 +1,49 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-javascript 'suite_execution_emails'
+-javascript 'select_all'
+-javascript 'checked_default'
+=stylesheet_link_tag 'jquery-ui.css'
+= calendar_date_select_includes "blue"
+= stylesheet_link_tag 'blue.css'
+
+.main{:style=>"width:100%;padding:1.5% 0;"}
+  - form_for @suite_execution, :url => "/task_programs/create", :html => {:id => "form_to_run_suite"} do
+    =text_field "execution", "where_did_i_come", :value => "new_program", :style => "display:none;"
+    %h1
+      =image_tag("icons/calendar-and-tasks.png", :alt=>"calendar-and-tasks.png")
+      =_("Suite Scheduler:")    
+      -value = (@suite_id ? @suite_id.to_i :  (@suites.empty? ? 0 : @suites.first.id ) )        
+      =select("execution", "suite_id", @suites.collect {|s| [ truncate(s.name.capitalize, :ommision => "...", :length => 60) , s.id ] }.sort!,{:selected => value},{:style=>"width:160px;", :onchange=>"$j('comment_button').click(function(){();});"})       
+      .form_button
+        =submit_tag _('Schedule')
+   
+    =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
+    =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
+    =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
+    =render :partial => 'context_configurations/suite_program_config', :locals => {:suite_id => value , :command=>@command}
+
+

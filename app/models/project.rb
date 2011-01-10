@@ -43,7 +43,8 @@ class Project < ActiveRecord::Base
   has_many :categories,      :dependent => :destroy
   has_many :project_users,   :dependent => :destroy
   has_many :suite_executions,:dependent => :destroy
-  has_many :user_functions
+  has_many :user_functions,  :dependent => :destroy
+  has_many :task_programs,   :dependent => :destroy
   belongs_to :user
 
   validates_presence_of	:name, :message=> _("Enter Project Name")

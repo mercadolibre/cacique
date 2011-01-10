@@ -26,8 +26,36 @@
 
 
 class QueueObserversController < ApplicationController
-  def show
+
+  def quick_view
     @queues_value=QueueObserver.run
     render :partial => "show"
+  end
+  
+  
+  def index
+    permit "root" do
+      queue=QueueObserver.new
+      @running=queue.get_running_info
+      #@tasks=[]
+      @tasks=queue.get_named_tasks
+    end
+  end
+
+
+  def delete
+    permit "root" do
+      queue=QueueObserver.new
+      queue.delete_execution(params[:id].to_i)
+      redirect_to :action=>:index
+    end
+  end
+
+
+  def refresh 
+    permit "root" do
+      QueueObserver.refresh_workers
+      redirect_to :controller => "queue_observers", :action => "index"
+    end
   end
 end
