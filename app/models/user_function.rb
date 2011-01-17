@@ -208,7 +208,7 @@ class UserFunction < ActiveRecord::Base
     if user.has_role?("root")
       projects = Project.all
     else
-      projects = user.projects
+      projects = user.projects.dup
     end
     
     projects.delete(self.project)
