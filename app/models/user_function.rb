@@ -49,6 +49,7 @@ class UserFunction < ActiveRecord::Base
   validates_presence_of :description, :message => _("Must complete Description Field")
   validates_presence_of :source_code, :message => _("Must complete Code Field")
   validates_length_of :name, :maximum=> 50, :message => _("The Name must be a maximum of 50 characters")
+  validates_presence_of :example, :message => _("Must complete example of how to use the function")
 #  validates_length_of :description, :minimum => 20, :too_short => "Se debe ingresar una descripcion, que sea representativa de la funcion"
 
   validate :repeated_name
