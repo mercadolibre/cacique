@@ -273,7 +273,11 @@ class UserFunction < ActiveRecord::Base
     #If the latest version already contains "user_id"means that no changes 
     #were made in the code of the function
     if version.user_id.nil?
-      version.user_id = current_user.id
+      if current_user
+        version.user_id = current_user.id
+      else
+        version.user_id = self.user_id
+      end
       version.save
     end
     true
