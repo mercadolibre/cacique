@@ -54,8 +54,20 @@ class UserFunction < ActiveRecord::Base
 
   validate :repeated_name
   
+  # indicate that the model is versioned
+  begin
+    # verify the existence of "versions" table
+    queryverificacion = "select number, created_at, versioned_type, id, versioned_id, changes from versions limit 1"
+    ActiveRecord::Base.connection.select_one(queryverificacion)
+    versioned
+    self.versioned_columns = ["name", "source_code"]
+    after_save :clean_versions
+    rescue Exception => e
+  end
+  
   after_create :add_function_to_hash
   after_destroy :delete_from_cache
+  after_save :add_user_in_last_version
   before_save :update_cache
   before_update :control_edit_name
   before_destroy :can_destroy?
@@ -247,4 +259,23 @@ class UserFunction < ActiveRecord::Base
     return search  
   end
     
+  
+  #VERSION_MAX_FOR_FUNCTION --> version function number max allowed checker
+  def clean_versions
+    VersionExtras.clean_versions("function")
+    if self.versions.count > VERSION_MAX_FOR_FUNCTION
+      self.versions.delete(self.versions.first)
+    end
+  end
+  
+  def add_user_in_last_version
+    version = self.versions.last
+    #If the latest version already contains "user_id"means that no changes 
+    #were made in the code of the function
+    if version.user_id.nil?
+      version.user_id = current_user.id
+      version.save
+    end
+    true
+  end
 end
