@@ -50,10 +50,15 @@ class UserFunctionsController < ApplicationController
 
   def find_per_project
     #search all project functions
-	  @methods = UserFunction.find(:all,  :order => 'name ASC', :conditions => ["project_id = 0 or project_id = ?", params[:project_id]])  
-    render :partial => "/circuits/functions", :locals => {:methods => @methods}
+	@methods = UserFunction.find(:all,  :order => 'name ASC', :conditions => ["project_id = 0 or project_id = ?", params[:project_id]])  
+    render :partial => "/circuits/functions", :locals => {:methods => @methods, :param_search => ""}
   end
 
+  def find
+    @methods = UserFunction.get_user_functions_with_filters(params[:project_id], params)
+    @methods += UserFunction.get_user_functions_with_filters(0, params)
+    render :partial => "/circuits/functions", :locals => {:methods => @methods, :param_search => params[:filter][:text]}
+  end
 
   def create
     @has_permission = current_user.has_permission_admin_project?(params[:user_function][:project_id])
