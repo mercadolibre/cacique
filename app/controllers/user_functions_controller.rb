@@ -71,7 +71,8 @@ class UserFunctionsController < ApplicationController
                                         :name => params[:user_function][:name],
                                         :description => params[:user_function][:description],
                                         :project_id => params[:user_function][:project_id],
-                                        :cant_args => args.length)
+                                        :cant_args => args.length,
+                                        :example => params[:user_function][:example])
                                      
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
@@ -125,6 +126,7 @@ class UserFunctionsController < ApplicationController
       @user_function.name = params[:user_function][:name]
       @user_function.description = params[:user_function][:description].to_s
       @user_function.cant_args = args.length
+      @user_function.example = params[:user_function][:example]
     
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join

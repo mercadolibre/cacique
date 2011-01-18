@@ -3418,3 +3418,10 @@ msgstr "Por ejemplo: Nombre, Descripción, Script que la componen, orden de ejec
 msgid "Confirm Schedule"
 msgstr "Confirmar Tarea Programada"
 
+#: app/models/user_function.rb:
+msgid "Must complete example of how to use the function"
+msgstr "Debe completar el ejemplo de uso de la función"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Example"
+msgstr "Ejemplo"
