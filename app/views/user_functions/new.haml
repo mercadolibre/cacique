@@ -100,6 +100,12 @@
         End
     %br
     %br
+    %label{:for => "example"} 
+      =_('Example')
+      %br
+      =f.text_area :example, {:rows => 6, :style => "width:750px;"}
+    %br
+    %br
     %br
     %div{ :style => "float:right;" }
       = submit_tag _('Create'),:onclick => "sendContent();" ,:style => "margin-right:10px;cursor:pointer;"

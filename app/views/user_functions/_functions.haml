@@ -65,8 +65,12 @@
           %h2
             =_('Created by:')
             =function.user.name
-          %p{:style=>"min-height: 220px;max-height: 300px; overflow:auto;"}
+          %p{:style=>"min-height: 220px;max-height: 240px; overflow:auto;"}
             =function.source_code.gsub("\n","<br>") 
-          
+          %h2
+            =_('Example')
+          %p{:style=>"min-height: 50px;max-height: 160px; overflow:auto;"}
+            =function.example.gsub("\n","<br>") 
+                      
 .tag{:id => "move", :style => "display:none;top:25%;left:40%;width:20%;"}
 
