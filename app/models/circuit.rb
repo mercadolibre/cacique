@@ -115,7 +115,7 @@ class Circuit < ActiveRecord::Base
   
   #VERSION_MAX_FOR_CIRCUIT --> version script number max allowed checker
   def clean_versions
-    VersionExtras.clean_versions
+    VersionExtras.clean_versions("circuit")
     if self.versions.count > VERSION_MAX_FOR_CIRCUIT
       self.versions.delete(self.versions.first)
     end
