@@ -63,14 +63,7 @@ class UserFunctionsController < ApplicationController
   def create
     @has_permission = current_user.has_permission_admin_project?(params[:user_function][:project_id])
     if @has_permission
-      #Delete all empty parameters
-      args = []
-      if !params[:user_function][:args].nil?
-        params[:user_function][:args].delete_if{|k,v| v== ""}
-        params[:user_function][:args].keys.map{|x|x.to_i}.sort.each do |key|
-          args << params[:user_function][:args][key.to_s]
-        end
-      end  
+      args = UserFunction.prepare_args(params[:user_function][:args]) 
     
       @user_function = UserFunction.new(:user_id => current_user.id,
                                         :name => params[:user_function][:name],
@@ -80,10 +73,8 @@ class UserFunctionsController < ApplicationController
                                         :example => params[:user_function][:example])
                                      
       #source_code Generate
-      code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
-      source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
-
-      @user_function.source_code = source_code
+      code = params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+      @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
 
       if @user_function.save
         @func_mod = _("Function was created Successfuly")
@@ -91,8 +82,7 @@ class UserFunctionsController < ApplicationController
         @js = "top.location='/user_functions?filter[project_id]=#{params[:user_function][:project_id]}' ; alert('#{@func_mod}')"
         render :inline => "<%= javascript_tag(@js) %>", :layout => true
       else
-        @user_function.source_code = params[:user_function][:source_code]
-        @source_code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+        @source_code = code
         @arguments = args
         render :action => "new"    
       end
@@ -126,15 +116,8 @@ class UserFunctionsController < ApplicationController
     @user_function = UserFunction.find params[:id]
     @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
     if @has_permission
-      #Delete all empty parameters
-      args = []
-      if !params[:user_function][:args].nil?
-        params[:user_function][:args].delete_if{|k,v| v== ""}
-        params[:user_function][:args].keys.map{|x|x.to_i}.sort.each do |key|
-          args << params[:user_function][:args][key.to_s]
-        end
-      end
-
+      args = UserFunction.prepare_args(params[:user_function][:args])
+      
       @user_function.name = params[:user_function][:name]
       @user_function.description = params[:user_function][:description].to_s
       @user_function.cant_args = args.length
@@ -142,17 +125,14 @@ class UserFunctionsController < ApplicationController
     
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
-      source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
-
-      @user_function.source_code = source_code
+      @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
     
       if @user_function.save
         @func_mod = _("Function was successfuly updated")
         @js = "top.location= '/user_functions?filter[project_id]=#{@user_function.project_id.to_s}'; alert('#{@func_mod}')"        
         render :inline => "<%= javascript_tag(@js) %>", :layout => true        
       else
-        @user_function.source_code = params[:user_function][:source_code]
-        @source_code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+        @source_code = code
         @arguments = args
         render :action => "edit"
       end 
