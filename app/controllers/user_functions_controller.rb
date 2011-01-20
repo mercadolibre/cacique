@@ -107,8 +107,15 @@ class UserFunctionsController < ApplicationController
     @user_function = UserFunction.find params[:id]
     @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
     if @has_permission
+      #Version
+      if params[:version]
+        @user_function.revert_to( params[:version].to_i )
+        @version_number = params[:version].to_i
+      end
+      @previous_version = @user_function.find_version('max')
+      @next_version = @user_function.find_version('min')
       @source_code   = @user_function.show_source_code
-      @arguments     = @user_function.show_arguments      
+      @arguments     = @user_function.show_arguments 
     else
       redirect_to "/users/access_denied?source_uri=user_functions"
     end

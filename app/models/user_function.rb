@@ -282,4 +282,14 @@ class UserFunction < ActiveRecord::Base
     end
     true
   end
+  
+  
+  def find_version(version)
+    case version
+      when 'max'
+        return self.versions.map(&:number).select{ |n| n < self.version }.max
+      when 'min'
+        return self.versions.map(&:number).select{ |n| n > self.version }.min
+    end
+  end
 end
