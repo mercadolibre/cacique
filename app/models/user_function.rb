@@ -292,4 +292,17 @@ class UserFunction < ActiveRecord::Base
         return self.versions.map(&:number).select{ |n| n > self.version }.min
     end
   end
+  
+  #Delete all empty parameters
+  def self.prepare_args(args)
+    arguments = []
+    if !args.nil?
+      args.delete_if{|k,v| v== ""}
+      args.keys.map{|x|x.to_i}.sort.each do |key|
+          arguments << args[key.to_s]
+      end
+    end
+    
+    arguments
+  end
 end
