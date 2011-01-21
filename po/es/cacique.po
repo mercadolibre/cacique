@@ -3425,3 +3425,15 @@ msgstr "Debe completar el ejemplo de uso de la función"
 #: app/views/user_functions/_functions.haml:
 msgid "Example"
 msgstr "Ejemplo"
+
+#: app/views/user_functions/_functions.haml:
+msgid "You do not have View Permissions"
+msgstr "Usted no tiene permisos para Ver"
+
+#: app/views/user_functions/new.haml:
+msgid "Hide the code of the function"
+msgstr "Ocultar el codigo de la función"
+
+#: app/views/user_functions/new.haml:
+msgid "Will hide the code and the example of the function"
+msgstr "Se ocultará el código y el ejemplo de la función"
