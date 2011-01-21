@@ -70,7 +70,8 @@ class UserFunctionsController < ApplicationController
                                         :description => params[:user_function][:description],
                                         :project_id => params[:user_function][:project_id],
                                         :cant_args => args.length,
-                                        :example => params[:user_function][:example])
+                                        :example => params[:user_function][:example],
+                                        :hide => (params[:user_function][:hide] == "1" ? true : false) )
                                      
       #source_code Generate
       code = params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
@@ -96,7 +97,7 @@ class UserFunctionsController < ApplicationController
   def edit
     @user_function = UserFunction.find params[:id]
     @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
-    if @has_permission
+    if @has_permission and !@user_function.hide?
       #Version
       if params[:version]
         @user_function.revert_to( params[:version].to_i )
@@ -115,13 +116,14 @@ class UserFunctionsController < ApplicationController
   def update
     @user_function = UserFunction.find params[:id]
     @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
-    if @has_permission
+    if @has_permission and !@user_function.hide?
       args = UserFunction.prepare_args(params[:user_function][:args])
       
       @user_function.name = params[:user_function][:name]
       @user_function.description = params[:user_function][:description].to_s
       @user_function.cant_args = args.length
       @user_function.example = params[:user_function][:example]
+      @user_function.hide = (params[:user_function][:hide] == "1" ? true : false)
     
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
