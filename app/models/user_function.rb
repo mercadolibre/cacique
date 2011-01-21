@@ -262,7 +262,7 @@ class UserFunction < ActiveRecord::Base
   
   #VERSION_MAX_FOR_FUNCTION --> version function number max allowed checker
   def clean_versions
-    VersionExtras.clean_versions("function")
+    VersionExtras.clean_versions("user_function")
     if self.versions.count > VERSION_MAX_FOR_FUNCTION
       self.versions.delete(self.versions.first)
     end
