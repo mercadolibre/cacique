@@ -305,4 +305,18 @@ class UserFunction < ActiveRecord::Base
     
     arguments
   end
+  
+  def hide?
+    if hide
+      if current_user
+        return false if current_user.has_role?("root")
+        return false if self.user_id == current_user.id
+      end
+      return true
+    end
+      
+    return false      
+
+  end
+  
 end

@@ -3176,3 +3176,15 @@ msgstr "Deve concluir exemplo de como usar a função"
 msgid "Example"
 msgstr "Exemplo"
 
+#: app/views/user_functions/_functions.haml:
+msgid "You do not have View Permissions"
+msgstr "Você não tem permissão para visualizar"
+
+#: app/views/user_functions/new.haml:
+msgid "Hide the code of the function"
+msgstr "Esconder o código da função"
+
+#: app/views/user_functions/new.haml:
+msgid "Will hide the code and the example of the function"
+msgstr "Vai esconder o código eo exemplo da função"
+
