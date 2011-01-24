@@ -33,7 +33,7 @@ class UserFunctionsController < ApplicationController
     @can_move = true   
     @search = UserFunction.get_user_functions_with_filters(@project_id, params)   
     @user_functions = @search.paginate :page => params[:page], :per_page => 20
-    @param_search = ( !params[:filter].nil? ?  params[:filter][:text] : "" )
+    @param_search = ( !params[:filter].nil? ?  params[:filter][:text] : nil )
     @has_permission = current_user.has_permission_admin_project?(@project_id)
   end
 
