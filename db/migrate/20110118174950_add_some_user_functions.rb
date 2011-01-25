@@ -182,6 +182,7 @@ begin
 	else
 		html_source = \"<base href=\'\#\{@selenium.get_location\}\' />\\n\" + html_source
 	end
+	html_source = \"<div style=\'border:2px solid #C6C5C4\'>\#\{@selenium.get_location\}</div>\" + html_source
 rescue Exception => e
 	html_source = \"<html> <title> \#\{CGI.escapeHTML(e.to_s)\} </title> </html>\"
 end
