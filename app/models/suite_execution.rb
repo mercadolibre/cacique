@@ -418,6 +418,11 @@ class SuiteExecution < ActiveRecord::Base
         end
     end
     
+    #DebugMode
+    if execution_params.has_key?(:debug_mode)
+      command += " -debug_mode true"
+    end
+    
     #Program
     if execution_params.has_key?(:task_program_id)
       command += " -task_program_id " + execution_params[:task_program_id].to_s
