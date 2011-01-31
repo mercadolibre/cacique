@@ -79,7 +79,7 @@
       =_('By')
       =truncate(@circuit.user.name, :ommision => "...", :length => 20)
     //Message after save
-    #save_message{:style=>"display:none;"}
+    #save_message
       =render :partial => "original_content", :locals => { :source_code => @last_circuit_version.source_code, :exito => nil, :text => nil }
     
     //SCRIPT

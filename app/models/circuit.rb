@@ -479,8 +479,7 @@ class Circuit < ActiveRecord::Base
      original_source_code =  Digest::SHA1.hexdigest(self.source_code)
 
      if original_source_code != originalcontent
-       car = self.circuit_access_registry.last
-       return false
+       return self.circuit_access_registry.last
      end
 
 	 self.source_code = CGI.unescapeHTML( content )
@@ -497,6 +496,8 @@ class Circuit < ActiveRecord::Base
      last_version.user_id = current_user.id
      last_version.save
     
+     return true
+     
   end
 
 
