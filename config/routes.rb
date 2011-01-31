@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :collection => { :password_recovery=>:get, :admin_panel=>:get , :show_user_form=>:get,:save=> :get, :update_permitions=>:get, :access_denied=>:get, :my_account=>:get }
   map.resources  :task_programs, :collection => {:index=>:get, :show_suites_of_project =>:get, :get_task_programs=>:get, :get_task_program_detail=>:get}
   map.resources  :queue_observers, :collection => {:quick_view => :get, :refresh=>:get, :show=>:get} 
-  map.resources  :user_functions, :collection => { :show_move=>:get, :move=>:get}
+  map.resources  :user_functions, :collection => { :show_move=>:get, :move=>:get, :show=>:get}
 
   map.root :controller => 'sessions', :action => 'new'
 

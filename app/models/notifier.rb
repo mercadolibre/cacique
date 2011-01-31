@@ -58,6 +58,7 @@ class Notifier < ActionMailer::Base
     @from = EMAIL
     @subject = _("[Cacique] Suite Execution Detail (#{suite_execution.s_status})")
     @body['suite_execution'] = suite_execution
+    @url = "http://" + IP_SERVER.to_s + "/suite_executions/#{suite_execution.id}"    
     @content_type = "text/html"
   end 
   
@@ -67,6 +68,7 @@ class Notifier < ActionMailer::Base
       @from = EMAIL
       @subject = _("[Cacique] Case ")+ @execution.case_template_id.to_s + _(": Execution Detail (#{suite_execution.s_status}) ")
       @body['execution'] = @execution
+      @url = "http://" + IP_SERVER.to_s + "/suite_executions/#{suite_execution.id}"      
       @content_type = "text/html"
   end
   
@@ -77,6 +79,7 @@ class Notifier < ActionMailer::Base
     @body['url_confirm'] = "http://" + IP_SERVER.to_s + ":" + server_port.to_s + "/task_programs/confirm_program/#{task_program_id}"
     @body['suite_name'] = Suite.find(suite_id).name
     @body['next_execution'] = task_program.delayed_jobs[1]
+    @url = "/suite_executions/#{suite_execution.id}"    
     @content_type = "text/html" 
     dj = @body['next_execution']
     name = @body['suite_name'].length <= 30  ? @body['suite_name'] : @body['suite_name'][0..27] + "..."
