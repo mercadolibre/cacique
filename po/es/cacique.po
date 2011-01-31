@@ -3437,3 +3437,12 @@ msgstr "Ocultar el codigo de la función"
 #: app/views/user_functions/new.haml:
 msgid "Will hide the code and the example of the function"
 msgstr "Se ocultará el código y el ejemplo de la función"
+
+#: app/controllers/circuits_controller.rb
+msgid "Last Edit"
+msgstr "Última Edición"
+
+#: app/controllers/circuits_controller.rb
+msgid "Could not save the script because it is not updated"
+msgstr "No se pudo guardar el script porque no se encuentra actualizado"
+
