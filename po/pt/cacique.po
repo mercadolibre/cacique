@@ -3188,3 +3188,11 @@ msgstr "Esconder o código da função"
 msgid "Will hide the code and the example of the function"
 msgstr "Vai esconder o código eo exemplo da função"
 
+#: app/controllers/circuits_controller.rb
+msgid "Last Edit"
+msgstr "Última Edição"
+
+#: app/controllers/circuits_controller.rb
+msgid "Could not save the script because it is not updated"
+msgstr "Não foi possível salvar o script, pois não é atualizado"
+
