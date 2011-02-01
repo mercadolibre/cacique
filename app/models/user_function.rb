@@ -144,28 +144,39 @@ class UserFunction < ActiveRecord::Base
   end
   
   def update_cache 
-     if self.changes.include?('name')
+    functions = Rails.cache.read "functions"
+    if self.changes.include?('name')
       old_name = self.changes['name'][0]
-      if old_name # if created the function for first time, modify hash manually
-        
-        functions = Rails.cache.read "functions"
-        if functions
-          if self.changes.include?('project_id')
-            functions[self.changes['project_id'][0]].delete(old_name)
-          else
-            functions[self.project_id.to_s].delete(old_name)
-          end
-          functions[self.project_id.to_s] << self.name
-          Rails.cache.write("functions",functions)
+      if functions
+        if self.changes.include?('project_id') and !self.changes['project_id'][0].nil?
+          functions[self.changes['project_id'][0].to_s].delete(old_name)
+        else
+          functions[self.project_id.to_s].delete(old_name) if old_name
         end
       end
-     else
+    else
       old_name = self.name
-     end
-
-    #delete if is cached
-    Rails.cache.delete "func_#{self.project_id}_#{old_name}" if old_name
-    true
+    end
+    
+    if self.changes.include?('project_id')
+      old_project_id = self.changes['project_id'][0]
+      functions[old_project_id.to_s].delete(old_name) if functions and old_project_id
+    else
+      old_project_id = self.project_id
+    end
+    
+    Rails.cache.delete "func_#{old_project_id}_#{old_name}" if old_name and old_project_id
+  
+    if functions
+      if functions[self.project_id.to_s].nil?
+        functions[self.project_id.to_s] = [self.name]
+      elsif !functions[self.project_id.to_s].include?(self.name)
+        functions[self.project_id.to_s] << self.name
+      end
+      Rails.cache.write("functions",functions) 
+    end
+    
+    true 
   end
   
   def can_destroy?
