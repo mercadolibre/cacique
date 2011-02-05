@@ -34,13 +34,11 @@
           %span
             =_('History')
 
-    //root privileges
-    -if !@root.nil?
-      %li
-        //By default is redirected to notes admin
-        %a{ :href => "/notes" }
-          %span
-            =_('Admin')
+    %li
+      //By default is redirected to notes admin
+      %a{ :href => "/user_functions" }
+        %span
+          =_('Admin')
 
     //Help  
     %li

@@ -63,17 +63,17 @@
           %input{ :type => "checkbox", :id=>"seleccion",:name => 'todos',:value => "checkbox", :onChange => "ModificarTodos(this);", :style=>"margin:0px;"}
         %th{:style=>"width:30px;"}
           T
-        %th
+        %th{:style=>"min-width: 12%; max-width:12%;"}
           =_('Identifier')
-        %th{:style=>"width:750px;"}
+        %th{:style=>"min-width: 40%; max-width:40%;"}
           =_('Name')
-        %th
+        %th{:style=>"min-width: 5%; max-width:10%;"}
           =_('User')
         %th
           =_('Date')
         %th
           =_('Duration')   
-        %th
+        %th{:style=>"min-width:12%;"}
           Configuration                
         %th
           Ok        
@@ -90,12 +90,12 @@
           %td{:style=>"width:30px;"}
             =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
           -#identificador
-          %td{:name=> @readonly ? "" : "edit_cell", :id=>suite_execution.id, :title => suite_execution.identifier, :style=>"width:300px;",:ondblclick => no_permission_alert}
+          %td{:name=> @readonly ? "" : "edit_cell", :id=>suite_execution.id, :title => suite_execution.identifier, :ondblclick => no_permission_alert}
             =h truncate(suite_execution.identifier, :ommision => "...", :length => 20)
           %td{:title=>entity.name, :style=>"text-align: left;"}
             -#Name 
-            =h truncate(entity.name, :ommision => "...", :length => 60)
-          %td{:style=>"width:250px;"}
+            =h truncate(entity.name, :ommision => "...", :length => 70)
+          %td
             =h suite_execution.user.login.to_s            
           %td
             -#Date

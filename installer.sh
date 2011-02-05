@@ -41,46 +41,44 @@ then
   echo PATH='$PATH':$HOME/.gem/ruby/1.8/bin >> $HOME/.bashrc
 fi
 
-sudo gem install rubygems-update  2>> installer.log
+sudo gem install rubygems-update    2>> installer.log
 sudo update_rubygems  2>> installer.log
-sudo gem sources -a http://gems.github.com   2>> installer.log
-sudo gem install  mongrel  2>> installer.log
-sudo gem install  rails -v 2.3.5  2>> installer.log
-sudo gem install  daemons -v 1.0.10  2>> installer.log
-sudo gem install  haml -v 2.2.2  2>> installer.log
-sudo gem install  hoe -v 2.3.2  2>> installer.log
-sudo gem install  hpricot -v 0.8.1  2>> installer.log
-sudo gem install  mechanize -v 0.9.3  2>> installer.log
-sudo gem install  memcache-client  2>> installer.log
-sudo gem install  nokogiri   2>> installer.log
-sudo gem install  polyglot  2>> installer.log
-sudo gem install  ruby-graphviz  2>> installer.log
-sudo gem install  ruby-ole  2>> installer.log
-sudo gem install  rubyforge  2>> installer.log
-sudo gem install  s4t-utils 2>> installer.log
-sudo gem install  searchlogic   2>> installer.log
-sudo gem install  Selenium  2>> installer.log
-sudo gem install  spreadsheet  2>> installer.log
-sudo gem install  SyslogLogger  2>> installer.log
-sudo gem install  treetop  2>> installer.log
-sudo gem install  user-choices  2>> installer.log
-sudo gem install  xml-simple -v 1.0.12  2>> installer.log
-sudo gem install  mislav-will_paginate  2>> installer.log
-sudo gem install  vestal_versions  2>> installer.log
-sudo gem install  calendar_date_select  2>> installer.log
-sudo gem install  rspec-rails  2>> installer.log
-sudo gem install  rspec  2>> installer.log
-sudo gem install  ruby-openid  2>> installer.log
-sudo gem install  thin  2>> installer.log
-sudo gem install  test-spec  2>> installer.log
-sudo gem install  rake  2>> installer.log
-sudo gem install  mechanize  2>> installer.log
-sudo gem install  laserlemon-vestal_versions  2>> installer.log
-sudo gem install  mysql ––with-mysql-config=/usr/bin/mysql_config   2>> installer.log
-sudo gem install  composite_primary_keys  2>> installer.log
-sudo gem install  net-ssh  2>> installer.log
-sudo gem install  locale 2>> installer.log
-sudo gem install  locale_rails -v 2.0.5 2>> installer.log
+sudo gem sources -a http://gems.github.com --no-ri --no-rdoc  2>> installer.log
+sudo gem install  mongrel --no-ri --no-rdoc 2>> installer.log
+sudo gem install  daemons -v 1.0.10 --no-ri --no-rdoc 2>> installer.log
+sudo gem install  haml -v 2.2.2 --no-ri --no-rdoc  2>> installer.log
+sudo gem install  hoe -v 2.3.2 --no-ri --no-rdoc 2>> installer.log
+sudo gem install  hpricot -v 0.8.1 --no-ri --no-rdoc 2>> installer.log
+sudo gem install  mechanize -v 0.9.3 --no-ri --no-rdoc 2>> installer.log
+sudo gem install  memcache-client --no-ri --no-rdoc 2>> installer.log
+sudo gem install  nokogiri --no-ri --no-rdoc  2>> installer.log
+sudo gem install  polyglot --no-ri --no-rdoc 2>> installer.log
+sudo gem install  ruby-graphviz --no-ri --no-rdoc 2>> installer.log
+sudo gem install  ruby-ole --no-ri --no-rdoc 2>> installer.log
+sudo gem install  rubyforge --no-ri --no-rdoc 2>> installer.log
+sudo gem install  s4t-utils --no-ri --no-rdoc 2>> installer.log
+sudo gem install  searchlogic --no-ri --no-rdoc  2>> installer.log
+sudo gem install  Selenium --no-ri --no-rdoc 2>> installer.log
+sudo gem install  spreadsheet --no-ri --no-rdoc 2>> installer.log
+sudo gem install  SyslogLogger --no-ri --no-rdoc 2>> installer.log
+sudo gem install  treetop --no-ri --no-rdoc 2>> installer.log
+sudo gem install  user-choices --no-ri --no-rdoc 2>> installer.log
+sudo gem install  xml-simple -v 1.0.12 --no-ri --no-rdoc 2>> installer.log
+sudo gem install  mislav-will_paginate --no-ri --no-rdoc 2>> installer.log
+sudo gem install  vestal_versions --no-ri --no-rdoc 2>> installer.log
+sudo gem install  calendar_date_select --no-ri --no-rdoc 2>> installer.log
+sudo gem install  rspec-rails --no-ri --no-rdoc 2>> installer.log
+sudo gem install  rspec --no-ri --no-rdoc 2>> installer.log
+sudo gem install  ruby-openid --no-ri --no-rdoc 2>> installer.log
+sudo gem install  thin --no-ri --no-rdoc 2>> installer.log
+sudo gem install  test-spec --no-ri --no-rdoc 2>> installer.log
+sudo gem install  rake --no-ri --no-rdoc 2>> installer.log
+sudo gem install  mechanize  --no-ri --no-rdoc 2>> installer.log
+sudo gem install  laserlemon-vestal_versions --no-ri --no-rdoc 2>> installer.log
+sudo gem install  mysql ––with-mysql-config=/usr/bin/mysql_config --no-ri --no-rdoc  2>> installer.log
+sudo gem install  net-ssh --no-ri --no-rdoc 2>> installer.log
+sudo gem install  locale --no-ri --no-rdoc 2>> installer.log
+sudo gem install  locale_rails -v 2.0.5 --no-ri --no-rdoc 2>> installer.log
 
 echo "We had a problem with the gem "locale_rails" to fix it is to apply a patch. You agree? (Y | N):"
 echo ">> "
@@ -94,14 +92,14 @@ else
         fi
 fi
 echo "Done patch."
-sudo gem install  gettext gettext_activerecord gettext_rails  2>> installer.log
-sudo gem install  camping  2>> installer.log
+sudo gem install  gettext gettext_activerecord gettext_rails --no-ri --no-rdoc 2>> installer.log
+sudo gem install  camping  --no-ri --no-rdoc 2>> installer.log
 sudo gem uninstall rails actionmailer actionpack activemodel activerecord activeresource activesupport composite_primary_keys #I need delete rails 3
-sudo gem install rails -v 2.3.5 2 2>> installer.log
-sudo gem install composite_primary_keys -v 2.3.5
-sudo gem install  passenger  2>> installer.log
-sudo gem install  prawn  2>> installer.log
-sudo gem install  starling 2>> installer.log
+sudo gem install rails -v 2.3.5 2>> installer.log
+sudo gem install composite_primary_keys -v 2.3.5 --no-ri --no-rdoc
+sudo gem install  passenger --no-ri --no-rdoc 2>> installer.log
+sudo gem install  prawn --no-ri --no-rdoc 2>> installer.log
+sudo gem install  starling --no-ri --no-rdoc 2>> installer.log
 sudo mkdir -p `pwd`/tmp/
 sudo chmod 744 `pwd`/tmp/ -R
 echo "-----------------------------------------------" >> installer.log

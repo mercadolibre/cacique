@@ -26,79 +26,64 @@
 
 
 class UserFunctionsController < ApplicationController
-  permit "root" , :only => [:index, :show_move, :move]
 
   def index
-
     @projects   = Project.all
     @project_id = params[:filter] ? params[:filter][:project_id].to_s : ""
     @can_move = true   
     @search = UserFunction.get_user_functions_with_filters(@project_id, params)   
     @user_functions = @search.paginate :page => params[:page], :per_page => 20
-    (!params[:search].nil?)? @param_search = params[:search] : @param_search = ""
-
+    @param_search = ( !params[:filter].nil? ?  params[:filter][:text] : nil )
+    @has_permission = current_user.has_permission_admin_project?(@project_id)
   end
 
   def new
+    @has_permission = current_user.has_permission_admin_project?(params[:project_id])
+    if @has_permission
       @user_function = UserFunction.new
       @user_function.project_id = params[:project_id]
-      @readonly = !current_user.has_role?("root")
       @arguments = []
-  end
-  
-  def find
-    if params[:project_id].empty?
-      #Se marco la opcion "Seleccione" del select de proyectos
-      render :nothing => true
     else
-      @project = Project.find params[:project_id]
-      @user_functions = UserFunction.find(:all, :conditions=>"project_id = #{@project.id} and ( name like '%#{params[:search].to_s}%' or description like '%#{params[:search].to_s}%')", :order=> "name ASC")
-      (!params[:search].nil?)? @param_search = params[:search] : @param_search = ""
-      @can_move = current_user.has_role?("root")
-      render :partial => "functions_per_project", :locals => {:user_functions => @user_functions, :project_id => @project.id, :search => @param_search, :can_move => @can_move } 
+      redirect_to "/users/access_denied?source_uri=user_functions"
     end
-    
   end
-
 
   def find_per_project
     #search all project functions
-	  @methods = UserFunction.find(:all,  :order => 'name ASC', :conditions => ["project_id = 0 or project_id = ?", params[:project_id]])  
-    render :partial => "/circuits/functions", :locals => {:methods => @methods}
+	@methods = UserFunction.find(:all,  :order => 'name ASC', :conditions => ["project_id = 0 or project_id = ?", params[:project_id]])  
+    render :partial => "/circuits/functions", :locals => {:methods => @methods, :param_search => ""}
   end
 
+  def find
+    @methods = UserFunction.get_user_functions_with_filters(params[:project_id], params)
+    @methods += UserFunction.get_user_functions_with_filters(0, params)
+    render :partial => "/circuits/functions", :locals => {:methods => @methods, :param_search => params[:filter][:text]}
+  end
 
   def create
-    if (params[:user_function][:project_id]!= "0" and current_user.my_projects_admin.include?( Project.find(params[:user_function][:project_id]))) or current_user.has_role?("root")
-      #Delete all empty parameters
-      args = []
-      if !params[:user_function][:args].nil?
-        params[:user_function][:args].delete_if{|k,v| v== ""}
-        params[:user_function][:args].keys.map{|x|x.to_i}.sort.each do |key|
-          args << params[:user_function][:args][key.to_s]
-        end
-      end  
+    @has_permission = current_user.has_permission_admin_project?(params[:user_function][:project_id])
+    if @has_permission
+      args = UserFunction.prepare_args(params[:user_function][:args]) 
     
       @user_function = UserFunction.new(:user_id => current_user.id,
                                         :name => params[:user_function][:name],
                                         :description => params[:user_function][:description],
                                         :project_id => params[:user_function][:project_id],
-                                        :cant_args => args.length)
+                                        :cant_args => args.length,
+                                        :example => params[:user_function][:example],
+                                        :hide => (params[:user_function][:hide] == "1" ? true : false) )
                                      
       #source_code Generate
-      code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
-      source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
-
-      @user_function.source_code = source_code
+      code = params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+      @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
 
       if @user_function.save
         @func_mod = _("Function was created Successfuly")
         # function create confirmation and redirect to function list
-        @js = "top.location='/user_functions?filter[project_id]=#{params[:user_function][:project_id].to_s}' ; alert('#{@func_mod}')"
+        @js = "top.location='/user_functions?filter[project_id]=#{params[:user_function][:project_id]}' ; alert('#{@func_mod}')"
         render :inline => "<%= javascript_tag(@js) %>", :layout => true
       else
-        @user_function.source_code = params[:user_function][:source_code]
-        @source_code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+        @source_code = code
         @arguments = args
         render :action => "new"    
       end
@@ -111,42 +96,45 @@ class UserFunctionsController < ApplicationController
   
   def edit
     @user_function = UserFunction.find params[:id]
-    @source_code   = @user_function.show_source_code
-    @arguments     = @user_function.show_arguments
-    #Edit permission
-    @readonly = !current_user.has_role?("root")
+    @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
+    if @has_permission and !@user_function.hide?
+      #Version
+      if params[:version]
+        @user_function.revert_to( params[:version].to_i )
+        @version_number = params[:version].to_i
+      end
+      @previous_version = @user_function.find_version('max')
+      @next_version = @user_function.find_version('min')
+      @source_code   = @user_function.show_source_code
+      @arguments     = @user_function.show_arguments 
+    else
+      redirect_to "/users/access_denied?source_uri=user_functions"
+    end
   end
   
   
   def update
     @user_function = UserFunction.find params[:id]
-    if (@user_function.project_id != 0 and current_user.my_projects_admin.include?( Project.find(@user_function.project_id))) or current_user.has_role?("root")
-      #Delete all empty parameters
-      args = []
-      if !params[:user_function][:args].nil?
-        params[:user_function][:args].delete_if{|k,v| v== ""}
-        params[:user_function][:args].keys.map{|x|x.to_i}.sort.each do |key|
-          args << params[:user_function][:args][key.to_s]
-        end
-      end
-
+    @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
+    if @has_permission and !@user_function.hide?
+      args = UserFunction.prepare_args(params[:user_function][:args])
+      
       @user_function.name = params[:user_function][:name]
       @user_function.description = params[:user_function][:description].to_s
       @user_function.cant_args = args.length
+      @user_function.example = params[:user_function][:example]
+      @user_function.hide = (params[:user_function][:hide] == "1" ? true : false)
     
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
-      source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
-
-      @user_function.source_code = source_code
+      @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
     
       if @user_function.save
         @func_mod = _("Function was successfuly updated")
         @js = "top.location= '/user_functions?filter[project_id]=#{@user_function.project_id.to_s}'; alert('#{@func_mod}')"        
         render :inline => "<%= javascript_tag(@js) %>", :layout => true        
       else
-        @user_function.source_code = params[:user_function][:source_code]
-        @source_code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+        @source_code = code
         @arguments = args
         render :action => "edit"
       end 
@@ -159,11 +147,11 @@ class UserFunctionsController < ApplicationController
 
   def delete
     @user_function = UserFunction.find params[:id]
-    if ( @user_function.project_id != 0 and current_user.my_projects_admin.include?( @user_function.project )) or current_user.has_role?("root")
-      project_id = @user_function.project_id
+    @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
+    if @has_permission
       if @user_function.destroy
         @func_mod =  _("Function was successfully removed")
-        @js = "top.location='/user_functions?filter[project_id]=#{project_id.to_s}'; alert('#{@func_mod}')"
+        @js = "top.location='/user_functions?filter[project_id]=#{@user_function.project_id}'; alert('#{@func_mod}')"
         render :inline => "<%= javascript_tag(@js) %>", :layout => true
       else
         text_error = Array.new
@@ -180,11 +168,16 @@ class UserFunctionsController < ApplicationController
   
   def show_move
     @user_function = UserFunction.find params[:id]
-    #Projects to which I have permission to move the function
-    #With the format [[name, id],[name2, id2]]
-    @projects = @user_function.find_projects_to_move(current_user)
-    @can_move_to_generico = (current_user.has_role?("root") and @user_function.project_id != 0)
-    render :partial => "move", :locals => { :user_function => @user_function, :projects => @projects, :can_move_to_generico => @can_move_to_generico }
+    @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
+    if @has_permission
+      #Projects to which I have permission to move the function
+      #With the format [[name, id],[name2, id2]]
+      @projects = @user_function.find_projects_to_move(current_user)
+      @can_move_to_generico = (current_user.has_role?("root") and @user_function.project_id != 0)
+      render :partial => "move", :locals => { :user_function => @user_function, :projects => @projects, :can_move_to_generico => @can_move_to_generico }
+    else
+      redirect_to "/users/access_denied?source_uri=user_functions"
+    end
   end
   
   
@@ -199,16 +192,21 @@ class UserFunctionsController < ApplicationController
         redirect =  "/user_functions?filter[project_id]=#{params[:user_function][:project]}"   
       end
     
-      if @user_function.move_project(project_id)
-        @func_mov = _('Function was successfuly moved')
-        @js = "top.location='#{redirect}'; alert('#{@func_mov}')"
-        render :inline => "<%= javascript_tag(@js) %>", :layout => true
+      @has_permission = current_user.has_permission_admin_project?(@user_function.project_id) and current_user.has_permission_admin_project?(project_id)
+      if @has_permission
+        if @user_function.move_project(project_id)
+          @func_mov = _('Function was successfuly moved')
+          @js = "top.location='#{redirect}'; alert('#{@func_mov}')"
+          render :inline => "<%= javascript_tag(@js) %>", :layout => true
+        else
+          text_error = []
+          func_mod = @user_function.errors.full_messages.each {|error|  text_error << error }   
+          @func_mod = func_mod.join(', ') 
+          @js = "top.location='/user_functions'; alert('#{@func_mod}')"
+          render :inline => "<%= javascript_tag(@js) %>", :layout => true
+        end
       else
-        text_error = Array.new
-        func_mod = @user_function.errors.full_messages.each {|error|  text_error << error }   
-        @func_mod = func_mod.join(', ') 
-        @js = "top.location='/user_functions'; alert('#{@func_mod}')"
-        render :inline => "<%= javascript_tag(@js) %>", :layout => true
+        redirect_to "/users/access_denied?source_uri=user_functions"
       end
     else
       @func_mov = _('Could not move the function')
