@@ -39,5 +39,5 @@
   .buscar 
     - form_for :filter, url_for(:controller=>"user_functions", :action=>"index"), :html => {:method => :get} do |f|
       = f.text_field 'project_id', :value=>@project_id, :style => 'display:none;'
-      = f.text_field 'text', :value=>(@param_search.empty? ? _('Search Function') : @param_search), :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
+      = f.text_field 'text', :value=>(@param_search.nil? ? _('Search Function') : @param_search), :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
       %input{:type=>"image",:src=>"/images/icons/search.png"}

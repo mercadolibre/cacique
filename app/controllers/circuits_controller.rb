@@ -88,14 +88,16 @@ class CircuitsController < ApplicationController
    @previous_version = actual_version.number
    
     permit 'editor of :circuit' do
-      @circuit.save_source_code(params[:originalcontent], params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message])
+      if (car = @circuit.save_source_code(params[:originalcontent], params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message])) == true
+        #Version
+        @previous_version = last_version.number if @previous_version.nil? 
 
-      #Version
-      @previous_version = last_version.number if @previous_version.nil? 
-
-      #Script access registry
-      CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
-      render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit_id => @circuit.id }
+        #Script access registry
+        CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
+        render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit_id => @circuit.id }
+      else
+        render :xml => "<div style='color:red;'>" + _("Could not save the script because it is not updated") + "<br>" + _("Last Edit") + ": #{car.user.name} ( #{car.user.login} )"+"\nIP: "+"#{car.ip_address}</div>";
+      end
     end
 
   end
