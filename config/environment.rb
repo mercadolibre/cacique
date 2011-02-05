@@ -50,9 +50,8 @@ Rails::Initializer.run do |config|
     config.gem 'laserlemon-vestal_versions', :lib => 'vestal_versions', :source => 'http://gems.github.com'
     #config.gem "spreadsheet"
     config.gem "calendar_date_select"
-
     #config.gem "pdf-writer"
-    #config.gem 'hoptoad_notifier'
+    config.gem 'hoptoad_notifier'
     config.gem "starling"
 
 #...............GETTEXT.............
