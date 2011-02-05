@@ -32,7 +32,7 @@
     %img{:src => "/images/icons/d_save.png",    	:alt=>"save",    :title=>_("Without Edit Permissions "), :onclick=>"alert('#{_("You do not have Edit Permissions")}')",:style=>" height: 23px; width: 23px;margin-left:35px;" }
     %img{:src => "/images/icons/d_comment.png", 	:alt=>"comment", :title=>_('Save with Comments'),        :onClick =>"alert('#{_("You do not have Edit Permissions")}')"}
   -else
-    %img{:id =>"save_button", :src => "/images/icons/save.png",  		:alt=>"save",    :title =>_("Save"), :style=>"margin-left:35px; visibility:hidden;",:onClick => remote_function(:complete => "document.getElementById('save_message').toggle();", :update => "save_message", :url => {:controller => "circuits", :action => "updateFile", :id => @circuit.id }, :with => "'content=' + encodeURI(encode_text(codepress_content_free.getCode())) + '&originalcontent=' + encodeURI(document.getElementById('originalcontent').value)" )} 
+    %img{:id =>"save_button", :src => "/images/icons/save.png",  		:alt=>"save",    :title =>_("Save"), :style=>"margin-left:35px; visibility:hidden;",:onClick => remote_function(:update => "save_message", :url => {:controller => "circuits", :action => "updateFile", :id => @circuit.id }, :with => "'content=' + encodeURI(encode_text(codepress_content_free.getCode())) + '&originalcontent=' + encodeURI(document.getElementById('originalcontent').value)" )} 
     %img{:id =>"savewc_button", :src => "/images/icons/comment.png", 		:alt=>"comment", :title=>_('Save with Comments'), :style=>"visibility:hidden;",		 :onClick => "document.getElementById('comment_save').toggle();"}
     
   //Sintax check  
@@ -74,7 +74,7 @@
   %div{ :style=>"margin:auto;width:300px;display:inline;padding-left:10px;"}
     //Cases
     -value =  @execution_running? @execution_running.case_template_id : 0
-    =select("cases", "id" ,@circuit.case_templates.collect {|p| [ truncate( p.objective,  :ommision => "...",:length => 20), p.id ]}, {:include_blank => "Self", :selected=>value}, {:style => "width:110px;vertical-align:9px;"}  )
+    =select("cases", "id" ,@circuit.case_templates.collect {|p| [ truncate( p.objective,  :ommision => "...",:length => 70), p.id ]}, {:include_blank => "Self", :selected=>value}, {:style => "width:150px;vertical-align:9px;"}  )
     //Play
     %img{:src => "/images/icons/play.png", 			:alt=>"play", 	 :title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' + document.getElementById('cases_id').value + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'"}
     //Ejecution Result

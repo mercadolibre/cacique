@@ -1,4 +1,4 @@
-class AddAllUserFunctions < ActiveRecord::Migration
+class AddSomeUserFunctions < ActiveRecord::Migration
   def self.up
 	@user = User.find_by_login("cacique")
 	@user = User.first if @user.nil?
@@ -12,7 +12,8 @@ class AddAllUserFunctions < ActiveRecord::Migration
 						:description => "Funcion que se ejecuta SIEMPRE antes de correr un script",
 						:cant_args => 0,
 						:source_code => "def new_object.initialize_run_script();
-end;")
+end;",
+						:example => "initialize_run_script()")
 	@user_function.save
 	@user_function = UserFunction.new( 	:project_id => 0,
 						:user_id => @user.id,
@@ -20,7 +21,8 @@ end;")
 						:description => "Funcion que se ejecuta SIEMPRE despues de correr un script",
 						:cant_args => 0,
 						:source_code => "def new_object.finalize_run_script();
-end;")
+end;",
+						:example => "finalize_run_script()")
 	@user_function.save
 	@user_function = UserFunction.new( 	:project_id => 0,
 						:user_id => @user.id,
@@ -28,7 +30,8 @@ end;")
 						:description => "Funcion que se ejecuta SIEMPRE que la corrida de un script da error",
 						:cant_args => 0,
 						:source_code => "def new_object.error_run_script();
-end;")
+end;",
+						:example => "error_run_script()")
 	@user_function.save
 
 
@@ -40,7 +43,8 @@ end;")
 						:cant_args => 0,
 						:source_code => "def new_object.remote_control_port();
 @remote_control_port || 4444
-end;")
+end;",
+						:example => "port = remote_control_port()")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -50,7 +54,8 @@ end;")
 						:cant_args => 0,
 						:source_code => "def new_object.remote_control_addr();
 @remote_control_addr || \"127.0.0.1\"
-end;")
+end;",
+						:example => "ip = remote_control_addr()")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -61,7 +66,9 @@ end;")
 						:source_code => "def new_object.select_popup();
 selenium.wait_for_pop_up selenium.get_all_window_names[1], \"30000\"
 selenium.select_window(selenium.get_all_window_names[1])
-end;")
+end;",
+						:example => "selenium.click \"abro_pop_up\"
+select_popup()")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -71,7 +78,8 @@ end;")
 						:cant_args => 0,
 						:source_code => "def new_object.select_window_main();
 selenium.select_window(selenium.get_all_window_names[0])
-end;")
+end;",
+						:example => "select_window_main()")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -82,7 +90,9 @@ end;")
 						:source_code => "def new_object.wait_for_element_present( str_element, seconds=60 );
 seconds.times{ break if (selenium.is_element_present(str_element) rescue false); sleep 1 }
 raise \"Se espero al elemento \'\#\{str_element\}\' durante \#\{seconds\} y no aparecio\"
-end;")
+end;",
+						:example => "selenium.click \"button\"
+wait_for_element_present(\"login\")")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -93,7 +103,9 @@ end;")
 						:source_code => "def new_object.wait_for_text_present( text, seconds=60 );
 seconds.times{ break if (selenium.is_text_present(text) rescue false); sleep 1 }
 raise \"Se espero al texto \'\#\{text\}\' durante \#\{seconds\} y no aparecio\"
-end;")
+end;",
+						:example => "selenium.click \"button\"
+wait_for_text_present(\"Felicidades, Te has registrado\")")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -104,7 +116,8 @@ end;")
 						:source_code => "def new_object.selenium_stop();
 @selenium.stop if @selenium
 @selenium = nil
-end;")
+end;",
+						:example => "selenium_stop()")
 	@user_function.save
 
 
@@ -127,7 +140,8 @@ end;")
 	@selenium = Selenium::SeleniumDriver.new( remote_control_addr, remote_control_port , platform, url, 10000000000)
 	@selenium.start
 	@selenium_started = true
-end;")
+end;",
+						:example => "selenium_init \"http://www.mercadolibre.com\"")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -142,7 +156,8 @@ if self.debug_mode
 else
 	WrapperSelenium.new(@selenium,self)
 end
-end;")
+end;",
+						:example => "selenium")
 	@user_function.save
 
 	@user_function = UserFunction.new( 	:project_id => 0,
@@ -167,6 +182,7 @@ begin
 	else
 		html_source = \"<base href=\'\#\{@selenium.get_location\}\' />\\n\" + html_source
 	end
+	html_source = \"<div style=\'border:2px solid #C6C5C4\'>\#\{@selenium.get_location\}</div>\" + html_source
 rescue Exception => e
 	html_source = \"<html> <title> \#\{CGI.escapeHTML(e.to_s)\} </title> </html>\"
 end
@@ -178,9 +194,11 @@ snapshot.save
 
 end
 html_source
-end;")
+end;",
+						:example => "selenium_html_snapshot(\"first_snapshot\")")
 	@user_function.save
   end
+
   def self.down
   end
 end
