@@ -329,19 +329,14 @@ class User < ActiveRecord::Base
       user_projects.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
    end
 
-   def my_projects_admin
-     user_projects=Array.new
-     if self.has_role?("root")
-       Project.all.sort_by{ |x| x.name.downcase }
-     else
-       values= Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
-       values.each do |prj| 
-         project =  Project.find(prj.to_i)
-         user_projects <<  project if project.user_id == self.id
-       end
-       user_projects.sort_by{ |x| x.name.downcase }
-     end
+   #Returns true if the user has permissions to manage the project.
+   def has_permission_admin_project?(project_id)
+    return true if self.has_role?("root")
+
+    project_ids = Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
+    return project_ids.include?(project_id.to_i)
    end
+   
    # load user projects in cache, asigned or unassigned to him
    # and return unassigned projects
    # create an vector with ALL ids

@@ -3168,3 +3168,31 @@ msgstr "Por exemplo: Nome, Descrição, Script composto, ordens de execução, e
 msgid "Confirm Schedule"
 msgstr "Confirmar Tarefa Agendada"
 
+#: app/models/user_function.rb:
+msgid "Must complete example of how to use the function"
+msgstr "Deve concluir exemplo de como usar a função"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Example"
+msgstr "Exemplo"
+
+#: app/views/user_functions/_functions.haml:
+msgid "You do not have View Permissions"
+msgstr "Você não tem permissão para visualizar"
+
+#: app/views/user_functions/new.haml:
+msgid "Hide the code of the function"
+msgstr "Esconder o código da função"
+
+#: app/views/user_functions/new.haml:
+msgid "Will hide the code and the example of the function"
+msgstr "Vai esconder o código eo exemplo da função"
+
+#: app/controllers/circuits_controller.rb
+msgid "Last Edit"
+msgstr "Última Edição"
+
+#: app/controllers/circuits_controller.rb
+msgid "Could not save the script because it is not updated"
+msgstr "Não foi possível salvar o script, pois não é atualizado"
+

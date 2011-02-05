@@ -4,6 +4,8 @@
 <br><br><br><br>
 
 <div style= " font: 15px normal sans-serif; padding-left:20px;color: #31576F;">
+      <a style="color:#293484;font-weight:bold;font-size:14px;" href="<%=h @url %>">Ver ejecución en Cacique</a>
+      <br><br>
 	  <b style="font-size: 20px; color:#293484; font-family:sans-serif; font-size:15px; font-weight:bold;">
 		  Detalle de ejecución
 	  </b>
@@ -22,6 +24,7 @@
     <% end %>   
 
     Corrida el día: <%= @suite_execution.updated_at.strftime("%d/%m/%y %H:%M") %><br>
+	<% if !@suite_execution.identifier.empty? %> Identificador: <%= @suite_execution.identifier %><br>  <% end %> 
     <br>
     <table style="margin:0px;margin-left:10px;margin-bottom:40px;text-align:justify;font-family:sans-serif;">
       <tr style="background:transparent url(/images/icons/tag_grey.png) repeat scroll 0 0;">
