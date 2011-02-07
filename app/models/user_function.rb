@@ -237,7 +237,7 @@ class UserFunction < ActiveRecord::Base
     
     projects.delete(self.project)
     
-    projects_to_move = projects.collect{ |p| [p.name,p.id] }
+    projects_to_move = projects.sort_by { |x| x.name.downcase }.collect{ |p| [p.name,p.id] }
     
     projects_to_move
   end
