@@ -7,12 +7,12 @@ function show_help(){
         echo "Ejecucion:"
         echo "$0 run suite_id -u username -p password [OPTIONS]        Ejecuta una suite"
         echo " "
-		echo "Ejecucion de lista"
-		echo "$0 runlist <directorio de salida> -in <archivo de entrada>"
-		echo "ARGUMENTOS"
-		echo "-u <usuario>               Usuario de Cacique"
-		echo "-p <password>              Password de Cacique"
-		echo " "
+	echo "Ejecucion de lista"
+	echo "$0 runlist <directorio de salida> -in <archivo de entrada>"
+	echo "ARGUMENTOS"
+	echo "-u <usuario>               Usuario de Cacique"
+	echo "-p <password>              Password de Cacique"
+	echo " "
         echo "OPTIONS:"
         echo "-i <identifier>            Cambia el identificador de la ejecucion"
         echo "-n <number>                Especifica la cantidad de veces que se va a ejecutar la suite, por defecto es 1"
@@ -23,16 +23,16 @@ function show_help(){
         echo "-sm <email>				 Mail al cual se va a enviar el logueo de la corrida"
         echo "-server_ip  <ip addr>      Ip del servidor de Cacique"
         echo "-server_port <port>        Puerto del servidor de Cacique"
-		echo "-format <text|xml|json>    Formato en el que Cacique va a devolver los resultados, por defecto xml"
-		echo "-in <archivo de lista>     se especifica un archivo de lista con argumentos"
-		echo "-out <file>                archivo en el cual se va a mostrar los resultados, por defecto es la salida standar"    
-		echo "-dir <directory>"          directorio de salida 
+	echo "-format <text|xml|json>    Formato en el que Cacique va a devolver los resultados, por defecto xml"
+	echo "-in <archivo de lista>     se especifica un archivo de lista con argumentos"
+	echo "-out <file>                archivo en el cual se va a mostrar los resultados, por defecto es la salida standar"    
+	echo "-dir <directory>"          directorio de salida 
 }
 
 
 MAX_REFRESH=900 #90 * 10 segundos son 15 minutos, al cabo de 15 minutos debe terminar la ejecucion
 REFRESH_TIME=10 #tiempo de refresco de status  en segundos
-SERVER_IP=localhost
+SERVER_IP=10.10.60.27
 SERVER_PORT=80
 USER_NAME=""
 USER_PASS=""
@@ -92,9 +92,9 @@ function suite_execution() {
 
 #consulta si hay que seguir refrescando el resultado, en caso de que se realice por mas de $limit veces (por defecto 90 veces) el script terminara. 
 function refresh_status() {
-        VALUE="true"
+        VALUE="false"
 	counter=1
-        while [ "$VALUE" = "true" ]
+        while [ "$VALUE" = "false" ]
         do
 		if [ $counter = $MAX_REFRESH ]; then
 			exit
@@ -102,6 +102,7 @@ function refresh_status() {
                 sleep $REFRESH_TIME
                 VALUE=`curl -X GET -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/refresh -d "id=$SUITE_EXE_ID"`
 		counter=`expr $counter + 1`
+		echo "$VALUE"
         done
 
 }
@@ -118,8 +119,8 @@ function show_suite_run() {
 function wait_log(){
     echo $SUITE_EXE_ID
     if [ $SUITE_EXE_ID != 0 ]; then
-    	refresh_status $SUITE_EXE_ID
-    	show_suite_run $SUITE_EXE_ID
+	refresh_status $SUITE_EXE_ID
+	show_suite_run $SUITE_EXE_ID
     else
 	echo "Por favor chequee el los parametros enviados"
     fi
