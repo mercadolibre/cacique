@@ -32,7 +32,7 @@ function show_help(){
 
 MAX_REFRESH=900 #90 * 10 segundos son 15 minutos, al cabo de 15 minutos debe terminar la ejecucion
 REFRESH_TIME=10 #tiempo de refresco de status  en segundos
-SERVER_IP=10.10.60.27
+SERVER_IP=localhost
 SERVER_PORT=80
 USER_NAME=""
 USER_PASS=""
@@ -102,7 +102,6 @@ function refresh_status() {
                 sleep $REFRESH_TIME
                 VALUE=`curl -X GET -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/refresh -d "id=$SUITE_EXE_ID"`
 		counter=`expr $counter + 1`
-		echo "$VALUE"
         done
 
 }
