@@ -1,3 +1,4 @@
-"id","objective","priority","created_at","default_site","test"
-,"lalala","Alta"," 17/11/2010","mx"
+"id","objective","priority","created_at","toma"
+"2","Complete un objetivo haciendo doble click",," 29/12/2010","ESTO"
+"3","Complete un objetivo haciendo doble click",," 29/12/2011","#{site}"
 
