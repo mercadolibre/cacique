@@ -76,8 +76,8 @@ function buscar_argumentos(){
     if(add_asterisk){
     	document.getElementById('modified_file').innerHTML = "<image src='/images/icons/s-edit.png'></img>";
     	document.getElementById('save_button').style.visibility = "visible"; 
-	document.getElementById('savewc_button').style.visibility = "visible"; 
-	add_asterisk = false;
+	    document.getElementById('savewc_button').style.visibility = "visible"; 
+	    //add_asterisk = false;
 
     }
   }
