@@ -99,9 +99,9 @@
           =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
           //Versions
           -if @previous_version
-            %img{:src => "/images/icons/backward.png",		:alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@previous_version}'", :id => "version_back"}
+            %img{:src => "/images/icons/backward.png", :alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@previous_version}'", :id => "version_back", :style=>"cursor:pointer;"}
           -if @next_version
-            %img{:src => "/images/icons/forward.png", :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@next_version}'", :id => "version_forward"}
+            %img{:src => "/images/icons/forward.png",  :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@next_version}'", :id => "version_forward", :style=>"cursor:pointer;"}
  
           %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
           %div{:id => "function_head"}

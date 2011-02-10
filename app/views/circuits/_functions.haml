@@ -42,7 +42,8 @@
       .buscar
         =text_field 'filter', 'text', :value=>(param_search.empty? ? _('Search Function') : param_search), :style => 'width: 130px', :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
         %input{:type=>"image",:src=>"/images/icons/search.png"}
-
+    %br
+    %br
     -@methods.each do |method|
       .div{ :id=>method.name, :name=>"div_function", :style=>'display:none;'}
         %br
@@ -59,8 +60,8 @@
           =method.example.gsub("\n","<br>")               
         .div{ :style=>'float:left; width:30%;font: 12px sans-serif;'}
           %b
-
-          =method.name
+          .title
+            =method.name
           (
           -method.cant_args.times do  |num|
             %label{ :title => "argument_#{num}", :style=>"margin-top:5px;"}

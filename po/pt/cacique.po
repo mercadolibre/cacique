@@ -967,8 +967,12 @@ msgid "By"
 msgstr "Por"
 
 #: app/views/circuits/edit.haml:
-msgid "Suites containing this script"
-msgstr "Suites contendo este script"
+msgid "Suites containing this script:"
+msgstr "Suites contendo este script:"
+
+#: app/views/circuits/edit.haml:
+msgid "This Script not belong to any Suite"
+msgstr "Este Script não pertence a nenhum Suite"
 
 #: app/views/circuits/edit.haml:
 msgid "You have Unsaved Changes, do you want to Save before Exit?"
