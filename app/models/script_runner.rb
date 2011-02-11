@@ -29,7 +29,7 @@ require "#{RAILS_ROOT}/lib/runner/fake_oracle_logger.rb"
 
 class ScriptRunner < ActiveRecord::Base
 
-    attr_accessor	:debug_mode
+  attr_accessor	:debug_mode
 	attr_accessor   :remote_control_addr
 	attr_accessor   :remote_control_port
 	attr_accessor	:data
@@ -37,8 +37,8 @@ class ScriptRunner < ActiveRecord::Base
 	attr_accessor   :output
 	attr_accessor	:data_recoveries
 	attr_accessor   :project_id #to find required cacique functions
-    attr_accessor   :configuration_values
-    attr_accessor   :execution 
+  attr_accessor   :configuration_values
+  attr_accessor   :execution 
 
     def initialize
 		@devuelve = Hash.new
@@ -108,8 +108,17 @@ class ScriptRunner < ActiveRecord::Base
 	     #function run
 	     eval("new_object." + m.to_s+"("+args+")")
 	   else
-	     puts "-->" + _("Method not found: ")+"#{m.to_s} <--"
-	     raise "-->" + _("Method not found: ")+"#{m.to_s} <--"
+        # follow for nested call to improve the error on stacked functions
+        stack_error=[]
+        caller.each do|stack|
+          if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
+             stack_error << stack
+          end
+        end
+        stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
+        puts stack
+        puts "-->" + _("Method not found: ")+"#{m.to_s} <--"
+        raise "#{stack}\n -->" + _(" Method not found: ")+"#{m.to_s}"
 	   end
 	end
 	
@@ -175,7 +184,7 @@ class ScriptRunner < ActiveRecord::Base
 			devuelve.merge! retorno if retorno.instance_of? Hash
 		
 		rescue Exception => e
-          ######################################################################
+      ######################################################################
 		  ###########          Running error handling           ############
           Rails.cache.delete WORKER_CACHE_KEY
 		  error_run_script
@@ -196,8 +205,8 @@ class ScriptRunner < ActiveRecord::Base
 		  print "---> Error: #{e.to_s} <---\n" if debug_mode
 		  raise e
 		ensure
-		    ######################################################################
-			###########                Run script footer             ############
+      ######################################################################
+      ###########                Run script footer             ############
 			finalize_run_script
 		end
 

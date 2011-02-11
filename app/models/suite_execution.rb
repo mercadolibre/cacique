@@ -311,7 +311,7 @@ class SuiteExecution < ActiveRecord::Base
     if case_templates.include?("self")
       execution = self.executions.new
       execution.circuit_id = circuit_id_to_self
-      execution.user_id = current_user.id
+      execution.user_id = self.user_id
       execution.case_template_id = 0
       execution.save
     elsif status
@@ -319,7 +319,7 @@ class SuiteExecution < ActiveRecord::Base
       case_templates.each do |case_template|
         execution = self.executions.new
         execution.circuit_id = case_template.circuit_id
-        execution.user_id = current_user.id
+        execution.user_id = self.user_id
         execution.case_template_id = case_template.id
         execution.status = status
         execution.save
@@ -328,7 +328,7 @@ class SuiteExecution < ActiveRecord::Base
       case_templates.each do |case_template|
         execution = self.executions.new
         execution.circuit_id = case_template.circuit_id
-        execution.user_id = current_user.id
+        execution.user_id = self.user_id
         execution.case_template_id = case_template.id
         execution.save
       end
