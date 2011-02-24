@@ -80,7 +80,7 @@ class UserFunctionsController < ApplicationController
       if @user_function.save
         @func_mod = _("Function was created Successfuly")
         # function create confirmation and redirect to function list
-        @js = "top.location='/user_functions?filter[project_id]=#{params[:user_function][:project_id]}' ; alert('#{@func_mod}')"
+        @js = "top.location='/user_functions/#{@user_function.id}/edit' ; alert('#{@func_mod}')"
         render :inline => "<%= javascript_tag(@js) %>", :layout => true
       else
         @source_code = code
@@ -131,7 +131,7 @@ class UserFunctionsController < ApplicationController
     
       if @user_function.save
         @func_mod = _("Function was successfuly updated")
-        @js = "top.location= '/user_functions?filter[project_id]=#{@user_function.project_id.to_s}'; alert('#{@func_mod}')"        
+        @js = "top.location= '/user_functions/#{@user_function.id}/edit'; alert('#{@func_mod}')"        
         render :inline => "<%= javascript_tag(@js) %>", :layout => true        
       else
         @source_code = code
