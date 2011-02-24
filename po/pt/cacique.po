@@ -3200,3 +3200,7 @@ msgstr "Última Edição"
 msgid "Could not save the script because it is not updated"
 msgstr "Não foi possível salvar o script, pois não é atualizado"
 
+#: app/views/user_functions/new.haml:
+msgid "Are you sure you want to quit?"
+msgstr "Tem certeza de que deseja sair?"
+
