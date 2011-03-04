@@ -3448,5 +3448,10 @@ msgstr "Última Edición"
 
 #: app/controllers/circuits_controller.rb
 msgid "Could not save the script because it is not updated"
-msgstr "No se pudo guardar el script porque no se encuentra actualizado"
+msgstr "No se pudo guardar el script porque no se encuentra actualizado"}
+
+#: app/views/user_functions/new.haml:
+msgid "Are you sure you want to quit?"
+msgstr "¿Seguro que desea salir?"
+
 

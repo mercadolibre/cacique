@@ -1,4 +1,0 @@
-Esta carpeta se utiliza para guardar los archivos pdf que se generar cuando se exporta el historial.
-
-This folder is used to save the pdf files that are generated when you export the history.
-

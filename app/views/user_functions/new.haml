@@ -120,7 +120,7 @@
         -url_cancel = "/user_functions"
       -else
         -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
-      %input{:type=>"button", :value=> _("Cancel"), :onclick => "if(confirm('#{_("Exit Without Save?")}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
+      %input{:type=>"button", :value=> _("Cancel"), :onclick => "if(confirm('#{_("Are you sure you want to quit?")}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
     %br
     %br
     
