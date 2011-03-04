@@ -1,0 +1,7 @@
+This folder is used to save the excel files that are generated when exporting the cases of a script.
+
+Esta carpeta se utiliza para guardar los archivos excel que se generan cuando se exportar los casos de un script.
+
+
+
+
