@@ -1,0 +1,6 @@
+This folder is used to store temporary files
+
+Esta carpeta es utilizada para guardar los  archivos temporales
+
+
+
