@@ -29,10 +29,11 @@ echo ""
 echo "############################################################################"
 echo ""
 
-LINEAS=`grep 'export PATH=/var/lib/gems/1.8/bin:$PATH' /etc/profile | wc -l`
+LINEAS=`cat /etc/profile | grep gems | wc -l`
 if [ $LINEAS = 0  ]
 then
-  echo 'export PATH='`gem env gemdir`'/bin:$PATH'  >> /etc/profile
+  var=`gem env gempath`
+  echo 'export PATH='${var//://bin:}'/bin:$PATH'  >> /etc/profile
   echo "Cacique will add rubygems path to your system,"
   echo "please reload your profile doing 'source /etc/profile' "
   echo ""
