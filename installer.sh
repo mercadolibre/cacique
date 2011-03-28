@@ -23,7 +23,7 @@
  sudo gem install rubygems-update -v 1.3.6 2>> installer.log
  sudo /var/lib/gems/1.8/bin/./update_rubygems
  sudo gem install bundler 2>> installer.log
- sudo bundle install --without development test
+ bundle install --without development test
 echo ""
 echo ""
 echo "############################################################################"
