@@ -234,6 +234,7 @@ class Circuit < ActiveRecord::Base
     hoja_cases = workbook.add_worksheet("Casos")
     columna = 0
 
+    #TITLES
     case_template_columns = CaseTemplate.column_names
     case_template_columns.each do |column_name|
       if !@exclude_columns_template.include?(column_name)
@@ -249,7 +250,11 @@ class Circuit < ActiveRecord::Base
         columna += 1
       end
     end
-    @cases_templates = CaseTemplate.find(:all, :conditions => ["circuit_id = ?", self.id], :include => :case_data)
+  #Last Execution
+  hoja_cases.write(0,columna,"Last execution")
+
+   #DATA 
+   @cases_templates = CaseTemplate.find(:all, :conditions => ["circuit_id = ?", self.id], :include => :case_data)
     fila = 1
     @cases_templates.each do |case_template|
       columna_aux = 0
@@ -263,12 +268,17 @@ class Circuit < ActiveRecord::Base
           columna_aux += 1
         end
       end
+
       case_data_columns.each do |column_data|
         if !@exclude_columns_data.include?(column_data)
           hoja_cases.write(fila,columna_aux,case_template.get_case_data[column_data.to_sym])
           columna_aux += 1
         end
       end
+      #Last Execution
+      status_execution = case_template.last_execution
+      hoja_cases.write(fila,columna_aux, (status_execution.nil?)? "" :  status_execution.s_status)
+
       fila += 1
     end
 
