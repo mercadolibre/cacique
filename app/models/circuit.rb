@@ -48,6 +48,7 @@ include Spreadsheet
 class Circuit < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
+  belongs_to :project
   has_many :case_templates, :dependent => :destroy
   has_many :schematics, :dependent => :destroy
   has_many :data_recovery_names, :dependent => :destroy
