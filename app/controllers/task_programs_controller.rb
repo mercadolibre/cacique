@@ -290,7 +290,7 @@ class TaskProgramsController < ApplicationController
         task_program_info = Hash.new
         task_programs.each do |tp|
           #Get name of suite and the next expiration
-          next_expiration = tp.delayed_jobs.find_by_status 2
+          next_expiration = tp.delayed_jobs.find_by_status 0
           task_program_info[tp.id] = next_expiration if next_expiration
         end
       render :partial => "task_program_detail" , :locals=>{:task_program_info=>task_program_info}          
