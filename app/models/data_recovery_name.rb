@@ -46,7 +46,8 @@ class DataRecoveryName < ActiveRecord::Base
   before_destroy :delete_suite_fields_relations
   def delete_suite_fields_relations
     #existing relations delete
-    SuiteFieldsRelation.destroy_all( "(circuit_origin_id = #{self.circuit_id} and field_origin= '#{self.name}' ) or ( circuit_destination_id = #{self.circuit_id} and field_destination= '#{self.name}')")
+    #ORIGINAL#SuiteFieldsRelation.destroy_all( "(circuit_origin_id = #{self.circuit_id} and field_origin= '#{self.name}' ) or ( circuit_destination_id = #{self.circuit_id} and field_destination= '#{self.name}')")
+    SuiteFieldsRelation.destroy_all( "(circuit_origin_id = #{self.circuit_id}) or ( circuit_destination_id = #{self.circuit_id})")
   end
 
 end
