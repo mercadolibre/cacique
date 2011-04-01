@@ -7,6 +7,7 @@ gem 'rails', '2.3.5'
 group :development do
  gem 'ruby-debug'
  gem 'rak'
+ gem "rspec-rails", "~> 2.0.1" 
 end
 
 group :test do
@@ -16,6 +17,7 @@ group :test do
   gem "autotest"
   gem "autotest-rails"
   gem "rcov"
+  gem "rspec-rails", "~> 2.0.1"
 end
 
 #group :workers
