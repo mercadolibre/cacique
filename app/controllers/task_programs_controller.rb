@@ -83,9 +83,10 @@ class TaskProgramsController < ApplicationController
     end
    conditions << conditions_names.join("and")  
    conditions = conditions + conditions_values
-
+   number_per_page=10
+   number_per_page=params[:program][:paginate].to_i if params[:program]
    delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
-   @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => 11
+   @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
   
   end
 
