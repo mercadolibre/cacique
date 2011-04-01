@@ -24,9 +24,10 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-%img{:src => "/images/icons/calendar_new.png" , :alt=>"new.png",   :title=>_('New Schedule'),    :onClick => "suite_id = $j('#program_suite_id').val(); location='/task_programs/new/' + suite_id;"}
-%img{:src => "/images/icons/pause.png",:alt=>"pause.png",:title=>_('Confirm Schedule'),:onClick => remote_function(:complete => "$j('#div_task_program').show();",:update => "div_task_program",  :method => "get",  :url => { :controller => :task_programs , :action => :get_task_programs, :id => "$j('#program_suite_id').val()" })}
-%img{:src => "/images/icons/info.png", :alt=>"info.png",  :title=>_('Information'),     :onClick => "$j('#infoTaskPrograms').toggle();"}
+=image_tag '/images/icons/trash.png', :alt=>'trash', :title=>_('Delete'), :confirm=>_('Are you sure to delete ') + "?", :onclick=>"$j('#dj_actions').submit();"
+=image_tag '/images/icons/calendar_new.png' , :alt=>'new.png', :title=>_('New Schedule'),  :onClick => "suite_id = $j('#program_suite_id').val(); location='/task_programs/new/' + suite_id;"
+=image_tag '/images/icons/pause.png',:alt=>'pause.png',:title=>_('Confirm Schedule'),:onClick => remote_function(:complete => "$j('#div_task_program').show();",:update => "div_task_program",  :method => 'get',  :url => { :controller => :task_programs , :action => :get_task_programs, :id => "$j('#program_suite_id').val()" })
+=image_tag '/images/icons/info.png', :alt=>'info.png',  :title=>_('Information'),:onClick => "$j('#infoTaskPrograms').toggle();"
 
 //TaskProgram list
 #div_task_program{:style=>"display:none;"}  
