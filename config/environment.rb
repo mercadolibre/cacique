@@ -32,45 +32,15 @@ Rails::Initializer.run do |config|
   # Specify gems that this application depends on.
   # They can then be installed with "rake gems:install" on new installations.
   # You have to specify the :lib option for libraries, where the Gem name (sqlite3-ruby) differs from the file itself (sqlite3)
-  # config.gem "bj"
-    config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
-    config.gem "mechanize"
-    config.gem 'nokogiri'
-    #config.gem "ruby-oci8", :lib => "oci8"
-    config.gem "Selenium", :lib => "selenium"
-    config.gem "searchlogic"
-    config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
-  # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  # config.gem "aws-s3", :lib => "aws/s3"
-    #config.gem "starling-starling", :source => "http://gems.github.com/"
-    config.gem "god"
-  # for suite search
-    config.gem "searchlogic"
-    config.gem "composite_primary_keys"
-    config.gem 'laserlemon-vestal_versions', :lib => 'vestal_versions', :source => 'http://gems.github.com'
-    #config.gem "spreadsheet"
-    config.gem "calendar_date_select"
-
-    #config.gem "pdf-writer"
-    #config.gem 'hoptoad_notifier'
-    config.gem "starling"
-
-#...............GETTEXT.............
-    config.gem "locale"
-    config.gem "locale_rails"
-    config.gem "gettext"
-    config.gem "gettext_activerecord"
-    config.gem "gettext_rails"
-#.....................................
 
 
-  # Only load the plugins named here, in the order given. By default, all plugins
-  # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
+
+
 
   #Cacheo
   config.cache_store = :mem_cache_store

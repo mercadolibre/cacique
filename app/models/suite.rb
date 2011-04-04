@@ -46,7 +46,7 @@ class Suite < ActiveRecord::Base
   has_many :suite_fields_relations, :dependent => :destroy
   has_many :suite_cases_relations,  :dependent => :destroy
   has_many :suite_containers, :dependent => :destroy
-  has_many :delayed_jobs, :dependent => :destroy
+  has_many :task_programs, :dependent => :destroy 
   belongs_to :project
 
   validates_presence_of :name, :message => _("Enter a Name")

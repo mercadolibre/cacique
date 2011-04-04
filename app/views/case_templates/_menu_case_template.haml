@@ -30,7 +30,7 @@
 %img{:src => "/images/icons/clock.png",   :alt=>"clock.png",  :title=>_('Execution History'),    :onClick => "if(marcado)location.href='/suite_executions?[filter][model]=scripts&[filter][suite_id]=0&[filter][circuit_id]=#{@circuit.id}&[filter][case_id]=' + marcado;"}
 %img{:src => "/images/icons/eimport.png", :alt=>"eimport.png",:title=>_('Import'),               :onClick => ( current_user.has_role?("editor",@circuit) ? "document.getElementById('excel_import').show()" : "alert(msgalert)" ) }
 %img{:src => "/images/icons/eexport.png", :alt=>"eexport.png",:title=>_('Export'),               :onClick => "location='/case_templates/export/1?circuit_id=#{@circuit.id}';"}
-%img{:src => "/images/icons/info.png",    :alt=>"info.png",   :title=>_('Information'),          :onClick => "document.getElementById('infoCaseTemplate').toggle();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;"}
+%img{:src => "/images/icons/info.png",    :alt=>"info.png",   :title=>_('Information'),          :onClick => "document.getElementById('infoCaseTemplate').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;"}
 %img{:src => "/images/icons/config.png",  :alt=>"config.png", :title=>_('Execution Panel'),      :onClick => remote_function(:complete => "document.getElementById('execution_panel').show();", :update => "execution_panel", :url => "/context_configurations/user_context_configuration_values")}
 %img{:src => "/images/icons/play.png",    :alt=>"play.png",   :title=>_('Run Selected'),         :onClick => "submit_play('#{@project_id}','#{@circuit.id}');"}
 =render :partial => "queue_observers/queue_icon"

@@ -1,0 +1,43 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+//Javascript to Add Link in calendar
+
+%img{:src => "/images/icons/new.png" ,      :alt=>"new",       :title=>_('New'),          :onClick => "location='/suites/new'", :style=>"margin-left:150px;"}
+%img{:src => "/images/icons/edit.png",      :alt=>"edit",      :title=>_('Edit'),         :onClick => "if(is_marked(marcado, anysuite))location.href='/suites/'+ marcado +'/edit';"}
+%img{:src => "/images/icons/relations.png", :alt=>"relations", :title=>_('Relations'),    :onClick => "if(is_marked(marcado, anysuite))location.href='/suites/relations1/' + marcado;"}
+%img{:src => "/images/icons/trash.png" ,    :alt=>"trash",     :title=>_('Delete'),       :onClick => "if(is_marked(marcado, anysuite) && confirm(msgalert))location='/suites/delete/'+ marcado;"}
+%img{:src => "/images/icons/calendar.png",  :alt=>"calendar",  :title=>_('Schedule List'),     :onClick => "if(marcado)location='/task_programs?program[suite_id]='+marcado;else location='/task_programs/';"}
+%img{:src => "/images/icons/calendar_new.png",  :alt=>"calendar",:title=>_('New Schedule'),     :onClick => "if(marcado)location='/task_programs/new/'+marcado;else location='/task_programs/new/';"}
+%img{:src => "/images/icons/suiteimp.png" , :alt=>"import",    :title=>_('Import suites from other projects'), :onClick => "location='/suites/import_suite';"}
+%img{:src => "/images/icons/info.png",      :alt=>"info",      :title=>_('Information'),:onClick => "document.getElementById('infoSuite').toggle();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;"}
+%img{:src => "/images/icons/play.png",      :alt=>"run",       :title=>_('Run'),        :onClick => "if(is_marked(marcado, anysuite))location.href='/suite_executions/new?suite_id='+ marcado;"}
+=render :partial => "queue_observers/queue_icon"
+.buscar
+  - form_for :search, url_for(:controller=>"suite", :action=>"index", :project_id=>@project.id) do |f|
+    = f.text_field '', :value=>@param_search, :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = 'Search suite'; ;this.style.color='grey'}", :onfocus=>"if (this.value == 'Search suite') {this.value = '';this.style.color='black'}"
+    %input{:type=>"image",:src=>"/images/icons/search.png"}
+//Help 
+=render :partial => "info_suite"
