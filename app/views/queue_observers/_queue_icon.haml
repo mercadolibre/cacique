@@ -29,5 +29,5 @@
   }
 
 #queue_container{:style=>"display: inline; width: 20"}
-  =link_to_remote image_tag("/images/icons/queue.png", :alt => "queue", :title=>_('Queued Task'), :id=>"queue_image",:style => "border: none"), :url => {:controller=>"queue_observers",:action => "show"} ,:update => "queue_observers",:complete=>"getElementById('queue_observers').toggle();align_queue()"
+  =link_to_remote image_tag("/images/icons/queue.png", :alt => "queue", :title=>_('Queued Task'), :id=>"queue_image",:style => "border: none"), :url => {:controller=>"queue_observers",:action => "quick_view"} ,:update => "queue_observers",:complete=>"getElementById('queue_observers').toggle();align_queue()"
   #queue_observers{:style=>"display: none;width: 200px;-moz-border-radius:10px;background:#eeeeed;text-align:left;color:black;border: 1px solid grey;left:69%;padding:5px;position:absolute;top:auto;width:250px; z-index:1;"}

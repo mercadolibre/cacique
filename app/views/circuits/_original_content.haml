@@ -31,6 +31,8 @@
   %script
     //Remove '*'
     document.getElementById('modified_file').innerHTML = '';
+    document.getElementById('save_button').style.visibility = "hidden";
+    document.getElementById('savewc_button').style.visibility = "hidden";
     add_asterisk = true;
     //change the version number
     version_back = document.getElementById('version_back')

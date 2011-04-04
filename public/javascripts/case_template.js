@@ -23,10 +23,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-function visibilidadPanel(){
-  panel = document.getElementById("execution_panel");
-  (panel.style.display == 'none')?  panel.style.display = '': panel.style.display == 'none' ;
-}
 
 function validarSeleccion(){
   checks = document.getElementsByName('execution_run[]');

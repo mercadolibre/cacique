@@ -60,11 +60,9 @@ require_dependency "#{RAILS_ROOT}/app/models/execution_configuration_value.rb"
 class ExecutionWorker < Workling::Base
 
   def run_suite(options)
-
     #search suite execution in cache
     all_suite_execution = Rails.cache.fetch(options[:suite_execution_tag],:expires_in => CACHE_EXPIRE_SUITE_EXEC){ s = SuiteExecution.find options[:suite_execution_id];[s,s.execution_ids] }
     suite_execution = all_suite_execution[0]
-    
     #search execution in cache
     suite_execution_executions = Array.new
     all_suite_execution[1].each do |execution_id|
@@ -94,7 +92,8 @@ class ExecutionWorker < Workling::Base
     Rails.cache.write("suite_exec_#{suite_execution.id}",all_suite_execution,:expires_in => CACHE_EXPIRE_SUITE_EXEC)
 
     run_executions(options)
-    
+    Rails.cache.delete WORKER_CACHE_KEY
+
     #Update suite execution db
     all_suite_execution = Rails.cache.fetch(options[:suite_execution_tag],:expires_in => CACHE_EXPIRE_SUITE_EXEC){ s = SuiteExecution.find options[:suite_execution_id];[s,s.execution_ids] }
     db_suite_execution = all_suite_execution[0]
@@ -104,15 +103,16 @@ class ExecutionWorker < Workling::Base
     if options[:send_mail]
       begin
         if suite_execution.suite_id == 0
-          Notifier.deliver_execution_single_alert(suite_execution,options[:emails_to_send])
+          Notifier.deliver_execution_single_alert(db_suite_execution,options[:emails_to_send])
         else
-          Notifier.deliver_suite_execution_alert(suite_execution,options[:emails_to_send])
+          Notifier.deliver_suite_execution_alert(db_suite_execution,options[:emails_to_send])
         end
       rescue
           print "error al enviar notificacion:"
           p $!
       end
     end
+
   rescue Exception => e
     print "run_suite error: #{e.to_s}\n"
   end
@@ -155,7 +155,6 @@ class ExecutionWorker < Workling::Base
   end
   
   def run_executions(options)
-
     @suite_relation = SuiteRelation.new(options[:suite_cases_runner], options[:suite_id])
     #caching suite execution
     cache_suite_execution = Rails.cache.fetch("suite_exec_#{options[:suite_execution_id]}",:expires_in => CACHE_EXPIRE_SUITE_EXEC){ s = SuiteExecution.find options[:suite_execution_id]; [s,s.execution_ids] }            
@@ -191,8 +190,6 @@ class ExecutionWorker < Workling::Base
               data[:execution_id] = @execution.id
 
               ####################################################
-
-              script_runner = ScriptRunner.new
 
               if options[:remote_control_mode] == "hub"
                 script_runner.remote_control_addr = IP_SERVER
@@ -258,7 +255,7 @@ class ExecutionWorker < Workling::Base
               @execution.output ||= ""
               cache_execution.output ||= ""
               @execution.output +=  @suite_relation.output + script_runner.output
-              cache_execution.output =  @suite_relation.output + script_runner.output
+              cache_execution.output +=  @suite_relation.output + script_runner.output
 
               @suite_relation.executions_error << @execution.case_template_id
 
@@ -267,10 +264,12 @@ class ExecutionWorker < Workling::Base
               
               cache_execution.error = e.to_s
               cache_execution.position_error = self.parse_position_error(e,@execution.circuit.name)
-              
-              if e.instance_of? SuiteRelation::FatherRelationError
+
+              if e.instance_of? SuiteRelation::FatherRelationError or e.instance_of? SuiteCasesRunnerDb::FatherRelationError
                 @execution.status = 5
                 cache_execution.status = 5
+                @execution.output += e.to_s
+                cache_execution.output += e.to_s
               else
                 @execution.status = 3
                 cache_execution.status = 3
@@ -359,9 +358,8 @@ class ExecutionWorker < Workling::Base
     db_suite_execution        = SuiteExecution.find suite_execution.id
     db_suite_execution.status = 1
     db_suite_execution.save
-
     run_executions(options)
-    
+    Rails.cache.delete WORKER_CACHE_KEY 
     #Update suite execution db
     cache_suite_execution = Rails.cache.fetch("suite_exec_#{suite_execution.id}",:expires_in => CACHE_EXPIRE_SUITE_EXEC){ s = SuiteExecution.find suite_execution.id; [s,s.execution_ids] }            
     db_suite_execution = cache_suite_execution[0]

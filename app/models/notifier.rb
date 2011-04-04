@@ -56,19 +56,31 @@ class Notifier < ActionMailer::Base
   def suite_execution_alert(suite_execution,emails_to_send)
     @recipients = emails_to_send
     @from = EMAIL
-    @subject = _("[Cacique] Suite Execution Detail")
+    @subject = _("[Cacique] Suite Execution Detail (#{suite_execution.s_status})")
     @body['suite_execution'] = suite_execution
     @content_type = "text/html"
   end 
   
   def execution_single_alert(suite_execution,emails_to_send)
       @execution = Execution.find suite_execution.execution_ids[0]
-      
       @recipients = emails_to_send
       @from = EMAIL
-      @subject = _("[Cacique] Case ")+ @execution.case_template_id.to_s + _(": Execution Detail ")
+      @subject = _("[Cacique] Case ")+ @execution.case_template_id.to_s + _(": Execution Detail (#{suite_execution.s_status}) ")
       @body['execution'] = @execution
       @content_type = "text/html"
+  end
+  
+  def confirm_program(user_mail,task_program_id, server_port, suite_id)
+    task_program = TaskProgram.find task_program_id
+    @recipients = user_mail
+    @from = EMAIL
+    @body['url_confirm'] = "http://" + IP_SERVER.to_s + ":" + server_port.to_s + "/task_programs/confirm_program/#{task_program_id}"
+    @body['suite_name'] = Suite.find(suite_id).name
+    @body['next_execution'] = task_program.delayed_jobs[1]
+    @content_type = "text/html" 
+    dj = @body['next_execution']
+    name = @body['suite_name'].length <= 30  ? @body['suite_name'] : @body['suite_name'][0..27] + "..."
+    @subject = "[Cacique] Suite Program Confirm: #{name} " 
   end
 
 end

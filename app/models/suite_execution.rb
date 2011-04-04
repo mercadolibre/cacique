@@ -40,6 +40,8 @@
 #  updated_at         :datetime
 #
 
+require "socket"
+
 class SuiteExecution < ActiveRecord::Base
   belongs_to :suite
   belongs_to :user
@@ -69,11 +71,28 @@ class SuiteExecution < ActiveRecord::Base
         _("Comented")
       when 5
         _("Not Run")
+      when 6
+        _("Canceled")
       else
         _("Complete")
     end
   end
   
+  def self.cancel(id)
+   suite_execution=SuiteExecution.find id
+    suite_execution.executions.each do |exe|
+      if (exe.status== 0 or exe.status==1)
+         exe.status=6
+         exe.output = _("Canceled run")
+         exe.save
+         Rails.cache.delete "exec_#{exe.id}"
+      end
+    end
+    Rails.cache.delete("suite_exec_#{id}") #Remove cache
+     se = suite_execution.calculate_status #Recalculate status
+     se.save
+  end
+ 
   #Returns the status of suite_execution (depending of executions)
   def calculate_status
 
@@ -86,8 +105,12 @@ class SuiteExecution < ActiveRecord::Base
      executions_status = last_executions.map(&:status)
      total = executions_status.length 
 
+     #Not run
+     if ( executions_status.include?(6) )#(al least one is cancel)
+       self.status = 6  
+       
      #Success
-     if (executions_status.select {|v| [2,4].include?v }.length ==  total)#(all Success or comment)
+     elsif (executions_status.select {|v| [2,4].include?v }.length ==  total)#(all Success or comment)
        self.status = 2   
        
      #Running
@@ -110,10 +133,10 @@ class SuiteExecution < ActiveRecord::Base
      elsif (executions_status.select {|v| v == 5}.length ==  total)#(all not run)
        self.status = 5  
       
-     #Not defined
+     #Complete
      else
-       self.status = 6
-   end 
+       self.status = 7
+     end 
    
    self
  end
@@ -124,7 +147,7 @@ class SuiteExecution < ActiveRecord::Base
 
   
   def finished?
-    self.executions.count == self.executions.count(:conditions => "status = 2 or status = 3 or status = 4 or status = 5")
+    self.executions.count == self.executions.count(:conditions => "status = 2 or status = 3 or status = 4 or status = 5 or status = 6")
   end
 
   def executions_cache(execution_ids=nil)
@@ -225,9 +248,8 @@ class SuiteExecution < ActiveRecord::Base
   #combination format = {:site => "br"}
   def create_configuration_to_run(configurations)
     configurations.each do |conf_name, conf_value|
-
       execution_configuration_value = self.execution_configuration_values.new
-      context = ContextConfiguration.find_by_name(conf_name)
+      context = ContextConfiguration.find_by_name(conf_name.to_s)
       execution_configuration_value.context_configuration_id = context.id if context
       execution_configuration_value.value = conf_value
       execution_configuration_value.save 
@@ -293,7 +315,7 @@ class SuiteExecution < ActiveRecord::Base
       execution.case_template_id = 0
       execution.save
     elsif status
-      #Genero todas las executions con el status recibido
+      #generates all sended executions status 
       case_templates.each do |case_template|
         execution = self.executions.new
         execution.circuit_id = case_template.circuit_id
@@ -324,7 +346,7 @@ class SuiteExecution < ActiveRecord::Base
     hash
   end
   
-  #Genera el comando que se debe utilizar para poder correr una suite remotamente
+  #It will show the command that you should use to run that configuration
   def self.generate_command(execution_params, function=nil)
     if function
       command = "cacique #{function} "
@@ -340,7 +362,7 @@ class SuiteExecution < ActiveRecord::Base
     #UserPass
     command += " -p \<user_pass\>"
   
-    #Casos comentados
+    #commented cases
     if execution_params.has_key?(:case_comment)
       cases_comment = execution_params[:case_comment].split(";") 
       cases_comment.each do |case_com|
@@ -348,7 +370,7 @@ class SuiteExecution < ActiveRecord::Base
       end
     end
     
-    #Genero los comandos para las configuraciones parametrizables
+    #generating the conf params
     ContextConfiguration.all_enable.each do |context_configuration|
       if execution_params.has_key?(context_configuration.name.to_sym)  
        if context_configuration.view_type == "input" and execution_params[context_configuration.name.to_sym].strip.empty?
@@ -356,7 +378,7 @@ class SuiteExecution < ActiveRecord::Base
        else
          if execution_params[context_configuration.name.to_sym].class == Array
            execution_params[context_configuration.name.to_sym].each do |value|
-             #Por las dudas reemplazo los " " por _
+             #It will change  " " by _, otherwise the line command will fail
              value.gsub!(" ","_")
              command += " -#{context_configuration.name} " + value
            end
@@ -368,18 +390,20 @@ class SuiteExecution < ActiveRecord::Base
       end
     end
     
-    #Identificador
+    #Identifier
     if execution_params[:identifier] != " " and !execution_params[:identifier].empty?
       execution_params[:identifier].gsub!(" ","_")
       command += " -i " + execution_params[:identifier]
     end
     
-    #Cant de corridas
-    if (execution_params[:cant_corridas] != "1") and !execution_params[:cant_corridas].empty?
-      command += " -n " + execution_params[:cant_corridas]
+    #Amount of times that will run
+    if !execution_params[:cant_corridas].nil?
+      if (execution_params[:cant_corridas] != "1") and !execution_params[:cant_corridas].empty?
+        command += " -n " + execution_params[:cant_corridas]
+      end
     end
     
-    #Corrida BenderEnMiPC
+    #run it on a ip
     if execution_params[:remote_control_mode] != "hub"
       command += " -ip " + execution_params[:remote_control_addr]
       command += " -port " + execution_params[:remote_control_port]
@@ -394,20 +418,188 @@ class SuiteExecution < ActiveRecord::Base
         end
     end
     
-    #Ip del Servidor
+    #Program
+    if execution_params.has_key?(:task_program_id)
+      command += " -task_program_id " + execution_params[:task_program_id].to_s
+    end
+    
+    #server's ip
     command += " -server_ip " + IP_SERVER
     
-    #Port del Servidor
+    #server's port
     command += " -server_port " + execution_params[:server_port].to_s if execution_params.include?(:server_port)
     
-    #Formato del logueo devuelto
+    #log format
     command += " -format xml "
-    
     
     command
     
   end
   
+  def self.change_status_with_message(suite_execution_id, message, status, time_spent=0)
+    suite_execution = SuiteExecution.find suite_execution_id
+    #It was the "each" with ids because if was done with the "executions" throws error "can not modify frozen hash"
+    suite_execution.executions.each do |execution|
+      execution.status = status
+      execution.output = message
+      execution.time_spent = time_spent
+      execution.save
+    end
+    suite_execution.status = 5
+    suite_execution.save
+    
+    #caching suite_execution
+    suite_execution.load_cache          
+    #caching last executions of suite_execution
+    suite_execution.load_last_executions_cache    
+      
+  end
+  
+  def self.generate_suite_execution_with_message(message, suite_id, identifier, user_id, context_configurations)
+    suite = Suite.find(suite_id)
+    suite_execution = SuiteExecution.create(:suite_id=>suite_id,:project_id=>suite.project_id, :identifier=>identifier,:user_id=>user_id, :status => 5, :time_spent => 0)
+
+    suite_execution.create_configuration_to_run(context_configurations)
+    
+    suite.case_templates.each do |case_template|
+      execution = suite_execution.executions.new
+      execution.circuit_id = case_template.circuit_id
+      execution.user_id = user_id
+      execution.case_template_id = case_template.id
+      execution.status = 5
+      execution.time_spent = 0
+      execution.output = message
+      execution.save 
+    end
+    
+    suite.circuits.each do |circuit|
+      if circuit.case_templates.empty?
+        execution = suite_execution.executions.new
+        execution.circuit_id = circuit.id
+        execution.user_id = user_id
+        execution.case_template_id = 0
+        execution.status = 5
+        execution.time_spent = 0
+        execution.output = message
+        execution.save 
+      end
+    end
+      
+    suite_execution
+  end  
+
+  def self.get_suite_exec_with_filters(project,params)
+   init_date    = params[:init_date] ? DateTime.strptime(params[:init_date], "%d.%m.%Y %H:%M"): DateTime.strptime( (DateTime.now.in_time_zone - (7*24*60*60)).to_s , "%Y-%m-%d %H:%M")#7 days after
+  finish_date  = params[:init_date] ? DateTime.strptime(params[:finish_date], "%d.%m.%Y %H:%M") : DateTime.strptime(  DateTime.now.in_time_zone.to_s , "%Y-%m-%d %H:%M:%S")
+
+   #Bulid conditions
+    conditions        = Array.new
+    conditions_values = Array.new
+    conditions_names  = Array.new
+    #Project   
+    conditions_names  <<  " project_id = ? "
+    conditions_values <<  project.id
+    #Dates
+    conditions_names  <<  " suite_executions.created_at <= ? "
+    date = finish_date
+    conditions_values <<  Time.local(date.year, date.month, date.day, date.hour, date.min, date.sec).getutc
+    conditions_names  <<  " suite_executions.created_at >= ? "
+    date = init_date
+    conditions_values <<  Time.local(date.year, date.month, date.day, date.hour, date.min, '00').getutc  
+    #Identifier  
+    identifier  = params[:identifier]
+    if identifier && !identifier.empty?
+      conditions_names  <<  " identifier like ? "
+      conditions_values << '%' + identifier + '%'
+    end
+    #user
+    user = params[:user_id]
+    if user && !user.empty? 
+      conditions_names  <<  " suite_executions.user_id = ? "
+      conditions_values <<  user   
+    end
+    #status
+    status = params[:status]
+    if status && status.to_i != -1
+      conditions_names  <<  " suite_executions.status = ? "
+      conditions_values <<  status.to_i
+    end        
+ 
+   case params[:model]
+    #SUITES
+    when "suites"
+            #Programs
+            if params[:programs] == "1"
+               #Conditions for task programs  
+               tp_conditions        = Array.new
+               tp_conditions_values = Array.new
+               tp_conditions_names  = Array.new
+               if user && !user.empty? 
+                  tp_conditions_names  <<  " user_id = ? "
+                  tp_conditions_values <<  user   
+               end  
+               if !params[:suite_id].empty?
+                  tp_conditions_names  << " suite_id  = ? " 
+                  tp_conditions_values <<  params[:suite_id]
+               end    
+               tp_conditions << tp_conditions_names.join("and")  
+               tp_conditions = tp_conditions + tp_conditions_values                         
+               task_program_suite_executions = TaskProgram.find :all, :conditions=>tp_conditions   
+               #For all task programs get the suite_executions_ids
+               suite_execution_ids = Array.new
+               task_program_suite_executions.each do |tp|
+                 #Add array with suite_execution_ids
+                 suite_execution_ids = suite_execution_ids + tp.suite_execution_ids.split(",") if tp.suite_execution_ids && !tp.suite_execution_ids.empty?
+               end                 
+               if !suite_execution_ids.empty?
+                  conditions_names  << " suite_executions.id  in (?)" 
+                  conditions_values <<  suite_execution_ids.collect{|x| x.to_i}#Ids string to integer
+               else
+                  conditions_names  << " suite_id  <> ? " 
+                  conditions_values <<  0     
+               end   
+               conditions << conditions_names.join("and")  
+               conditions = conditions + conditions_values                
+               suite_executions = SuiteExecution.find :all, :conditions=>conditions, :order => 'created_at DESC', :include => [{:executions => :case_template}, {:suite => :circuits}]            
+            #all (Programs or not)
+            else
+               #Search specific suite
+               if !params[:suite_id].empty?
+                  conditions_names  << " suite_id  = ? " 
+                  conditions_values <<  params[:suite_id]
+               else
+                  conditions_names  << " suite_id  <> ? " 
+                  conditions_values <<  0            
+               end
+                 conditions << conditions_names.join("and")  
+                 conditions = conditions + conditions_values 
+                 suite_executions = SuiteExecution.find :all, :joins =>:executions, :conditions=>conditions, :order => 'created_at DESC', :include => [{:executions => :case_template}, {:suite => :circuits}]
+
+            end    
+      #SCRIPTS
+      when  "scripts"
+            conditions_names  << " suite_id  = ? " 
+            conditions_values << 0    
+            #Search specific script
+            if !params[:circuit_id].nil?  && !params[:circuit_id].empty? 
+            conditions_names  << " circuit_id  = ? " 
+            conditions_values << params[:circuit_id] 
+               #Search specific case
+               if !params[:case_id].nil?  && !params[:case_id].empty? 
+                  conditions_names  << " case_template_id  = ? " 
+                  conditions_values << params[:case_id]
+               end
+             end 
+             conditions << conditions_names.join("and")  
+             conditions = conditions + conditions_values 
+            suite_executions = SuiteExecution.find :all, :joins =>:executions, :conditions=>conditions, :order => 'created_at DESC', :include => [{:executions => :case_template}, {:suite => :circuits}]
+      else
+
+            conditions << conditions_names.join("and")  
+            conditions = conditions + conditions_values 
+            suite_executions = SuiteExecution.find :all, :conditions=>conditions, :order => 'created_at DESC', :include => [{:executions => :case_template}, {:suite => :circuits}]       
+      end
+      return suite_executions
+  end
+  
 end
-
-

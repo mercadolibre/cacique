@@ -277,7 +277,7 @@ class Circuit < ActiveRecord::Base
 
  #Copy an script with, or without, data pool
  def copy(with_cases)
-    circuit_new = Circuit.create(:name=>self.name + '_copy',:description=>self.description, :category_id=> self.category_id, :source_code=>self.source_code, :user_id => current_user.id )
+    circuit_new = Circuit.create(:name=>self.name + _('-copy'),:description=>self.description, :category_id=> self.category_id, :source_code=>self.source_code, :user_id => current_user.id )
     #new scrip fields
     circuit_new.add_case_columns( self.circuit_case_columns.map(&:name) )
     circuit_new.save
