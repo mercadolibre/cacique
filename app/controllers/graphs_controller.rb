@@ -31,7 +31,7 @@ class GraphsController < ApplicationController
     permit "root" do
         @tot_suites = Suite.all.count
         @tot_scripts = Circuit.all.count
-       @years = (Time.now.year - 2)..Time.now.year
+        @years = (Time.now.year - 2)..Time.now.year
     end
   end
 
@@ -84,7 +84,7 @@ case view
 
     #If no data
     if (reg_1.empty? and reg_2.empty?)
-       render :text => "Without data"  
+       render :text => "Without data"
     else
       values_1, values_2, labels = gen_data(reg_1, reg_2)
       #urls values
@@ -240,3 +240,4 @@ case view
   end
 
 end
+

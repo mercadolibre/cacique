@@ -1,5 +1,5 @@
 #Datos para enviar mail desde Cacique
-EMAIL =  "mail@mercadolibre.com"
+EMAIL = "mail@mercadolibre.com"
 EMAIL_SERVER = "server"
 EMAIL_USER_NAME='user'
 EMAIL_PASS='password'
@@ -7,10 +7,6 @@ EMAIL_AUTH = :login
 EMAIL_PORT = 25
 EMAIL_DOMAIN = "dominio"
 LOGGING_MAIL="cambiar_mail@delogueo.com"
-
-#history date
-HISTORY_INIT_DATE="1.1.2010 00:00"
-
 
 #Primer usuario Generico de la herramienta
 FIRST_USER_NAME="cacique"
@@ -20,7 +16,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.0 beta"
+CACIQUE_VERSION = "0.1.1"
 
 #funcion que calcula el ip del servidor
 require 'socket'
@@ -42,6 +38,10 @@ ensure
 end
 LOCAL_IP=local_ip
 IP_SERVER="localhost"
+
+#Workers machines localip, es para mi maquina de desarrollo
+WORKERS_ADDR=[LOCAL_IP]
+WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"
 
 #Puerto del hub
 HUB_PORT = 4444

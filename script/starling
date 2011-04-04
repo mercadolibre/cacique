@@ -1,7 +1,7 @@
 #!/bin/bash
 case "$1" in
   start)
-     exec /home/bender/bender/bender_unstable/script/starling.rb  /dev/null &
+     exec /path/cacique/script/starling.rb  /dev/null &
   ;;
   stop)
      exec /bin/kill `/bin/cat /var/run/starling.pid`

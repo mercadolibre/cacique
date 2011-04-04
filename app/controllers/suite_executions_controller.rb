@@ -40,66 +40,32 @@ class SuiteExecutionsController < ApplicationController
 
     @project ||= Project.find params[:project_id]
     @errores = Array.new
-    CalendarDateSelect.format=(:finnish) 
-    today = Time.now
-    
-    @init_date  = params[:filter] && params[:filter][:init_date]?   DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): ("1." + today.month.to_s + "." + today.year.to_s).to_datetime
-    @finish_date= params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : today.to_datetime.in_time_zone
-    @readonly = true unless current_user.has_role?("editor", @project)
-
+    @user_names  ||= User.all
+    CalendarDateSelect.format=(:finnish)   
+    @init_date = params[:filter] && params[:filter][:init_date]? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (7*24*60*60) #7 days later
+    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone
+    @readonly    = true unless current_user.has_role?("editor", @project)
+    row_per_page = (params[:filter] && params[:filter][:paginate])? params[:filter][:paginate].to_i : 12
+    @status = [  [_("all"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5] ]
 
    #show filters
    if params[:filter]
-
-      @show_model = params[:filter][:model]
-      @suite_names ||= @project.suites
+      @show_model   = params[:filter][:model]
+      @suite_names  ||= @project.suites
       @script_names ||= @project.circuits      
-      @suite_names ||= @project.suites
-      @script_names ||= @project.circuits   
-      
-      row_per_page= (!params[:filter][:paginate].nil? && !params[:filter][:paginate].empty?)? params[:filter][:paginate].to_i : 12
-      identifier  = params[:filter][:identifier]
-
+      @suite_names  ||= @project.suites
+      @script_names ||= @project.circuits  
+      suite_executions = SuiteExecution.get_suite_exec_with_filters(@project,params[:filter])
       #select cases values
       if params[:filter][:circuit_id] && !params[:filter][:circuit_id].empty?
          circuit = Circuit.find params[:filter][:circuit_id]
          @case_names = circuit.case_templates
-      end
-
-     case params[:filter][:model]
-      #SUITES
-      when "suites"
-            suites_ids = (params[:filter][:suite_id].empty?)? @project.suite_ids : params[:filter][:suite_id]
-            @suite_executions=SuiteExecution.project_id_equals(@project.id).identifier_like(identifier).created_at_lte(@finish_date.to_datetime+(2/24.0)).created_at_gte(@init_date.to_datetime+(2/24.0)).paginate_all_by_suite_id suites_ids, :order => 'created_at DESC', :include => [{:executions => :case_template}, {:suite => :circuits}], :page => params[:page], :per_page => row_per_page
-      #SCRIPTS
-      when  "scripts"
-            suites_executions = (@project.suite_executions.find_all_by_suite_id 0)
-            #search an specific script
-            if !params[:filter][:circuit_id].nil? and !params[:filter][:circuit_id].empty? 
-             #execution id for searched script
-             suites_executions_ids = Array.new()
-             suites_executions.each do |se|
-               #filter per cases
-               if params[:filter][:case_id].nil? or params[:filter][:case_id].empty?
-                  suites_executions_ids << se.id if params[:filter][:circuit_id].include?(se.executions.first.circuit_id.to_s)
-               else
-                  suites_executions_ids << se.id if (params[:filter][:case_id].include?(se.executions.first.case_template_id.to_s) and params[:filter][:circuit_id].include?(se.executions.first.circuit_id.to_s))
-               end
-              end
-            #All Scripts
-            else
-               suites_executions_ids = suites_executions.map(&:id)
-            end
-            @suite_executions = SuiteExecution.project_id_equals(@project.id).identifier_like(identifier).created_at_less_than_or_equal_to(@finish_date.to_datetime+(2/24.0)).created_at_greater_than_or_equal_to(@init_date.to_datetime+(2/24.0)).paginate_all_by_id suites_executions_ids , :order => 'created_at DESC', :include => [{:executions => :case_template}, {:suite => :circuits}], :page => params[:page], :per_page => row_per_page
-      #SCRIPTS Y SUITES
-      else
-        suites_ids = @project.suite_ids #Suites
-        suites_ids << 0                #Scripts
-        @suite_executions=SuiteExecution.project_id_equals(@project.id).identifier_like(identifier).created_at_less_than_or_equal_to(@finish_date.to_datetime+(2/24.0)).created_at_greater_than_or_equal_to(@init_date.to_datetime+(2/24.0)).paginate_all_by_suite_id suites_ids , :order => 'created_at DESC', :include => [{:executions => :case_template}, {:suite => :circuits}], :page => params[:page], :per_page => row_per_page
-     end
-   #Without filters
+      end      
+      #Paginate
+      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page
    else
-       @suite_executions = @project.suite_executions.paginate :page => params[:page], :per_page => 11, :order => 'created_at DESC'
+      suite_executions = SuiteExecution.get_suite_exec_with_filters(@project, Hash.new)
+      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
    end
 
    #Run configurations
@@ -191,6 +157,7 @@ class SuiteExecutionsController < ApplicationController
       suite_id = params[:execution][:suite_id]
       @suite = Suite.find params[:execution][:suite_id], :include => {:schematics => :case_template}
       cant_corridas = params[:execution][:cant_corridas]
+      @project_id = @suite.project_id
     else
       #if run a cases, i not have suite_id
       suite_id = "0"
@@ -218,9 +185,16 @@ class SuiteExecutionsController < ApplicationController
     suite_executions = []
     circuit_id = 0
     
+    if params.has_key?(:execution) and params[:execution].has_key?(:task_program_id)
+      #means it is a suite scheduled
+      task_program = TaskProgram.find(params[:execution][:task_program_id].to_s)
+      user_id = task_program.user_id
+    else
+      user_id = current_user.id
+    end
+    
     combinations.each do |combination|
-      @project_id ||= Suite.find(suite_id).project_id 
-      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,:project_id=>@project_id, :identifier=>identifier,:user_id=>current_user.id)
+      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,:project_id=>@project_id, :identifier=>identifier,:user_id=>user_id)
       #add run parameters to suite_execution
       @suite_execution.create_configuration_to_run(combination)     
       #Executions are generated for the suite
@@ -247,6 +221,9 @@ class SuiteExecutionsController < ApplicationController
       #caching last executions of suite_execution
       @suite_execution.load_last_executions_cache    
       
+      #means it is a suite scheduled
+      task_program.add_suite_execution_id(@suite_execution.id) if task_program
+     
       suite_executions << @suite_execution
     end
     
@@ -254,7 +231,7 @@ class SuiteExecutionsController < ApplicationController
     suite_container_id = 0
    
     #Hash con parametros que se pasan al controlador
-    options = { :project_id => params[:project_id],
+    options = { :project_id => @project_id,
                 :debug_mode => @user_configuration.debug_mode,
                 :remote_control_mode => @user_configuration.remote_control_mode,
                 :remote_control_addr => @user_configuration.remote_control_addr,
@@ -286,6 +263,7 @@ class SuiteExecutionsController < ApplicationController
             ExecutionWorker.asynch_run_n_times(options)
         rescue Exception => e
             if e.class == Workling::QueueserverNotFoundError or e.class == Workling::WorklingConnectionError
+              SuiteExecution.change_status_with_message(@suite_execution.id, _("Not executed because an error occurred while trying to communicate with Starling"), 5)
               redirect_to "/suite_executions/workling_error"
               not_continue = true
             else
@@ -303,6 +281,7 @@ class SuiteExecutionsController < ApplicationController
             ExecutionWorker.asynch_run_suite(options)
           rescue Exception => e
             if e.class == Workling::QueueserverNotFoundError or e.class == Workling::WorklingConnectionError
+              suite_executions.each{|suite_execution| SuiteExecution.change_status_with_message(suite_execution.id, _("Not executed because an error occurred while trying to communicate with Starling"), 5) }
               redirect_to "/suite_executions/workling_error"
               not_continue = true
               break
@@ -407,6 +386,7 @@ class SuiteExecutionsController < ApplicationController
   
   #SUITE_COMMENT
   def suite_comment
+
    @suite = Suite.find(params[:id])
    @circuits_cases    = Hash.new
    @circuit_case      = Hash.new
