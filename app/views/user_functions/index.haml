@@ -27,24 +27,17 @@
 
 .main
   %h1
-    =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), url_for(:controller => "user_functions", :action => "new", :project_id => 0), :title=>_("Add Function")
-    =_('General Functions')
-  .div{:style => "margin-left:20px;width:500px;margin-top:20px;"}
-    =link_to _("Go to Functions by Projects --> "), url_for(:controller => "user_functions", :action => "per_project")
-  .buscar
-    - form_for :search, url_for(:controller=>"user_functions", :action=>"search") do |f|
-      = f.text_field '', :value=>(@param_search.empty? ? _('Search Function') : @param_search), :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
-      %input{:type=>"image",:src=>"/images/icons/search.png"}
-  %br
-  %br
+    =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function")
+    =_('Functions')
+  %form{ :url=>"user_functions",:id=> "form_filter", :style=>"margin-left:2%;"}
+    =select("filter", "project_id", @projects.collect {|p| [ truncate(p.name, :ommision => "...", :length => 60), p.id ] }.sort!,{ :selected => @project_id.to_i,:include_blank => _('Generals')},{ :onchange=>"$j('#form_filter').submit();", :style => "width: 200px;"})
   =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move, :paginate => true}
     
 //Tools menu
 -content_for :tools_menu do
-  =link_to _('General Notes') , "/notes", {:title => _('Add/Remove Notes'), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;text-decoration:none;"}
-  =link_to _("Functions"), "/user_functions", {:title => _("Add/Remove Functions"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Projects"), "/projects", {:title => _("Projects Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Users"), "/users", {:title => _("Users Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Summary"), "/graphs", {:title => _("Summary"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Run Configuration"), "/context_configurations", {:title => _("Run Configuration"), :style => "line-height:30px;padding-left:20px;text-decoration:none;"}
-  
+  =render :partial=> "admin/menu_admin"
+  .buscar 
+    - form_for :filter, url_for(:controller=>"user_functions", :action=>"index"), :html => {:method => :get} do |f|
+      = f.text_field 'project_id', :value=>@project_id, :style => 'display:none;'
+      = f.text_field 'text', :value=>(@param_search.empty? ? _('Search Function') : @param_search), :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
+      %input{:type=>"image",:src=>"/images/icons/search.png"}

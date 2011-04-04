@@ -27,7 +27,7 @@
 %script
   ejecucion_completa_#{case_template_id}=true
 
--if !execution.nil?
+-if !execution.nil? && execution.suite_execution
   -if execution.status == 1
     %script
       ejecucion_completa_#{case_template_id}=false
@@ -38,6 +38,8 @@
     =link_to image_tag("/images/icons/fail_1.png", :style=>'border:none;', :alt => "fail_1.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
   -elsif execution.status == 5
     =link_to image_tag("/images/icons/fail_execution.png", :style=>'border:none;', :alt => "fail_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+  -elsif execution.status == 6
+    =link_to image_tag("/images/icons/cancel.png", :style=>'border:none;', :alt => "cancel_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status    
   -elsif execution.status == 0
     %script
       ejecucion_completa_#{case_template_id}=false

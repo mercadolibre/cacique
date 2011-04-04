@@ -65,9 +65,4 @@
     
 //Tools menu
 -content_for :tools_menu do
-  =link_to _('General Notes') , "/notes", {:title => _('Add/Remove Notes'), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;text-decoration:none;"}
-  =link_to _("Functions"), "/user_functions", {:title => _("Add/Remove Functions"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Projects"), "/projects", {:title => _("Projects Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Users"), "/users", {:title => _("Users Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Summary"), "/graphs", {:title => _("Summary"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Run Configuration"), "/context_configurations", {:title => _("Run Configuration"), :style => "line-height:30px;padding-left:20px;text-decoration:none;"}
+  =render :partial=> "admin/menu_admin"

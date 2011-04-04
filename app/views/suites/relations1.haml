@@ -23,6 +23,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
+-javascript 'history'
 -javascript 'relation1'
 -javascript 'suite_show'
 -alertext= _("Must Select 2 Scripts")
@@ -92,4 +93,7 @@
   =render :partial => "queue_observers/queue_icon"
   %img{:src => "/images/icons/edit.png",   :alt=>"edit",      :title=>_('Edit'),     :onClick => "location.href='/suites/#{@suite.id}/edit';"}
   %img{:src => "/images/icons/show.png",   :alt=>"suite_show",:title=>_('Detail'),    :onClick => remote_function(:complete => "document.getElementById('div_suite_show').toggle();showDiv('show_graph');",:update => "div_suite_show",  :method => "get",  :url =>  "/suites/show/#{ @suite.id.to_s}"  ) }
-  %img{:src => "/images/icons/import.png", :alt=>"import",    :title=>_('Import suites from other projects'),:onClick => "location='/suites/import_suite';"}
+  %img{:src => "/images/icons/info.png",    :alt=>"info.png",    :title=>_('Information'),    :onClick => "document.getElementById('infoRelations').toggle();"}
+
+//Help 
+=render :partial => "info_relations"  

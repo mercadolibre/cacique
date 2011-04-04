@@ -34,7 +34,7 @@ msgstr "No es posible crear "
 
 #: app/controllers/categories_controller.rb:
 msgid "You do not have Edit Permissions"
-msgstr "Ud. no posee Permisos de Edición"
+msgstr "El usuario logueado no posee Permisos de Edición"
 
 #: app/controllers/circuits_controller.rb:
 msgid "This is not the latest version of the Scrip. It has been modified by: "
@@ -54,7 +54,7 @@ msgstr "ERROR AL GUARDAR EL ARCHIVO EN "
 
 #: app/controllers/circuits_controller.rb:
 msgid "Modification was successful"
-msgstr "La Modificación se realizo correctamente"
+msgstr "La Modificación se realizó correctamente"
 
 #: app/controllers/circuits_controller.rb:
 msgid "Impossible to edit "
@@ -126,23 +126,23 @@ msgstr "Ha terminado su Sesión"
 
 #: app/controllers/suite_executions_controller.rb:
 msgid "Start date invalid, this parameter is ignored.<br/>"
-msgstr "Fecha de inicio invalida, se ignora este parametro en la búsqueda.<br/>"
+msgstr "Fecha de inicio inválida, se ignora este parámetro en la búsqueda.<br/>"
 
 #: app/controllers/suite_executions_controller.rb:
 msgid "Start date invalid, current date is used"
-msgstr "Fecha de inicio invalida, se asume la fecha actual"
+msgstr "Fecha de inicio inválida, se asume la fecha actual"
 
 #: app/controllers/suite_executions_controller.rb:
 msgid "ERROR: Must select any case to run"
-msgstr "Error: No hay seleccionado ningun caso para correr"
+msgstr "Error: No hay seleccionado ningún caso para correr"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Can't Delete Function: "
-msgstr "No se puede borrar la funcion "
+msgstr "No se puede borrar la función "
 
 #: app/controllers/user_functions_controller.rb:
 msgid ". This affect the execution\n"
-msgstr " porque afectaria el funcionamiento de la corrida\n"
+msgstr " porque afectaría el funcionamiento de la corrida\n"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "This function can not be Deleted"
@@ -150,11 +150,11 @@ msgstr "Esta función no puede ser eliminada"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Function was created Successfuly"
-msgstr "La Función se creo correctamente"
+msgstr "La Función se creó correctamente"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Invalid Time Format. Time must be after the current."
-msgstr "Formato de hora invalido. La Hora debe ser posterior a la actual."
+msgstr "Formato de hora es inválido. Dicha Hora debe ser posterior a la actual."
 
 #: app/controllers/users_controller.rb:
 msgid "Password was changed successfully. "
@@ -174,7 +174,7 @@ msgstr "No existe un usuario con los datos ingresados"
 
 #: app/controllers/users_controller.rb:
 msgid "Your data is being processed. In few minutes you will receive an email to change your password"
-msgstr "Sus datos estan siendo procesados. En los proximos minutos recibirá un email para modificar su contraseña"
+msgstr "Sus datos están siendo procesados. En los próximos minutos recibirá un email para modificar su contraseña"
 
 #: app/controllers/users_controller.rb:
 msgid "Access Denied"
@@ -194,7 +194,7 @@ msgstr "Los permisos han sido actualizado correctamente"
 
 #: app/controllers/users_controller.rb:
 msgid "English"
-msgstr "Ingles"
+msgstr "Inglés"
 
 #: app/controllers/users_controller.rb:
 msgid "Spanish"
@@ -226,7 +226,7 @@ msgstr "Debe ingresar un Nombre"
 
 #: app/models/category.rb:
 msgid "Must enter a Description"
-msgstr "Debe ingresar una Descripcion"
+msgstr "Debe ingresar una Descripción"
 
 #: app/models/category.rb:
 msgid "Must specify a Project to Category "
@@ -234,11 +234,11 @@ msgstr "Debe ingresar el proyecto al que pertenece la categoria"
 
 #: app/models/category.rb:
 msgid "Must specify Parent Category"
-msgstr "Debe ingresar el parent de la categoria"
+msgstr "Debe ingresar el padre de la categoria"
 
 #: app/models/circuit.rb:
 msgid "Must complete an Owner"
-msgstr "Debe completar un Usuario Dueño"
+msgstr "Debe completar un Usuario Responsable"
 
 #: app/models/circuit.rb:
 msgid "Must complete Name Field"
@@ -259,7 +259,7 @@ msgstr "Debe completar el campo Descripción"
 
 #: app/models/circuit.rb:
 msgid "Must complete a Parent Category"
-msgstr "Debe completar una Categoria Padre"
+msgstr "Debe completar una Categoría Padre"
 
 #: app/models/circuit.rb:
 msgid "Can´t Add "
@@ -275,7 +275,7 @@ msgstr "Ingrese un Objetivo"
 
 #: app/models/circuit_case_column.rb:
 msgid "Must complete circuito_id field"
-msgstr "Debe completar el campo circuito_id"
+msgstr "Debe indicar un circuito"
 
 #: app/models/circuit_case_column.rb:
 msgid "Name Formats is not Correct"
@@ -310,7 +310,7 @@ msgid "Column "
 msgstr "La columna "
 
 #: app/models/context_configuration.rb:
-msgid "- For the Type of View selected, you must enter at least 1 value"
+msgid "- For the Type of View selected, you must enter at least 1 value"u
 msgstr "- Para el tipo de vista elegido, se debe ingresar por lo menos 1 valor"
 
 #: app/models/data_recovery.rb:
@@ -327,7 +327,7 @@ msgstr "Debe completar circuit_id"
 
 #: app/models/data_recovery_name.rb:
 msgid "Must complete Code Field"
-msgstr "Debe completar el campo Codigo"
+msgstr "Debe completar el campo Código"
 
 #: app/models/execution.rb:
 msgid "Must complete Status Fiel"
@@ -363,7 +363,7 @@ msgstr "No se puede crear una nota sin un usuario asignado"
 
 #: app/models/note.rb:
 msgid "Must specify a Position for the Note"
-msgstr "No se ha especificado una posicion para la nota"
+msgstr "No se ha especificado una posición para la nota"
 
 #: app/models/notifier.rb:
 msgid "Cacique --> Welcome!!!"
@@ -427,11 +427,11 @@ msgstr "Debe completar el campo Proyecto"
 
 #: app/models/script_runner.rb:
 msgid "Method not found: "
-msgstr "Metodo no encontrado: "
+msgstr "Método no encontrado: "
 
 #: app/models/script_runner.rb:
 msgid "Failure to obtain code fragment: Line number "
-msgstr "Falla al obtener el fragmento de codigo: numero de linea "
+msgstr "Falla al obtener el fragmento de código: numero de linea "
 
 #: app/models/script_runner.rb:
 msgid "Processing Data Error "
@@ -471,7 +471,7 @@ msgstr "Debe completar case_origin"
 
 #: app/models/suite_cases_relation.rb:
 msgid "Must complete case_destination"
-msgstr "Debe completar  case_destination"
+msgstr "Debe completar case_destination"
 
 #: app/models/suite_cases_relation.rb:
 msgid "Must complete circuit_origin"
@@ -539,11 +539,11 @@ msgstr "Debe ingresar un mail con formato válido"
 
 #: app/models/user_configuration_value.rb:
 msgid "Must have an associated configuration"
-msgstr "Debe tener una configuracion asociada"
+msgstr "Debe tener una configuración asociada"
 
 #: app/models/user_configuration_value.rb:
-msgid "Debe tener una Configuración de Usuario asociado"
-msgstr "Must have an User Configuration associated "
+msgid "Must have an User Configuration associated "
+msgstr "Debe tener una Configuración de Usuario asociado"
 
 #: app/models/user_function.rb:
 msgid "Already Exist a function with that name:\n"
@@ -551,19 +551,23 @@ msgstr "Ya Existe una funcion con ese nombre en los proyectos:\n"
 
 #: app/models/user_function.rb:
 msgid "Already Exist a function with that name in this project"
-msgstr "Ya Existe una funcion con ese nombre dentro del proyecto"
+msgstr "Ya Existe una función con ese nombre dentro del proyecto"
 
 #: app/models/user_function.rb:
 msgid "Already Exist a Generic function with that name"
-msgstr "Ya Existe una funcion Generica con ese nombre"
+msgstr "Ya Existe una función con ese nombre dentro del proyecto"
 
 #: app/models/user_function.rb:
 msgid "You can not delete function "
-msgstr "No se pueden borrar la funcion "
+msgstr "No se puede borrar la función "
 
 #: app/models/user_function.rb:
-msgid ", because it would affect the running of scripts \n"
-msgstr ", porque afectaria la corrida de scripts \n"
+msgid "You can not move function "
+msgstr "No se puede mover la función "
+
+#: app/controllers/user_functions_controller.rb
+msgid ", because it would affect the running of scripts"
+msgstr ", porque afectaría la corrida de scripts"
 
 #: app/models/user_function.rb:
 msgid "You can not edit function Name "
@@ -660,7 +664,7 @@ msgstr "Valor por Defecto:"
 
 #: app/views/case_templates/index.haml:
 msgid "*this value will be used for all cases previously created"
-msgstr "*este valor sera utilizado para todos los casos creado anteriormente"
+msgstr "*este valor será utilizado para todos los casos creado anteriormente"
 
 #: app/views/case_templates/index.haml:
 msgid "Delete Column:"
@@ -763,8 +767,8 @@ msgid "Selected script will be copied"
 msgstr "Se copiarán los script seleccionados"
 
 #: app/views/categories/_case_confirm.haml:
-msgid "into Drafts Folder"
-msgstr "en la carpeta Borradores"
+msgid "into Imported Folder"
+msgstr "en la carpeta Importados"
 
 #: app/views/categories/_case_confirm.haml:
 msgid "Copy Data Set"
@@ -828,7 +832,7 @@ msgstr "Crear"
 
 #: app/views/categories/_tree_menu.haml:
 msgid "This action will remove this Folder. Are You sure?"
-msgstr "¿Esta seguro que desea eliminar la carpeta?"
+msgstr "¿Está seguro que desea eliminar la carpeta?"
 
 #: app/views/categories/_tree_menu.haml:
 msgid "This action will remove Data Set, History and Suite associations. Are You sure?"
@@ -970,6 +974,10 @@ msgstr "Funciones"
 msgid "Select the function to add at your Script:"
 msgstr "Seleccione la función para agregar a su Script"
 
+#: app/views/circuits/_functions.haml:
+msgid "This project has no specific functions"
+msgstr "Este proyecto no tiene funciones especificas"
+
 #: app/views/circuits/edit.haml:
 msgid "Version "
 msgstr "Versión "
@@ -1060,7 +1068,7 @@ msgstr "Nuevo script para: "
 
 #: app/views/circuits/new.haml:
 msgid "Create Empty Script"
-msgstr "Crear un Script vacio"
+msgstr "Crear un Script vacío"
 
 #: app/views/circuits/new.haml:
 msgid "An"
@@ -1092,11 +1100,11 @@ msgstr "Nombre del campo"
 
 #: app/views/circuits/rename.haml:
 msgid "Incomplete Fields will not be considered"
-msgstr "Los campos que no contengan valor no seran tenidos en cuenta"
+msgstr "Los campos que no contengan valor no serán tenidos en cuenta"
 
 #: app/views/circuits/rename_save.haml:
 msgid "Created Successfuly!"
-msgstr "Creado con Éxito!"
+msgstr "Creado con Exito!"
 
 #: app/views/circuits/rename_save.haml:
 msgid "Now, What you want do?"
@@ -1216,7 +1224,7 @@ msgstr "Acerca de"
 
 #: app/views/layouts/_menu_projects.haml:
 msgid "Credits"
-msgstr "Creditos"
+msgstr "Créditos"
 
 #: app/views/layouts/_menu_projects.haml:
 msgid "Projects"
@@ -1327,8 +1335,8 @@ msgid "Show, line by line, the Execution Progress."
 msgstr "Muestra, linea por linea, el Avance de la Ejecución."
 
 #: app/views/layouts/_view_menu_info.haml:
-msgid "The view lets you select a script and analyze its relationship with others. View of those who receives and sends data."
-msgstr "La vista permite seleccionar un script y analizar su relación con otros. Ver de quienes recibe y a quién le envía datos."
+msgid "In this section you can select a script and analyze its relationship with others. View of those who receives and sends data."
+msgstr "En esta sección se puede selecciona un script y analizar su relación con otros. Ver de quienes recibe y a quién le envía datos."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Edit Suite"
@@ -1356,7 +1364,7 @@ msgstr "Relaciones"
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "In this section can be related suites scripts,"
-msgstr "En ésta sección se pueden relacionar scripts de la suite,"
+msgstr "En esta sección se pueden relacionar scripts de la suite,"
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "relations are always set in pairs (a script is related to another that is going to send data)"
@@ -1396,7 +1404,7 @@ msgstr "Permite importar suites de otros proyectos, copiando todos los scripts y
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "if not copy the cases only copied fields relations"
-msgstr "se copiaran las relaciones de la suite. En el caso de no copiar los casos solo se copiaran las relaciones de campos."
+msgstr "se copiarán las relaciones de la suite. En el caso de no copiar los casos solo se copiarán las relaciones de campos."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Schedule"
@@ -1412,7 +1420,7 @@ msgstr "Eliminar Suite"
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Selected suite will be deleted with all their relations."
-msgstr "Se eliminará la suite seleccionada junto con todas sus relaciones."
+msgstr "Elimina la suite seleccionada junto con todas sus relaciones."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "All historical will also be removed."
@@ -1471,6 +1479,14 @@ msgid "If you do not have edit permissions for the script,"
 msgstr "Si no se tienen permisos de edición sobre el script,"
 
 #: app/views/layouts/_view_menu_info.haml:
+msgid "If you do not make any changes, or not have edit permissions for the script,"
+msgstr "Si no realiza ningún cambio, o no posee permisos de edición sobre el script,"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "this icon remain hidden."
+msgstr "el icono permanecerá oculto."
+
+#: app/views/layouts/_view_menu_info.haml:
 msgid "you will see "
 msgstr "podrá ver el icono"
 
@@ -1492,7 +1508,7 @@ msgstr "Permite guardar un Script, agregando comentarios acerca de los cambios"
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "being made."
-msgstr "que se estan realizando."
+msgstr "que se están realizando."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "These comments are visible in the History of Execution"
@@ -1627,10 +1643,6 @@ msgid "It add a row to the data set"
 msgstr "Se agrega una fila a la tabla de casos del set de datos"
 
 #: app/views/layouts/_view_menu_info.haml:
-msgid "and doing double click in the cell, is possible complete their fields."
-msgstr "y con doble click en la celda, es posible completar sus campos."
-
-#: app/views/layouts/_view_menu_info.haml:
 msgid "Displays the history of execution from the selected case."
 msgstr "Muestra el historial de ejecución del caso seleccionado."
 
@@ -1708,7 +1720,7 @@ msgstr "Importar Excel"
 
 #: app/views/projects/index.haml:4
 msgid "Project Management"
-msgstr "Gestion de proyectos"
+msgstr "Gestión de proyectos"
 
 #: app/views/projects/index.haml:
 msgid "Manager"
@@ -1836,7 +1848,7 @@ msgstr "Ver Detalle"
 
 #: app/views/suite_executions/_history_table.haml:
 msgid "No results were found"
-msgstr "No se encontaron resultados"
+msgstr "No se encontraron resultados"
 
 #: app/views/suite_executions/_periodically_call_remote_execution_show.haml:
 msgid "Stop Execution"
@@ -3022,6 +3034,106 @@ msgstr "Nombre:"
 msgid "Field ID must contain only letters, numbers, space or underscore"
 msgstr "El Campo ID sólo puede contener letras, números, espacios o guiones bajos"
 
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "A Day"
+msgstr "Un Día"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Range"
+msgstr "Rango"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Start Time"
+msgstr "Hora de Início"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Frequency:"
+msgstr "Frecuencia:"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Daily"
+msgstr "Diaria"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Weekly"
+msgstr "Semanal"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Specify"
+msgstr "Especificar"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Each"
+msgstr "Cada"
+
+#: app/models/notifier.rb:
+msgid "Cacique --> Suite Program Confirm"
+msgstr "Cacique --> Confirmacion Suite Programada"
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Time Format for Init Hour. Please verify it."
+msgstr "Formato de Tiempo invalido para Hora Inicio. Por Favor verifique lo."
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Time Format for Execution No.: "
+msgstr "Formato de Tiempo invalido para la Ejecución N°: "
+
+#: app/controllers/task_programs_controller.rb:
+msgid ". Please verify it."
+msgstr ". Por Favor verifique lo."
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Number of Repetitions"
+msgstr "Número de repeticiones inválido"
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Must select at least one day in your weekly schedule."
+msgstr "Debe seleccionar al menos un día en la programación semanal"
+
+#: app/controllers/task_programs_controller.rb:
+msgid "[Until Date] should be after to [From Date]"
+msgstr "[Fecha Hasta] debe ser posterior a [Fecha Desde]"
+
+#: app/controllers/suite_executions.rb:
+msgid "Not executed because an error occurred while trying to communicate with Starling"
+msgstr "No se ejecuto porque ocurrio un error al intentar comunicarse con  Starling"
+
+#: lib/run_suite_program.rb:
+msgid "Not executed because the scheduler was pending to confirm"
+msgstr "No se ejecuto porque la programacion se encontraba pendiente a confirmar"
+
+#: app/models/delayed_job.rb:
+msgid "To be confirmed"
+msgstr "A confirmar"
+
+#: app/models/delayed_job.rb:
+msgid "Confirmed"
+msgstr "Confirmada"
+
+#: app/models/delayed_job.rb:
+msgid "Last Confirmed"
+msgstr "Ultima Confirmada"
+
+#: app/views/task_programs/confirm_program.haml: 
+msgid "Programed task confirmation"
+msgstr "Confirmacion de las tareas programadas"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Suite"
+msgstr "Suite"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Schedule"
+msgstr "Programacion"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Programmed by"
+msgstr "Programador"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Confirm"
+msgstr "Confirmar"
+
 #: app/views/user_functions/_functions.haml:
 msgid "Created by:"
 msgstr "Creado por:"
@@ -3067,28 +3179,242 @@ msgid "Function was successfully removed"
 msgstr "Se borro corectamente la funcion"
 
 #: app/controllers/user_functions_controller.rb
-msgid "Function was updated Successfuly"
+msgid "Function was successfuly updated"
 msgstr "La función se ha actualizado con exito"
 
-#: app/views/circuits/_suites_of_script.haml
-msgid "Suites containing the script "
-msgstr "Suites que contienen el script "
+#: app/controllers/user_functions_controller.rb
+msgid "Function was successfuly moved"
+msgstr "Se movio correctamente la funcion"
 
-#: app/views/circuits/_suites_of_script.haml
-msgid "The script is not in any suite"
-msgstr "El script no se encuentra en ninguna suite"
+#: app/controllers/user_functions_controller.rb
+msgid "Could not move the function"
+msgstr "No se pudo mover la funcion"
 
-#: app/views/homes/_links.haml
-msgid "No links to eliminate"
-msgstr "No hay links por eliminar"
+#: app/controllers/task_programs_controller.rb
+msgid "Monday"
+msgstr "Lunes"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Tuesday"
+msgstr "Martes"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Thursday"
+msgstr "Jueves"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Friday"
+msgstr "Viernes"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Saturday"
+msgstr "Sábado"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Sunday"
+msgstr "Domingo"
+
+#: lib/suites/suite_relation.rb
+msgid "getting data from related case"
+msgstr "obteniendo datos relacionados del caso"
+
+#: app/controllers/expression_table.haml
+msgid "Expression"
+msgstr "Expresión"
+
+#: app/controllers/expression_table.haml
+msgid "Meaning"
+msgstr "Significado"
+
+#: app/controllers/expression_table.haml
+msgid "any character"
+msgstr "cualquier caracter"
+
+#: app/controllers/expression_table.haml
+msgid "specification of range. Eg: [a-z] a letter, a to z"
+msgstr "especificación por rango. P.ej: [a-z], una letra de la a, a la z"
+
+#: app/controllers/expression_table.haml
+msgid "letter or number, is the same as [0-9A-Za-z]"
+msgstr "letra o número; es lo mismo que [0-9A-Za-z]"
+
+#: app/controllers/expression_table.haml
+msgid "any characters except letters or numbers"
+msgstr "cualquier carácter que no sea letra o número"
+
+#: app/controllers/expression_table.haml
+msgid "space character, it is the same as [\t\n\r\f]"
+msgstr "carácter de espacio; es lo mismo que [ \t\n\r\f]"
+
+#: app/controllers/expression_table.haml
+msgid "recoil (0x08), if within range"
+msgstr "retroceso (0x08), si está dentro de un rango"
+
+#: app/controllers/expression_table.haml
+msgid "word boundary, if not within a range"
+msgstr "límite de palabra, si NO está dentro de un rango"
+
+#: app/controllers/expression_table.haml
+msgid "no word boundary"
+msgstr "no límite de palabra"
+
+#: app/controllers/expression_table.haml
+msgid "zero or more repetitions of what precedes it"
+msgstr "cero o más repeticiones de lo que le precede"
+
+#: app/controllers/expression_table.haml
+msgid "one or more repetitions of what precedes it"
+msgstr "una o más repeticiones de lo que le precede"
+
+#: app/controllers/expression_table.haml
+msgid "end of line"
+msgstr "fin de la línea"
+
+#: app/controllers/expression_table.haml
+msgid "as less than m, and at most n repetitions of what precedes it"
+msgstr "como menos m, y como mucho n repeticiones de lo que le precede"
+
+#: app/controllers/expression_table.haml
+msgid "at least one repetition of what precedes it, the same as {0.1}"
+msgstr "al menos una repetición de lo que le precede; lo mismo que {0,1}"
+
+#: app/controllers/expression_table.haml
+msgid "grouping expressions"
+msgstr "agrupar expresiones"
+
+#: app/controllers/expression_table.haml
+msgid "logical OR, find it before or after"
+msgstr "operador lógico O, busca lo de antes o lo después"
+
+#: app/controllers/expression_table.haml
+msgid "any character other than space"
+msgstr "cualquier carácter que no sea de espacio"
+
+#: app/controllers/expression_table.haml
+msgid "number, the same as [0-9]"
+msgstr "número; lo mismo que [0-9]"
+
+#: app/controllers/expression_table.haml
+msgid "any character other than a number"
+msgstr "cualquier carácter que no sea un número"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Task Program"
+msgstr "Tareas Programadas"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Here you can Schedule the execution of a Suite"
+msgstr "Aqui podrás Programar la ejecución de una Suite"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "You can set parameters like Day, Week, Hour & quantity of Executions"
+msgstr "Podrás configurar parámetro como Día, Semana, Hora y Cantidad de Ejecuciones"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "New Schedule"
+msgstr "Nueva Programación"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Create a New Programed Suite Execution"
+msgstr "Crea una Nueva Programacion para ejecutar una Suite"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "All programming set in a period exceeding one month, from the current date,"
+msgstr "Toda suite programada con un periodo de tiempo superior a un mes, desde la fecha actual,"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "remain to be confirmed."
+msgstr "quedará pendiente de confirmación."
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Confirm Schedule"
+msgstr "Confirmar Programación"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Confirm pendant programming"
+msgstr "Confirmar todas las Programaciones Pendientes"
+
+#: app/views/task_programs/_task_program_detail.haml
+msgid "Upcoming deadlines"
+msgstr "Próximos vencimientos"
+
+#: app/views/task_programs/_task_program_detail.haml
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: app/views/task_programs/_task_program_list.haml
+msgid "Must Select any Suite"
+msgstr "Debe seleccionar una Suite"
+
+#: app/views/task_programs/confirm_program.haml
+msgid "The schedules were confirmed successful"
+msgstr "Las programaciones fueron confirmadas con éxito"
+
+#: app/views/task_programs/confirm_program.haml
+msgid "Are you sure you confirm the programming?"
+msgstr "¿Esta seguro de confirmar las programaciones?"
 
 #: app/controllers/categories_controller.rb
 msgid "Imported"
 msgstr "Importados"
 
-#: app/controllers/categories_controller.rb
-msgid "folder where you saved the script imported"
-msgstr "carpeta donde se guardan los script importados"
+#: app/models/circuit.rb
+msgid "-copy"
+msgstr "-copia"
 
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Number of repetitions per hour"
+msgstr "Número de repeticiones por hora inválido"
 
+#: app/views/task_programs/_task_program_list.haml:
+msgid "Confirm Task Program"
+msgstr "Confirmar Tarea Programada"
+
+#: app/views/suites/_menu_suite.haml:
+msgid "Schedule List"
+msgstr "Lista Tareas Programadas"
+
+#: app/views/suites/_menu_suite.haml:
+msgid "New Schedule"
+msgstr "Nueva Tarea Programada"
+
+#: app/views/task_programs/_task_program_detail.haml:
+msgid "This suite is not scheduled to confirm"
+msgstr "Ésta suite no tiene programaciones para confirmar"
+
+#: app/models/suite_execution.rb:
+msgid "Canceled run"
+msgstr "Corrida cancelada"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Create scheduled suites"
+msgstr "Creación de suites programadas"
+
+#: app/controllers/case_templates_controller.rb:
+msgid "cases-for-Script-"
+msgstr "casos-del-Script-"
+
+#: app/views/suites/relations3.haml:
+msgid "New Relation"
+msgstr "Nueva Relación"
+
+#: app/views/suites/_info_suite_edit.haml:
+msgid "Suite Edit"
+msgstr "Editar Suite"
+
+#: app/views/suites/_info_suite_edit.haml:
+msgid "Here you can edit everything related to a Suite"
+msgstr "Aquí podras editar todo aquello referente a una Suite"
+
+#: app/views/suites/_info_suite_edit.haml:
+msgid "For example: Name, Description, Script composed, order execution, and more."
+msgstr "Por ejemplo: Nombre, Descripción, Script que la componen, orden de ejecución, etc"
+
+#: app/views/suites/_menu_suite.haml:
+msgid "Confirm Schedule"
+msgstr "Confirmar Tarea Programada"
 

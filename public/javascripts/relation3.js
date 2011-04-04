@@ -29,7 +29,7 @@
   var relation_pairs = new Array(); //IDs for cases relations
   
   //Generate String with Ids pairs
-  function enviar_relaciones() {
+  function send_relation(next_action){
 	var texto="";
 
 	if(relation_pairs.length == 0){
@@ -44,12 +44,14 @@
 
 	form = document.getElementById("send_relations");
 	form.content.value = texto;
+	form.next_action.value = next_action;
 	form.submit();
 
 	relation_pairs.splice(0,relation_pairs.length);
 	table = document.getElementById("relationListTable");
 
   }
+
 
   //Remove ids pairs
   function delete_relation( id ) {
