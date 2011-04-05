@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
     end
 
   end
-  
+  map.resources :delayed_jobs, :collection => { :destroy_collection=>:get} 
   map.resources :case_data
   map.resources :case_templates, :collection => { :create=>:get, :update_data=>:get, :update_status=>:get } 
   map.resources :categories, :collection => { :circuits_result => :get, :create=>:get, :delete=>:get, :edit=>:get, :update=>:get, :save_import_circuit=>:get, :import_circuit=>:get, :move=>:get, :move_save=>:get }

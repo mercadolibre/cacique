@@ -39,9 +39,9 @@
     
   //Table    
   -if params[:program]
-    = will_paginate @delayed_jobs, :params => { 'program' => params[:program]} 
+    = will_paginate @delayed_jobs, :params => { 'program' => params[:program]},  :page => params[:paginate].to_i 
   -else
-    = will_paginate @delayed_jobs   
+    = will_paginate @delayed_jobs 
   =render :partial => "table", :locals => {:delayed_jobs => @delayed_jobs}
   
 //Tools menu
