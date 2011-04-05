@@ -31,7 +31,7 @@
   =link_to truncate(execution.circuit.name,:ommision => "...", :length => 50), "/circuits/#{execution.circuit.id}/edit"
    
 %td.exe{:style=>"max-width:25%;min-width:25%;"}
-  =execution.case_template_id == 0 ?  "Self" : link_to( truncate(execution.case_template.objective,:ommision => "...", :length => 40), "/circuits/#{execution.circuit.id}/case_templates", {:title=>execution.case_template.objective} )
+  =execution.case_template_id == 0 ?  _("Without Cases") : link_to( truncate(execution.case_template.objective,:ommision => "...", :length => 40), "/circuits/#{execution.circuit.id}/case_templates", {:title=>execution.case_template.objective} )
 %td.exe{:style=>"width:2%;"}
   -if execution.status == 1
     %script

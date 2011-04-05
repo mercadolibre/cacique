@@ -1,0 +1,197 @@
+GEM
+  remote: http://rubygems.org/
+  remote: http://gems.github.com/
+  remote: http://gemcutter.org/
+  specs:
+    Selenium (1.1.14)
+    SyslogLogger (1.4.0)
+      hoe (>= 1.2.0)
+    ZenTest (4.5.0)
+    actionmailer (2.3.5)
+      actionpack (= 2.3.5)
+    actionpack (2.3.5)
+      activesupport (= 2.3.5)
+      rack (~> 1.0.0)
+    activerecord (2.3.5)
+      activesupport (= 2.3.5)
+    activeresource (2.3.5)
+      activesupport (= 2.3.5)
+    activesupport (2.3.5)
+    annotate-models (1.0.4)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-rails (4.1.0)
+      ZenTest
+    builder (3.0.0)
+    calendar_date_select (1.16.2)
+    camping (2.1)
+      rack (>= 1.0)
+    cgi_multipart_eof_fix (2.5.0)
+    columnize (0.3.2)
+    commonwatir (1.6.2)
+      user-choices
+    composite_primary_keys (2.3.5.1)
+      activerecord (>= 2.3.5)
+    daemon_controller (0.2.6)
+    daemons (1.0.10)
+    diff-lcs (1.1.2)
+    eventmachine (0.12.8)
+    fastthread (1.0.7)
+    file-tail (1.0.5)
+      spruz (>= 0.1.0)
+    gem_plugin (0.2.3)
+    gettext (2.1.0)
+      locale (>= 2.0.5)
+    gettext_activerecord (2.1.0)
+      activerecord (>= 2.3.2)
+      gettext (>= 2.1.0)
+    gettext_rails (2.1.0)
+      gettext_activerecord (>= 2.1.0)
+      locale_rails (>= 2.0.5)
+      rails (>= 2.3.2)
+    haml (2.2.2)
+    hoe (2.3.2)
+      rake (>= 0.8.7)
+      rubyforge (>= 1.0.3)
+    hpricot (0.8.1)
+    json_pure (1.5.1)
+    laserlemon-vestal_versions (0.8.0)
+    linecache (0.43)
+    locale (2.0.5)
+    locale_rails (2.0.5)
+      locale (>= 2.0.5)
+    mechanize (1.0.0)
+      nokogiri (>= 1.2.1)
+    memcache-client (1.8.5)
+    mislav-will_paginate (2.3.11)
+    mongrel (1.1.5)
+      cgi_multipart_eof_fix (>= 2.4)
+      daemons (>= 1.0.3)
+      fastthread (>= 1.0.1)
+      gem_plugin (>= 0.2.3)
+    mysql (2.8.1)
+    net-ssh (2.1.0)
+    nokogiri (1.4.4)
+    passenger (3.0.3)
+      daemon_controller (>= 0.2.5)
+      fastthread (>= 1.0.1)
+      file-tail
+      rack
+      rake (>= 0.8.1)
+    polyglot (0.3.1)
+    prawn (0.8.4)
+      prawn-core (>= 0.8.4, < 0.9)
+      prawn-layout (>= 0.8.4, < 0.9)
+      prawn-security (>= 0.8.4, < 0.9)
+    prawn-core (0.8.4)
+    prawn-layout (0.8.4)
+    prawn-security (0.8.4)
+    rack (1.0.1)
+    rails (2.3.5)
+      actionmailer (= 2.3.5)
+      actionpack (= 2.3.5)
+      activerecord (= 2.3.5)
+      activeresource (= 2.3.5)
+      activesupport (= 2.3.5)
+      rake (>= 0.8.3)
+    rak (1.0)
+    rake (0.8.7)
+    rcov (0.9.9)
+    rspec (2.1.0)
+      rspec-core (~> 2.1.0)
+      rspec-expectations (~> 2.1.0)
+      rspec-mocks (~> 2.1.0)
+    rspec-core (2.1.0)
+    rspec-expectations (2.1.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.1.0)
+    rspec-rails (2.1.0)
+      rspec (~> 2.1.0)
+    ruby-debug (0.10.4)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.4.0)
+    ruby-debug-base (0.10.4)
+      linecache (>= 0.3)
+    ruby-graphviz (0.9.20)
+    ruby-ole (1.2.11.1)
+    ruby-openid (2.1.8)
+    rubyforge (2.0.4)
+      json_pure (>= 1.1.7)
+    s4t-utils (1.0.4)
+      hoe (>= 1.3.0)
+    searchlogic (2.4.27)
+      activerecord (>= 2.0.0)
+    spreadsheet (0.6.5.2)
+      ruby-ole (>= 1.0)
+    spruz (0.2.5)
+    starling (0.10.1)
+      eventmachine (>= 0.12.0)
+      memcache-client (>= 1.7.0)
+    test-spec (0.10.0)
+    thin (1.2.7)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    treetop (1.4.9)
+      polyglot (>= 0.3.1)
+    user-choices (1.1.6.1)
+      builder (>= 2.1.2)
+      s4t-utils (>= 1.0.3)
+      xml-simple (>= 1.0.11)
+    xml-simple (1.0.12)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  Selenium
+  SyslogLogger
+  activesupport (= 2.3.5)
+  annotate-models
+  autotest
+  autotest-rails
+  calendar_date_select
+  camping
+  commonwatir (= 1.6.2)
+  composite_primary_keys
+  daemons (= 1.0.10)
+  eventmachine (= 0.12.8)
+  gettext
+  gettext_activerecord
+  gettext_rails
+  haml (= 2.2.2)
+  hoe (= 2.3.2)
+  hpricot (= 0.8.1)
+  laserlemon-vestal_versions
+  locale
+  locale_rails (= 2.0.5)
+  mechanize
+  memcache-client
+  mislav-will_paginate
+  mongrel
+  mysql
+  net-ssh
+  nokogiri
+  passenger
+  polyglot
+  prawn
+  rails (= 2.3.5)
+  rak
+  rake
+  rcov
+  rspec
+  rspec-rails
+  ruby-debug
+  ruby-graphviz
+  ruby-ole
+  ruby-openid
+  rubyforge
+  s4t-utils
+  searchlogic
+  spreadsheet
+  starling
+  test-spec
+  thin
+  treetop
+  user-choices
+  xml-simple (= 1.0.12)
