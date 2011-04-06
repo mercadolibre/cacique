@@ -27,9 +27,52 @@
 class RunSuiteProgram < Struct.new(:params)
 
   def perform
-  begin
-    command = SuiteExecution.generate_command(params, "program")
-    
+    dj = DelayedJob.find(params[:delayed_job_id])
+  
+    #Manejo de Estados
+    case dj.status
+      when 0
+        #Ignoro la ejecucion, porque todavia no tengo re-confirmacion
+        context_configurations = {}
+        ContextConfiguration.all_enable.each do |context_configuration|
+          context_configurations[context_configuration.name.to_sym] = params[context_configuration.name.to_sym].to_s
+        end
+
+        suite_execution = SuiteExecution.generate_suite_execution_with_message("Not executed because the programming was pending to confirm", params[:suite_id], params[:identifier], params[:user_id], context_configurations)
+
+        task_program = TaskProgram.find(params[:task_program_id])
+        task_program.add_suite_execution_id(suite_execution.id)
+      when 1
+        #Ejecuto Normalmente
+        run_program( params )
+      
+      when 2
+        if dj.task_program.delayed_jobs.count != 1 
+          #Envio pedido de re-confirmacion para las proximas corridas
+          Notifier.deliver_confirm_program(params[:user_mail] ,params[:task_program_id], params[:server_port], params[:suite_id])
+        end
+        #Ejecuto Normalmente
+        run_program( params )
+      
+      else
+        #Estado no valido    
+        context_configurations = {}
+        ContextConfiguration.all_enable.each do |context_configuration|
+          context_configurations[context_configuration.name.to_sym] = params[context_configuration.name.to_sym].to_s
+        end
+
+        suite_execution = SuiteExecution.generate_suite_execution_with_message("Not executed because the programming has an unknown state: #{dj.status}", params[:suite_id], params[:identifier], params[:user_id], context_configurations)
+
+        task_program = TaskProgram.find(params[:task_program_id])
+        task_program.add_suite_execution_id(suite_execution.id)    
+    end
+  rescue
+    puts $!
+    puts $@
+  end
+  
+  def run_program( args )
+    command = SuiteExecution.generate_command(args, "program") 
     #Complete User & pass
     #UserName
     command.gsub!("\<user_name\>",FIRST_USER_NAME)
@@ -40,8 +83,6 @@ class RunSuiteProgram < Struct.new(:params)
   rescue
     puts $!
     puts $@
-  end
-  
   end
   
 end

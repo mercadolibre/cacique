@@ -1,0 +1,3 @@
+Esta carpeta se utiliza para guardar las imagenes especificas de las configuraciones de corrida creadas. Si el nombre de la imagen es el mismo que el nombre de la configuración en la aplicación se reemplazará el texto escrito por la imagen.
+
+This folder is used to save specific images of the "run configurations" in Cacique. If the name of the image is the same as the name of the "run configuration" the text will be replaced by the image on the views.

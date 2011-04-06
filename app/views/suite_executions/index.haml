@@ -26,10 +26,10 @@
 -javascript 'history'
 
 .main{:style=>"width:100%;padding:1% 0 0 2%;"}
-  %h1{:title=>"History of" + @project.name.capitalize, :style=>"margin:0;"}
+  %h1{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize, :style=>"margin:0;"}
     =_('History of Execution from: ')
     =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
-  =render :partial => "history"
+  =render :partial => "filter_index"
   #history_table{:style=>"clear:both;"}
     =render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
 

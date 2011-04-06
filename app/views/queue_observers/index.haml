@@ -1,0 +1,91 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+%h1{:title=>"Queue Observer"}
+  Administrador de Tareas
+
+%h2
+  Tareas en ejecucion
+  =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"Refresh workers info", :title=>"Refresca los pids de los workers"), :action => "refresh"
+
+%table.detail
+  %tr
+    %th
+      Worker
+    %th
+      Tarea
+    %th
+      Usuario
+    %th
+      Proyecto
+    %th
+      Suite
+  -@running.each do |name, task|
+    %tr
+      %td
+        =name.gsub("_"," ")
+      -if task.instance_of? Hash
+        %td
+          =truncate(task[:circuit],:ommision => "...", :length =>18)
+        %td
+          =truncate(task[:user_name],:ommision => "...", :length =>10)
+        %td
+          =truncate(task[:project],:ommision => "...", :length =>10)
+        %td
+          =truncate(task[:suite],:ommision => "...", :length =>18)
+      -else
+        %td
+          \--
+        %td
+          \--
+        %td
+          \--
+        %td
+          \--
+
+-@tasks.each do |name, queue|
+  -if queue.size>0
+    %h2
+      =name.to_s.gsub("execution_workers__","").gsub("_"," ")
+    %table.detail
+      %th
+        Tarea
+      %th
+        Usuario
+      %th
+        Proyecto
+      %th
+        Acciones
+      %tr 
+      -queue.each do |tasks_values|
+        %td
+          =tasks_values[:task_name]
+        %td
+          =tasks_values[:username]
+        %td
+          =tasks_values[:project]
+        %td
+          =link_to "X", {:action => "delete", :id=> tasks_values[:suite_execution_id]}
+        %tr

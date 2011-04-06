@@ -101,10 +101,19 @@ class ExecutionsController < ApplicationController
       args[:configuration_values] = suite_execution_db.hash_execution_configuration_values
       args[:project_id] = params[:project_id]
 
+      begin
+        ExecutionWorker.asynch_retry_execution(args)
+      rescue Exception => e
+        if e.class == Workling::QueueserverNotFoundError or e.class == Workling::WorklingConnectionError
+          Execution.change_status(@new_execution.id, 5,_("Not executed because an error occurred while trying to communicate with Starling"))
+          redirect_to "/suite_executions/workling_error"
+          error = true
+        else
+          raise e
+        end
+      end
 
-      ExecutionWorker.asynch_retry_execution(args)
-
-      redirect_to "/suite_executions/" + suite_execution_db.id.to_s
+      redirect_to "/suite_executions/" + suite_execution_db.id.to_s if !error
 
   end
 

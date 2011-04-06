@@ -235,15 +235,17 @@ class SuitesController < ApplicationController
  end
 
   def send_relations
+    
     @suite = Suite.find params[:id]
 	  permit "editor of :suite" do
 	    ids_origin = params["ids_cases_origin"].split(";")
 	    ids_destination = params["ids_cases_destination"].split(";")
       @suite.update_cases_relations(ids_origin, ids_destination, params[:content])
-	    redirect_to "/suites/relations1/#{@suite.id}"
-	end
+	    
+      redirect_to params[:next_action]
+
+    end
   end
-  
   
   def import_suite
     @projects = Project.find :all, :order=>"name ASC"
@@ -253,8 +255,6 @@ class SuitesController < ApplicationController
     end
   
   end
-  
-  
   
   def save_import_suite
     @project = Project.find params[:project_id]
@@ -266,101 +266,6 @@ class SuitesController < ApplicationController
     end
   
     redirect_to "/suites"
-  end
-  
-  
-  def new_program
-    @suite_id  = params[:id]
-    @suite     = Suite.find @suite_id
-    @init_date = Time.now.to_datetime
-    #obtain user configuration
-      @user_configuration = UserConfiguration.find_by_user_id(current_user.id)
-      @user_configuration_values = @user_configuration.get_hash_values     
-      @column_1, @column_2 = ContextConfiguration.calculate_columns
-      @suite_execution = SuiteExecution.new
-      @command = params[:command]
-      
-      @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
-  end
-  
-  def create_program
-      #Calculating number of minutes between "hours of scheduling" and "current time"
-      time_to_run = DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M")
-      time_to_run = Time.local(time_to_run.year, time_to_run.month, time_to_run.day, time_to_run.hour, time_to_run.min, time_to_run.sec)
-      seconds_to_run = time_to_run - Time.now 
-
-      @text_error=""
-
-
-
-
-      if seconds_to_run < 0
-       @text_error=_('Invalid Time Format. Time must be after the current.')
-
-      else
-
-      params[:execution][:identifier].gsub!(" ","_")
-
-       if params[:execution][:identifier].match(/^(\w*\_?)*$/).nil? and !params[:execution][:identifier].empty?
-            @text_error=_('Field ID must contain only letters, numbers, space or underscore')
-       else
-         params[:execution][:identifier] = "Suite_Programada" if params[:execution][:identifier].empty?
-
-         params[:execution][:server_port] = request.port if request.port != 80
-
-         a = Delayed::Job.enqueue(RunSuiteProgram.new(params[:execution]), 1, time_to_run)
-        
-         @job = DelayedJob.find a.id
-         @job.add_suite_id(params[:execution][:suite_id])
-        
-         redirect_to "/suites/calendar/#{params[:execution][:suite_id]}"
-       end
-    
-      end
-      
-         if !@text_error.empty?
-         @js = "top.location='/suites/new_program/#{params[:execution][:suite_id]}'; alert('#{@text_error}')"
-         render :inline => "<%= javascript_tag(@js) %>", :layout => true
-         end
-  end
-  
-  def delete_program
-    @job = DelayedJob.find params[:id]
-    @job.destroy
-  
-    redirect_to "/suites/calendar/0"
-  end
-
-
-  def calendar
-    Suite
-    
-    suites_ids = Rails.cache.read("project_suites_#{params[:project_id]}")
-    @suites = Array.new
-
-    if !suites_ids
-        project = Project.find params[:project_id] 
-        @suites= project.suites
-        suites_ids = project.suite_ids
-    else
-      suites_ids.each do |suite_id|
-        @suites << Rails.cache.fetch("suite_#{suite_id}"){Suite.find suite_id}
-      end
-    end
-
-    if params[:id].nil? or params[:id] == "0"
-      #All Suites
-      @suite_id = 0
-      @programs = DelayedJob.find_all_by_suite_id suites_ids
-    else
-      #A particular Suite
-      @suite_id = params[:id]
-      @programs = DelayedJob.find_all_by_suite_id @suite_id
-    end
-    @suites_names = Hash.new
-    @suites.each do |suite|
-      @suites_names[suite.id] = suite.name
-    end
   end
   
   def suite_tutorial

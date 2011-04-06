@@ -699,8 +699,8 @@ msgid "Selected script will be copied"
 msgstr "Script selecionados serão copiados"
 
 #: app/views/categories/_case_confirm.haml:
-msgid "into Drafts Folder"
-msgstr "en la carpeta Borradores"
+msgid "into Imported Folder"
+msgstr "em Pasta Importados"
 
 #: app/views/categories/_case_confirm.haml:
 msgid "Copy"
@@ -760,11 +760,11 @@ msgstr "Criar"
 
 #: app/views/categories/_tree_menu.haml:
 msgid "This action will remove this Module. Are You sure?"
-msgstr "¿Esta seguro que desea eliminar el módulo?"
+msgstr "Esta acção irá remover este módulo. Você tem certeza?"
 
 #: app/views/categories/_tree_menu.haml:
 msgid "This action will remove Data Set, History and Suite associations. Are You sure?"
-msgstr "Será eliminado el set de datos asociado al script, junto con el historial de ejecuciones y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
+msgstr "Esta acção irá remover o conjunto de dados, História e associações Suite. Você tem certeza?"
 
 #: app/views/categories/admin.haml:
 msgid "Edit"
@@ -913,6 +913,14 @@ msgstr "Salvar alterações"
 #: app/views/circuits/edit.haml:
 msgid "Without Edit Permissions "
 msgstr "Sem permissões de edição "
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "If you do not make any changes, or not have edit permissions for the script,"
+msgstr "Se você não fizer alguma alteração, ou não têm permissões para editar o script,"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "this icon remain hidden."
+msgstr "este ícone permanecem ocultos."
 
 #: app/views/circuits/edit.haml:
 msgid "Request permission to edit through Jira"
@@ -1235,8 +1243,8 @@ msgid "In detail you can see a diagram with the scripts in the suite and its rel
 msgstr "No detalhe que você pode ver um diagrama com os scripts na suite e suas relações."
 
 #: app/views/layouts/_view_menu_info.haml:
-msgid "The view lets you select a script and analyze its relationship with others. View of those who receives and sends data."
-msgstr "A visão permite que você selecione um script e analisar sua relação com os outros. Vista de quem recebe e envia dados."
+msgid "In this section you can select a script and analyze its relationship with others. View of those who receives and sends data."
+msgstr "Nesta seção, você pode selecionar um script e analisar sua relação com os outros. Vista de quem recebe e envia dados."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Edit Suite"
@@ -1529,10 +1537,6 @@ msgstr "Nuevo Caso"
 #: app/views/layouts/_view_menu_info.haml:
 msgid "It add a row to the data set"
 msgstr "Se agrega una fila a la tabla de casos del set de datos"
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "and doing double click in the cell, is possible complete their fields."
-msgstr "y con doble click en la celda, es posible completar sus campos."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Displays the history of execution from the selected case."
@@ -1869,6 +1873,10 @@ msgstr "Recursos Gerais"
 #: app/views/user_functions/index.haml:
 msgid "Go to Functions by Projects --> "
 msgstr "Ir para Recursos do Projeto --> "
+
+#: app/views/circuits/_functions.haml:
+msgid "This project has no specific functions"
+msgstr "Este projecto não tem funções específicas"
 
 #: app/views/users/_permissions.haml:
 msgid "Permissions"
@@ -2830,6 +2838,107 @@ msgstr "Remover Link"
 msgid "Name:"
 msgstr "Nome:"
 
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "A Day"
+msgstr "Um Dia"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Range"
+msgstr "Faixa"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Start Time"
+msgstr "Hora de Início"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Frequency:"
+msgstr "Frequência:"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Daily"
+msgstr "Diário"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Weekly"
+msgstr "Semanal"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Specify"
+msgstr "Especifique"
+
+#: app/views/context_configurations/_calendar_config.haml:
+msgid "Each"
+msgstr "Cada"
+
+#: app/models/notifier.rb:
+msgid "Cacique --> Suite Program Confirm"
+msgstr "Cacique --> Confirme a programação"
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Time Format for Init Hour. Please verify it."
+msgstr "Formato Inválido Tempo de Horas Init. Por favor, verifique isso."
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Time Format for Execution No.: "
+msgstr "Formato Inválido Tempo de Execução n º: "
+
+#: app/controllers/task_programs_controller.rb:
+msgid ". Please verify it."
+msgstr ". Por favor, verifique isso."
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Number of Repetitions"
+msgstr "Número inválido de repetições"
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Must select at least one day in your weekly schedule."
+msgstr "Deve selecionar pelo menos um dia na sua agenda semanal."
+
+#: app/controllers/task_programs_controller.rb:
+msgid "[Until Date] should be after to [From Date]"
+msgstr "[Data Até] deve ser após a [Data Inicial]"
+
+#: app/controllers/suite_executions.rb:
+msgid "Not executed because an error occurred while trying to communicate with Starling"
+msgstr "Não executado porque ocorreu um erro ao tentar se comunicar com Starling"
+
+#: lib/run_suite_program.rb:
+msgid "Not executed because the scheduler was pending to confirm"
+msgstr "Não executado porque a programação estava pendente para confirmar"
+
+#: app/models/delayed_job.rb:
+msgid "To be confirmed"
+msgstr "Para ser confirmado"
+
+#: app/models/delayed_job.rb:
+msgid "Confirmed"
+msgstr "Confirmada"
+
+#: app/models/delayed_job.rb:
+msgid "Last Confirmed"
+msgstr "Confirmado última"
+
+
+#: app/views/task_programs/confirm_program.haml: 
+msgid "Programed task confirmation"
+msgstr "Confirmação de tarefas agendadas"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Suite"
+msgstr "Suite"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Schedule"
+msgstr "Programação"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Programmed by"
+msgstr "Programado por"
+
+#:app/views/task_programs/confirm_program.haml:
+msgid "Confirm"
+msgstr "Confirme"
+
 #: app/views/user_functions/_functions.haml:
 msgid "Created by:"
 msgstr "Criado por:"
@@ -2899,5 +3008,163 @@ msgstr "Importados"
 msgid "folder where you saved the script imported"
 msgstr "pasta onde você salvou o script importado"
 
+#: app/models/user_function.rb:
+msgid "You can not delete function "
+msgstr "Você não pode excluir a função "
 
+#: app/models/user_function.rb:
+msgid "You can not move function "
+msgstr "Não é possível mover a função"
+
+#: app/controllers/user_functions_controller.rb
+msgid ", because it would affect the running of scripts"
+msgstr ", porque afetaria a execução de scripts"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Monday"
+msgstr "Segunda-feira"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Tuesday"
+msgstr "Terça-feira"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Wednesday"
+msgstr "Quarta-feira"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Thursday"
+msgstr "Quinta-feira"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Friday"
+msgstr "Sexta-feira"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Saturday"
+msgstr "Sábado"
+
+#: app/controllers/task_programs_controller.rb
+msgid "Sunday"
+msgstr "Domingo"
+
+#: lib/suites/suite_relation.rb
+msgid "getting data from related case"
+msgstr "obtenção de dados relacionados com o caso"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Task Program"
+msgstr "Tarefa do Programa"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Here you can Schedule the execution of a Suite"
+msgstr "Aqui você pode agendar a execução de uma Suíte"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "You can set parameters like Day, Week, Hour & quantity of Executions"
+msgstr "Você pode definir parâmetros como dia, semana, hora e quantidade de Execuções"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "New Schedule"
+msgstr "Nova Agenda"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Create a New Programed Suite Execution"
+msgstr "Criar uma nova execução do Suite"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "All programming set in a period exceeding one month, from the current date,"
+msgstr "Toda a programação definida em um período superior a um mês, da data atual,"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "remain to be confirmed."
+msgstr "continuam a ser confirmada."
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Confirm Schedule"
+msgstr "Confirme Agenda"
+
+#: app/views/task_programs/_info_task_programs.haml
+msgid "Confirm pendent programming"
+msgstr "Confirme pingente de programação"
+
+#: app/views/task_programs/_task_program_detail.haml
+msgid "Upcoming deadlines"
+msgstr "Próximos prazos"
+
+#: app/views/task_programs/_task_program_detail.haml
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: app/views/task_programs/_task_program_list.haml
+msgid "Must Select any Suite"
+msgstr "Você deve selecionar uma Suite"
+
+#: app/views/task_programs/_task_program_list.haml
+msgid  "The schedules were confirmed successful"
+msgstr "Os horários foram confirmados com êxito"
+
+#: app/views/task_programs/confirm_program.haml
+msgid "Are you sure you confirm the programming?"
+msgstr "Tem certeza que você confirmar a programação?"
+
+#: app/controllers/categories_controller.rb
+msgid "Imported"
+msgstr "Importados"
+
+#: app/models/circuit.rb
+msgid "-copy"
+msgstr "-copia"
+
+#: app/controllers/task_programs_controller.rb:
+msgid "Invalid Number of repetitions per hour"
+msgstr "Número inválido de repetições por hora"
+
+#: app/views/task_programs/_task_program_list.haml:
+msgid "Confirm Task Program"
+msgstr "Confirme Programa de tarefas"
+
+#: app/views/suites/_menu_suite.haml:
+msgid "Schedule List"
+msgstr "Lista de Tarefas Agendadas"
+
+#: app/views/suites/_menu_suite.haml:
+msgid "New Schedule"
+msgstr "Nova Tarefa Agendada"
+
+#: app/views/task_programs/_task_program_detail.haml:
+msgid "This suite is not scheduled to confirm"
+msgstr "Esta suite não está programado para confirmar"
+
+#: app/models/suite_execution.rb:
+msgid "Canceled run"
+msgstr "Executar Cancelado"
+
+#: app/views/layouts/_view_menu_info.haml:
+msgid "Create scheduled suites"
+msgstr "Criar suites agendadas"
+
+#: app/controllers/case_templates_controller.rb:
+msgid "cases-for-Script-"
+msgstr "casos-Script-"
+
+#: app/views/suites/relations3.haml:
+msgid "New Relation"
+msgstr "Nova Relação"
+
+#: app/views/suites/_info_suite_edit.haml:
+msgid "Suite Edit"
+msgstr "Editar Suite"
+
+#: app/views/suites/_info_suite_edit.haml:
+msgid "Here you can edit everything related to a Suite"
+msgstr "Aqui você pode editar tudo relacionado a uma Suite"
+
+#: app/views/suites/_info_suite_edit.haml:
+msgid "For example: Name, Description, Script composed, order execution, and more."
+msgstr "Por exemplo: Nome, Descrição, Script composto, ordens de execução, e mais."
+
+#: app/views/suites/_menu_suite.haml:
+msgid "Confirm Schedule"
+msgstr "Confirmar Tarefa Agendada"
 
