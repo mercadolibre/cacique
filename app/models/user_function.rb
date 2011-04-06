@@ -157,7 +157,7 @@ class UserFunction < ActiveRecord::Base
   
   def can_destroy?
     if self.name == "initialize_run_script" or self.name == "finalize_run_script" or self.name == "error_run_script"
-      errors.add_to_base(_("You can not delete function ")+"#{self.name}"+_(", porque afectaria la corrida de scripts \n"))
+      errors.add_to_base(_("You can not delete function ")+"#{self.name}"+_(", because it would affect the running of scripts"))
       return false
     end
     true
@@ -219,8 +219,31 @@ class UserFunction < ActiveRecord::Base
   end
   
   def move_project(project_id)
+    if self.name == "initialize_run_script" or self.name == "finalize_run_script" or self.name == "error_run_script"
+      errors.add_to_base(_("You can not delete function ")+"#{self.name}"+_(", because it would affect the running of scripts"))
+      return false
+    end    
     self.project_id = project_id
     self.save
   end
-  
+
+  def self.get_user_functions_with_filters(project,params)   
+   #Bulid conditions
+    conditions        = Array.new
+    conditions_values = Array.new
+    conditions_names  = Array.new     
+    conditions_names  <<  " project_id = ? "
+    conditions_values <<  project.to_i
+    if params[:filter] && params[:filter][:text]
+        text = params[:filter][:text]
+        conditions_names  <<  " ( name like ? or description like ? ) "
+        conditions_values  <<  '%' + text + '%'
+        conditions_values  <<  '%' + text + '%'
+    end
+    conditions << conditions_names.join("and")  
+    conditions = conditions + conditions_values 
+    search     = UserFunction.find(:all, :conditions=>conditions, :order=> "name ASC")
+    return search  
+  end
+    
 end

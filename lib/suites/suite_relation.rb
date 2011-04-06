@@ -56,7 +56,7 @@ class SuiteRelation
 
       father.each do |f|
         raise FatherRelationError.new(f.case_origin) if @executions_error.include?(f.case_origin)
-	    print "obteniendo datos relacionados de #{f.case_origin}\n"
+	    print "getting data from related case" +  f.case_origin.to_s + "\n"
       end
 
       if !father.empty?

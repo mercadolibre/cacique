@@ -134,7 +134,7 @@ class Category < ActiveRecord::Base
 
 	      #new script generation
           circuit_new = self.circuits.new
-          circuit_new.name = circuit_import.name + "_copy"
+          circuit_new.name = circuit_import.name + _("-copy")
 	      circuit_new.description = circuit_import.description
 	      circuit_new.category_id = self.id
 	      circuit_new.user_id = current_user.id
