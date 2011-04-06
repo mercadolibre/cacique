@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
   has_many :user_functions,  :dependent => :destroy
   has_many :task_programs,   :dependent => :destroy
   belongs_to :user
-  has_many :circuit #should be destroy on categories destroy
+  has_many :circuits #should be destroy on categories destroy
 
   validates_presence_of	:name, :message=> _("Enter Project Name")
   validates_presence_of :description, :message=> _("Enter Project Description")
