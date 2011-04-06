@@ -77,6 +77,7 @@ class ProjectsController < ApplicationController
     end
   end
 
+
   #user - project relation create
   def assign
     permit "root" do
@@ -97,6 +98,7 @@ class ProjectsController < ApplicationController
       if params[:user_id]
        @project = Project.find params[:project_id]
        @project.deallocate(params[:user_id])
+       flash[:notice] = _("The User has been Deallocate from the Project") if @project.valid?
        render :index
       else
        redirect_to :projects
