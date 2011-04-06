@@ -2443,6 +2443,10 @@ msgid "Details: "
 msgstr "Detalhes: "
 
 #: app/views/layouts/_js_translate:
+msgid "Details"
+msgstr "Detalhes"
+
+#: app/views/layouts/_js_translate:
 msgid "Failure of network connection, the script is not saved"
 msgstr "Falha de ligação à rede, o script não é registrado"
 
@@ -3211,4 +3215,28 @@ msgstr "Não foi possível salvar o script, pois não é atualizado"
 #: app/views/user_functions/new.haml:
 msgid "Are you sure you want to quit?"
 msgstr "Tem certeza de que deseja sair?"
+
+#: app/views/queue_observers/index.haml:
+msgid "Queue Observer"
+msgstr "Exibir Tarefa"
+
+#: app/views/queue_observers/index.haml:
+msgid "Running Tasks"
+msgstr "Executar tarefas"
+
+#: app/views/queue_observers/index.haml:
+msgid "Task"
+msgstr "Tarefas"
+
+#: app/views/queue_observers/index.haml:
+msgid "User"
+msgstr "Usuário"
+
+#: app/views/queue_observers/index.haml:
+msgid "Project"
+msgstr "Projeto"
+
+#: app/views/queue_observers/index.haml:
+msgid "Actions"
+msgstr "Ações"
 
