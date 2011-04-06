@@ -104,6 +104,10 @@ msgstr "El Usuario ha sido Modificado"
 msgid "The User has been Assign to the Project"
 msgstr "El Usuario ha sido Asignado al Proyecto"
 
+#: app/controllers/projects_controller.rb:
+msgid "The User has been Deallocate from the Project"
+msgstr "El Usuario ha sido Desasignado del Proyecto"
+
 #: app/controllers/sessions_controller.rb:
 msgid "Wellcome to Cacique!"
 msgstr "Bienvenido a Cacique!"
@@ -1045,6 +1049,10 @@ msgstr "Por"
 #: app/views/circuits/edit.haml:
 msgid "Suites containing this script:"
 msgstr "Suites que contienen este script:"
+
+#: app/views/circuits/edit.haml:
+msgid "Suites containing this script"
+msgstr "Suites que contienen este script"
 
 #: app/views/circuits/edit.haml:
 msgid "This Script not belong to any Suite"
