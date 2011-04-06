@@ -1051,6 +1051,10 @@ msgid "Suites containing this script:"
 msgstr "Suites que contienen este script:"
 
 #: app/views/circuits/edit.haml:
+msgid "Suites containing this script"
+msgstr "Suites que contienen este script"
+
+#: app/views/circuits/edit.haml:
 msgid "This Script not belong to any Suite"
 msgstr "Este Script no pertenece a ninguna Suite"
 
