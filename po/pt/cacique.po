@@ -88,6 +88,10 @@ msgstr "O usuário foi modificado"
 msgid "The User has been Assign to the Project"
 msgstr "O usuário foi atribuído ao projecto"
 
+#: app/controllers/projects_controller.rb:
+msgid "The User has been Deallocate from the Project"
+msgstr "O usuário foi desalocado do Projeto"
+
 #: app/controllers/sessions_controller.rb:
 msgid "Wellcome to Cacique!"
 msgstr "Bem-vindo ao Cacique!"
