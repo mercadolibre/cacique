@@ -27,7 +27,7 @@
 .tag{ :id => "div_suites_of_script", :style=>"left: 30%; height:280px; width:500px;"}
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"div_suites_of_script"}  
   %h3
-    =_('Suites containing the script ')
+    =_('Suites containing this script')
     =truncate(circuit_name.capitalize, :ommision => "...", :length => 60)
   -if suites.empty?
     %br
@@ -41,4 +41,3 @@
       -suites.each do |suite|
         %li{:title=>suite.name.capitalize,:style=>"color:#31576F;"}
           =truncate(suite.name.capitalize,:ommision => "...", :length =>75)
-      

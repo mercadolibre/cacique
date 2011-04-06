@@ -42,7 +42,7 @@
     = ' - '
     =truncate(@suite.name.capitalize,:ommision => "...", :length =>80)
 
-  .form{:style => 'float:left;'}
+  .form{:style => 'margin:auto;width:80%;'}
     = error_messages_for :suite_executions
     = error_messages_for :user_configuration
     - form_for :suite_executions, :url => "/suite_executions/create", :html => {:id => "form_to_run_suite"} do
