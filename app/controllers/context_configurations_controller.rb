@@ -26,7 +26,7 @@
 
 
 class ContextConfigurationsController < ApplicationController
-  
+  permit "root" , :only => [:index, :new, :create, :edit, :update, :disable]
 
   def index
       @context_configurations = ContextConfiguration.all_enable
