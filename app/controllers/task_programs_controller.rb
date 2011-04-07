@@ -83,9 +83,10 @@ class TaskProgramsController < ApplicationController
     end
    conditions << conditions_names.join("and")  
    conditions = conditions + conditions_values
-
+   number_per_page=10
+   number_per_page= params[:program][:paginate].to_i if params[:program] && params[:program].include?(:paginate)
    delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
-   @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => 11
+   @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
   
   end
 
@@ -290,7 +291,7 @@ class TaskProgramsController < ApplicationController
         task_program_info = Hash.new
         task_programs.each do |tp|
           #Get name of suite and the next expiration
-          next_expiration = tp.delayed_jobs.find_by_status 2
+          next_expiration = tp.delayed_jobs.find_by_status 0
           task_program_info[tp.id] = next_expiration if next_expiration
         end
       render :partial => "task_program_detail" , :locals=>{:task_program_info=>task_program_info}          
