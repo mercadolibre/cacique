@@ -87,8 +87,6 @@ class ApplicationController < ActionController::Base
      #Current user last scripts edited
      @user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
      
-     #User is root?
-     @root = current_user.roles.find_by_name("root")
   end
  end
 

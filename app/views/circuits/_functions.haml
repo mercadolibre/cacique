@@ -32,12 +32,18 @@
   .data{:id => "FUNC", :style=>"height:80%;overflow:auto;"}
     %h2{:style=>"width:100%;"}
       =_('Select the function you want to add:')
-    %select{ :id => "functions", :onChange=>"document.getElementById('botonAgregar').style.display=''; activarDiv(this.value)" }
-      %option{ :label => "none", :selected => "-Seleccione-", :value => "-Seleccione-" } -Seleccione-    
-      -@methods.each do |method|
-        %option{ :label => "none", :value =>  method.name, :title=>method.name.capitalize }
-          =truncate(method.name, :ommision => "...", :length => 30)
-    
+    %div{:id => "functions_div", :style => "width:35%;float:left;" }
+      %select{ :id => "functions", :onChange=>"document.getElementById('botonAgregar').style.display=''; activarDiv(this.value)", :style => "width:90%;" }
+        %option{ :label => "none", :selected => "-Seleccione-", :value => "-Seleccione-" } -Seleccione-    
+        -@methods.each do |method|
+          %option{ :label => "none", :value =>  method.name, :title=>method.name.capitalize }
+            =truncate(method.name, :ommision => "...", :length => 30)
+    -remote_form_for :user_function, :url => { :controller => 'user_functions', :action => 'find'}, :complete => visual_effect(:highlight,'functions_div'), :update => "div_with_functions", :html => {:style => "float:left;width:30%;margin-left:35%;"} do
+      .buscar
+        =text_field 'filter', 'text', :value=>(param_search.empty? ? _('Search Function') : param_search), :style => 'width: 130px', :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
+        %input{:type=>"image",:src=>"/images/icons/search.png"}
+    %br
+    %br
     -@methods.each do |method|
       .div{ :id=>method.name, :name=>"div_function", :style=>'display:none;'}
         %br
@@ -45,11 +51,17 @@
           .title{:title=>method.name.capitalize + ":" + method.description.capitalize}
             %b
               =truncate(method.name.capitalize , :ommision => "...", :length => 30)
-          =method.description.gsub("\n","<br>")               
+          =method.description.gsub("\n","<br>")
+          %br
+          %br
+          %h2
+            =_("Example")
+          %br
+          =method.example.gsub("\n","<br>")               
         .div{ :style=>'float:left; width:30%;font: 12px sans-serif;'}
           %b
-
-          =method.name
+          .title
+            =method.name
           (
           -method.cant_args.times do  |num|
             %label{ :title => "argument_#{num}", :style=>"margin-top:5px;"}
