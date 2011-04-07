@@ -16,6 +16,7 @@ group :test do
   gem "autotest"
   gem "autotest-rails"
   gem "rcov"
+  gem "rspec-rails"
 end
 
 #group :workers

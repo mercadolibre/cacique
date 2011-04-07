@@ -26,12 +26,13 @@
 %script
   execution_finish_#{execution.id.to_s} = true;
 
-%td.exe{:title=>execution.circuit.name, :style=>"text-align:center;width:550px;border-left: 1px solid #BFBFFF;"}
+%td.exe{:title=>execution.circuit.name, :style=>"text-align:center;max-width:80%;min-width:30%;border-left: 1px solid #BFBFFF;"}
   //Edit script
-  =link_to truncate(execution.circuit.name,:ommision => "...", :length => 90), "/circuits/#{execution.circuit.id}/edit"
-%td.exe{:style=>"width:60px;"}
-  =execution.case_template_id == 0 ?  "Self" : execution.case_template_id
-%td.exe{:style=>"width:60px;"}
+  =link_to truncate(execution.circuit.name,:ommision => "...", :length => 50), "/circuits/#{execution.circuit.id}/edit"
+   
+%td.exe{:style=>"max-width:25%;min-width:25%;"}
+  =execution.case_template_id == 0 ?  _("Without Cases") : link_to( truncate(execution.case_template.objective,:ommision => "...", :length => 40), "/circuits/#{execution.circuit.id}/case_templates", {:title=>execution.case_template.objective} )
+%td.exe{:style=>"width:2%;"}
   -if execution.status == 1
     %script
       execution_finish_#{execution.id.to_s} = false;
@@ -94,14 +95,14 @@
   -else
     =execution.s_status
 
-%td.exe{:title=>execution.time_spent,:style=>"width:60px;"}
+%td.exe{:title=>execution.time_spent,:style=>"width:2%;"}
   -if !execution.time_spent.nil?
     =truncate(execution.time_spent.to_s + ".s", :ommision => "...", :length => 10)
   -else
     %i
       \---
 
-%td.exe{:title=>execution.output,:style=>"width:60px;max-height:425px;"}
+%td.exe{:title=>execution.output,:style=>"width:2%;max-height:425px;"}
   //OUTPUT & SNAPSHOT
   -if (!execution.output.nil? and !execution.output.empty?) || (!execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?)
     =image_tag("/images/icons/output.png",:onclick=>"document.getElementById('output_#{execution.id.to_s}').style.display = ''",:style=>'border:none;cursor:pointer;', :alt=>"output", :title=>_("Output"))
@@ -130,7 +131,7 @@
   -else
     \---
 
-%td.exe{:style=>"border-right: 1px solid #BFBFFF;width:60px;"}
+%td.exe{:style=>"border-right: 1px solid #BFBFFF;width:2%;"}
   //ACTIONS
   -if [2,3,5,6].include?(execution.status)
     =link_to image_tag("/images/icons/play.png", :alt=>"Run", :title=>_("Run"),:style=>"  width: 12px; height: 14px;"), "/executions/retry_run/#{execution.id}"
