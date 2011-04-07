@@ -29,7 +29,8 @@
   .div_abm{:style=>"color:#0B610B;"}
     %img{ :src => "/images/icons/add.gif",  :style=>"cursor:pointer;"}
     =_('Create Project')
-    -form_for :project, :update => "projects", :url => '/projects/new', :html=>{:style=>" border: 3px ridge #0B610B;" } do |f|
+    //-form_for :project, :update => "projects", :url => '/projects/new', :html=>{:style=>" border: 3px ridge #0B610B;" } do |f|
+    -form_for(:project, :url => projects_path, :html => { :method => :post, :style =>" border: 3px ridge #0B610B;" }) do |f|
       %label{:for => "name"}
         =_('Name')
       = f.text_field :name
@@ -38,7 +39,7 @@
       = f.text_field :description
       %label
         =_('Manager')
-      %select{:id => "project_user_id", :name=>"project[user_id]"}
+      %select{:id => "project_user_id", :name=>"project[user_id]"}      
         -@users.each do |user|
           %option{ :value => user.id}
             =user.login
@@ -49,7 +50,8 @@
   .div_abm{:style=>"color:#FE9A2E;"}
     %img{ :src => "/images/icons/edit.png", :alt=>"edit", :style=>"cursor:pointer; width:20px;heidth:20px;"}
     =_('Edit Project')
-    - form_for :project, :update => "projects",:url => '/projects/edit', :html=>{:style=>"border: 3px ridge #FE9A2E;" }do |f|
+    //- form_for :project, :update => "projects",:url => '/projects/edit', :html=>{:style=>"border: 3px ridge #FE9A2E;" }do |f|
+    -form_for(:project, :url => project_path(:value), :html => { :method => :put, :style =>" border: 3px ridge #FE9A2E;" }) do |f|
       %label
         =_('Project')
       %select{:id=>"select_edit", :name=>"project_id"}
@@ -75,7 +77,8 @@
   .div_abm{:style=>"color:#288EB1;"}
     %img{ :src => "/images/icons/relations.png", :alt=>"relations.png", :style=>"cursor:pointer; width:20px; height:20px;",:alt => "borrar.bmp"}
     =_('Assign to Project')
-    -form_for :project, :update => "projects", :url => { :controller => "projects", :action => 'assign'} , :html=>{:style=>" border: 3px ridge #288EB1;" } do
+    //-form_for :project, :update => "projects", :url => { :controller => "projects", :action => 'assign'} , :html=>{:style=>" border: 3px ridge #288EB1;" } do
+    -form_for(:project, :url => assign_projects_path(:value), :html => { :method => :put, :style =>" border: 3px ridge #288EB1;" }) do
       %label
         =_('User')
       %select{:name=>"user_id"}
@@ -95,7 +98,8 @@
   .div_abm{:style=>"color:red;"}
     %img{ :src => "/images/icons/cross.png", :alt=>"cross.png", :style=>"cursor:pointer;"}
       =_('Deallocate to Project')
-    -form_for :project, :update => "projects", :url=>{:controller => "projects" ,:action => 'deallocate'},:html =>{:style=>" border: 3px ridge red;"}  do
+    //-form_for :project, :update => "projects", :url=>{:controller => "projects" ,:action => 'deallocate'},:html =>{:style=>" border: 3px ridge red;"}  do
+    -form_for(:project, :url => deallocate_projects_path(:value), :html => { :method => :delete, :style =>" border: 3px ridge red;" }) do |f|
       %label
         =_('User')
       %select{:name=>"user_id"}
