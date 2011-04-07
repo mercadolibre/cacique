@@ -27,7 +27,7 @@
 
 class ProjectsController < ApplicationController
   protect_from_forgery
-  before_filter :box_values, :only => [:index,:new,:edit,:assign,:deallocate]
+  before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
   skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
   
   #get values about projects and users that will be showed on projects selects
@@ -41,7 +41,11 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def new
+  def show
+#    ...
+  end
+
+  def create
     permit "root" do
        unless params[:project].nil?
          
@@ -63,7 +67,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def edit
+  def update
     permit "root" do
       if params[:user_id]
         @project = Project.find params[:project_id]
@@ -77,7 +81,10 @@ class ProjectsController < ApplicationController
     end
   end
 
-
+  def destroy
+#   TO DO
+  end
+  
   #user - project relation create
   def assign
     permit "root" do
@@ -90,7 +97,7 @@ class ProjectsController < ApplicationController
        redirect_to :projects
      end
     end
- end
+  end
 
   #user - project relation delete
   def deallocate
@@ -106,7 +113,9 @@ class ProjectsController < ApplicationController
     end
   end
 
-  #User project obtain
+
+  
+  #User projects obtain
   def get_all_projects
      controller_from = params[:controller_from]
      all_projects = current_user.other_projects
