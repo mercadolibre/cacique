@@ -307,7 +307,7 @@ class User < ActiveRecord::Base
    def self.active?(login) 
      u=User.find_by_login(login)
      return true if u==nil #must be true if user not exist
-     return u.active
+     return u.active.to_i
    end
 
   def expires_cached_user
