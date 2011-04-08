@@ -107,7 +107,8 @@ class TaskProgramsController < ApplicationController
       @suites       = Suite.find_all_by_project_id params[:project_id]
       @weekly       = Date::DAYNAMES 
       @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
-      @range_hours  = [ [_("Each"), "per_hours"], [_("Specify"),"specific"] ]
+      @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
+      @each_hour_or_min  = [ [_("Hs"), "hours"], [_("min"),"min"] ]
       @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
 
   end
@@ -183,10 +184,10 @@ class TaskProgramsController < ApplicationController
    return false
    end
 
-   cant_corridas = params[:program][:cant_corridas].to_i
-   period = params[:program][:range_hours].to_s
+   runs = params[:program][:runs].to_i
+   period = params[:program][:range_each].to_s
 
-     if  cant_corridas  < 1 or params[:program][:cant_corridas].match(/\D/) or cant_corridas >500
+     if  runs  < 1 or params[:program][:runs].match(/\D/) or runs >500
        @text_error=_('Invalid Number of Repetitions')+_('. Please verify it.')
        return false
      
@@ -209,7 +210,7 @@ class TaskProgramsController < ApplicationController
      
    
    if params[:program][:range]=="today" and period == "specific"
-       cant_corridas.times do |nro|
+       runs.times do |nro|
          nr= nro.to_s
          input_name   = "specific_hour_" + nr 
          #Get the init_hour for the specific run
@@ -223,9 +224,9 @@ class TaskProgramsController < ApplicationController
    end
      
     
-   if  cant_corridas  > 1 and period == "specific"     
+   if  runs  > 1 and period == "specific"     
 
-       cant_corridas.times do |nro|
+       runs.times do |nro|
          nr= nro.to_s
          input_name   = "specific_hour_" + nr 
          #Get the init_hour for the specific run
@@ -239,7 +240,7 @@ class TaskProgramsController < ApplicationController
      
    else   
          
-     if cant_corridas  > 1 and period == "per_hours"           
+     if runs  > 1 and period == "per_each"           
        if !params[:program][:per_hour].match(/^([1-9]\d*|0(\d*[1-9]\d*)+)$/)
        @text_error=_('Invalid Number of repetitions per hour') +_('. Please verify it.')
        return false
