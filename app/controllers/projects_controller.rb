@@ -28,7 +28,7 @@
 class ProjectsController < ApplicationController
   protect_from_forgery
   before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
-  skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
+  #skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
   
   #get values about projects and users that will be showed on projects selects
   def box_values
