@@ -24,91 +24,33 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 %div{:id=>"result",:style=>"margin-left: 20px; margin-top: 20px;color:red;"}
-  = error_messages_for :project
-%div{:style=>"margin:0 auto; width:70%;"}
-  .div_abm{:style=>"color:#0B610B;"}
-    %img{ :src => "/images/icons/add.gif",  :style=>"cursor:pointer;"}
-    =_('Create Project')
-    -form_for :project, :update => "projects", :url => '/projects/new', :html=>{:style=>" border: 3px ridge #0B610B;" } do |f|
-      %label{:for => "name"}
-        =_('Name')
-      = f.text_field :name
-      %label{:for => "description"}
-        =_('Description')
-      = f.text_field :description
-      %label
-        =_('Manager')
-      %select{:id => "project_user_id", :name=>"project[user_id]"}
-        -@users.each do |user|
-          %option{ :value => user.id}
-            =user.login
-      %br
-      %br
-      =submit_tag _('Create'), :style=>"cursor:pointer;"
-    
-  .div_abm{:style=>"color:#FE9A2E;"}
-    %img{ :src => "/images/icons/edit.png", :alt=>"edit", :style=>"cursor:pointer; width:20px;heidth:20px;"}
-    =_('Edit Project')
-    - form_for :project, :update => "projects",:url => '/projects/edit', :html=>{:style=>"border: 3px ridge #FE9A2E;" }do |f|
-      %label
-        =_('Project')
-      %select{:id=>"select_edit", :name=>"project_id"}
-        -@projects.each do |project|
-          %option{ :value =>  project.id}
-            =project.name
-      %label{:for => "name"}
-        =_('Name')
-      = f.text_field :name
-      %label{:for => "description"}
-        =_('Description')
-      = f.text_field :description
-      %label{:for => "user_id"}
-        =_('Manager')
-      %select{:name => "user_id", :id => "user_id"}
-        -@users.each do |user|
-          %option{ :value => user.id}
-            =user.login
-      %br
-      %br
-      =submit_tag _('Modify'), :style=>"cursor:pointer;"
-           
-  .div_abm{:style=>"color:#288EB1;"}
-    %img{ :src => "/images/icons/relations.png", :alt=>"relations.png", :style=>"cursor:pointer; width:20px; height:20px;",:alt => "borrar.bmp"}
-    =_('Assign to Project')
-    -form_for :project, :update => "projects", :url => { :controller => "projects", :action => 'assign'} , :html=>{:style=>" border: 3px ridge #288EB1;" } do
-      %label
-        =_('User')
-      %select{:name=>"user_id"}
-        -@users.each do |user|
-          %option{ :value => user.id}
-            =user.login
-      %label
-        =_('Project')
-      %select{:name=>"project_id"}
-        -@projects.each do |project|
-          %option{ :value =>  project.id}
-            =project.name
-      %br
-      %br
-      =submit_tag _("Assign"), :style=>"cursor:pointer;"
-        
-  .div_abm{:style=>"color:red;"}
-    %img{ :src => "/images/icons/cross.png", :alt=>"cross.png", :style=>"cursor:pointer;"}
-      =_('Deallocate to Project')
-    -form_for :project, :update => "projects", :url=>{:controller => "projects" ,:action => 'deallocate'},:html =>{:style=>" border: 3px ridge red;"}  do
-      %label
-        =_('User')
-      %select{:name=>"user_id"}
-        -@users.each do |user|
-          %option{ :value => user.id}
-            =user.login
-      %label
-        =_('Project')
-      %select{:name=>"project_id"}
-        -@projects.each do |project|
-          %option{ :value =>  project.id}
-            =project.name
-      %br
-      %br
-      =submit_tag _("Deallocate"), :confirm=>_("Sure to remove relations?"), :style=>"cursor:pointer;"
 
+  .div_abm{:style=>"left: 50px;color:#0B610B;"}
+    %img{ :src => "/images/icons/add3.png",  :style=>"cursor:pointer;", :alt=>_("Create"), :title =>_("Create"), :onClick => "document.getElementById('create').show();"}
+    =_('Create Project') 
+    %br 
+    %br
+  .div_abm{:style=>"margin-left: 50px;color:#FE9A2E;"}
+    %img{ :src => "/images/icons/edit.png", :style=>"cursor:pointer;", :alt=>_("Edit"), :title =>_("Edit"), :onClick => "document.getElementById('edit').show();"}
+    =_('Edit Project')  
+    %br 
+    %br  
+  .div_abm{:style=>"margin-left: 50px;color:#288EB1;"}
+    %img{ :src => "/images/icons/relations.png", :style=>"cursor:pointer;", :alt=>_("Assign"), :title =>_("Assign"), :onClick => "document.getElementById('assign').show();"}
+    =_('Assign to Project')  
+    %br 
+    %br        
+  .div_abm{:style=>"margin-left: 50px;color:red;"}
+    %img{ :src => "/images/icons/cross2.png", :style=>"cursor:pointer;", :alt=>_("Deallocate"), :title =>_("Deallocate"), :onClick => "document.getElementById('deallocate').show();"}
+      =_('Deallocate to Project')  
+    %br 
+    %br  
+
+#div_create
+  =render :partial=> "project_users/create_popup"
+#div_edit
+  =render :partial=> "project_users/edit_popup"
+#div_assign
+  =render :partial=> "project_users/assign_popup"
+#div_deallocate
+  =render :partial=> "project_users/dealloc_popup"      
