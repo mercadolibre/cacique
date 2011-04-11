@@ -75,19 +75,25 @@ class TaskProgram < ActiveRecord::Base
     times_to_run = Array.new
     init_hour     = params[:init_hour].split(':')[0]  
     init_min      = params[:init_hour].split(':')[1]  
-    cant_corridas = params[:cant_corridas].to_i
-    if  cant_corridas  > 1 
-       case params[:range_hours]
-            when "per_hours"
-                per_hours =  params[:per_hour].to_i
+    runs          = params[:runs].to_i
+    if  runs > 1 
+       case params[:range_repeat]
+            when "each"
+                per_each =  params[:per_each].to_i
                 #Build the init date
-                per_hours_init_date = Time.local(date.year, date.month, date.day, init_hour, init_min, '00')
-                cant_corridas.times do |i|
-                  times_to_run << per_hours_init_date
-                  per_hours_init_date = per_hours_init_date + per_hours*60*60 #Add the selected hours to the date
+                per_each_init_date = Time.local(date.year, date.month, date.day, init_hour, init_min, '00')
+                #Each hours or minutes
+                if params[:each_hour_or_min] == "min" #Minutes   
+                     type_time = 60     #Add the selected minutes to the date             
+                else #hours
+                     type_time = 60*60 #Add the selected hours to the date
+                end
+                runs.times do |i|
+                  times_to_run << per_each_init_date
+                  per_each_init_date = per_each_init_date + per_each * type_time
                 end
             when "specific"
-              cant_corridas.times do |nro|
+              runs.times do |nro|
                   input_name   = "specific_hour_" + nro.to_s 
                   #Get the init_hour for the specific run
                   hour_and_min = params[input_name.to_sym]
@@ -98,11 +104,12 @@ class TaskProgram < ActiveRecord::Base
               end
             else          
               raise "Indefined range"
-          end#End case params[:range_hours] 
+          end#End case params[:range_each] 
    else
      times_to_run << Time.local(date.year, date.month, date.day, init_hour, init_min, '00') 
-   end#End cant_corridas
+   end#End runs
    return times_to_run
+
   end
   
   def self.get_next_valid_date(valid_dates, date, finish)
