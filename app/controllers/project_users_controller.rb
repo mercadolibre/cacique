@@ -1,6 +1,5 @@
  #
  #  @Authors:    
- #      Brizuela Lucia                  lula.brizuela@gmail.com
  #      Guerra Brenda                   brenda.guerra.7@gmail.com
  #      Crosa Fernando                  fernandocrosa@hotmail.com
  #      Branciforte Horacio             horaciob@gmail.com
@@ -25,67 +24,65 @@
  #
 
 
-class ProjectsController < ApplicationController
+
+class ProjectUsersController < ApplicationController
   protect_from_forgery
-  before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
-  skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
+  before_filter :box_values, :only => [:create,:destroy]
   
-  #get values about projects and users that will be showed on projects selects
   def box_values
        @projects = (Project.find :all).sort_by { |x| x.name.downcase }
        @users    = (User.find :all).sort_by { |x| x.login.downcase }
   end
-
+  
+  
+  
   def index
- 
-    permit "root" do
-    end
- 
+   # ...
   end
 
+  #User projects obtain
   def show
-#    ...
+     controller_from = params[:controller_from]
+     my_projects = current_user.my_projects
+     #Current user last scripts edited
+     user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
+     render :partial=>"/layouts/projects", :locals => {:projects => my_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}  
   end
 
+
+# Create User Assignment
   def create
     permit "root" do
-       unless params[:project].nil?
-         
-         projectname = params[:project].to_s
-         if projectname.match(/'+/)
-           flash[:notice] = _("ATENTION: Project Name can´t contain single quotes")
-           render :index         
-         else
-           @project = Project.create(params[:project])
-           @project.creater_user_relation(params[:project][:user_id])
-           flash[:notice] = _("The Project was Correctly Create") if @project.valid?
-           redirect_to :projects
-         end
-       
-       else
-         redirect_to :projects
-       end
-       
+     if params[:user_id]
+       @project = Project.find params[:project_id]
+       @project.assign(params[:user_id])
+       flash[:notice] = _("The User has been Assign to the Project") if @project.valid?
+       redirect_to :projects
+     else
+       redirect_to :projects
+     end
     end
   end
 
   def update
+    #...
+  end
+
+
+# Delete User Assignment
+  def destroy    
     permit "root" do
       if params[:user_id]
-        @project = Project.find params[:project_id]
-        @project.update_attributes(params[:project])
-        @project.assign_manager(params[:user_id])
-        flash[:notice] = _("The Project was Correctly Modified") if @project.valid?
-        redirect_to :projects
+       @project = Project.find params[:project_id]
+       @project.deallocate(params[:user_id])
+       flash[:notice] = _("The User has been Deallocate from the Project") if @project.valid?
+       redirect_to :projects
       else
-        redirect_to :projects
+       redirect_to :projects
       end
     end
   end
 
-  def destroy
-#   TO DO
-  end
-
-
+  
+  
 end
