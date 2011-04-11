@@ -45,16 +45,16 @@
       //REPEAT    
       %label{:style=>"margin-top:10px;"}
         =_('Repetitions')
-        %input#repeat{:name=>"program[cant_corridas]",:value=>"1", :style=>"width:30px;text-align:center;", :onkeyup =>"change_repeat($j(this).val())"}
+        %input#repeat{:name=>"program[runs]",:value=>"1", :style=>"width:30px;text-align:center;", :onkeyup =>"change_repeat($j(this).val())"}
         (Max. 500)
-      #range_hours{:style=>"display:none;"}
-        = select "program", "range_hours", @range_hours,{},{:onchange=>"change_select_range_hours($j(this).val())",:style=>"float:left;margin:5px 0 0 15px;"}
-        #per_hours{:class=>"range_hours",:style=>"margin-top:5px;float:right;width:100px;"}   
-          %input{:name=>"program[per_hour]",:value=>"1", :style=>"text-align:center;float:left;margin:0 5px;width:30px;"} 
-          Hs.
+      #range_repeat{:style=>"display:none;"}
+        = select "program", "range_repeat", @range_repeat,{},{:onchange=>"change_select_range_each($j(this).val())",:style=>"float:left;margin: 5px 5px 0 0;"}
+        #each{:class=>"range_each",:style=>"margin-top:5px;float:left;width:100px;"}   
+          %input{:name=>"program[per_each]",:value=>"1", :style=>"text-align:center;float:left;width:30px;margin: 0 5px 0 0;"} 
+          = select "program", "each_hour_or_min", @each_hour_or_min,{},{:style=>"float:left;"}
         %div{ :style=>"clear: both"}
         //SPECIFIC  
-        .form_tag#specific{:class=>"range_hours",:style=>"display:none;margin-top:5px;max-height:100px; overflow:auto;"} 
+        .form_tag#specific{:class=>"range_each",:style=>"display:none;margin-top:5px;max-height:100px; overflow:auto;"} 
           //Must be complete by js, function: specific_hours() 
         %div{ :style=>"clear: both"}  
   
