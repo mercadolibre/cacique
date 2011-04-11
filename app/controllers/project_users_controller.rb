@@ -35,18 +35,22 @@ class ProjectUsersController < ApplicationController
   end
   
   
-  
-  def index
-   # ...
-  end
-
   #User projects obtain
-  def show
+  def index
      controller_from = params[:controller_from]
      my_projects = current_user.my_projects
      #Current user last scripts edited
      user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
      render :partial=>"/layouts/projects", :locals => {:projects => my_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}  
+  end
+
+  #Other projects obtain
+  def show
+     controller_from = params[:controller_from]
+     all_projects = current_user.other_projects
+     #Current user last scripts edited
+     user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
+     render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}
   end
 
 
