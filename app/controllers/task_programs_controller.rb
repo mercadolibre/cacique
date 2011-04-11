@@ -108,7 +108,7 @@ class TaskProgramsController < ApplicationController
       @weekly       = Date::DAYNAMES 
       @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
       @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
-      @each_hour_or_min  = [ [_("Hs"), "hours"], [_("min"),"min"] ]
+      @each_hour_or_min  = [ [_("hs."), "hours"], [_("min"),"min"] ]
       @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
 
   end
