@@ -9,13 +9,14 @@
   function show_my_projects() {
   var menu = $j(this);
   menu.children("ul").slideDown();
-  =remote_function(:update => "div_my_projects",  :method => "get",  :url =>"/projects/get_my_projects", :condition=>"$j('#div_my_projects').children().length==0", :with=>"'controller_from=#{controller_name()}'")
+  =remote_function(:update => "div_my_projects",  :method => "get",  :url =>project_user_path(current_user), :condition=>"$j('#div_my_projects').children().length==0", :with=>"'controller_from=#{controller_name()}'")
   }
 
   function show_all_projects() {
   var menu = $j(this);
   menu.children("ul").slideDown();
-  =remote_function(:update => "div_all_projects",  :method => "get",  :url =>"/projects/get_all_projects", :condition=>"$j('#div_all_projects').children().length==0", :with=>"'controller_from=#{controller_name()}'")
+  =remote_function(:update => "div_all_projects",  :method => "get",  :url =>other_projects_path, :condition=>"$j('#div_all_projects').children().length==0", :with=>"'controller_from=#{controller_name()}'")
+
   }
 
   function hide() {
