@@ -30,7 +30,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :projects do
     map.resources :project_users
-    end
   end
 
 
