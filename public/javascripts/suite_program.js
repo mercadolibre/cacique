@@ -11,17 +11,17 @@ function specific_hours(){
 //if the number of repeats exceeds 1 shows the selection of time range of each
 function change_repeat(value){
    if(parseInt(value) >1){
-      $j('#range_hours').show(); 
+      $j('#range_repeat').show(); 
       if( $j('#specific').css('display') != 'none') specific_hours();
    }else{
-     $j('#range_hours').hide()
+     $j('#range_repeat').hide()
    };
 
 }
 
 //shows the options selected time range may be specific or every x number of hours
-function change_select_range_hours(value){
-  $j('.range_hours').hide();
+function change_select_range_each(value){
+  $j('.range_each').hide();
   $j('#' + value).show();
   if(value == "specific")specific_hours();
 }
