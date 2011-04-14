@@ -24,7 +24,9 @@ class DataRecoveriesController < ApplicationController
 
    #Add Data recovery to Script
    def create
-    DataRecoveryName.create(:circuit_id => params[:id], :name=>params[:name], :code=>params[:code])
+p 'aaaaaaaaaaaaaaaaa'
+p params
+    DataRecoveryName.create(:circuit_id => params[:circuit_id], :name=>params[:name], :code=>params[:code])
     render :nothing => true
    end
 

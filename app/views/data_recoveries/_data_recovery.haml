@@ -39,7 +39,7 @@
   =select "return_", "2", @columns_names,{:include_blank => _('All')},{:style=>"float:left;width:120px;"}
   %input{:id => "return_3", :type => "text", :style=>'width:120px; display:none;float:left;'}
   %img{:id =>"img2_return", :src => "/images/icons/edit.png",  :alt => "edit", :style => "cursor:pointer; float:left; margin-left:5px;", :onClick => "changeInput();"}
-  %input{ :type => "Button", :value => _("Add"), :style=>"float:left; cursor:pointer;float:right;margin-top:10px;", :onClick => ( @readonly ? permission_denied : remote_function(:complete => "addDataRecoveryIntoTable('#{@circuit.id}');", :url => data_recoveries_path,:method=>:post, :with => "findParamsDataRecovery()", :condition=>"checkNewDataRecovery()" ) ) }
+  %input{ :type => "Button", :value => _("Add"), :style=>"float:left; cursor:pointer;float:right;margin-top:10px;", :onClick => ( @readonly ? permission_denied : remote_function(:complete => "addDataRecoveryIntoTable('#{@circuit.id}');", :url => circuit_data_recoveries_path(@circuit), :method=>:post, :with => "findParamsDataRecovery()", :condition=>"checkNewDataRecovery()" ) ) }
   
   %div{ :style=>"clear: both"}
   %h3
