@@ -10,7 +10,7 @@ describe User do
   #end
   it "Users should be created as inactive" do
 
-    User.create(:login=>"testing1",:name=>"test",:email=>"testing@test.com",:password=>"test",:password_confirmation=>"test")
-    User.active?("testing1").should equal(0)
+    @user=User.create(:login=>"testing1",:name=>"test",:email=>"testing@test.com",:password=>"test",:password_confirmation=>"test")
+    @user.active?.should == false
   end
 end
