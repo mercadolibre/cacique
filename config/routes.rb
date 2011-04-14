@@ -2,8 +2,11 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resource :session
   map.resources :execution_scaffolds, :active_scaffold => true  
-  map.resources :circuits, :collection => { :ruby=>:get, :checkit=>:post, :getDataRecovery=>:get, :delete=>:get, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :updateDataRecovery=>:get, :deleteDataRecovery=>:get, :get_suites_of_script =>:get, :rename=>:get, :script_tutorial=>:get}
+  map.resource :data_recoveries
+
+  map.resources :circuits, :collection => { :ruby=>:get, :checkit=>:post,:delete=>:get, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :rename=>:get, :script_tutorial=>:get}
   map.resources :circuits do |circuits|
+    circuits.resources :data_recoveries
     circuits.resources :case_templates, :active_scaffold => true do |case_templates|
       case_templates.resources :case_data, :active_scaffold => true
     end

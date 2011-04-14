@@ -39,7 +39,7 @@
   =link_to_remote image_tag("/images/icons/bug.png", :alt=>"sintax check", :title=>_('Sintax Check')), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').show();", :method => :post
   
   //Data recovery
-  %img{:src => "/images/icons/recovery.png",  		:alt=>"recovery",:title =>_("Data Recovery"),     		 :onClick => remote_function(:complete => "document.getElementById('div_data_recoveries').show();",:update => "div_data_recoveries",  :method => "get",  :url => { :controller => :circuits , :action => :getDataRecovery, :id => @circuit.id })}
+  %img{:src => "/images/icons/recovery.png",  		:alt=>"recovery",:title =>_("Data Recovery"),:onClick => remote_function(:complete => "document.getElementById('div_data_recoveries').show();",:update => "div_data_recoveries",  :method => "get",  :url=>circuit_data_recoveries_path(@circuit))}
 
   //Versions
   -if @previous_version
