@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101020172720) do
+ActiveRecord::Schema.define(:version => 20111126105725) do
 
   create_table "case_data", :force => true do |t|
     t.integer  "circuit_case_column_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
     t.datetime "updated_at"
   end
 
+  add_index "case_templates", ["id"], :name => "index_case_templates_on_id"
   add_index "case_templates", ["objective"], :name => "index_case_templates_on_objective"
   add_index "case_templates", ["priority"], :name => "index_case_templates_on_priority"
   add_index "case_templates", ["updated_at"], :name => "index_case_templates_on_updated_at"
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_id"
   end
 
   create_table "context_configurations", :force => true do |t|
@@ -88,6 +90,8 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
     t.datetime "updated_at"
   end
 
+  add_index "data_recoveries", ["execution_id"], :name => "index_data_recoveries_on_execution_id"
+
   create_table "data_recovery_names", :force => true do |t|
     t.integer  "circuit_id"
     t.string   "name"
@@ -97,17 +101,18 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
   end
 
   create_table "delayed_jobs", :force => true do |t|
-    t.integer  "priority",   :default => 0
-    t.integer  "attempts",   :default => 0
+    t.integer  "priority",                     :default => 0
+    t.integer  "attempts",                     :default => 0
     t.text     "handler"
     t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
     t.text     "locked_by"
-    t.integer  "suite_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "task_program_id"
+    t.integer  "status",          :limit => 1, :default => 1
   end
 
   create_table "execution_configuration_values", :force => true do |t|
@@ -143,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
 
   add_index "executions", ["case_template_id", "user_id"], :name => "index_executions_on_case_template_id_and_user_id"
   add_index "executions", ["case_template_id"], :name => "index_executions_on_case_template_id"
+  add_index "executions", ["id"], :name => "index_executions_on_id"
   add_index "executions", ["suite_execution_id"], :name => "index_executions_on_suite_execution_id"
   add_index "executions", ["updated_at"], :name => "index_executions_on_updated_at"
   add_index "executions", ["user_id"], :name => "index_executions_on_user_id"
@@ -230,6 +236,7 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
     t.datetime "updated_at"
   end
 
+  add_index "suite_executions", ["id"], :name => "index_suite_executions_on_id"
   add_index "suite_executions", ["suite_id"], :name => "index_suite_executions_on_suite_id"
 
   create_table "suite_fields_relations", :force => true do |t|
@@ -245,6 +252,15 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
   create_table "suites", :force => true do |t|
     t.string   "name"
     t.text     "description"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "task_programs", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "suite_execution_ids"
+    t.integer  "suite_id"
     t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -278,6 +294,8 @@ ActiveRecord::Schema.define(:version => 20101020172720) do
     t.text     "source_code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "example"
+    t.boolean  "hide",                      :default => false
   end
 
   create_table "user_links", :force => true do |t|

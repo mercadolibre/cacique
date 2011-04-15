@@ -7,12 +7,14 @@ gem 'rails', '2.3.5'
 group :development do
  gem 'ruby-debug'
  gem 'rak'
+ gem 'hirb'
 end
 
 group :test do
   gem "test-spec"
-  gem "rspec"
-  gem "rspec-rails"
+  gem "rspec", "1.3.1"
+  gem "rspec-rails", "1.3.3"
+  gem "factory_girl"
   gem "autotest"
   gem "autotest-rails"
   gem "rcov"
