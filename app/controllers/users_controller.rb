@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     cookies.delete :auth_token
     @user = User.create(params[:user])
     if @user.errors.empty?
-       flash[:error]="Your user has been created succefully, please contac to your admin to activate it"
+       flash[:error]="Your user has been created succefully,<br/> Please contact to #{ADMIN_EMAIL} to activate it"
        render "/sessions/new", :layout=>"session"
     #   self.current_user = @user
     #   redirect_to '/homes'
