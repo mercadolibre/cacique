@@ -27,8 +27,8 @@
 
 class ProjectsController < ApplicationController
   protect_from_forgery
-  before_filter :box_values, :only => [:index,:new,:edit,:assign,:deallocate]
-  skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
+  before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
+  #skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
   
   #get values about projects and users that will be showed on projects selects
   def box_values
@@ -37,11 +37,17 @@ class ProjectsController < ApplicationController
   end
 
   def index
+ 
     permit "root" do
     end
+ 
   end
 
-  def new
+  def show
+#    ...
+  end
+
+  def create
     permit "root" do
        unless params[:project].nil?
          
@@ -53,7 +59,7 @@ class ProjectsController < ApplicationController
            @project = Project.create(params[:project])
            @project.creater_user_relation(params[:project][:user_id])
            flash[:notice] = _("The Project was Correctly Create") if @project.valid?
-           render :index
+           redirect_to :projects
          end
        
        else
@@ -63,65 +69,23 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def edit
+  def update
     permit "root" do
       if params[:user_id]
         @project = Project.find params[:project_id]
         @project.update_attributes(params[:project])
         @project.assign_manager(params[:user_id])
         flash[:notice] = _("The Project was Correctly Modified") if @project.valid?
-        render :index
+        redirect_to :projects
       else
         redirect_to :projects
       end
     end
   end
 
-
-  #user - project relation create
-  def assign
-    permit "root" do
-     if params[:user_id]
-       @project = Project.find params[:project_id]
-       @project.assign(params[:user_id])
-       flash[:notice] = _("The User has been Assign to the Project") if @project.valid?
-       render :index
-     else
-       redirect_to :projects
-     end
-    end
- end
-
-  #user - project relation delete
-  def deallocate
-    permit "root" do
-      if params[:user_id]
-       @project = Project.find params[:project_id]
-       @project.deallocate(params[:user_id])
-       flash[:notice] = _("The User has been Deallocate from the Project") if @project.valid?
-       render :index
-      else
-       redirect_to :projects
-      end
-    end
+  def destroy
+#   TO DO
   end
 
-  #User project obtain
-  def get_all_projects
-     controller_from = params[:controller_from]
-     all_projects = current_user.other_projects
-     #Current user last scripts edited
-     user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-     render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}   
-
-  end
-
-  def get_my_projects
-     controller_from = params[:controller_from]
-     my_projects = current_user.my_projects
-     #Current user last scripts edited
-     user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-     render :partial=>"/layouts/projects", :locals => {:projects => my_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}  
-  end
 
 end
