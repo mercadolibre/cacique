@@ -1,16 +1,17 @@
+ADMIN_EMAIL="admin@myCaciqueAdmin.com"
 #Datos para enviar mail desde Cacique
-EMAIL = "mail@mercadolibre.com"
-EMAIL_SERVER = "server"
-EMAIL_USER_NAME='user'
-EMAIL_PASS='password'
+EMAIL =  "cacique@mercadolibre.com"
+EMAIL_SERVER = "surgemail.mercadolibre.com"
+EMAIL_USER_NAME='cacique'
+EMAIL_PASS='Cq123456'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "dominio"
-LOGGING_MAIL="cambiar_mail@delogueo.com"
+EMAIL_DOMAIN = "mercadolibre.com"
+LOGGING_MAIL="robot@mercadolibre.com"
 
 #Primer usuario Generico de la herramienta
 FIRST_USER_NAME="cacique"
-FIRST_USER_PASS="admin"
+FIRST_USER_PASS="schumann"
 
 #Default language
 CACIQUE_LANG="en_US"
@@ -37,7 +38,7 @@ ensure
   Socket.do_not_reverse_lookup = orig
 end
 LOCAL_IP=local_ip
-IP_SERVER="localhost"
+IP_SERVER="10.4.0.30"
 
 #Workers machines localip, es para mi maquina de desarrollo
 WORKERS_ADDR=[LOCAL_IP]
