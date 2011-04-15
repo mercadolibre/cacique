@@ -2139,7 +2139,7 @@ msgid "Select any User"
 msgstr "Seleccione un Usuario"
 
 #: app/views/users/new.haml:
-msgid "Fill with yuor personal data"
+msgid "Fill with your personal data"
 msgstr "Complete sus datos"
 
 #: app/views/users/new.haml:
