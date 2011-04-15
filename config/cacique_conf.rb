@@ -1,3 +1,4 @@
+ADMIN_EMAIL="admin@myCaciqueAdmin.com"
 #Datos para enviar mail desde Cacique
 EMAIL =  "cacique@mercadolibre.com"
 EMAIL_SERVER = "surgemail.mercadolibre.com"
