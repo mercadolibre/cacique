@@ -3492,7 +3492,7 @@ msgstr "Acciones"
 
 #: app/views/controllers/users_controller.rb:
 msgid "Your user has been created successfully,<br/> Please contact to "
-msgstr "El usuario ha sido creado con éxito, <br/> Póngase en contacto con"
+msgstr "El usuario ha sido creado con éxito, <br/> Póngase en contacto con "
 
 #: app/views/controllers/users_controller.rb:
 msgid " to activate it."
