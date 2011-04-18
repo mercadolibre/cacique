@@ -1,6 +1,6 @@
 class FillingNilProjectwIdOnCircuit < ActiveRecord::Migration
    def self.up
-       Circuit.all_by_project_id(nil).each do |c|
+       Circuit.find_all_by_project_id(nil).each do |c|
        c.project_id=c.category.project_id
        c.save
      end
@@ -10,4 +10,3 @@ class FillingNilProjectwIdOnCircuit < ActiveRecord::Migration
 
   def self.down
   end
-end
