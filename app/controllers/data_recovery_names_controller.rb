@@ -3,7 +3,7 @@ class DataRecoveryNamesController < ApplicationController
 
    def index
       @data_recovery_names   = DataRecoveryName.find_all_by_circuit_id params[:circuit_id].to_i
-
+      @project_id = params[:project_id]
       #Column obtainl, excluding exclude_columns
       #for a "Select" Create
       exclude_columns = ["id", "case_template_id", "created_at", "updated_at"]

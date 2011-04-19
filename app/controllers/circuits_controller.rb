@@ -261,9 +261,8 @@ class CircuitsController < ApplicationController
     end
     
     @circuit = Circuit.find params[:id]
-
     @last_circuit_version = Circuit.find params[:id]
-    @project_id = @circuit.category.project_id
+    @project_id = params[:project_id]
 
     #edit last version?,
     #if not, obtain las version
