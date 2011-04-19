@@ -3,22 +3,25 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
   map.resources :execution_scaffolds, :active_scaffold => true  
 
-  map.resources :circuits, :collection => { :ruby=>:get, :checkit=>:post,:delete=>:get, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :rename=>:get, :script_tutorial=>:get}
-  map.resources :circuits do |circuits|
-    circuits.resources :data_recovery_names
-    circuits.resources :case_templates, :active_scaffold => true do |case_templates|
-      case_templates.resources :case_data, :active_scaffold => true
-    end
 
+  map.resources :projects, :collection =>{ :get_all_projects=>:get, :get_my_projects=>:get}
+  map.resources :circuits, :collection =>    { :ruby=>:get, :checkit=>:post,:delete=>:get, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :rename=>:get, :script_tutorial=>:get}
+
+  map.resources :projects do |projects|
+     projects.resources :circuits do |circuits|
+        circuits.resources :data_recovery_names
+        circuits.resources :case_templates, :active_scaffold => true do |case_templates|
+             case_templates.resources :case_data, :active_scaffold => true
+        end
+     end
   end
+
   map.resources :delayed_jobs, :collection => { :destroy_collection=>:get} 
   map.resources :case_data
   map.resources :case_templates, :collection => { :create=>:get, :update_data=>:get, :update_status=>:get } 
   map.resources :categories, :collection => { :circuits_result => :get, :create=>:get, :delete=>:get, :edit=>:get, :update=>:get, :save_import_circuit=>:get, :import_circuit=>:get, :move=>:get, :move_save=>:get }
   map.resources :executions, :collection => { :retry_run=>:get, :show_snapshot=>:get, :stop=>:get }
   map.resources :homes, :collection => { :add_link=>:get, :delete_links=>:get, :about=> :get}
-  #map.resources :projects, :collection =>{ :assign=>:put, :get_all_projects=>:get, :get_my_projects=>:get, :deallocate=>:delete}
-  map.resources :projects, :collection =>{ :get_all_projects=>:get, :get_my_projects=>:get}
   map.resources :suites, :collection => { :sort=>:post, :index=>:get, :new_program=>:get, :import_suite=>:get, :save_import_suite=>:get, :delete_suite_case=>:get, :add_suite_case=>:get, :show=>:get, :suite_tutorial=>:get, :calendar=>:get}
   map.resources :suite_executions, :collection =>  { :workling_error=>:get, :index=>:get, :create => :post,:apply_filter=>:get, :export_popup=>:get, :refresh=>:get, :export=>:get, :get_report=>:get, :update_data=>:get, :show_model_filter=>:get, :show_cases_filter =>:get, :create=>:get, :update_suite_execution_status_index=>:get, :update_suite_execution_status_show=>:get }
   map.resources :users, :collection => { :password_recovery=>:get, :admin_panel=>:get , :show_user_form=>:get,:save=> :get, :update_permitions=>:get, :access_denied=>:get, :my_account=>:get }
