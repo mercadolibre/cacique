@@ -41,7 +41,7 @@
   }
   }
   function is_read_only(){
-  ="return #{@readonly}"
+  ="return #{!@has_permission}"
   }
    
 %h1
@@ -65,57 +65,65 @@
       =f.text_area :description, {:rows => 6, :style => "width:750px;"}
     %br
     %br
-    %label{:for => "cant_args"}
-      =_('Arguments')
+    %label{:for => "hide"} 
+      =f.check_box :hide, {:onClick => "show_hide_message();"}
+      =_('Hide the code of the function')
+      %div{:id => "message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
+        =_("Will hide the code and the example of the function")
+    %br
+    %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }
+      %label{:for => "cant_args"}
+        =_('Arguments')
+        %br
+        %img{:src => "/images/icons/add_blue.gif", :alt=>"add_blue.gif", :title=>_('New'), :onClick => "add_argument();", :style=>"cursor:pointer; width:15px; height:15px;"}
+        #div_arguments_table
+          %table{:id => 'arguments_table'}
+            - n = 0
+            -@arguments.each do |argument|
+              %tr{ :id => "row_"+ n.to_s}
+                %td
+                  %input{ :id => "user_function_args_input_" + n.to_s, :name => "user_function[args][input_#{n}]", :value => argument}
+                %td
+                  %img{:name => "row_" + n.to_s, :src => "/images/icons/cross.png", :alt => "cross.png", :style => "cursor:pointer; height:12px; width:12px; margin-left:10px;", :onClick => "eliminarArgument(this.name);"}
+              -n += 1
+            //Add the number of arguments it has the function
+            %script
+              cant_args_add = #{n};
       %br
-      %img{:src => "/images/icons/add_blue.gif", :alt=>"add_blue.gif", :title=>_('New'), :onClick => "add_argument();", :style=>"cursor:pointer; width:15px; height:15px;"}
-      #div_arguments_table
-        %table{:id => 'arguments_table'}
-          - n = 0
-          -@arguments.each do |argument|
-            %tr{ :id => "row_"+ n.to_s}
-              %td
-                %input{ :id => "user_function_args_input_" + n.to_s, :name => "user_function[args][input_#{n}]", :value => argument}
-              %td
-                %img{:name => "row_" + n.to_s, :src => "/images/icons/cross.png", :alt => "cross.png", :style => "cursor:pointer; height:12px; width:12px; margin-left:10px;", :onClick => "eliminarArgument(this.name);"}
-            -n += 1
-          //Add the number of arguments it has the function
-          %script
-            cant_args_add = #{n};
-    %br
-    %br
-    %label{:for => "source_code"}
-      =_('Code')
-      %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
-      #definition{:style=>"width: 100 px;"}
-        =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
-        %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
-        %div{:id => "function_head"}
-          Def
-      %input{ :type => "hidden", :name => "content",         :value => "" }
-      %textarea{ :id => "codepress_content_free", :name=>"content_free", :class => "codepress ruby linenumbers-on", :style=>"width:100%; height:335px;"}
-        =@source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r") if @source_code
-      =f.hidden_field :code, :value => ""
-      %div{:style=>"margin-top:0px; font-size:12px; color: #375DC0;"}
-        End
-    %br
-    %br
-    %br
+      %br
+      %label{:for => "source_code"}
+        =_('Code')
+        %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
+        #definition{:style=>"width: 100 px;"}
+          =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
+          %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
+          %div{:id => "function_head"}
+            Def
+        %input{ :type => "hidden", :name => "content",         :value => "" }
+        %textarea{ :id => "codepress_content_free", :name=>"content_free", :class => "codepress ruby linenumbers-on", :style=>"width:100%; height:335px;"}
+          =@source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r") if @source_code
+        =f.hidden_field :code, :value => ""
+        %div{:style=>"margin-top:0px; font-size:12px; color: #375DC0;"}
+          End
+      %br
+      %br
+      %label{:for => "example"} 
+        =_('Example')
+        %br
+        =f.text_area :example, {:rows => 6, :style => "width:750px;"}
+      %br
+      %br
+    %br  
     %div{ :style => "float:right;" }
       = submit_tag _('Create'),:onclick => "sendContent();" ,:style => "margin-right:10px;cursor:pointer;"
       -if @user_function.project_id == 0
         -url_cancel = "/user_functions"
       -else
-        -url_cancel = "/user_functions/per_project"
-      %input{:type=>"button", :value=> _("Cancel"), :onclick => "if(confirm('#{_("Exit Without Save?")}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
+        -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
+      %input{:type=>"button", :value=> _("Cancel"), :onclick => "if(confirm('#{_("Are you sure you want to quit?")}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
     %br
     %br
     
 //Tools menu
 -content_for :tools_menu do
-  =link_to _('General Notes') , "/notes", {:title => _('Add/Remove Notes'), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;text-decoration:none;"}
-  =link_to _("Functions"), "/user_functions", {:title => _("Add/Remove Functions"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Projects"), "/projects", {:title => _("Projects Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Users"), "/users", {:title => _("Users Administration"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Summary"), "/graphs", {:title => _("Summary"), :style => "line-height:30px;border-right:1px solid #C6C5C4;padding-right:20px;padding-left:20px;text-decoration:none;"}
-  =link_to _("Run Configuration"), "/context_configurations", {:title => _("Run Configuration"), :style => "line-height:30px;padding-left:20px;text-decoration:none;"}
+  =render :partial=> "admin/menu_admin"

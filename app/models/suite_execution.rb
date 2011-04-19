@@ -96,10 +96,10 @@ class SuiteExecution < ActiveRecord::Base
   #Returns the status of suite_execution (depending of executions)
   def calculate_status
 
-     #Get only the last execution of the scripts
-     last_executions_ids = Rails.cache.read("suite_exec_#{self.id}_last_executions")
-     last_executions_ids = self.executions.maximum(:created_at, :group => :circuit_id, :select=>:id).values  if !last_executions_ids
- 
+     #Get only the last execution of the scripts with one case
+     last_executions_ids = Rails.cache.read("suite_exec_#{self.id}_last_executions")    
+     last_executions_ids = self.executions.maximum(:created_at, :group => "circuit_id,case_template_id", :select=>:id).values  if !last_executions_ids
+
      #Get executions
      last_executions   = self.executions_cache(last_executions_ids)
      executions_status = last_executions.map(&:status)
@@ -236,8 +236,8 @@ class SuiteExecution < ActiveRecord::Base
   
   #Load last executions of suite_execution
   def load_last_executions_cache
-    #Get only the last execution of the scripts
-    last_executions = self.executions.maximum(:created_at, :group => :circuit_id, :select=>:id) #Fotmato: circuit_id=>execution_id}
+    #Get only the last execution of the scripts with case
+    last_executions = self.executions.maximum(:created_at, :group => "circuit_id,case_template_id", :select=>:id) #Fotmato: circuit_id=>execution_id}
     executions_ids =  last_executions.values     
     #save execution suite in cache
     Rails.cache.write("suite_exec_#{self.id}_last_executions",executions_ids,:expires_in => CACHE_EXPIRE_SUITE_EXEC)
@@ -311,7 +311,7 @@ class SuiteExecution < ActiveRecord::Base
     if case_templates.include?("self")
       execution = self.executions.new
       execution.circuit_id = circuit_id_to_self
-      execution.user_id = current_user.id
+      execution.user_id = self.user_id
       execution.case_template_id = 0
       execution.save
     elsif status
@@ -319,7 +319,7 @@ class SuiteExecution < ActiveRecord::Base
       case_templates.each do |case_template|
         execution = self.executions.new
         execution.circuit_id = case_template.circuit_id
-        execution.user_id = current_user.id
+        execution.user_id = self.user_id
         execution.case_template_id = case_template.id
         execution.status = status
         execution.save
@@ -328,7 +328,7 @@ class SuiteExecution < ActiveRecord::Base
       case_templates.each do |case_template|
         execution = self.executions.new
         execution.circuit_id = case_template.circuit_id
-        execution.user_id = current_user.id
+        execution.user_id = self.user_id
         execution.case_template_id = case_template.id
         execution.save
       end
@@ -416,6 +416,11 @@ class SuiteExecution < ActiveRecord::Base
         emails.each do |email|
           command += " -sm " + email
         end
+    end
+    
+    #DebugMode
+    if execution_params.has_key?(:debug_mode)
+      command += " -debug_mode true"
     end
     
     #Program

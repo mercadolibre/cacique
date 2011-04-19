@@ -49,12 +49,25 @@ class UserFunction < ActiveRecord::Base
   validates_presence_of :description, :message => _("Must complete Description Field")
   validates_presence_of :source_code, :message => _("Must complete Code Field")
   validates_length_of :name, :maximum=> 50, :message => _("The Name must be a maximum of 50 characters")
+  validates_presence_of :example, :message => _("Must complete example of how to use the function")
 #  validates_length_of :description, :minimum => 20, :too_short => "Se debe ingresar una descripcion, que sea representativa de la funcion"
 
   validate :repeated_name
   
+  # indicate that the model is versioned
+  begin
+    # verify the existence of "versions" table
+    queryverificacion = "select number, created_at, versioned_type, id, versioned_id, changes from versions limit 1"
+    ActiveRecord::Base.connection.select_one(queryverificacion)
+    versioned
+    self.versioned_columns = ["name", "source_code"]
+    after_save :clean_versions
+    rescue Exception => e
+  end
+  
   after_create :add_function_to_hash
   after_destroy :delete_from_cache
+  after_save :add_user_in_last_version
   before_save :update_cache
   before_update :control_edit_name
   before_destroy :can_destroy?
@@ -131,28 +144,39 @@ class UserFunction < ActiveRecord::Base
   end
   
   def update_cache 
-     if self.changes.include?('name')
+    functions = Rails.cache.read "functions"
+    if self.changes.include?('name')
       old_name = self.changes['name'][0]
-      if old_name # if created the function for first time, modify hash manually
-        
-        functions = Rails.cache.read "functions"
-        if functions
-          if self.changes.include?('project_id')
-            functions[self.changes['project_id'][0]].delete(old_name)
-          else
-            functions[self.project_id.to_s].delete(old_name)
-          end
-          functions[self.project_id.to_s] << self.name
-          Rails.cache.write("functions",functions)
+      if functions
+        if self.changes.include?('project_id') and !self.changes['project_id'][0].nil?
+          functions[self.changes['project_id'][0].to_s].delete(old_name)
+        else
+          functions[self.project_id.to_s].delete(old_name) if old_name
         end
       end
-     else
+    else
       old_name = self.name
-     end
-
-    #delete if is cached
-    Rails.cache.delete "func_#{self.project_id}_#{old_name}" if old_name
-    true
+    end
+    
+    if self.changes.include?('project_id')
+      old_project_id = self.changes['project_id'][0]
+      functions[old_project_id.to_s].delete(old_name) if functions and old_project_id
+    else
+      old_project_id = self.project_id
+    end
+    
+    Rails.cache.delete "func_#{old_project_id}_#{old_name}" if old_name and old_project_id
+  
+    if functions
+      if functions[self.project_id.to_s].nil?
+        functions[self.project_id.to_s] = [self.name]
+      elsif !functions[self.project_id.to_s].include?(self.name)
+        functions[self.project_id.to_s] << self.name
+      end
+      Rails.cache.write("functions",functions) 
+    end
+    
+    true 
   end
   
   def can_destroy?
@@ -208,12 +232,12 @@ class UserFunction < ActiveRecord::Base
     if user.has_role?("root")
       projects = Project.all
     else
-      projects = user.projects
+      projects = user.projects.dup
     end
     
     projects.delete(self.project)
     
-    projects_to_move = projects.collect{ |p| [p.name,p.id] }
+    projects_to_move = projects.sort_by { |x| x.name.downcase }.collect{ |p| [p.name,p.id] }
     
     projects_to_move
   end
@@ -246,4 +270,64 @@ class UserFunction < ActiveRecord::Base
     return search  
   end
     
+  
+  #VERSION_MAX_FOR_FUNCTION --> version function number max allowed checker
+  def clean_versions
+    VersionExtras.clean_versions("user_function")
+    if self.versions.count > VERSION_MAX_FOR_FUNCTION
+      self.versions.delete(self.versions.first)
+    end
+  end
+  
+  def add_user_in_last_version
+    version = self.versions.last
+    #If the latest version already contains "user_id"means that no changes 
+    #were made in the code of the function
+    if version.user_id.nil?
+      if current_user
+        version.user_id = current_user.id
+      else
+        version.user_id = self.user_id
+      end
+      version.save
+    end
+    true
+  end
+  
+  
+  def find_version(version)
+    case version
+      when 'max'
+        return self.versions.map(&:number).select{ |n| n < self.version }.max
+      when 'min'
+        return self.versions.map(&:number).select{ |n| n > self.version }.min
+    end
+  end
+  
+  #Delete all empty parameters
+  def self.prepare_args(args)
+    arguments = []
+    if !args.nil?
+      args.delete_if{|k,v| v== ""}
+      args.keys.map{|x|x.to_i}.sort.each do |key|
+          arguments << args[key.to_s]
+      end
+    end
+    
+    arguments
+  end
+  
+  def hide?
+    if hide
+      if current_user
+        return false if current_user.has_role?("root")
+        return false if self.user_id == current_user.id
+      end
+      return true
+    end
+      
+    return false      
+
+  end
+  
 end

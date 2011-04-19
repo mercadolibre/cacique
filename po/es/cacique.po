@@ -104,6 +104,10 @@ msgstr "El Usuario ha sido Modificado"
 msgid "The User has been Assign to the Project"
 msgstr "El Usuario ha sido Asignado al Proyecto"
 
+#: app/controllers/projects_controller.rb:
+msgid "The User has been Deallocate from the Project"
+msgstr "El Usuario ha sido Desasignado del Proyecto"
+
 #: app/controllers/sessions_controller.rb:
 msgid "Wellcome to Cacique!"
 msgstr "Bienvenido a Cacique!"
@@ -1043,8 +1047,16 @@ msgid "By"
 msgstr "Por"
 
 #: app/views/circuits/edit.haml:
+msgid "Suites containing this script:"
+msgstr "Suites que contienen este script:"
+
+#: app/views/circuits/edit.haml:
 msgid "Suites containing this script"
 msgstr "Suites que contienen este script"
+
+#: app/views/circuits/edit.haml:
+msgid "This Script not belong to any Suite"
+msgstr "Este Script no pertenece a ninguna Suite"
 
 #: app/views/circuits/edit.haml:
 msgid "You have Unsaved Changes, do you want to Save before Exit?"
@@ -2651,6 +2663,10 @@ msgid "Details: "
 msgstr "Detalles: "
 
 #: app/views/layouts/_js_translate:
+msgid "Details"
+msgstr "Detalles"
+
+#: app/views/layouts/_js_translate:
 msgid "Failure of network connection, the script is not saved"
 msgstr "Fallo de conexion a la red, el script no se grabo"
 
@@ -3417,4 +3433,63 @@ msgstr "Por ejemplo: Nombre, Descripción, Script que la componen, orden de ejec
 #: app/views/suites/_menu_suite.haml:
 msgid "Confirm Schedule"
 msgstr "Confirmar Tarea Programada"
+
+#: app/models/user_function.rb:
+msgid "Must complete example of how to use the function"
+msgstr "Debe completar el ejemplo de uso de la función"
+
+#: app/views/user_functions/_functions.haml:
+msgid "Example"
+msgstr "Ejemplo"
+
+#: app/views/user_functions/_functions.haml:
+msgid "You do not have View Permissions"
+msgstr "Usted no tiene permisos para Ver"
+
+#: app/views/user_functions/new.haml:
+msgid "Hide the code of the function"
+msgstr "Ocultar el codigo de la función"
+
+#: app/views/user_functions/new.haml:
+msgid "Will hide the code and the example of the function"
+msgstr "Se ocultará el código y el ejemplo de la función"
+
+#: app/controllers/circuits_controller.rb
+msgid "Last Edit"
+msgstr "Última Edición"
+
+#: app/controllers/circuits_controller.rb
+msgid "Could not save the script because it is not updated"
+msgstr "No se pudo guardar el script porque no se encuentra actualizado"}
+
+#: app/views/user_functions/new.haml:
+msgid "Are you sure you want to quit?"
+msgstr "¿Seguro que desea salir?"
+
+#: app/views/queue_observers/index.haml:
+msgid "Queue Observer"
+msgstr "Visualizador de Tareas"
+
+#: app/views/queue_observers/index.haml:
+msgid "Running Tasks"
+msgstr "Tareas en ejecución"
+
+#: app/views/queue_observers/index.haml:
+msgid "Task"
+msgstr "Tarea"
+
+#: app/views/queue_observers/index.haml:
+msgid "User"
+msgstr "Usuario"
+
+#: app/views/queue_observers/index.haml:
+msgid "Project"
+msgstr "Proyecto"
+
+#: app/views/queue_observers/index.haml:
+msgid "Actions"
+msgstr "Acciones"
+
+
+
 

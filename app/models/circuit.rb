@@ -48,6 +48,7 @@ include Spreadsheet
 class Circuit < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
+  belongs_to :project
   has_many :case_templates, :dependent => :destroy
   has_many :schematics, :dependent => :destroy
   has_many :data_recovery_names, :dependent => :destroy
@@ -115,7 +116,7 @@ class Circuit < ActiveRecord::Base
   
   #VERSION_MAX_FOR_CIRCUIT --> version script number max allowed checker
   def clean_versions
-    VersionExtras.clean_versions
+    VersionExtras.clean_versions("circuit")
     if self.versions.count > VERSION_MAX_FOR_CIRCUIT
       self.versions.delete(self.versions.first)
     end
@@ -233,6 +234,7 @@ class Circuit < ActiveRecord::Base
     hoja_cases = workbook.add_worksheet("Casos")
     columna = 0
 
+    #TITLES
     case_template_columns = CaseTemplate.column_names
     case_template_columns.each do |column_name|
       if !@exclude_columns_template.include?(column_name)
@@ -248,7 +250,11 @@ class Circuit < ActiveRecord::Base
         columna += 1
       end
     end
-    @cases_templates = CaseTemplate.find(:all, :conditions => ["circuit_id = ?", self.id], :include => :case_data)
+  #Last Execution
+  hoja_cases.write(0,columna,"Last execution")
+
+   #DATA 
+   @cases_templates = CaseTemplate.find(:all, :conditions => ["circuit_id = ?", self.id], :include => :case_data)
     fila = 1
     @cases_templates.each do |case_template|
       columna_aux = 0
@@ -262,12 +268,17 @@ class Circuit < ActiveRecord::Base
           columna_aux += 1
         end
       end
+
       case_data_columns.each do |column_data|
         if !@exclude_columns_data.include?(column_data)
           hoja_cases.write(fila,columna_aux,case_template.get_case_data[column_data.to_sym])
           columna_aux += 1
         end
       end
+      #Last Execution
+      status_execution = case_template.last_execution
+      hoja_cases.write(fila,columna_aux, (status_execution.nil?)? "" :  status_execution.s_status)
+
       fila += 1
     end
 
@@ -479,8 +490,7 @@ class Circuit < ActiveRecord::Base
      original_source_code =  Digest::SHA1.hexdigest(self.source_code)
 
      if original_source_code != originalcontent
-       car = self.circuit_access_registry.last
-       return false
+       return self.circuit_access_registry.last
      end
 
 	 self.source_code = CGI.unescapeHTML( content )
@@ -497,6 +507,8 @@ class Circuit < ActiveRecord::Base
      last_version.user_id = current_user.id
      last_version.save
     
+     return true
+     
   end
 
 
