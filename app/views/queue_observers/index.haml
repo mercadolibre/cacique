@@ -23,24 +23,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
+-javascript 'tablesort'
 %h1{:title=>"Queue Observer"}
-  Administrador de Tareas
+  =_('Queue Observer')
 
 %h2
-  Tareas en ejecucion
-  =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"Refresh workers info", :title=>"Refresca los pids de los workers"), :action => "refresh"
+  =_('Running Tasks')
+  -if @admin
+    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"Refresh workers info", :title=>"Refresca los pids de los workers"), :action => "refresh"
 
 %table.detail
   %tr
-    %th
+    %th{:class => "sortable"}
       Worker
-    %th
-      Tarea
-    %th
-      Usuario
-    %th
-      Proyecto
-    %th
+    %th{:class => "sortable"}
+      =_('Task')
+    %th{:class => "sortable"}
+      =_('User')
+    %th{:class => "sortable"}
+      =_('Project')
+    %th{:class => "sortable"}
       Suite
   -@running.each do |name, task|
     %tr
@@ -48,13 +50,13 @@
         =name.gsub("_"," ")
       -if task.instance_of? Hash
         %td
-          =truncate(task[:circuit],:ommision => "...", :length =>18)
+          =truncate(task[:circuit],:ommision => "...", :length =>50)
         %td
-          =truncate(task[:user_name],:ommision => "...", :length =>10)
+          =truncate(task[:user_name],:ommision => "...", :length =>25)
         %td
-          =truncate(task[:project],:ommision => "...", :length =>10)
+          =truncate(task[:project],:ommision => "...", :length =>30)
         %td
-          =truncate(task[:suite],:ommision => "...", :length =>18)
+          =truncate(task[:suite],:ommision => "...", :length =>60)
       -else
         %td
           \--
@@ -70,14 +72,15 @@
     %h2
       =name.to_s.gsub("execution_workers__","").gsub("_"," ")
     %table.detail
-      %th
-        Tarea
-      %th
-        Usuario
-      %th
-        Proyecto
-      %th
-        Acciones
+      %th{ :class => "sortable"}
+        =_('Task')
+      %th{ :class => "sortable"}
+        =_('User')
+      %th{ :class => "sortable"}
+        =_('Project')
+      -if @admin
+        %th{ :class => "sortable"}
+          =_('Actions')
       %tr 
       -queue.each do |tasks_values|
         %td
@@ -86,6 +89,7 @@
           =tasks_values[:username]
         %td
           =tasks_values[:project]
-        %td
-          =link_to "X", {:action => "delete", :id=> tasks_values[:suite_execution_id]}
+        -if @admin
+          %td
+            =link_to "X", {:action => "delete", :id=> tasks_values[:suite_execution_id]} if @admin
         %tr

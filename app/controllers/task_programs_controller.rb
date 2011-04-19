@@ -83,9 +83,10 @@ class TaskProgramsController < ApplicationController
     end
    conditions << conditions_names.join("and")  
    conditions = conditions + conditions_values
-
+   number_per_page=10
+   number_per_page= params[:program][:paginate].to_i if params[:program] && params[:program].include?(:paginate)
    delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
-   @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => 11
+   @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
   
   end
 
@@ -106,7 +107,8 @@ class TaskProgramsController < ApplicationController
       @suites       = Suite.find_all_by_project_id params[:project_id]
       @weekly       = Date::DAYNAMES 
       @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
-      @range_hours  = [ [_("Each"), "per_hours"], [_("Specify"),"specific"] ]
+      @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
+      @each_hour_or_min  = [ [_("hs."), "hours"], [_("min"),"min"] ]
       @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
 
   end
@@ -182,10 +184,10 @@ class TaskProgramsController < ApplicationController
    return false
    end
 
-   cant_corridas = params[:program][:cant_corridas].to_i
-   period = params[:program][:range_hours].to_s
+   runs = params[:program][:runs].to_i
+   period = params[:program][:range_each].to_s
 
-     if  cant_corridas  < 1 or params[:program][:cant_corridas].match(/\D/) or cant_corridas >500
+     if  runs  < 1 or params[:program][:runs].match(/\D/) or runs >500
        @text_error=_('Invalid Number of Repetitions')+_('. Please verify it.')
        return false
      
@@ -208,7 +210,7 @@ class TaskProgramsController < ApplicationController
      
    
    if params[:program][:range]=="today" and period == "specific"
-       cant_corridas.times do |nro|
+       runs.times do |nro|
          nr= nro.to_s
          input_name   = "specific_hour_" + nr 
          #Get the init_hour for the specific run
@@ -222,9 +224,9 @@ class TaskProgramsController < ApplicationController
    end
      
     
-   if  cant_corridas  > 1 and period == "specific"     
+   if  runs  > 1 and period == "specific"     
 
-       cant_corridas.times do |nro|
+       runs.times do |nro|
          nr= nro.to_s
          input_name   = "specific_hour_" + nr 
          #Get the init_hour for the specific run
@@ -238,7 +240,7 @@ class TaskProgramsController < ApplicationController
      
    else   
          
-     if cant_corridas  > 1 and period == "per_hours"           
+     if runs  > 1 and period == "per_each"           
        if !params[:program][:per_hour].match(/^([1-9]\d*|0(\d*[1-9]\d*)+)$/)
        @text_error=_('Invalid Number of repetitions per hour') +_('. Please verify it.')
        return false
@@ -290,7 +292,7 @@ class TaskProgramsController < ApplicationController
         task_program_info = Hash.new
         task_programs.each do |tp|
           #Get name of suite and the next expiration
-          next_expiration = tp.delayed_jobs.find_by_status 2
+          next_expiration = tp.delayed_jobs.find_by_status 0
           task_program_info[tp.id] = next_expiration if next_expiration
         end
       render :partial => "task_program_detail" , :locals=>{:task_program_info=>task_program_info}          
