@@ -39,7 +39,7 @@
   =select "return_", "2", @columns_names,{:include_blank => _('All')},{:style=>"float:left;width:120px;"}
   %input{:id => "return_3", :type => "text", :style=>'width:120px; display:none;float:left;'}
   %img{:id =>"img2_return", :src => "/images/icons/edit.png",  :alt => "edit", :style => "cursor:pointer; float:left; margin-left:5px;", :onClick => "changeInput();"}
-  %input{ :type => "Button", :value => _("Add"), :style=>"float:left; cursor:pointer;float:right;margin-top:10px;", :onClick => ( @readonly ? permission_denied : remote_function(:complete => "addDataRecoveryIntoTable('#{@circuit.id}');", :url => circuit_data_recoveries_path(@circuit), :method=>:post, :with => "findParamsDataRecovery()", :condition=>"checkNewDataRecovery()" ) ) }
+  %input{ :type => "Button", :value => _("Add"), :style=>"float:left; cursor:pointer;float:right;margin-top:10px;", :onClick => ( @readonly ? permission_denied : remote_function(:complete => "addDataRecoveryIntoTable('#{@circuit.id}');", :url => circuit_data_recovery_names_path(@circuit), :method=>:post, :with => "findParamsDataRecovery()", :condition=>"checkNewDataRecovery()" ) ) }
   
   %div{ :style=>"clear: both"}
   %h3
@@ -58,13 +58,12 @@
             Data          
           %th{:style=>"width:10px;padding:3px;"}
 
-        -i = 0
-        -@data_recovery_names.each do |name|
-          %tr{:id=>"row_" + name}
-            %td{:title=>name, :name=>"data_recovery_names"}
-              =truncate(name,  :ommision => "...",:length => 20)
-            %td{:title=>@data_recovery_values[i]}
-              =truncate(@data_recovery_values[i],  :ommision => "...",:length => 20)
+        -@data_recovery_names.each do |dr|
+          %tr{:id=>"row_" + dr.id.to_s}
+            %td{:title=>dr.name,  :name=>"data_recovery_names"}
+              =truncate(dr.name,  :ommision => "...",:length => 20)
+            %td{:title=>dr.code}
+              =truncate(dr.code,  :ommision => "...",:length => 20)
             %td{:style=>"width:10px;"}
-              %img{:src => '/images/icons/cross.png', :alt=>"cross", :name=>"#{@data_recovery_names[i]}",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;", :onclick=>( @readonly ? permission_denied : "if(confirm(msgjs10)){ #{ remote_function(:complete => "deleteDataRecoveryTable('#{i+1}');", :url => {:controller => "circuits", :action => "deleteDataRecovery", :id => @circuit.id}, :with => "'name=' + this.name" )  } }")}              
-          -i = i + 1
+              %img{:src => '/images/icons/cross.png', :alt=>"cross", :name=>"#{dr.name}",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;", :onclick=>( @readonly ? permission_denied : "if(confirm(msgjs10)){ #{ remote_function(:complete => "deleteDataRecoveryTable('#{dr.id}');", :url => circuit_data_recovery_names_path(@circuit,dr.id), :method=>:delete )  } }")}              
+
