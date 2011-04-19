@@ -39,7 +39,7 @@
   =select "return_", "2", @columns_names,{:include_blank => _('All')},{:style=>"float:left;width:120px;"}
   %input{:id => "return_3", :type => "text", :style=>'width:120px; display:none;float:left;'}
   %img{:id =>"img2_return", :src => "/images/icons/edit.png",  :alt => "edit", :style => "cursor:pointer; float:left; margin-left:5px;", :onClick => "changeInput();"}
-  %input{ :type => "Button", :value => _("Add"), :style=>"float:left; cursor:pointer;float:right;margin-top:10px;", :onClick => ( @readonly ? permission_denied : remote_function(:complete => "addDataRecoveryIntoTable('#{@circuit.id}');", :url => circuit_data_recovery_names_path(@circuit), :method=>:post, :with => "findParamsDataRecovery()", :condition=>"checkNewDataRecovery()" ) ) }
+  %input{ :type => "Button", :value => _("Add"), :style=>"float:left; cursor:pointer;float:right;margin-top:10px;", :onClick => ( @readonly ? permission_denied : remote_function(:complete => "addDataRecoveryIntoTable('#{@circuit.id}');", :url => project_circuit_data_recovery_names_path(@project_id,@circuit), :method=>:post, :with => "findParamsDataRecovery()", :condition=>"checkNewDataRecovery()" ) ) }
   
   %div{ :style=>"clear: both"}
   %h3
@@ -65,5 +65,5 @@
             %td{:title=>dr.code}
               =truncate(dr.code,  :ommision => "...",:length => 20)
             %td{:style=>"width:10px;"}
-              %img{:src => '/images/icons/cross.png', :alt=>"cross", :name=>"#{dr.name}",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;", :onclick=>( @readonly ? permission_denied : "if(confirm(msgjs10)){ #{ remote_function(:complete => "deleteDataRecoveryTable('#{dr.id}');", :url => circuit_data_recovery_names_path(@circuit,dr.id), :method=>:delete )  } }")}              
+              %img{:src => '/images/icons/cross.png', :alt=>"cross", :name=>"#{dr.name}",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;", :onclick=>( @readonly ? permission_denied : "if(confirm(msgjs10)){ #{ remote_function(:complete => "deleteDataRecoveryTable('#{dr.id}');", :url => project_circuit_data_recovery_names_path(@project_id,@circuit,dr.id), :method=>:delete )  } }")}              
 
