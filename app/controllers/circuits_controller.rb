@@ -100,16 +100,6 @@ class CircuitsController < ApplicationController
 
   end
 
-  #Delete Data Recovery from Script
-  def deleteDataRecovery
-    @circuit       = Circuit.find params[:id]
-    permit "editor of :circuit" do
-      data_recovery_name = @circuit.data_recovery_names.find_by_name(params[:name])
-      data_recovery_name.destroy
-    end
-    render :nothing => true
-  end
-
 
   def get_suites_of_script 
        circuit  = Circuit.find params[:id].to_i
