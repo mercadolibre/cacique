@@ -1,7 +1,7 @@
 hub:
    port: 4444
    environments:
-       - name:    "Firefox3 on Windows"
+       - name:    "Firefox3.5 on Windows"
          browser: "*firefox"
        - name:	  "Firefox3.6 on Windows"
          browser: "*firefox"
@@ -21,7 +21,7 @@ hub:
          browser: "*iehta"
        - name:    "IE9 on Windows"
          browser: "*iehta"
-       - name:    "Safari on OS X"
+       - name:    "Safari on Windows"
          browser: "*safari"
        - name:    "*firefox"
          browser: "*firefox"
@@ -33,11 +33,11 @@ hub:
          browser: "*iexplore"
        - name:    "*iehta"
          browser: "*iehta"
-       - name:    "*safari"
+       - name:    "Safari on Windows"
          browser: "*safari"
-       - name:    "*opera"
+       - name:    "Opera on Windows"
          browser: "*opera"
-       - name:    "*googlechrome"
+       - name:    "Chrome on Windows"
          browser: "*googlechrome"
        - name:    "*firefoxproxy"
          browser: "*firefoxproxy"

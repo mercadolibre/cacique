@@ -26,7 +26,7 @@
 %div{:id => "functions"}
   -if paginate
     %div{ :style=>"float:right;margin-right:5%;"}
-      = will_paginate user_functions
+      = will_paginate user_functions, :params => {:filter => {:text => @param_search} }
   %br
   %br
   -if user_functions.empty?
@@ -49,12 +49,13 @@
           %td{:title=>function.description, :style=>"border-right:1px solid #C6C5C4;"}
             =truncate(function.description, :ommision => "...", :length => 150)
           %td{:style=>"width:10%;border-right:1px solid #C6C5C4;"}
-            =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:15px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
-            -if can_move
-              %img{:src => "/images/icons/move.png", :alt=>"move.png", :title=>_('Move Function'), :style=>"height:15px;margin-left:10px;width:15px;",:onClick => remote_function(:url => {:controller => "user_functions", :action => "show_move", :id => function.id}, :complete =>  "$j('#move').show();" , :update => "move")}
-            -msg = _('Sure to remove the Function')
-            %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
-              %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Delete')}
+            -if @has_permission and !function.hide?
+              =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:15px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
+              -if can_move
+                %img{:src => "/images/icons/move.png", :alt=>"move.png", :title=>_('Move Function'), :style=>"height:15px;margin-left:10px;width:15px;",:onClick => remote_function(:url => {:controller => "user_functions", :action => "show_move", :id => function.id}, :complete =>  "$j('#move').show();" , :update => "move")}
+              -msg = _('Sure to remove the Function')
+              %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
+                %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Delete')}
           
         .tag{:id => "code_#{function.id}", :style => "display:none;top:25%;left:15%;width:70%;"}
           //=render :partial =>"layouts/popup_header", :locals=>{:element =>"otro_#{function.id.to_s}"}
@@ -64,8 +65,21 @@
           %h2
             =_('Created by:')
             =function.user.name
-          %p{:style=>"min-height: 220px;max-height: 300px; overflow:auto;"}
-            =function.source_code.gsub("\n","<br>") 
-          
+          -if function.hide?
+            %p{:style=>"min-height: 220px;max-height: 240px; overflow:auto;"}
+              %b{:style=>"float:left;font: 28px sans-serif;color: #9f0100;margin-left:3%;"}
+                =_("Access Denied")
+                %div{:style=>"font: 18px bold arial;color: grey;text-align:left;"}
+                  %br
+                  =_("You do not have View Permissions")
+            %p{:style=>"min-height: 50px;max-height: 160px; overflow:auto;"}
+          -else
+            %p{:style=>"min-height: 220px;max-height: 240px; overflow:auto;"}
+              =function.source_code.gsub("\n","<br>") 
+            %h2
+              =_('Example')
+            %p{:style=>"min-height: 50px;max-height: 160px; overflow:auto;"}
+              =function.example.gsub("\n","<br>") 
+                      
 .tag{:id => "move", :style => "display:none;top:25%;left:40%;width:20%;"}
 

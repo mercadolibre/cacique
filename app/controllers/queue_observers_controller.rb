@@ -26,7 +26,7 @@
 
 
 class QueueObserversController < ApplicationController
-
+  protect_from_forgery
   def quick_view
     @queues_value=QueueObserver.run
     render :partial => "show"
@@ -34,12 +34,11 @@ class QueueObserversController < ApplicationController
   
   
   def index
-    permit "root" do
+      @admin=current_user.has_role? "root"
       queue=QueueObserver.new
       @running=queue.get_running_info
       #@tasks=[]
       @tasks=queue.get_named_tasks
-    end
   end
 
 

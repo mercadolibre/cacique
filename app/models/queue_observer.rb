@@ -79,7 +79,7 @@ class QueueObserver < ActiveRecord::Base
                #Not Dry!!! this need refactoring, should be the same as queue
                task_value={}
                task_value[:circuit]=task.circuit.name 
-               task_value[:user_name]=task.user.name
+               task_value[:user_name]=task.user.login
                task_value[:project]=task.suite_execution.project.name
                task_value[:suite_execution_id]= task.suite_execution_id
                if task.suite_execution.suite.nil?
