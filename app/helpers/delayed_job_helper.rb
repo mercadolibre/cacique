@@ -1,0 +1,2 @@
+module DelayedJobHelper
+end

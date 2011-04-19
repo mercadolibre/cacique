@@ -63,8 +63,11 @@
       %label{:style=>"width:40px; margin-left: 10px;display:inline;"}
         =_('Until:')
       =calendar_date_select_tag "program[finish_date]", @finish_date.strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24), :after_show => "set_date();",:onchange => "set_hour();"
+    %div{:style=>"float:left; width: 150px;"}
+      %label{:style=>"width:40px; margin-left: 0px;"}
+        =_("Quantity:")
+      =select_tag "program[paginate]", options_for_select([ "15", "50", "80", "100", "150" ])
 
-        
     .form_button{:style=>"margin-right:20px;margin-top:15px;"}
       =submit_tag _("Apply")          
     
