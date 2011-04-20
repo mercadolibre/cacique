@@ -1,0 +1,2 @@
+page.remove "row_#{@data_recovery_name_id.to_s}"
+
