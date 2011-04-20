@@ -73,7 +73,7 @@ class CircuitsController < ApplicationController
            #Assign script maker to first version
            @circuit.versions.first.update_attributes(:user_id => current_user.id)
            
-           redirect_to "/circuits/#{@circuit.id}/edit"
+           redirect_to edit_project_circuit_path(@circuit.project_id,@circuit) 
 	    end
 	    
     end
