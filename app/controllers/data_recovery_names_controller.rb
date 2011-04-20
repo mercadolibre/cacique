@@ -1,6 +1,5 @@
 class DataRecoveryNamesController < ApplicationController
 
-
    def index
       @data_recovery_names   = DataRecoveryName.find_all_by_circuit_id params[:circuit_id].to_i
       @project_id = params[:project_id]
@@ -23,18 +22,31 @@ class DataRecoveryNamesController < ApplicationController
 
    #Add Data recovery to Script
    def create
-    DataRecoveryName.create(:circuit_id => params[:circuit_id], :name=>params[:name], :code=>params[:code])
-    render :nothing => true
+     @project_id = params[:project_id]
+     @circuit_id = params[:circuit_id]
+     @circuit    = Circuit.find @circuit_id
+     permit "editor of :circuit" do
+       name = params[:data_recovery_name][:name]
+       code = params[:data_recovery_name][:code].empty? ? params[:data_recovery_name][:code_2] : params[:data_recovery_name][:code]
+       #Create data recovery name
+       @data_recovery_name = DataRecoveryName.create(:circuit_id => @circuit_id, :name=>name, :code=>code)
+       respond_to do |format|
+           format.js # run the create.rjs template
+       end
+    end
    end
 
    
    def destroy
-    data_recovery_name = DataRecoveyName.find(params[:id])
-    @circuit       = Circuit.find data_recovery_name.circuit_id
-    permit "editor of :circuit" do
+    data_recovery_name     = DataRecoveryName.find(params[:id])
+    @data_recovery_name_id = data_recovery_name.id
+    @circuit               = Circuit.find data_recovery_name.circuit_id
+      permit "editor of :circuit" do
       data_recovery_name.destroy
+      respond_to do |format|
+        format.js # run the destroy.rjs template
+      end
     end
-    render :nothing => true
    end
 
 
