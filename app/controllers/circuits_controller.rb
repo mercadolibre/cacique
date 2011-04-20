@@ -80,7 +80,7 @@ class CircuitsController < ApplicationController
   end
 
  #Script update
- def  updateFile
+ def  update
    content = params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join
    @circuit = Circuit.find( params[:id] )
    
@@ -321,11 +321,8 @@ class CircuitsController < ApplicationController
     @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
        @circuit.destroy
-       
        @js = "window.location.reload()"
        render :inline => "<%= javascript_tag(@js) %>"
-
-       #render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => nil}
       else
         text_error = [_("Impossible to delete ")+"- "+_("You do not have Edit permissions, request permissions.")]
         render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => text_error}     

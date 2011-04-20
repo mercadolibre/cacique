@@ -32,7 +32,7 @@
     %img{:src => "/images/icons/d_save.png",    	:alt=>"save",    :title=>_("Without Edit Permissions "), :onclick=>"alert('#{_("You do not have Edit Permissions")}')",:style=>" height: 23px; width: 23px;margin-left:35px;" }
     %img{:src => "/images/icons/d_comment.png", 	:alt=>"comment", :title=>_('Save with Comments'),        :onClick =>"alert('#{_("You do not have Edit Permissions")}')"}
   -else
-    %img{:id =>"save_button", :src => "/images/icons/save.png",  		:alt=>"save",    :title =>_("Save"), :style=>"margin-left:35px; visibility:hidden;",:onClick => remote_function(:update => "save_message", :url => {:controller => "circuits", :action => "updateFile", :id => @circuit.id }, :with => "'content=' + encodeURI(encode_text(codepress_content_free.getCode())) + '&originalcontent=' + encodeURI(document.getElementById('originalcontent').value)" )} 
+    %img{:id =>"save_button", :src => "/images/icons/save.png",  		:alt=>"save",    :title =>_("Save"), :style=>"margin-left:35px; visibility:hidden;",:onClick => remote_function(:update => "save_message", :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI(encode_text(codepress_content_free.getCode())) + '&originalcontent=' + encodeURI(document.getElementById('originalcontent').value)" )} 
     %img{:id =>"savewc_button", :src => "/images/icons/comment.png", 		:alt=>"comment", :title=>_('Save with Comments'), :style=>"visibility:hidden;",		 :onClick => "document.getElementById('comment_save').toggle();"}
     
   //Sintax check  
