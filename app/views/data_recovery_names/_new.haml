@@ -1,0 +1,15 @@
+-remote_form_for(:data_recovery_name, :url => project_circuit_data_recovery_names_path(@project_id,@circuit), :html => {:method => :post}) do |f|
+  =error_messages_for :data_recovery_name
+  %h3
+    =_('Modify Data Retrieved')
+  %br
+  %label{:style=>"width:60px; float:left;"}
+    =_('Name')
+  = f.text_field :name, :style=>"width:120px; float:left;"
+  %label{:style=>"width:50px; float:left;margin-left:10px;"}
+    =_('Data')
+  =select "data_recovery_name", "code_2", @columns_names,{:include_blank => _('All')},{:style=>"float:left;width:120px;"}
+  = f.text_field :code, :style=>'width:120px; display:none;float:left;'
+  =image_tag "/images/icons/edit.png",  :alt => "edit", :style => "cursor:pointer; float:left; margin-left:5px;", :onClick => "changeInput();"
+  =submit_tag _("Add"), :style=>"cursor:pointer;float: right;margin-right: 35px;"
+  %div{ :style=>"clear: both"}
