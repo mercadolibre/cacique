@@ -2,10 +2,7 @@ ActionController::Routing::Routes.draw do |map|
  
   map.resource :session
   map.resources :execution_scaffolds, :active_scaffold => true  
-
-
-  map.resources :projects, :collection =>{ :get_all_projects=>:get, :get_my_projects=>:get}
-  map.resources :circuits, :collection =>    { :ruby=>:get, :checkit=>:post,:delete=>:get, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :rename=>:get, :script_tutorial=>:get}
+  map.resources :circuits, :collection =>  { :ruby=>:get, :checkit=>:post, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :rename=>:get, :script_tutorial=>:get}
 
   map.resources :projects do |projects|
      projects.resources :circuits do |circuits|
