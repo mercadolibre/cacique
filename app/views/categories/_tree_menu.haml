@@ -168,7 +168,7 @@
   document.getElementById('copy_circuit').toggle();
   },
   'delete': function(t) {
-  =remote_function(:update => 'sideBarContentsInner',:method=>:delete, :url=>project_circuit_path(@project_id), :with => "'circuit_id=' + t.id" , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}" )
+  =remote_function(:update => 'sideBarContentsInner',:method=>:delete, :url=>project_circuit_path(@project_id), :with => "'circuit_id=' + t.id" , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}", :before=>"$j('*').css('cursor', 'progress')", :complete=>"$('body').css('cursor', 'default')" )
   }
   }
   });
