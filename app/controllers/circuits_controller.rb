@@ -317,7 +317,7 @@ class CircuitsController < ApplicationController
 
   end
 
-  def delete
+  def destroy
     @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
        @circuit.destroy
