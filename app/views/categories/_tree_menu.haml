@@ -168,8 +168,7 @@
   document.getElementById('copy_circuit').toggle();
   },
   'delete': function(t) {
-  if(confirm("#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}"))
-  =remote_function(:update => "sideBarContentsInner",  :method => "get",  :url =>  {:controller=>"circuits", :action=>"delete", :id=>0}, :with => "'circuit_id=' + t.id"   )
+  =remote_function(:update => 'sideBarContentsInner',:method=>:delete, :url=>project_circuit_path(@project_id), :with => "'circuit_id=' + t.id" , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}" )
   }
   }
   });
