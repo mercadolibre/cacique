@@ -25,14 +25,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources  :task_programs, :collection => {:index=>:get, :show_suites_of_project =>:get, :get_task_programs=>:get, :get_task_program_detail=>:get}
   map.resources  :queue_observers, :collection => {:quick_view => :get, :refresh=>:get, :show=>:get} 
   map.resources  :user_functions, :collection => { :show_move=>:get, :move=>:get, :show=>:get}
-  map.resources :user_projects
+  map.resources :projects
   
   map.root :controller => 'sessions', :action => 'new'
-  
-  
-#  map.resources :projects do
-#    map.resources :project_users
-#  end
+
+ 
+ map.resources :assignments, :collection => {:index_other=>:get}
+
+  map.resources :users do |users|
+    users.resources :assignments, :collection => {:index_other=>:get}
+  end
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.
