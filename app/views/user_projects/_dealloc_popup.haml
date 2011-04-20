@@ -29,7 +29,7 @@
     .div_abm{:style=>"color:red;"}
       %img{ :src => "/images/icons/cross2.png", :alt=>"cross.png", :style=>"cursor:pointer;"}
       =_('Deallocate to Project')
-      -form_for(:project, :url => user_project_path(:value), :html => { :method => :delete, :style =>" border: 3px ridge red;" }) do |f|
+      -form_for(:user,:url => assignment_path(params[:project_id]), :html => { :method => :delete, :style =>" border: 3px ridge red;" }) do |f|
         %label
           =_('User')
         %select{:name=>"user_id"}
@@ -45,3 +45,5 @@
         %br
         %br
         =submit_tag _("Deallocate"), :confirm=>_("Sure to remove relations?"), :style=>"cursor:pointer;"
+        
+        
