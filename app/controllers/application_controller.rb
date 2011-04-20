@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
       else
         @project_actual =  Project.find params[:project_id].to_i if params[:project_id]
       end
-      
+
      #Slider menu is extended?
      cacique_slider_menu = cookies[:cacique_slider_menu]
      @menu_left_extended = (cacique_slider_menu.nil?)? 0 : cacique_slider_menu.to_i
