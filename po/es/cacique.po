@@ -1166,6 +1166,10 @@ msgstr "Clases comunes"
 msgid "Class Methods"
 msgstr "Métodos de las clases con sus ejemplos"
 
+#: app/views/data_recovery_names:
+msgid "The data recovery name already exists!"
+msgstr "El nombre del dato recuperado ya existe!"
+
 #: app/views/graphs/index.haml:
 msgid "Indicators"
 msgstr "Indicadores"
