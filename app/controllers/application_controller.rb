@@ -60,15 +60,9 @@ class ApplicationController < ActionController::Base
      @action_controller = controller_name() + ":" + action_name()
      @view = Hash.new
      @view = get_view_names()
-     
+
      #Selected project is an user project?
-      if params.has_key?(:project_id)
-        @project_id = params[:project_id].to_i
-      elsif params.has_key?("project_id")
-        @project_id = params["project_id"].to_i
-      else
-        @project_id = nil
-      end    
+     @project_id =  params.has_key?(:project_id) ? params[:project_id].to_i : nil  
 
       #obtain current project
       if params[:project_id].to_i == 0 or @action_controller == 'home_cacique:index'
