@@ -150,6 +150,7 @@ class CircuitsController < ApplicationController
     @circuit.name        = params[:circuit][:name]
     @circuit.description = params[:circuit][:description]
     @circuit.user_id     = current_user.id
+    @circuit.project_id  = @category.project_id
 
     new_columns = []
     
