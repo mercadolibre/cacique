@@ -81,24 +81,43 @@ class CircuitsController < ApplicationController
 
  #Script update
  def  update
-   content = params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join
    @circuit = Circuit.find( params[:id] )
+   #Script CODE update
+   if params[:name].nil?
+      content = params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join   
+      actual_version = @circuit.versions.last
+      @previous_version = actual_version.number
    
-   actual_version = @circuit.versions.last
-   @previous_version = actual_version.number
-   
-    permit 'editor of :circuit' do
-      if (car = @circuit.save_source_code(params[:originalcontent], params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message])) == true
-        #Version
-        @previous_version = last_version.number if @previous_version.nil? 
+      permit 'editor of :circuit' do
+         if (car = @circuit.save_source_code(params[:originalcontent], params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message])) == true
+           #Version
+           @previous_version = last_version.number if @previous_version.nil? 
 
-        #Script access registry
-        CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
-        render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit_id => @circuit.id }
+           #Script access registry
+           CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
+           render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit_id => @circuit.id }
+         else
+           render :xml => "<div style='color:red;'>" + _("Could not save the script because it is not updated") + "<br>" + _("Last Edit") + ": #{car.user.name} ( #{car.user.login} )"+"\nIP: "+"#{car.ip_address}</div>";
+         end
+       end
+   else
+      #Script NAME & DESCRIPTION update
+      if  current_user.has_role?( "editor", @circuit)  
+        if @circuit.update_attributes(:name=> params[:name], :description=>params[:description])
+          last_version = @circuit.versions.last
+          last_version.user_id = current_user.id
+          last_version.save
+          text_error = nil
+        else
+          text_error = Array.new
+          text_error << _("Impossible to modify ")+"#{@circuit.name_was}\n"
+          @circuit.errors.full_messages.each {|error|  text_error << error }
+        end
       else
-        render :xml => "<div style='color:red;'>" + _("Could not save the script because it is not updated") + "<br>" + _("Last Edit") + ": #{car.user.name} ( #{car.user.login} )"+"\nIP: "+"#{car.ip_address}</div>";
+        text_error = [_("Impossible to edit ")+"- "+_("You do not have Edit Permissions")]
       end
-    end
+        render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @circuit.project, :text_error => text_error}   
+   end
 
   end
 
@@ -112,28 +131,6 @@ class CircuitsController < ApplicationController
   def editName
 	@circuit = Circuit.find params[:circuit_id]
     render :partial => "edit", :locals => {:category => @category}
-  end
-
-  def updateCircuit
-      @circuit = Circuit.find params[:id]
-      if  current_user.has_role?( "editor", @circuit)
-        
-        if @circuit.update_attributes(:name=> params[:name], :description=>params[:description])
-          last_version = @circuit.versions.last
-          last_version.user_id = current_user.id
-          last_version.save
-          text_error = nil
-          #text_error = _("Modification was successful")
-        else
-          text_error = Array.new
-          text_error << _("Impossible to modify ")+"#{@circuit.name_was}\n"
-          @circuit.errors.full_messages.each {|error|  text_error << error }
-        end
-        render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => text_error} 
-    else
-        text_error = [_("Impossible to edit ")+"- "+_("You do not have Edit Permissions")]
-        render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => text_error}     
-    end
   end
 
   def rename
