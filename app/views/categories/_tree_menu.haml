@@ -161,7 +161,7 @@
   bindings: {
   'rename': function(t) {
   $j('#selected_script').attr('value', t.id);
-  =remote_function(:update => "script_edit",  :method => "get",  :url=> {:controller=>"circuits", :action=>"edit", :project_id=>project.id, :rename=>true }, :with => "'circuit_id=' + t.id" )
+  =remote_function(:update => "script_edit",  :method => "get",  :url=>{:controller=>"circuits", :action=>"edit", :project_id=>project.id, :rename=>true }, :with => "'circuit_id=' + t.id" )
   },
   'copy': function(t) {
   $j('#selected_script').attr('value', t.id);
