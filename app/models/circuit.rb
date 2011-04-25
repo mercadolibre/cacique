@@ -465,7 +465,7 @@ class Circuit < ActiveRecord::Base
       if current_user
         user_scrips_edit = Rails.cache.read("circuit_edit_#{current_user.id}")
         user_scrips_edit = {} if user_scrips_edit.nil?
-        user_scrips_edit[self.category.project_id] = self.id
+        user_scrips_edit[self.project_id] = self.id
         Rails.cache.write("circuit_edit_#{current_user.id}",user_scrips_edit)   
       end   
  end
@@ -533,7 +533,7 @@ private
     super delete
   end
   def adding_project
-     self.project_id=self.category.project_id
+     self.project_id=self.project_id
      self.save
   end
 
