@@ -136,7 +136,7 @@
   bindings: {
   'newScript': function(t) {
   $j('#selected_category').attr('value', t.id);
-  location=new_project_circuit_path(project.id) + t.id
+  location="#{new_project_circuit_path(project.id)}?category_id=" + t.id
   },
   'newModule': function(t) {
   $j('#selected_category').attr('value', t.id);
