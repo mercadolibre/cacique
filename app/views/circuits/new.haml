@@ -53,7 +53,7 @@
     =_('New Script for: ')
     =truncate(@category.name, :ommision => "...", :length => 30)
 
-  %form{ :id => "form1", :action => 'uploadFile', :enctype => "multipart/form-data", :method => "post", :onSubmit => "return checkrequired()" }
+  %form{ :id => "form1", :url => '/circuits/uploadFile', :enctype => "multipart/form-data", :onSubmit => "return checkrequired()" }
     .form_tag{ :style=> 'width30%;float:left;margin-left:40px;padding:20px;'}
       %p
         %label{:for => 'name'}
