@@ -39,7 +39,7 @@ class CircuitsController < ApplicationController
   end
   
   def new
-    @category = Category.find params[:cat]
+    @category = Category.find params[:category_id]
     permit 'editor of :category' do
     end
   end
