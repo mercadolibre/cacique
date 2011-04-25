@@ -161,14 +161,14 @@
   bindings: {
   'rename': function(t) {
   $j('#selected_script').attr('value', t.id);
-  =remote_function(:update => "script_edit",  :method => "get",  :url =>  {:controller=>"circuits", :action=>"editName"}, :with => "'circuit_id=' + t.id" )
+  =remote_function(:update => "script_edit",  :method => "get",  :url=> {:controller=>"circuits", :action=>"edit", :project_id=>project.id, :rename=>true }, :with => "'circuit_id=' + t.id" )
   },
   'copy': function(t) {
   $j('#selected_script').attr('value', t.id);
   document.getElementById('copy_circuit').toggle();
   },
   'delete': function(t) {
-  =remote_function( :method=>"delete", :url=>project_circuit_path(project.id, 1), :with => "'circuit_id=' + t.id" , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}",:update => 'sideBarContentsInner', :before=>"$j('*').css('cursor', 'progress')", :complete=>"$('body').css('cursor', 'default')" ) 
+  =remote_function( :method=>"delete", :url=> {:controller=>"circuits", :action=>"destroy", :project_id=>project.id }, :with => "'id=' + t.id " , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}",:update => 'sideBarContentsInner', :before=>"$j('*').css('cursor', 'progress')", :complete=>"$('body').css('cursor', 'default')" ) 
   }
   }
   });

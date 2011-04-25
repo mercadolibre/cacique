@@ -59,11 +59,11 @@ class CircuitsController < ApplicationController
 	    else
 	       #I generate a blank script
 	       @circuit  = @category.circuits.new
-           @circuit.name        = CGI.escapeHTML(@name)
-           @circuit.description = CGI.escapeHTML(params[:description])
-           @circuit.user_id     = current_user.id
-           @circuit.source_code = ""
-           @circuit.save
+               @circuit.name        = CGI.escapeHTML(@name)
+               @circuit.description = CGI.escapeHTML(params[:description])
+               @circuit.user_id     = current_user.id
+               @circuit.source_code = ""
+               @circuit.save
 
            #Add the columns of context_configuration.field_default
            context_configurations =  ContextConfiguration.find(:all, :conditions => "enable = '1' AND field_default = 1")
@@ -72,7 +72,6 @@ class CircuitsController < ApplicationController
 
            #Assign script maker to first version
            @circuit.versions.first.update_attributes(:user_id => current_user.id)
-           
            redirect_to edit_project_circuit_path(@circuit.project_id,@circuit) 
 	    end
 	    
@@ -82,7 +81,7 @@ class CircuitsController < ApplicationController
  #Script update
  def  update
    @circuit = Circuit.find( params[:id] )
-   #Script CODE update
+   #Update SOURCE CODE 
    if params[:name].nil?
       content = params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join   
       actual_version = @circuit.versions.last
@@ -101,7 +100,7 @@ class CircuitsController < ApplicationController
          end
        end
    else
-      #Script NAME & DESCRIPTION update
+      #Update NAME and DESCRIPTION 
       if  current_user.has_role?( "editor", @circuit)  
         if @circuit.update_attributes(:name=> params[:name], :description=>params[:description])
           last_version = @circuit.versions.last
@@ -128,10 +127,6 @@ class CircuitsController < ApplicationController
        render :partial => "suites_of_script", :locals => {:circuit_name=>circuit.name, :suites => suites}
   end
 
-  def editName
-	@circuit = Circuit.find params[:circuit_id]
-    render :partial => "edit", :locals => {:category => @category}
-  end
 
   def rename
     @category    = Category.find params[:category_id]
@@ -248,69 +243,75 @@ class CircuitsController < ApplicationController
     @versions = @circuit.versions.paginate :page => params[:page], :order => 'id DESC', :per_page => 10
   end
 
+
+
   def edit
-    Execution
+   if params[:rename]
+   #Edit NAME and DESCRIPTION
+      @circuit = Circuit.find params[:circuit_id]
+      render :partial => "edit", :locals => {:category => @category}
+   else
+   #Edit SOURCE CODE
+      Execution
     
-    if !Circuit.exists?(params[:id])
-      Circuit.expires_cache_circuit(params[:id], @project_actual)
-      redirect_to "/circuits"
-      return true
-    end
+      if !Circuit.exists?(params[:id])
+        Circuit.expires_cache_circuit(params[:id], @project_actual)
+        redirect_to "/circuits"
+        return true
+      end
     
-    @circuit = Circuit.find params[:id]
-    @last_circuit_version = Circuit.find params[:id]
-    @project_id = params[:project_id]
-
-    #edit last version?,
-    #if not, obtain las version
-    if params[:version]
-      if params[:version].to_i != @circuit.version
-        @version_number = params[:version].to_i
-      end
-      @circuit.revert_to( params[:version].to_i )
-      @version = @circuit.versions.find_by_number( params[:version].to_i )
-      #BUGFIX: if script not exist, and user accesses through a url, go to last version
-      @version=@circuit.versions.last if @version.nil?
-      @version_number=@version.number
-    else
-      @version = @circuit.versions.last
-    end
-    #Version
-    @previous_version = @circuit.versions.map{|v| v.number}.select{|n| n<@circuit.version}.max
-    @next_version = @circuit.versions.map{|v| v.number}.select{|n| n>@circuit.version}.min
-
-    #Edit permission
-      @readonly = false
-	  @readonly = true unless current_user.has_role?("editor", @circuit)
-
-    permit "viewer of :circuit" do
-      @lines = Array.new
-
-      #Obtain last line from script
-      source_code = @circuit.source_code.to_s
-      source_code.split("\n").each do |record|
-        @lines << record.gsub("\n\r","\r").gsub("\r\n","\r").gsub("\n","\r")
-      end
-
-      #send DIV to AJAX
-      @all_projects = current_user.other_projects
-      @my_projects = current_user.my_projects
-      
-
-      if params.has_key?(:execution_running)
-        #Caching case_template
-        Rails.cache.write("last_exec_circuit_#{@circuit.id}",params[:execution_running])
-        @execution_running = Rails.cache.fetch("exec_#{params[:execution_running]}"){ Execution.find(params[:execution_running])}
+      @circuit = Circuit.find params[:id]
+      @last_circuit_version = Circuit.find params[:id]
+      @project_id = params[:project_id]
+  
+      #edit last version?,
+      #if not, obtain last version
+      if params[:version]
+        if params[:version].to_i != @circuit.version
+          @version_number = params[:version].to_i
+        end
+        @circuit.revert_to( params[:version].to_i )
+        @version = @circuit.versions.find_by_number( params[:version].to_i )
+        #BUGFIX: if script not exist, and user accesses through a url, go to last version
+        @version=@circuit.versions.last if @version.nil?
+        @version_number=@version.number
       else
-        #search in cache last executed script
-        execution_id = Rails.cache.read "last_exec_circuit_#{@circuit.id}"
-        if execution_id
-          @execution_running = Rails.cache.fetch("exec_#{execution_id}"){ Execution.find( execution_id )}
-        else
-          @execution_running = nil
-        end 
+        @version = @circuit.versions.last
       end
-    end
+      #Version
+      @previous_version = @circuit.versions.map{|v| v.number}.select{|n| n<@circuit.version}.max
+      @next_version = @circuit.versions.map{|v| v.number}.select{|n| n>@circuit.version}.min
+
+      #Edit permission
+      @readonly = false
+      @readonly = true unless current_user.has_role?("editor", @circuit)
+
+      permit "viewer of :circuit" do
+        @lines = Array.new
+        #Obtain last line from script
+        source_code = @circuit.source_code.to_s
+        source_code.split("\n").each do |record|
+          @lines << record.gsub("\n\r","\r").gsub("\r\n","\r").gsub("\n","\r")
+        end
+        #send DIV to AJAX
+        @all_projects = current_user.other_projects
+        @my_projects = current_user.my_projects
+        if params.has_key?(:execution_running)
+          #Caching case_template
+          Rails.cache.write("last_exec_circuit_#{@circuit.id}",params[:execution_running])
+          @execution_running = Rails.cache.fetch("exec_#{params[:execution_running]}"){ Execution.find(params[:execution_running])}
+        else
+          #search in cache last executed script
+          execution_id = Rails.cache.read "last_exec_circuit_#{@circuit.id}"
+          if execution_id
+            @execution_running = Rails.cache.fetch("exec_#{execution_id}"){ Execution.find( execution_id )}
+          else
+            @execution_running = nil
+          end 
+        end
+      end
+
+   end
 
   end
 
