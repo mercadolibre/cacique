@@ -136,7 +136,7 @@
   bindings: {
   'newScript': function(t) {
   $j('#selected_category').attr('value', t.id);
-  location='/circuits/new?cat=' + t.id
+  location=new_project_circuit_path(project.id) + t.id
   },
   'newModule': function(t) {
   $j('#selected_category').attr('value', t.id);
@@ -168,7 +168,7 @@
   document.getElementById('copy_circuit').toggle();
   },
   'delete': function(t) {
-  =remote_function(:method=>:delete, :url=>project_circuit_path(project.id), :with => "'circuit_id=' + t.id" , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}",:update => 'sideBarContentsInner', :before=>"$j('*').css('cursor', 'progress')", :complete=>"$('body').css('cursor', 'default')" ) 
+  =remote_function( :method=>"delete", :url=>project_circuit_path(project.id, 1), :with => "'circuit_id=' + t.id" , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}",:update => 'sideBarContentsInner', :before=>"$j('*').css('cursor', 'progress')", :complete=>"$('body').css('cursor', 'default')" ) 
   }
   }
   });
