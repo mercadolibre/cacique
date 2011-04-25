@@ -45,7 +45,7 @@ class CircuitsController < ApplicationController
   end
 
   #Load Selenium Script
-  def uploadFile
+  def create
     @category  = Category.find(params[:new][:category])
     permit 'editor of :category' do
 	    @name = params[:name]
@@ -53,28 +53,24 @@ class CircuitsController < ApplicationController
 	       upload = Hash.new
 	       upload[:fileUpload] = params['fileUpload'].read
 	       upload[:name] = @name
-           upload[:file_name] = params['fileUpload'].original_filename
+               upload[:file_name] = params['fileUpload'].original_filename
 	       DataFile.save( upload )
 	       redirect_to "/circuits/rename?" + "&category_id="+@category.id.to_s+ "&name="+CGI.escape(@name) + "&description="+CGI.escape(params[:description])
 	    else
 	       #I generate a blank script
-	       @circuit  = @category.circuits.new
-               @circuit.name        = CGI.escapeHTML(@name)
-               @circuit.description = CGI.escapeHTML(params[:description])
-               @circuit.user_id     = current_user.id
-               @circuit.source_code = ""
-               @circuit.save
+               @circuit = Circuit.create(:project_id =>@category.project_id, :category_id => @category.id, 
+                                         :name=> CGI.escapeHTML(@name), :description=> CGI.escapeHTML(params[:description]),
+                                         :user_id=> current_user.id, :source_code => "")
 
-           #Add the columns of context_configuration.field_default
-           context_configurations =  ContextConfiguration.find(:all, :conditions => "enable = '1' AND field_default = 1")
-           new_columns = context_configurations.map(&:name).collect {|x| "default_" + x  }
-           @circuit.add_case_columns( new_columns )
+               #Add the columns of context_configuration.field_default
+               context_configurations =  ContextConfiguration.find(:all, :conditions => "enable = '1' AND field_default = 1")
+               new_columns = context_configurations.map(&:name).collect {|x| "default_" + x  }
+               @circuit.add_case_columns( new_columns )
 
-           #Assign script maker to first version
-           @circuit.versions.first.update_attributes(:user_id => current_user.id)
-           redirect_to edit_project_circuit_path(@circuit.project_id,@circuit) 
-	    end
-	    
+               #Assign script maker to first version
+               @circuit.versions.first.update_attributes(:user_id => current_user.id)
+               redirect_to edit_project_circuit_path(@circuit.project_id,@circuit) 
+	    end   
     end
   end
 
