@@ -185,17 +185,6 @@
   return true;
   }
 
-  function checkrequiredforscript() {
-
-  script_name = document.getElementById("script_n");
-  script_descript = document.getElementById("script_d");
-  if(script_name.value=='')  {alert('#{_('Must complete Name Field')}'); return false;}
-  else{
-  if(script_descript.value=='')  {alert('#{_('Must complete Description Field')}'); return false;}
-  }
-  document.getElementById('parent_id').value = $j('#selected_category').val();
-  return true;
-  }
 
 //Help 
 =render :partial => "categories/info_category"
