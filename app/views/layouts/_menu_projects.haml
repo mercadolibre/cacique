@@ -18,14 +18,11 @@
           =_('Other Projects')
       %ul{:id=>"div_all_projects"}
     
-     
-    -if !@project_actual.nil?
-      %li  
-        -edit_path   = edit_project_circuit_path(@project_actual.id,@user_last_edited_scripts[@project_actual.id].to_s)
-        -url_circuit = (!@project_actual.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? edit_path : "/circuits"
-        %a.parent{ :href => url_circuit }
-          %span
-            Scripts
+    %li  
+      -url_circuit = (!@project_actual.nil? and !@user_last_edited_scripts.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? edit_project_circuit_path(@project_actual.id,@user_last_edited_scripts[@project_actual.id].to_s) : circuits_path
+      %a.parent{ :href => url_circuit }
+        %span
+          Scripts
       %li
         %a.parent{ :href => "/suites" }
           %span
