@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
 
   include ProjectIdHelper
 
-  helper :all # include all helpers, all the time
+  #helper :all # include all helpers, all the time
   include AuthenticatedSystem
   before_filter :login_required
   before_filter :context_stuff
