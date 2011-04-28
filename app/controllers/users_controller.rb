@@ -147,9 +147,8 @@ class UsersController < ApplicationController
         render :text => _("Permissions Updated Successfully")
     end
    end
-   
-   def my_account
-    @user = current_user
+   def edit
+     @user=current_user
    end
    
    def update_my_account
