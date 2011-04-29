@@ -31,7 +31,7 @@
         -form_for(:assignment, :url => user_assignments_path(@user.id), :html => {:method => :post}) do |f|
           %label
           %br  
-          =_('Select Project')
+          =_('Select a Project')
           %br
           %select{:name=>"project_id"}
             -@user.other_projects.each do |oproject|
