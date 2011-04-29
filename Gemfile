@@ -7,12 +7,14 @@ gem 'rails', '2.3.6'
 group :development do
  gem 'ruby-debug'
  gem 'rak'
+ gem 'hirb'
 end
 
 group :test do
   gem "test-spec"
-  gem "rspec"
-  gem "rspec-rails"
+  gem "rspec", "1.3.1"
+  gem "rspec-rails", "1.3.3"
+  gem "factory_girl"
   gem "autotest"
   gem "autotest-rails"
   gem "rcov"
@@ -97,7 +99,15 @@ gem "net-ssh"
 gem "camping" 
 gem "prawn"
 gem "passenger"
+<<<<<<< HEAD
 gem "selenium-webdriver"
+=======
+gem "activesupport", '2.3.5'
+
+gem "hoptoad_notifier", "~> 2.3"
+
+
+>>>>>>> cacique_local_produccion
 #Cache
   gem "memcache-client"
 
