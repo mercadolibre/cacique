@@ -34,7 +34,6 @@ gem 'pony'
 gem 'commonwatir', '1.6.2'
 gem 'erubis', '2.6.6'
 gem 'faker', '0.3.1'
-gem 'hoptoad_notifier', '2.2.2'
 gem 'mechanize'
 gem 'hpricot', '0.8.1'
 gem 'httpclient', '2.1.5.2'
@@ -99,15 +98,10 @@ gem "net-ssh"
 gem "camping" 
 gem "prawn"
 gem "passenger"
-<<<<<<< HEAD
 gem "selenium-webdriver"
-=======
-gem "activesupport", '2.3.5'
-
+gem "activesupport", '2.3.6'
 gem "hoptoad_notifier", "~> 2.3"
 
-
->>>>>>> cacique_local_produccion
 #Cache
   gem "memcache-client"
 
