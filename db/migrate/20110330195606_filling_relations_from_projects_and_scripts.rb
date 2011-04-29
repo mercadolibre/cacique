@@ -1,4 +1,4 @@
-class FillingRelationsFromSuiteAndScripts < ActiveRecord::Migration
+class FillingRelationsFromProjectsAndScripts < ActiveRecord::Migration
   def self.up
     Circuit.all.each do |c|
       c.project_id=c.category.project_id

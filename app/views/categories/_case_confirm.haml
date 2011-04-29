@@ -28,7 +28,7 @@
 .tag{ :id => "import_circuit", :style=>" display:none;  width: 300px;height: 170px;left: 450px; top: 120px;"}
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"import_circuit"} 
   %h3
-    =_("Export Script")
+    =_("Import Script")
   -if self.controller.controller_name == "circuits"
     %div{:style=>"color:#333333;font-family:sans-serif;font-size:12px;display:inline;margin-left:15px;"}
       =_("To Project:")
@@ -45,4 +45,4 @@
   %label{:style=>"color:#333333;font-family:sans-serif;font-size:12px;display:inline;"}
     =_('Copy Data Set')
   %br
-  %input{:type=>"button", :value=>_("Export"), :onClick => "document.getElementById('import_form').submit();", :style=>"float:right;cursor:pointer;"}
+  %input{:type=>"button", :value=>_("Import"), :onClick => "document.getElementById('import_form').submit();", :style=>"float:right;cursor:pointer;"}
