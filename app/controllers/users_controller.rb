@@ -32,7 +32,6 @@ class UsersController < ApplicationController
   def index
     permit "root" do 
       @users=User.all
-      
     end
   end
   
@@ -46,10 +45,12 @@ class UsersController < ApplicationController
   def create
     cookies.delete :auth_token
     @user = User.create(params[:user])
-
     if @user.errors.empty?
-       self.current_user = @user
-       redirect_to '/homes'
+       msj = _("Your user has been created successfully,<br/> Please contact to ")+ ("#{ADMIN_EMAIL}") + _(" to activate it.")
+       flash[:error] = msj
+       render "/sessions/new", :layout=>"session"
+    #   self.current_user = @user
+    #   redirect_to '/homes'
     else
        render :action => 'new', :layout => "session"
     end

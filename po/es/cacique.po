@@ -2139,7 +2139,7 @@ msgid "Select any User"
 msgstr "Seleccione un Usuario"
 
 #: app/views/users/new.haml:
-msgid "Fill with yuor personal data"
+msgid "Fill with your personal data"
 msgstr "Complete sus datos"
 
 #: app/views/users/new.haml:
@@ -2661,6 +2661,10 @@ msgstr "3- Pegar sus cambios."
 #: app/views/layouts/_js_translate:
 msgid "Details: "
 msgstr "Detalles: "
+
+#: app/views/layouts/_js_translate:
+msgid "Details"
+msgstr "Detalles"
 
 #: app/views/layouts/_js_translate:
 msgid "Failure of network connection, the script is not saved"
@@ -3462,4 +3466,35 @@ msgstr "No se pudo guardar el script porque no se encuentra actualizado"}
 msgid "Are you sure you want to quit?"
 msgstr "¿Seguro que desea salir?"
 
+#: app/views/queue_observers/index.haml:
+msgid "Queue Observer"
+msgstr "Visualizador de Tareas"
+
+#: app/views/queue_observers/index.haml:
+msgid "Running Tasks"
+msgstr "Tareas en ejecución"
+
+#: app/views/queue_observers/index.haml:
+msgid "Task"
+msgstr "Tarea"
+
+#: app/views/queue_observers/index.haml:
+msgid "User"
+msgstr "Usuario"
+
+#: app/views/queue_observers/index.haml:
+msgid "Project"
+msgstr "Proyecto"
+
+#: app/views/queue_observers/index.haml:
+msgid "Actions"
+msgstr "Acciones"
+
+#: app/views/controllers/users_controller.rb:
+msgid "Your user has been created successfully,<br/> Please contact to "
+msgstr "El usuario ha sido creado con éxito, <br/> Póngase en contacto con "
+
+#: app/views/controllers/users_controller.rb:
+msgid " to activate it."
+msgstr " para activarlo."
 
