@@ -13,6 +13,8 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 $LOAD_PATH << RAILS_ROOT
 
+ENV['HOME'] = RAILS_ROOT unless ENV['HOME']
+
 #STARLING_PORT = 22122
 
 # configuracion de rails-authorization-plugin
