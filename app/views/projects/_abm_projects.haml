@@ -36,13 +36,13 @@
     %br 
     %br  
   .div_abm{:style=>"margin-left: 50px;color:#288EB1;"}
-    %img{ :src => "/images/icons/relations.png", :style=>"cursor:pointer;", :alt=>_("Assign"), :title =>_("Assign"), :onClick => "document.getElementById('assign').show();"}
+    = link_to image_tag( '/images/icons/relations.png', :border=>0, :alt=>_("Assign"), :title =>_("Assign")), :users
     =_('Assign to Project')  
     %br 
     %br        
   .div_abm{:style=>"margin-left: 50px;color:red;"}
-    %img{ :src => "/images/icons/cross2.png", :style=>"cursor:pointer;", :alt=>_("Deallocate"), :title =>_("Deallocate"), :onClick => "document.getElementById('deallocate').show();"}
-      =_('Deallocate to Project')  
+    = link_to image_tag( '/images/icons/cross2.png', :border=>0, :alt=>_("Deallocate"), :title =>_("Deallocate")), :users
+    =_('Deallocate to Project')  
     %br 
     %br  
 
@@ -50,7 +50,4 @@
   =render :partial=> "projects/create_popup"
 #div_edit
   =render :partial=> "projects/edit_popup"
-#div_assign
-  =render :partial=> "user_projects/assign_popup"
-#div_deallocate
-  =render :partial=> "user_projects/dealloc_popup"      
+     
