@@ -32,7 +32,6 @@ class UsersController < ApplicationController
   def index
     permit "root" do 
       @users=User.all
-      
     end
   end
   
