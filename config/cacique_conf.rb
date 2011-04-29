@@ -1,3 +1,4 @@
+ADMIN_EMAIL="admin@myCaciqueAdmin.com"
 #Datos para enviar mail desde Cacique
 EMAIL =  "cacique@mercadolibre.com"
 EMAIL_SERVER = "surgemail.mercadolibre.com"
@@ -16,7 +17,7 @@ FIRST_USER_PASS="schumann"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.1"
+CACIQUE_VERSION = "0.1.9"
 
 #funcion que calcula el ip del servidor
 require 'socket'
@@ -37,7 +38,7 @@ ensure
   Socket.do_not_reverse_lookup = orig
 end
 LOCAL_IP=local_ip
-IP_SERVER="10.4.0.30"
+IP_SERVER=local_ip
 
 #Workers machines localip, es para mi maquina de desarrollo
 WORKERS_ADDR=[LOCAL_IP]
