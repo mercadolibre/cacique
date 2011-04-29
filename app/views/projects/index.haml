@@ -57,7 +57,7 @@
             =truncate(project.user.login.downcase, :ommision => "...", :length => 20)
           %td
             -project.users.sort_by { |x| x.login.downcase }.each do |user|
-              =user.login + ','
+              =user.login + ", "
     %br
     %br
 
