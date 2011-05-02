@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  
+  map.resource :api_key 
   map.resource :session
   map.resources :execution_scaffolds, :active_scaffold => true  
   map.resources :circuits, :collection => { :ruby=>:get, :checkit=>:post, :getDataRecovery=>:get, :delete=>:get, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :updateDataRecovery=>:get, :deleteDataRecovery=>:get, :get_suites_of_script =>:get, :rename=>:get, :script_tutorial=>:get}
