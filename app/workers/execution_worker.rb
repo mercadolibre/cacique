@@ -164,7 +164,7 @@ class ExecutionWorker < Workling::Base
             starting_time = Time.now
             script_runner = ScriptRunner.new
             @suite_relation.reset_output
-
+            
             begin
               @execution.status = 1
               @execution.worker_pid = $$.to_s
@@ -204,13 +204,11 @@ class ExecutionWorker < Workling::Base
               script_runner.data_recoveries = @execution.circuit.data_recoveries_hash
               script_runner.debug_mode = options[:debug_mode]
               script_runner.project_id = options[:project_id]
-              
+              script_runner.free_values=options[:free_values] 
               @execution.output = ""
               #Get the default configurations and set the value in the output
               aux_configuration_values = {}
-              
               values_default = options[:configuration_values].select {|k,v| v == "default"} #Format: [["conf1", "value1"], ["conf2", "value2"], ..]
-
               @execution.output = "Valores Default del caso:\n" if !values_default.empty? 
               values_default.each do |value|
                 if @execution.case_template_id == 0
@@ -223,13 +221,11 @@ class ExecutionWorker < Workling::Base
               @execution.output += "\n"
 
               script_runner.configuration_values = options[:configuration_values].merge(aux_configuration_values)
-
               execution = @execution
               script_runner.instance_eval{
                   @circuit = execution.circuit
                   @snapshot_execution_id = execution.id
               }
-              
               ##########################################################################
                   def script_runner.process_snapshot( name, content )
                       sp = ExecutionSnapshot.new
@@ -241,7 +237,6 @@ class ExecutionWorker < Workling::Base
               #############################################################################        
               print "Corriendo el execution #{@execution.id} de la suite_execution #{@execution.suite_execution_id}...  \n" if options[:debug_mode]            
               datos_recuperados = script_runner.run_source_code( @execution.circuit.source_code )
-
               @execution.output +=  @suite_relation.output + script_runner.output
               cache_execution.output = @suite_relation.output + script_runner.output
 
