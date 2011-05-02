@@ -1,2 +1,2 @@
-=link_to image_tag("/images/icons/cross.png", :alt=>"cross.png",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;border:none;"), user_assignment_path(assignment.user_id, assignment.id) + "?project_id=#{assignment.project_id}", :method=>:delete
+=link_to image_tag("/images/icons/cross.png", :alt=>"cross.png",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;border:none;"), user_assignment_path(assignment.user_id, assignment.project_id), :method=>:delete
 =assignment.user.login
