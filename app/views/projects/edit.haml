@@ -43,7 +43,7 @@
       %br
       %label{:for => "user_id"}
         =_('Manager')
-        =select("project", "user_id", @project.users.collect {|u| [ u.name, u.id ]}, :selected=>@project.user_id )
+        =select("project", "user_id", @project.users.collect {|u| [ u.login, u.id ]}, :selected=>@project.user_id )
       %br
       =submit_tag _('Modify'), :style=>"cursor:pointer;float:right;"
 
@@ -54,8 +54,8 @@
     %br
     //assigments   
     #assignments{:style=>"height:80%; overflow-x: auto;"}
-      -@project.users.sort_by { |x| x.login.downcase }.each do |user|
-        =render :partial=> "user_assignments/show", :locals=>{:project=> @project, :user=>user}
+      -@assigments.sort_by { |x| x.user.login.downcase }.each do |assignment|
+        =render :partial=> "user_assignments/show", :locals=>{:assignment=>assignment}
         %br
 
   .form_tag{:style => "width:250px;float:left;float:left; margin-left:100px;height:80%;"}	
