@@ -37,14 +37,14 @@ class ProjectsController < ApplicationController
   end
 
   def index
- 
     permit "root" do
+         @users =  User.all
     end
  
   end
 
   def show
-#    ...
+
   end
 
   def create
@@ -67,6 +67,10 @@ class ProjectsController < ApplicationController
        end
        
     end
+  end
+
+  def edit
+     @project = Project.find params[:id]
   end
 
   def update
