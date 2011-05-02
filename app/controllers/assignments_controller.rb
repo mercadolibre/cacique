@@ -30,7 +30,7 @@ class AssignmentsController < ApplicationController
   
   protect_from_forgery
   before_filter :box_values, :only => [:create,:destroy]
-  
+
   def box_values
        @projects = (Project.find :all).sort_by { |x| x.name.downcase }
        @users    = (User.find :all).sort_by { |x| x.login.downcase }
@@ -61,7 +61,7 @@ class AssignmentsController < ApplicationController
        @user    = User.find params[:user_id]
        @project.assign(params[:user_id]) 
        if !@project.errors.empty?
-         @text_error = _('User is already assigned to the project') 
+         @text_error = @project.errors.full_messages
          @js = "top.location='#{edit_project_path(@project.id)}'; alert('#{@text_error}')"
          render :inline => "<%= javascript_tag(@js) %>", :layout => true
        else
@@ -76,7 +76,7 @@ class AssignmentsController < ApplicationController
        @project = Project.find params[:project_id]
        @project.deallocate(params[:user_id])
        if !@project.errors.empty?
-         @text_error = _("The User has been Deallocate from the Project")
+         @text_error = _("Unable to deallocate Project Manager")
          @js = "top.location='#{edit_project_path(@project.id)}'; alert('#{@text_error}')"
          render :inline => "<%= javascript_tag(@js) %>", :layout => true
        else
