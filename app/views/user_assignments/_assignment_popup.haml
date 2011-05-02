@@ -22,25 +22,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
-.assignments{:id=>"assignments"}
-  .r{:id=>"permition_result", :style => "color:blue"}
-    %div{:style=>"left: 30%; height:30%; width:20%;"}
-      .div_abm{:style=>"color:#288EB1;"}
-        %img{ :src => "/images/icons/relations.png", :alt=>"Assign", :style=>"cursor:pointer; width:20px; height:20px;"}
-        =_('Assign to Project')
-        -form_for(:assignment, :url => user_assignments_path(@user.id), :html => {:method => :post}) do |f|
-          %label
-          %br  
-          =_('Select a Project')
-          %br
-          %select{:name=>"project_id"}
-            -@user.other_projects.each do |oproject|
-              %option{ :value =>  oproject.id}
-                =oproject.name
-          %br
-          %br
-          %br
-          %br
-          %br       
-            =submit_tag _("Assign"), :style=>"cursor:pointer;"    
+
+.tag{ :id => "assignments", :style=>"left: 40%; height:320px; width:225px; display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"assignments"}  
+  %div{:style=>"left: 30%; height:30%; width:20%;"}
+    .div_abm{:style=>"color:#288EB1;"}
+      %img{ :src => "/images/icons/relations.png", :alt=>"Assign", :style=>"cursor:pointer; width:20px; height:20px;"}
+      =_('Assign to Project')
+      -form_for(:assignment, :url => "asdsad", :html => {:method => :post}) do |f|
+        %label
+        %br  
+        =_('Select a Project')
+        %br
+        %select{:name=>"project_id"}
+          -@projects.each do |project|
+            %option{ :value =>  project.id}
+              =project.name
+        %label
+        %br  
+        =_('Select a User')
+        %br
+        %select{:name=>"user_id"}
+          -@users.each do |user|
+            %option{ :value =>  user.id}
+              =user.name
+          =submit_tag _("Assign"), :style=>"cursor:pointer;"    
 
