@@ -71,18 +71,20 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-     @project = Project.find params[:id]
-     @users   = User.all
+     @project    = Project.find params[:id]
+     @assigments = ProjectUser.find_all_by_project_id @project.id
+     @users      = User.all
   end
 
   def update
-    #permit "root" do
+    permit "root" do
         @project = Project.find params[:id]
         @project.update_attributes(params[:project])
-        @project.assign_manager(params[:project][:user_id])
+        #update mannager
+        @project.assign_manager(params[:project][:user_id]) 
         flash[:notice] = _("The Project was Correctly Modified") if !@project.errors.empty?
         redirect_to edit_project_path(@project.id)
-    #end
+    end
   end
 
   def destroy
