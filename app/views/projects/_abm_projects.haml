@@ -26,28 +26,15 @@
 %div{:id=>"result",:style=>"margin-left: 20px; margin-top: 20px;color:red;"}
 
   .div_abm{:style=>"left: 50px;color:#0B610B;"}
-    %img{ :src => "/images/icons/add3.png",  :style=>"cursor:pointer;", :alt=>_("Create"), :title =>_("Create"), :onClick => "document.getElementById('create').show();"}
+    =image_tag("/images/icons/add3.png",  :style=>"cursor:pointer;", :alt=>_("Create"), :title =>_("Create"), :onClick => "document.getElementById('create').show();")
     =_('Create Project') 
     %br 
     %br
   .div_abm{:style=>"margin-left: 50px;color:#FE9A2E;"}
-    %img{ :src => "/images/icons/edit.png", :style=>"cursor:pointer;", :alt=>_("Edit"), :title =>_("Edit"), :onClick => "document.getElementById('edit').show();"}
+    =image_tag("/images/icons/edit.png", :alt=>_("Edit"), :title =>_("Edit"))
     =_('Edit Project')  
-    %br 
-    %br  
-  .div_abm{:style=>"margin-left: 50px;color:#288EB1;"}
-    = link_to image_tag( '/images/icons/relations.png', :border=>0, :alt=>_("Assign"), :title =>_("Assign")), :users
-    =_('Assign to Project')  
-    %br 
-    %br        
-  .div_abm{:style=>"margin-left: 50px;color:red;"}
-    = link_to image_tag( '/images/icons/cross2.png', :border=>0, :alt=>_("Deallocate"), :title =>_("Deallocate")), :users
-    =_('Deallocate to Project')  
-    %br 
-    %br  
 
 #div_create
   =render :partial=> "projects/create_popup"
-#div_edit
-  =render :partial=> "projects/edit_popup"
+
      
