@@ -95,7 +95,7 @@ class CaseTemplatesController < ApplicationController
       @case_template.add_case_data(@new_case_data)
       @case_template.save
 
-      redirect_to "/circuits/#{@circuit.id}/case_templates"
+      redirect_to project_circuit_case_templates_path(@circuit.project_id,@circuit)
 
     end   
   end

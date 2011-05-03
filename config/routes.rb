@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects do |projects|
      projects.resources :circuits do |circuits|
         circuits.resources :data_recovery_names
-        circuits.resources :case_templates, :collection => { :create=>:get, :update_data=>:get, :update_status=>:get }, :active_scaffold => true do |case_templates|
+        circuits.resources :case_templates, :collection => { :update_data=>:get, :update_status=>:get }, :active_scaffold => true do |case_templates|
              case_templates.resources :case_data, :active_scaffold => true
         end
      end
