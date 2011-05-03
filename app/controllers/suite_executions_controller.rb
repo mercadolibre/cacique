@@ -167,7 +167,6 @@ class SuiteExecutionsController < ApplicationController
     debugger 
     @user_configuration = current_user.user_configuration
     #Identifier seting
-
     identifier = ""
     #if come from case_template use User configuration.
     #if come from suite update configuration.
@@ -200,7 +199,7 @@ class SuiteExecutionsController < ApplicationController
       #Executions are generated for the suite
 
       options = {:suite_id => suite_id}
-      options[:case_comment] = params[:execution][:case_comment] if params.include?(:execution)
+      options[:case_comment] = params[:execution][:case_comment] if  params.include?(:execution)&& params.include?(:execution)
       if suite_id != "0"
         options[:suite] = @suite
       end 
@@ -276,7 +275,8 @@ class SuiteExecutionsController < ApplicationController
           options[:suite_execution_id] = suite_execution.id
           options[:suite_execution_tag] = "suite_exec_#{suite_execution.id}"
           options[:configuration_values] = suite_execution.hash_execution_configuration_values
-          
+          options[:free_values] =""
+          options[:free_values] = params[:execution][:free_values] if params.include?(:execution) && params[:execution].include?("free_values")
           begin
             ExecutionWorker.asynch_run_suite(options)
           rescue Exception => e
