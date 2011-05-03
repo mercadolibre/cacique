@@ -38,8 +38,8 @@ class ScriptRunner < ActiveRecord::Base
 	attr_accessor   :project_id #to find required cacique functions
   attr_accessor   :configuration_values
   attr_accessor   :execution 
-
-    def initialize
+  attr_accessor :free_values
+  def initialize
 		@devuelve = Hash.new
 		@output = String.new
 	end
@@ -124,8 +124,7 @@ class ScriptRunner < ActiveRecord::Base
 	#Script Run
 	def run_source_code( file_code )
         
-        Rails.cache.write WORKER_CACHE_KEY, execution
-		
+    Rails.cache.write WORKER_CACHE_KEY, execution
 		#format checker
 		generated_module_name = "M#{rand(100000000)}"
 
