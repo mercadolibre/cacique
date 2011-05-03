@@ -11,8 +11,7 @@
     -when  "suite_executions"
       -url_project = "/suite_executions?project_id=#{project.id}"      
     -else
-      -last_edited =  user_last_edited_scripts[project.id]
-      -url_project = (last_edited.nil?)? "/circuits?project_id=#{project.id}" : "/circuits/edit/#{last_edited.to_s}?project_id=#{project.id}"
+      -url_project = (!@project_actual.nil? and !@user_last_edited_scripts.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? edit_project_circuit_path(@project_actual.id,@user_last_edited_scripts[@project_actual.id].to_s) : circuits_path
 
   %a{:title=>project.name.capitalize, :href => url_project }
     %li

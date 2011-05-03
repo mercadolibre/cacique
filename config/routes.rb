@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects do |projects|
      projects.resources :circuits do |circuits|
         circuits.resources :data_recovery_names
-        circuits.resources :case_templates, :active_scaffold => true do |case_templates|
+        circuits.resources :case_templates, :collection => { :create=>:get, :update_data=>:get, :update_status=>:get }, :active_scaffold => true do |case_templates|
              case_templates.resources :case_data, :active_scaffold => true
         end
      end
@@ -15,7 +15,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :delayed_jobs, :collection => { :destroy_collection=>:get} 
   map.resources :case_data
-  map.resources :case_templates, :collection => { :create=>:get, :update_data=>:get, :update_status=>:get } 
   map.resources :categories, :collection => { :circuits_result => :get, :create=>:get, :delete=>:get, :edit=>:get, :update=>:get, :save_import_circuit=>:get, :import_circuit=>:get, :move=>:get, :move_save=>:get }
   map.resources :executions, :collection => { :retry_run=>:get, :show_snapshot=>:get, :stop=>:get }
   map.resources :homes, :collection => { :add_link=>:get, :delete_links=>:get, :about=> :get}
