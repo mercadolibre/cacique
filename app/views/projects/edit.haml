@@ -1,0 +1,75 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+.main
+  .projects{:id=> "projects"}
+    %h1
+      =_('Project Management')  
+  .form_tag{:style => "width:250px;float:left;height:250px;height:80%;"}	
+    %h2{:style=>"text-align:center;"}
+      =image_tag("/images/icons/edit.png", :alt=>"edit", :style=>"cursor:pointer; width:20px;heidth:20px;")
+      =_('Edit Project')
+    %br
+    -form_for :project,:url=>project_path(@project.id), :html => {:method=>:put}  do |f|
+      %label{:for => "name"}
+        =_('Name')
+        = f.text_field :name
+      %br
+      %label{:for => "description"}
+        =_('Description')
+        = f.text_field :description
+      %br
+      %label{:for => "user_id"}
+        =_('Manager')
+        =select("project", "user_id", @project.users.collect {|u| [ u.login, u.id ]}, :selected=>@project.user_id )
+      %br
+      =submit_tag _('Modify'), :style=>"cursor:pointer;float:right;"
+
+
+  .form_tag{:style => "width:250px;float:left;float:left; margin-left:100px;height:80%;"}	
+    %h2{:style=>"text-align:center;"}
+      =_('Deallocate to Project')
+    %br
+    //assigments   
+    #assignments{:style=>"height:80%; overflow-x: auto;"}
+      -@assigments.sort_by { |x| x.user.login.downcase }.each do |assignment|
+        =render :partial=> "user_assignments/show", :locals=>{:assignment=>assignment}
+        %br
+
+  .form_tag{:style => "width:250px;float:left;float:left; margin-left:100px;height:80%;"}	
+    %h2{:style=>"text-align:center;"}
+      =_('Assign to Project')
+    %br
+    //add user
+    %div{ :style=>"background:#EEEEED;border:1px solid #C6C5C4;padding:10px;-moz-border-radius:10px;"}
+      %div{:style=>"height:200px; overflow-x: auto;margin-top:5px;"}
+        -@users.each do |user|  
+          =link_to image_tag("/images/icons/new.png", :alt=>"new.png",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;border:none;"), user_assignments_path(user.id) + "?project_id=#{@project.id}", :method=>"post"
+          =user.login
+          %br
+
+//Tools menu
+-content_for :tools_menu do
+  =render :partial=> "admin/menu_admin"

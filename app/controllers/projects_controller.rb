@@ -37,14 +37,15 @@ class ProjectsController < ApplicationController
   end
 
   def index
- 
     permit "root" do
+         @users =  User.all
     end
+
  
   end
 
   def show
-#    ...
+
   end
 
   def create
@@ -69,17 +70,20 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def edit
+     @project    = Project.find params[:id]
+     @assigments = ProjectUser.find_all_by_project_id @project.id
+     @users      = User.all
+  end
+
   def update
     permit "root" do
-      if params[:user_id]
-        @project = Project.find params[:project_id]
+        @project = Project.find params[:id]
         @project.update_attributes(params[:project])
-        @project.assign_manager(params[:user_id])
-        flash[:notice] = _("The Project was Correctly Modified") if @project.valid?
-        redirect_to :projects
-      else
-        redirect_to :projects
-      end
+        #update mannager
+        @project.assign_manager(params[:project][:user_id]) 
+        flash[:notice] = _("The Project was Correctly Modified") if !@project.errors.empty?
+        redirect_to edit_project_path(@project.id)
     end
   end
 
