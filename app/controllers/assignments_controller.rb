@@ -28,9 +28,9 @@
 class AssignmentsController < ApplicationController
   belongs_to = :Users
   
-  protect_from_forgery
+ # protect_from_forgery
   before_filter :box_values, :only => [:create,:destroy]
-  
+
   def box_values
        @projects = (Project.find :all).sort_by { |x| x.name.downcase }
        @users    = (User.find :all).sort_by { |x| x.login.downcase }
@@ -39,64 +39,63 @@ class AssignmentsController < ApplicationController
   
   #User projects obtain
   def index
-     #@assignments = @project.assignments.find(:all)
      controller_from = params[:controller_from]
      my_projects = current_user.my_projects
      #Current user last scripts edited
      user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-     render :partial=>"/layouts/projects", :locals => {:projects => my_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}  
+
+     respond_to do |format|
+       format.html { render :partial=>"/layouts/projects", :locals => {:projects => my_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from} }
+       format.text {render :text => my_projects.inspect}
+       format.json {render :json => my_projects.to_json}
+       format.xml  {render :xml => my_projects.to_xml}
+     end
   end
 
-  def index_other
+def index_other
      controller_from = params[:controller_from]
      all_projects = current_user.other_projects
      #Current user last scripts edited
      user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-     render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}    
+     
+     respond_to do |format|
+       format.html {render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}}
+       format.text {render :text => all_projects.inspect}
+       format.json {render :json => all_projects.to_json}
+       format.xml  {render :xml => all_projects.to_xml}
+     end
   end
-
-
-  #Other projects obtain
-  def show
-#     controller_from = params[:controller_from]
-#     all_projects = current_user.other_projects
-#     #Current user last scripts edited
-#     user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-#     render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}      
-  end
-
 
 # Create User Assignment
   def create
-    #permit "root" do
-     if params[:user_id]
+   permit "root" do
        @project = Project.find params[:project_id]
-       @project.assign(params[:user_id])
-       flash[:notice] = _("The User has been Assign to the Project") if @project.valid?      
-       redirect_to :projects
-     else
-       redirect_to :projects
-     end
-    #end
+       @user    = User.find params[:user_id]
+       @project.assign(params[:user_id]) 
+       if !@project.errors.empty?
+         @text_error = @project.errors.full_messages
+         @js = "top.location='#{edit_project_path(@project.id)}'; alert('#{@text_error}')"
+         render :inline => "<%= javascript_tag(@js) %>", :layout => true
+       else
+         redirect_to edit_project_path(@project.id)
+       end
+    end
   end
-
-  def update
-    #...
-  end
-
 
 # Delete User Assignment
-  def destroy
-      #permit "root" do
-      if params[:user_id]
+ def destroy
+    permit "root" do
        @project = Project.find params[:project_id]
        @project.deallocate(params[:user_id])
-       flash[:notice] = _("The User has been Deallocate from the Project") if @project.valid?
-       redirect_to :projects
-      else
-       redirect_to :projects
-      end
-    #end
-  end
+       if !@project.errors.empty?
+         @text_error = _("Unable to deallocate Project Manager")
+         @js = "top.location='#{edit_project_path(@project.id)}'; alert('#{@text_error}')"
+         render :inline => "<%= javascript_tag(@js) %>", :layout => true
+       else
+         redirect_to edit_project_path(@project.id)
+       end
+    end
+ end
   
+
 end
