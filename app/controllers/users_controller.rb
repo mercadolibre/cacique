@@ -32,7 +32,6 @@ class UsersController < ApplicationController
   def index
     permit "root" do 
       @users=User.all
-      
     end
   end
   
@@ -147,9 +146,8 @@ class UsersController < ApplicationController
         render :text => _("Permissions Updated Successfully")
     end
    end
-   
-   def my_account
-    @user = current_user
+   def edit
+     @user=current_user
    end
    
    def update_my_account
