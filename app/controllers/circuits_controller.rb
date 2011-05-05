@@ -312,7 +312,10 @@ class CircuitsController < ApplicationController
       end
 
    end
-
+   respond_to do |format|
+     format.html
+     format.xml{ render :edit, :layout=> false }
+   end
   end
 
   def destroy
