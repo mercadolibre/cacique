@@ -35,7 +35,10 @@ class CircuitsController < ApplicationController
   before_filter :load_categories, :only => [:copy, :delete, :updateCircuit]
 
   def index
-
+    respond_to do  |format|
+       format.html
+       format.xml{render :index,:layout=> false }
+    end
   end
   
   def new
