@@ -11,19 +11,28 @@ module AuthenticatedSystem
     #def current_user
     #  @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
     #end
-    def current_user
-      @current_user ||= (login_from_session || login_from_api_key || login_from_basic_auth || login_from_cookie) unless @current_user == false
-      end
+  #  def current_user
+  #    @current_user ||= (login_from_session || login_from_api_key || login_from_basic_auth || login_from_cookie) unless @current_user == false
+  #    end
+
+  def current_user
+    @current_user ||= (login_from_session || login_from_api_key || login_from_basic_auth || login_from_cookie) unless @current_user == false
+  end
+
+
 
     # Store the given user id in the session.
     def current_user=(new_user)
       session[:user_id] = new_user ? new_user.id : nil
       @current_user = new_user || false
     end
-    
+  
   def login_from_api_key
-    self.current_user = User.find_by_api_key(params[:api_key]) if params[:api_key]
+    self.current_user = User.find_by_api_key(params[:api_key]) if params[:api_key] and !params[:api_key].blank?
   end
+ # def login_from_api_key
+ #   self.current_user = User.find_by_api_key(params[:api_key]) if params[:api_key]
+ # end
 
 
     # Check if the user is authorized
