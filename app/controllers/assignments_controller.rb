@@ -28,7 +28,7 @@
 class AssignmentsController < ApplicationController
   belongs_to = :Users
   
-  protect_from_forgery
+ # protect_from_forgery
   before_filter :box_values, :only => [:create,:destroy]
 
   def box_values
@@ -43,15 +43,27 @@ class AssignmentsController < ApplicationController
      my_projects = current_user.my_projects
      #Current user last scripts edited
      user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-     render :partial=>"/layouts/projects", :locals => {:projects => my_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}  
+
+     respond_to do |format|
+       format.html { render :partial=>"/layouts/projects", :locals => {:projects => my_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from} }
+       format.text {render :text => my_projects.inspect}
+       format.json {render :json => my_projects.to_json}
+       format.xml  {render :xml => my_projects.to_xml}
+     end
   end
 
-  def index_other
+def index_other
      controller_from = params[:controller_from]
      all_projects = current_user.other_projects
      #Current user last scripts edited
      user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-     render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}    
+     
+     respond_to do |format|
+       format.html {render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}}
+       format.text {render :text => all_projects.inspect}
+       format.json {render :json => all_projects.to_json}
+       format.xml  {render :xml => all_projects.to_xml}
+     end
   end
 
 # Create User Assignment
