@@ -51,19 +51,22 @@
             = submit_tag _('Save')
       .form_show_errors{ :style=>"width:40%;float:left;"}
         = error_messages_for :user
+        %div{:style => "margin-left: 50px; width:97%;float:left;border: 1px solid #C3C3C3;"}
+          %div{:style => "margin-left: 10px; margin-right: 10px;"}
+            -if @user.api_is_enabled? 
+              %p
+                Your API Key:
+                =link_to "re-generate", api_key_path, :method => :post  
+                | 
+                = link_to "disable", api_key_path, :method => :delete 
+              %p
+                %strong
+                  =@user.api_key 
+            -else
+              %p
+                You'll need a unique key to make calls to the API.  Remember to keep this key a secret as it can be used to access your account.
+              %p
+                =link_to("Get a key", api_key_path, :method => :post) 
       %div{ :style=>"clear: both"}
 
--if @user.api_is_enabled? 
-  %p
-    Your API Key:
-    =link_to "re-generate", api_key_path, :method => :post  
-    | 
-    = link_to "disable", api_key_path, :method => :delete 
-  %p
-    %strong
-      =@user.api_key 
--else
-  %p
-    You'll need a unique key to make calls to the API.  Remember to keep this key a secret as it can be used to access your account.
-  %p
-    = link_to("Get a key", api_key_path, :method => :post) 
+
