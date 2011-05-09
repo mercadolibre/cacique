@@ -58,7 +58,9 @@ class CircuitsController < ApplicationController
 	       upload[:name] = @name
                upload[:file_name] = params['fileUpload'].original_filename
 	       DataFile.save( upload )
-	       redirect_to "/circuits/rename?" + "&category_id="+@category.id.to_s+ "&name="+CGI.escape(@name) + "&description="+CGI.escape(params[:description])
+	       redirect_to url_for(:controller=>:circuits, :action=>:rename, 
+                                   :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id, 
+                                   :name=>CGI.escape(@name), :description=>CGI.escape(params[:description]) )
 	    else
 	       #I generate a blank script
                @circuit = Circuit.create(:project_id =>@category.project_id, :category_id => @category.id, 
@@ -132,7 +134,6 @@ class CircuitsController < ApplicationController
     @name        = params[:name]
     @description = params[:description]
     @errors      = params[:errors]
-
     begin
       @fields = Circuit.selenium_data_collector( {:name => "#{RAILS_ROOT}/lib/temp/#{@name}"} )
       #Fields codify
@@ -140,8 +141,9 @@ class CircuitsController < ApplicationController
         t.id = CGI.escape(t.id)
         t.args = t.args.map{ |a| CGI.escape(a) }
       end
+
     rescue Exception => @error
-      redirect_to "/circuits/error?error=#{@error}&category_id=#{@category.id}"
+      redirect_to url_for(:controller=>:circuits, :action=>:error, :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id)
     end
   end
 

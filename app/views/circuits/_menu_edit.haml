@@ -36,7 +36,7 @@
     =image_tag("/images/icons/comment.png", :id =>"savewc_button",:alt=>"comment", :title=>_('Save with Comments'), :style=>"visibility:hidden;",:onClick => "document.getElementById('comment_save').toggle();")
     
   //Sintax check  
-  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"sintax check", :title=>_('Sintax Check')), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').show();", :method => :post
+  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"sintax check", :title=>_('Sintax Check')), :url => {:controller => "circuits", :circuit_id=>@circuit.id, :project_id=>@circuit.project_id, :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').show();", :method => :post
   
   //Data recovery
   =image_tag("/images/icons/recovery.png",:alt=>"recovery",:title =>_("Data Recovery"),:onClick => remote_function(:complete => "document.getElementById('div_data_recoveries').show();",:update => "div_data_recoveries",  :method => "get",  :url=>project_circuit_data_recovery_names_path(@project_id,@circuit)))
