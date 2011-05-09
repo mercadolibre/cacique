@@ -3,10 +3,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :api_key 
   map.resource :session
   map.resources :execution_scaffolds, :active_scaffold => true  
-  map.resources :circuits, :collection =>  { :checkit=>:post, :error=>:get, :rename=>:get}
 
   map.resources :projects do |projects|
-     projects.resources :circuits do |circuits|
+     projects.resources :circuits, :collection =>  { :checkit=>:post, :rename=>:get, :error=>:get} do |circuits|
         circuits.resources :data_recovery_names
         circuits.resources :circuit_case_columns
         circuits.resources :case_templates, :collection => { :update_data=>:get, :update_status=>:get }, :active_scaffold => true do |case_templates|
