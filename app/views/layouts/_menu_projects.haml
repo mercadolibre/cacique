@@ -46,22 +46,22 @@
           =_('Help')          
       %ul{:style=>"width:120px;"}
         %li
-          %a{ :href => "/circuits/script_tutorial"}
+          %a{ :href => help_path(1)}
             %span
               Scripts
         %li
-          %a{ :href => "/suites/suite_tutorial"}
+          %a{ :href => help_path(2)}
             %span
               Suites
         %li
-          %a{ :href => "/circuits/ruby", :popup=>"true"}
+          %a{ :href => help_path(3), :popup=>'true'}
             %span
               Ruby
         %li
           %a{ :onClick => "document.getElementById('about').toggle();" }
             %span
               =_('About us')  
-              %img{:src=>"/images/icons/star.png", :alt=>"star", :style=>"margin-left:5px;"}
+              =image_tag('/images/icons/star.png', :alt=>'star', :style=>'margin-left:5px;')
 
     //Only in circuit
     -if controller_name() == 'circuits' or controller_name() == 'categories'
