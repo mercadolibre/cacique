@@ -350,11 +350,6 @@ class CircuitsController < ApplicationController
    @error = @error.split(':')[-1]
  end
 
-  #Ruby Help
- def ruby
-
- end
- 
  def load_categories
    @project = Project.find params[:project_id]
    permit "viewer of :project" do
@@ -367,9 +362,5 @@ class CircuitsController < ApplicationController
    check_data = Circuit.syntax_checker(code)
    render :partial => "circuits/check_data", :locals => { :status=>check_data[:status], :errors=>check_data[:errors], :warnings=>check_data[:warnings]}
  end
-  
-  def script_tutorial
-    
-  end
-  
+
 end
