@@ -1,0 +1,12 @@
+.tab{:id => 'add_column', :style=>'-moz-border-radius-topleft:0px;height:135px;background:#E0E0F8;'}
+  -form_for(:circuit_case_column, :url=>project_circuit_circuit_case_columns_path(@circuit.project_id,@circuit.id), :method => :post , :html=>{:style=>"color:#31576F; font-size:12px;"}) do |f|
+    %label
+      =_('New Column:')
+      =f.text_field :name, :style=>'width:170px;'
+    %label
+      =_('Default Value:')
+      =f.text_field :value, :style => 'width:170px;'
+    %label
+      =_('*this value will be used for all cases previously created')
+    .form_button
+      =submit_tag _("Create")

@@ -134,19 +134,12 @@ end
   def disable
     @context_configuration = ContextConfiguration.find params[:id]
     @context_configuration.disable
-
     #if the configuration is default field, delete column in data set
      if @context_configuration.field_default
        #Delete the column of context_configuration.field_default
-       circuits = Circuit.all
-       circuits.each do |c|
-             column_name = "default_" + @context_configuration.name
-             c.delete_case_columns( column_name )
-       end
+       @context_configuration.delete_data_column_name
      end
-
     redirect_to "/context_configurations"
-
   end
 
 
