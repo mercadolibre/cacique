@@ -39,9 +39,33 @@ class CircuitCaseColumn < ActiveRecord::Base
   belongs_to :circuit
   has_many :case_data,  :dependent => :destroy
 	
-	validates_presence_of :circuit_id , :message => _("Must complete circuito_id field")
-    validates_presence_of :name, :message => _("Must complete Name field")
-    validates_format_of   :name, :with => /^[a-z](_?[a-zA-Z0-9]+)*_?$/, :message => _("Name Formats is not Correct")
+  validates_presence_of :circuit_id , :message => _("Must complete circuito_id field")
+  validates_presence_of :name, :message => _("Must complete Name field")
+  validates_format_of   :name, :with => /^[a-z](_?[a-zA-Z0-9]+)*_?$/, :message => _("Name Formats is not Correct")
 
+  before_destroy  :delete_dependences
+  
+  #col Delete
+  def delete_dependences
+    circuit = Circuit.find self.circuit_id
+    #SuiteFieldsRelation dependencies delete
+      suite_fields_relations =  circuit.suite_fields_relations_origin.find_all_by_field_origin(self.name) +
+                                circuit.suite_fields_relations_destination.find_all_by_field_destination(self.name)
+      suite_fields_relations.each do |sfr|
+        sfr.destroy
+      end
+    #DataRecoveryName dependencies delete
+    data_recovery_names = circuit.data_recovery_names.find_all_by_code( 'data[:' + self.name + ']')
+    data_recovery_names.each do |dr|
+      dr.destroy
+    end
+  end
+  
+  def default?
+    delaults = ContextConfiguration.find_all_by_field_default(true).map(&:name)
+    !self.name.match(/default_/).nil? and delaults.include?(self.name.split("default_")[1]) #if column name contains "default_" and is included in defaults
+  end
 
 end
+
+

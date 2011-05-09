@@ -156,27 +156,6 @@ class Circuit < ActiveRecord::Base
     ccc.save
   end
 
-  #col Delete
-  def delete_case_columns( column )
-    circuit_case_column = self.circuit_case_columns.find_by_name(column)
-
-    #SuiteFieldsRelation dependencies delete
-      suite_fields_relations =  self.suite_fields_relations_origin.find_all_by_field_origin(column) +
-                                self.suite_fields_relations_destination.find_all_by_field_destination(column)
-      suite_fields_relations.each do |sfr|
-        sfr.destroy
-      end
-    #DataRecoveryName dependencies delete
-      data_recovery_names = self.data_recovery_names.find_all_by_code( 'data[:' + column + ']')
-      data_recovery_names.each do |dr|
-        dr.destroy
-      end
-    #col destroy
-    circuit_case_column.destroy
-
-  end
-
-
   #first case for an cacique script
   def add_first_data_set( new_data )
      @case_template = CaseTemplate.new
