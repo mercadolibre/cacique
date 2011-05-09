@@ -367,52 +367,6 @@ class CircuitsController < ApplicationController
    check_data = Circuit.syntax_checker(code)
    render :partial => "circuits/check_data", :locals => { :status=>check_data[:status], :errors=>check_data[:errors], :warnings=>check_data[:warnings]}
  end
- 
-  #add new column to Data Set (Use in ABM columns for Case Template)
-  def add_column
-    @circuit    = Circuit.find params[:id]
-    permit "editor of :circuit" do
-       @circuit.add_case_columns( [params[:column_to_add]], params[:value_column_to_add] )
-       if @circuit.errors.empty?
-          redirect_to "/circuits/#{@circuit.id}/case_templates"
-        else
-          render :controller=>'case_template', :action=>'index'
-      end
-    end
-  end
- 
-  #Delete column to Data Set
-  def delete_column
-    @circuit    = Circuit.find params[:id]
-    permit "editor of :circuit" do
-      begin
-         @circuit.delete_case_columns( params[:column][:to_delete] )
-         @circuit.save
-         redirect_to "/circuits/#{@circuit.id}/case_templates"
-      rescue RuntimeError => error
-         @circuit.errors.add(:eliminarColumna, error)
-         self.index(@circuit)
-         render :action=>'index'
-      end
-    end
-  end
- 
-  #Modify column to Data Set
-  def modify_column
-    @circuit = Circuit.find params[:id]
-    permit "editor of :circuit" do
-      begin
-        @circuit.modify_case_columns( params[:column][:to_modify], params[:column_name_to_modify] )
-        @circuit.save
-        redirect_to "/circuits/#{@circuit.id}/case_templates"
-      rescue RuntimeError => error
-        @circuit.errors.add(:nuevaColumna, error)
-        self.index(@circuit)
-        render :action=>'index'
-      end
-    
-    end
-  end
   
   def script_tutorial
     
