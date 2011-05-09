@@ -31,6 +31,7 @@ class CaseTemplatesController < ApplicationController
 
   #May or not receive errors from add_column
   def index(circuit_error =nil)
+
     if !circuit_error.nil?
       @circuit = circuit_error
     elsif params[:circuit_id]
@@ -41,14 +42,12 @@ class CaseTemplatesController < ApplicationController
       @circuit = Circuit.find(params[:case_template][:circuit_id])
     end
 
-    @columns_template = CaseTemplate.column_names
-    @columns_data = CaseTemplate.data_column_names( @circuit )
-    @columns_data_show = @columns_data.select {|n| n !~ /^default_*/}.sort_by{ |x| x.downcase }
-    
-    @case_templates  = CaseTemplate.circuit_id_equals(@circuit.id).descend_by_updated_at
-    @exclude_show = [ :circuit_id, :user_id, :updated_at, :case_template_id]
+    @columns_template  = CaseTemplate.column_names
+    @columns_data      = CaseTemplate.data_column_names( @circuit )
+    @columns_data_show = CircuitCaseColumn.find_all_by_circuit_id(@circuit.id).select{|x| !x.default?}
+    @case_templates    = CaseTemplate.circuit_id_equals(@circuit.id).descend_by_updated_at
+    @exclude_show      = [ :circuit_id, :user_id, :updated_at, :case_template_id]
     @exclude_show_data = [:id, :case_template_id, :updated_at, :created_at]
-
     @search = @case_templates.search(params[:search])#.paginate({:page => params[:page], :per_page => 1})
     @cases_pag = @search.paginate :page => params[:page], :per_page => 10 # :order=>"created_at"
     @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell

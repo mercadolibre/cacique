@@ -54,10 +54,21 @@
 //Queue observers
 =render :partial => "queue_observers/queue_icon"
 
-
 //Serch
 .buscar
   - form_for @search do  |f|
     = f.text_field :objective_like, :style => 'width: 130px; ', :style => 'width: 130px',:value=>_("Search case") , :onblur=>"if (this.value == '') {this.value = '#{_('Search case')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search case')}') {this.value = '';this.style.color='black'}"
     = f.text_field :circuit_id_equals, :value => @circuit.id, :style => 'display:none;'
     %input{:type=>"image",:src=>"/images/icons/search.png"}
+  
+//ABM Column
+=render :partial=>"circuit_case_columns/abm_columns"
+
+//Excel import
+=render :partial => "import"
+
+//Execution pannel
+.div{:id=>"execution_panel",:style => "display:none; "}
+  
+//Help 
+=render :partial => "info_case_template"
