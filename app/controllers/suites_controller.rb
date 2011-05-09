@@ -268,10 +268,6 @@ class SuitesController < ApplicationController
     redirect_to "/suites"
   end
   
-  def suite_tutorial
-    
-  end
-  
   private
   
   def load_categories
