@@ -64,6 +64,8 @@
    
   //Ruby
   =link_to image_tag("/images/icons/ruby.png",:alt=>"ruby"), '/circuits/ruby' , :title=>_('Ruby Help') , :popup => true
+
+  //Info
   =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoCircuit').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;")
 
   //Panel Execution
@@ -111,4 +113,4 @@
 .div{:id=>"execution_panel",:style => "display:none; "}
   
 //Help 
-=render :partial => "/helps/info_script"
+=render :partial => "info_script"
