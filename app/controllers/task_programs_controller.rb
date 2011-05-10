@@ -92,8 +92,6 @@ class TaskProgramsController < ApplicationController
   
   end
 
-
-
   def new
     @suite_id    = params[:id]  if params[:id]
     @init_date   = Time.now
@@ -116,38 +114,32 @@ class TaskProgramsController < ApplicationController
   end
 
   def create
-   @text_error = TaskProgram.validate(params)   
-   if !@text_error.empty?
-     @js = "alert('#{@text_error}'); history.back();"
-     render :inline => "<%= javascript_tag(@js) %>", :layout => true   
-   else
-      params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
-      params[:execution][:server_port] = request.port if request.port != 80
-      times_to_run = TaskProgram.generate_times_to_run(params[:program])
-      #Returns in the format [[time, status],[time, status]]
-      #Por ex. [[Time0,0],[Time1,1],[Time2,0]]
-
-     #Suites
-     suite_ids = params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]
-     suite_ids.each do |suite_id|
-         run = TaskProgram.calculate_status(times_to_run)
-         params[:execution][:delayed_job_status] = 1
-         task_program = TaskProgram.create({:user_id => current_user.id,:suite_execution_ids => "", :identifier=> params[:execution][:identifier],
-                                            :suite_id => suite_id,:project_id => params[:project_id]})
-         params[:execution][:task_program_id] = task_program.id
-         params[:execution][:user_mail]       = current_user.email
-         params[:execution][:user_id]         = current_user.id
-         #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
-         params[:execution][:server_port] = request.port
-         run.each do |r|
-            DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
-         end
-      end
-      redirect_to "/task_programs"
-   end
+     @text_error = TaskProgram.validate(params)   
+     if !@text_error.empty?
+       @js = "alert('#{@text_error}'); history.back();"
+       render :inline => "<%= javascript_tag(@js) %>", :layout => true   
+     else
+       params[:execution][:server_port] = request.port if request.port != 80
+       cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
+       cant_suites = params[:execution][:suite_ids].include?("0")? 1 : params[:execution][:suite_ids].count
+       @user_configuration = current_user.user_configuration
+       @user_configuration.update_configuration(params[:execution])
+       cant_run_conbination = @user_configuration.run_combinations.count
+       suite_program_cant = cant_times * cant_suites * cant_run_conbination
+       if suite_program_cant < MAX_SUITE_PROGRAM
+           TaskProgram.create_all(params)
+           redirect_to "/task_programs"
+       else
+          text_confirm = _("You are to be scheduled #{suite_program_cant} executions, please enter the number of executions to confirm.")
+          text_error = _('Error')
+          @js = "value = prompt('#{text_confirm}', ''); if( value != '#{suite_program_cant}'){alert('#{text_error}');history.back();}else{'#{TaskProgram.create_all(params)}';location='/task_programs';}"
+          render :inline => "<%= javascript_tag(@js) %>", :layout => true  
+       end
+     end    
   end
 
-  def delete()
+
+  def delete
     @job = DelayedJob.find params[:id]
     if current_user.has_role?("root") or @job.task_program.user_id == current_user.id
       @job.destroy
