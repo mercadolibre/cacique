@@ -8,6 +8,6 @@
     %br
     -suite_selected = (@suite_id ? @suite_id.to_i : @suites.first.id  ) 
     -@suites.each do |suite|
-      = check_box_tag '[execution][suite_ids][]', suite.id, suite_selected == suite.id, :class=>'suites_ids'
-      = truncate(suite.name.capitalize, :ommision => "...", :length => 30)
-      %br
+      %div{:title=>suite.name.capitalize}
+        = check_box_tag '[execution][suite_ids][]', suite.id, suite_selected == suite.id, :class=>'suites_ids'
+        = truncate(suite.name.capitalize, :ommision => "...", :length => 30)

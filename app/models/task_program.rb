@@ -195,5 +195,60 @@ class TaskProgram < ActiveRecord::Base
    end 
  end
 
+
+  def self.validate(params)
+     #Select any Suite
+     return _('Must Select any Suite')  if  !params[:execution][:suite_ids]
+     #Time format
+     return _('Invalid Time Format for Init Hour. Please verify it.') if !params[:program][:init_hour].match(/\d{2}:\d{2}/)
+     return _('Invalid Time Format. Time must be after the current.') if params[:program][:range]=="today" and params[:program][:init_hour] < Time.now.strftime("%H:%M")
+     #Identifier format
+     params[:execution][:identifier].gsub!(" ","_")
+     return _('Field ID must contain only letters, numbers, space or underscore') if params[:execution][:identifier].match(/^(\w*\_?)*$/).nil? and !params[:execution][:identifier].empty?
+     #Repetitions 
+     runs = params[:program][:runs].to_i
+     period = params[:program][:range_each].to_s
+     return _('Invalid Number of Repetitions')+_('. Please verify it.') if  runs  < 1 or params[:program][:runs].match(/\D/) or runs >500
+     #Select any Weekly
+     return _('Must select at least one day in your weekly schedule.') if params[:program][:frecuency]=="weekly" and !params[:program][:week_days]
+     #[Until Date] should be after to [From Date]
+     i_date = params[:program][:init_date].to_datetime
+     f_date = params[:program][:finish_date].to_datetime
+     return _('[Until Date] should be after to [From Date]') if params[:program][:range]=="extend" and i_date > f_date
+  
+   #Specific today
+   if params[:program][:range]=="today" and period == "specific"
+       runs.times do |nro|
+         nr= nro.to_s
+         input_name   = "specific_hour_" + nr 
+         #Get the init_hour for the specific run
+         hour_and_min = params[:program][input_name.to_sym]
+         
+         if !hour_and_min.match(/\d{2}:\d{2}/) or hour_and_min < Time.now.strftime("%H:%M")
+         return _('Invalid Time Format for Execution No.: ')+ nr +_('. Please verify it.')
+         end          
+       end
+   end  
+
+   #Specific with runs >1    
+   if  runs  > 1 and period == "specific"     
+       runs.times do |nro|
+         nr= nro.to_s
+         input_name   = "specific_hour_" + nr 
+         #Get the init_hour for the specific run
+         hour_and_min = params[:program][input_name.to_sym]
+         return _('Invalid Time Format for Execution No.: ')+ nr +_('. Please verify it.') if !hour_and_min.match(/\d{2}:\d{2}/)       
+       end    
+   else     
+     #Per each      
+     if runs  > 1 and period == "per_each"           
+       return _('Invalid Number of repetitions per hour') +_('. Please verify it.') if !params[:program][:per_hour].match(/^([1-9]\d*|0(\d*[1-9]\d*)+)$/)
+     end     
+   end
+   return ""
+
+  end
+
+
    
 end
