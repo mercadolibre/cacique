@@ -63,16 +63,18 @@ class TaskProgramsController < ApplicationController
     conditions        = Array.new
     conditions_names  = Array.new
     conditions_values = Array.new
-    
+
     conditions_names << " run_at >= ? " 
-    date = @init_date
-    conditions_values << Time.local(date.year, date.month, date.day, date.hour, date.min, '00').getutc
+    conditions_values << @init_date 
     conditions_names << " run_at <= ? "    
-    date = @finish_date
-    conditions_values << Time.local(date.year, date.month, date.day, date.hour, date.min, '00').getutc
+    conditions_values << @finish_date 
     if @user_id != 0   
       conditions_names << " user_id = ? " 
       conditions_values << @user_id
+    end
+    if params[:program] && params[:program][:identifier]
+      conditions_names << " identifier  like ? " 
+      conditions_values << '%' + params[:program][:identifier] + '%'
     end
     if @suite_id != 0
       conditions_names << " suite_id  = ? " 
