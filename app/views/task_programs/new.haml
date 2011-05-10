@@ -26,24 +26,31 @@
 -javascript 'suite_execution_emails'
 -javascript 'select_all'
 -javascript 'checked_default'
+-javascript 'checkbox_lib'
 =stylesheet_link_tag 'jquery-ui.css'
 = calendar_date_select_includes "blue"
 = stylesheet_link_tag 'blue.css'
 
-.main{:style=>"width:100%;padding:1.5% 0;"}
+.main{:style=>"width:80%;padding:1.5% 0;margin:0 auto;"}
   - form_for @suite_execution, :url => "/task_programs/create", :html => {:id => "form_to_run_suite"} do
     =text_field "execution", "where_did_i_come", :value => "new_program", :style => "display:none;"
     %h1
       =image_tag("icons/calendar-and-tasks.png", :alt=>"calendar-and-tasks.png")
-      =_("Suite Scheduler:")    
-      -value = (@suite_id ? @suite_id.to_i :  (@suites.empty? ? 0 : @suites.first.id ) )        
-      =select("execution", "suite_id", @suites.collect {|s| [ truncate(s.name.capitalize, :ommision => "...", :length => 60) , s.id ] }.sort!,{:selected => value},{:style=>"width:160px;", :onchange=>"$j('comment_button').click(function(){();});"})       
+      =_("Suite Scheduler:")          
       .form_button
         =submit_tag _('Schedule')
-   
-    =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
-    =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
-    =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
-    =render :partial => 'context_configurations/suite_program_config', :locals => {:suite_id => value , :command=>@command}
+    
+    %div{:style=>"width:30%;float:left;margin-right:1%;margin-left:5%;"}
+      =render :partial => 'select_suites'
+      =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
+    %div{:style=>"width:30%;float:left;margin-right:1%;"}
+      =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
+      =render :partial => 'context_configurations/suite_program_config'
+    %div{:style=>"width:30%;float:left;"}
+      =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
+
+
+
+
 
 
