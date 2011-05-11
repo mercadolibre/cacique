@@ -32,12 +32,10 @@
 -javascript 'suite_execution_emails'
 
 %script
-
   function onload(){
   iniciarTabla();  //Edit Table cells
   $j('#div_edit_free').height($j(window).height() -200);
   }
-
   = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
 
 .main
@@ -48,8 +46,7 @@
       .tab_view{:onclick=>"location='#{project_circuit_case_templates_path(@project_id,@circuit)}'", :style=> "opacity:10;padding-top:4px;position:relative;top:2px;"}
         =_('Data Set')
       %div{ :style=>"clear: both"}     
-  .edit_free_table{:id=>"div_edit_free", :style=>"overflow:auto;width:98%;"}
-  
+  .edit_free_table{:id=>"div_edit_free", :style=>"overflow:auto;width:98%;"}  
     %div{ :style=>"width:500px;float:left; margin-bottom:10px;"}
       %div{ :id => "modified_file", :style => "width:20px;float:left;"}
       %b
@@ -65,11 +62,13 @@
       #cases_table
         =text_field_tag "source_uri", request.request_uri, :style => "display:none;"
         =text_field_tag "where_did_i_come", "case_templates_index", :style => "display:none;"
-        =render :partial => 'data_set', :locals=>{ :circuit=> @circuit, :columns_data=>@columns_data, :case_templates=>@cases_pag}
+        =render :partial => 'data_set', :locals=>{ :circuit=> @circuit, :circuit_case_columns =>@circuit_case_columns, :case_template_columns=>@case_template_columns, :case_templates=> @case_templates}
     %div{ :style=>"clear: both"}
-    
+
+
+//Status Refresh  
 #status
--@cases_pag.each do |case_template|
+-@case_templates.each do |case_template|
   =periodically_call_remote(:url => {:action => 'update_status', :case_template => case_template.id}, :condition => "!ejecucion_completa_#{case_template.id.to_s}", :update => 'status_' + case_template.id.to_s, :frequency => 5)
 
 //Category Menu

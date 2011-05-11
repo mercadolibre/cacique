@@ -87,15 +87,18 @@ class SuitesController < ApplicationController
   end
 
   def edit_cases
-    @suite = Suite.find params[:id]
-    @circuit = Circuit.find params[:circuit_id]
-    @case_templates = @circuit.case_templates    
-    @columns_data      = CaseTemplate.data_column_names( @circuit )
-    @columns_template  = CaseTemplate.column_names
-    @exclude_show      = [ :circuit_id, :user_id, :updated_at, :case_template_id]
-    @exclude_show_data = [:id, :case_template_id, :updated_at, :created_at]
-    @cell_selects      = ContextConfiguration.build_select_data #Build the selects for edit cell
-    render :partial => "suite_cases", :locals => {:exclude_show => @exclude_show, :exclude_show_data => @exclude_show_data, :suite => @suite, :circuit => @circuit, :case_templates => @case_templates, :columns_data => @columns_data, :columns_template => @columns_template}
+    @suite          = Suite.find params[:id]
+    @circuit        = Circuit.find params[:circuit_id]
+    @case_templates = @circuit.case_templates 
+
+    #Variables
+    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
+    @circuit_case_columns  = @circuit.circuit_case_columns #Columns variables  
+    @columns_data_show     = CircuitCaseColumn.find_all_by_circuit_id(@circuit.id).select{|x| !x.default?} #Columns case template variables without default
+    @cell_selects          = ContextConfiguration.build_select_data #Build the selects for edit cell
+
+    render :partial => "suite_cases", :locals => { :suite => @suite, :circuit => @circuit, :case_templates => @case_templates, 
+                                                   :case_template_columns => @case_template_columns, :circuit_case_columns =>  @circuit_case_columns}
   end
 
   def delete
