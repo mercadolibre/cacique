@@ -25,12 +25,6 @@
 //
 
 
-
-//Should receive the variables:
-//@columns_template
-//@exclude_show
-//@exclude_show_data
-
 %script
   //Selected filed in table
   var marcado  = "";
@@ -40,22 +34,23 @@
 //To find out if called from case template, edit suite or suite comment
 -@controller_data = self.controller.controller_name()
 
-%div{ :style=>"clear: both"}
-  -if case_templates.empty? && params[:search].nil?
-    #cases_table{:style => "width:99%;  margin:auto;"}
-      %h2{:style=>"margin-top:30px; margin-left:5px;"}
-        =_("Without Cases")
-      %br
-  -elsif case_templates.empty? && !params[:search].nil?
-    #cases_table{:style => "width:99%;  margin:auto;"}
-      %h2{:style=>"text-align:center;margin-top:30px;"}
-        %i
-          =_("No results were found for")
-          =params[:search][:objective_like]
-  -else
-    #cases_table{:style => "width:99%;  margin:auto;"}
-      %table.general{  :id=>'table_' + circuit.id.to_s, :cellspacing=>"1", :name=>"table_zebra", :style=>"margin-top:0px;max-width:100%;"}
-        =render :partial => '/case_templates/table_titles', :locals=>{ :columns_data=>columns_data, :columns_template=>@columns_template, :circuit => circuit}
-        =render :partial => '/case_templates/table_data', :locals=>{ :circuit=> circuit, :case_templates=>case_templates, :columns_data=>columns_data, :columns_template=>@columns_template }
+-if case_templates.empty? && params[:search].nil?
+  #cases_table{:style => "width:99%;  margin:auto;"}
+    %h2{:style=>"margin-top:30px; margin-left:5px;"}
+      =_("Without Cases")
+    %br
+-elsif case_templates.empty? && !params[:search].nil?
+  #cases_table{:style => "width:99%;  margin:auto;"}
+    %h2{:style=>"text-align:center;margin-top:30px;"}
+      %i
+        =_("No results were found for")
+        =params[:search][:objective_like]
+-else
+  #cases_table{:style => "width:99%;  margin:auto;"}
+    %table.general{  :id=>'table_' + circuit.id.to_s, :cellspacing=>"1", :name=>"table_zebra", :style=>"margin-top:0px;max-width:100%;"}
+      //Row Titles
+      =render :partial => '/case_templates/table_titles', :locals=>{ :circuit_case_columns=>circuit_case_columns, :case_template_columns=>case_template_columns, :circuit => circuit}
+      //Rows Data
+      =render :partial => '/case_templates/table_data', :locals=>{ :circuit=> circuit, :case_templates=>case_templates, :circuit_case_columns=>circuit_case_columns, :case_template_columns=>case_template_columns }
 
-%div{ :style=>"clear: both"}
+

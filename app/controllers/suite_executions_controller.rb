@@ -396,18 +396,18 @@ class SuiteExecutionsController < ApplicationController
     #Cases Script
       #Hash con formato: id caso-> nombre circuito)
       @suite.case_templates.each do |c|
-	       @circuit_case[c.id] = c.circuit.name
-	    end
+	 @circuit_case[c.id] = c.circuit.name
+      end
 
     #case template table
-      @exclude_show      = [ :circuit_id, :user_id, :updated_at, :case_template_id]
-      @exclude_show_data = [:id, :case_template_id, :updated_at, :created_at]
-      @columns_template  = CaseTemplate.column_names
+    @columns_template  = CaseTemplate.column_names
  
-      #Script column obtain
-         #hash Format: [circuit_id =>{data sets column}]
-         @suite_circuits_data = Hash.new
-         @suite_circuits_data = @suite.circuits_data()
+    #Script column obtain
+       #hash Format: [circuit_id =>{data sets column}]
+       @suite_circuits_data = Hash.new
+       @suite_circuits_data = @suite.circuits_data()
+    #Case template columns
+    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
 
     #Broken relations
     @circuits  = @suite.circuits
@@ -426,7 +426,7 @@ class SuiteExecutionsController < ApplicationController
          @suite_circuit_cases[circuit.id] = @suite.case_templates.find_all_by_circuit_id circuit.id
     end
     
-    render :partial => "/suite_executions/suite_comment", :locals => {:suite=>@suite,:case_relation=>@case_relation,:circuits_ids=>@circuits_ids,:circuits_names=>@circuits_names,:circuits=>@circuits,:suite_circuits_data=>@suite_circuits_data}
+    render :partial => "/suite_executions/suite_comment", :locals => {:case_relation=>@case_relation,:circuits_ids=>@circuits_ids,:circuits_names=>@circuits_names,:suite_circuits_data=>@suite_circuits_data, :case_template_columns=>@case_template_columns}
   end
   
   def get_report
