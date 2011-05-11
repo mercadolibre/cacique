@@ -39,14 +39,14 @@
       %option{ :label => "none", :selected => _("-Select any Script-"), :value => _("-Select any Script-") }
         =_("Select any Script")
         
-      -for circuit in @suite.circuits do
+      -@circuits.each do |circuit|
         %option{ :id=>circuit.name, :label => circuit.name, :value => circuit.id, :title=>circuit.name}
           =truncate(circuit.name,:ommision => "...", :length =>40)
 
   .circuits{:id=>"circuits_suite", :style=>" margin: 0 auto;clear:both;height:300px;overflow:auto;"}
     %input{ :type => "hidden", :name => "suite_id", :value => @suite.id}
     //SCRIPTS DIVS
-    -for circuit in @circuits do
+    -@circuits.each do |circuit|
       .div_circuit_cases{:id => 'div_circuit_' + circuit.id.to_s, :name=>"div_circuit",:style => "display:none;overflow: auto;"}
         -if suite_cases(circuit,@suite.case_templates).empty?
           %i{:style => 'color:#8f8f8f; font-size: 12px;'}
@@ -78,5 +78,11 @@
                     =suite_case_relation.case_destination
 
           //Script cases
-          =render :partial => '/case_templates/data_set', :locals=>{ :circuit => circuit, :columns_data=>@suite_circuits_data[circuit.id], :case_templates=>suite_cases(circuit,@suite.case_templates)}   
+          =render :partial => '/case_templates/data_set', :locals=>{ :circuit => circuit, :circuit_case_columns=>@suite_circuits_data[circuit.id],  :case_template_columns=>case_template_columns, :case_templates=>suite_cases(circuit,@suite.case_templates)}   
+
+
+
+
+
+
 
