@@ -31,26 +31,42 @@ function showCircuit(){
 }
 
 //Function that defines the relationships affected (broken) to uncomment a case of a circuit
-  function  RelacionesRotas(check, circuito, caso){
-  
+  function  BrokenRelations(check, case_template){
     div_circuit_relations = $j('#div_relation_broken_' + $j('#select_circuits').val() );
-    relation=$j('#broken_' + caso);
-   //If comments
-   if (!check.checked){
-      document.getElementById(caso).style.background = "#FDAFAF";
-      relation.show();
-      //Just shows the broken relationships div that circuit if you have
-      if( div_circuit_relations.find('.broken_relation').length != 0)div_circuit_relations.show();    
-   }else{
-      document.getElementById(caso).style.background = "#FFFFFF";
-      relation.hide();
-      //If it was the only visible, it hides the entire span of broken relationships that circuit
-      if( div_circuit_relations.find('.broken_relation:visible').length == 0) {
-         div_circuit_relations.hide(); 
-      }   
-   }
+    relation =   div_circuit_relations.find('#broken_' + case_template);
+    tr = check.parent().parent();
+
+alert(tr.get(0) );
+    if ( relation.attr('id') ){
+
+       //If comments
+       if ( check.is(':checked') ){
+alert('checked');
+          //If it was the only visible, it hides the entire span of broken relationships that circuit
+          relation.hide();
+          if( div_circuit_relations.find('.broken_relation :visible').length == 0 )div_circuit_relations.hide(); 
+          tr.css('background-color','#FFFFFF');  
+       }else{
+alert('no checked');
+          //Just shows the broken relationships div that circuit if you have
+          relation.show(); 
+          div_circuit_relations.show(); 
+          tr.css('background-color','#FDAFAF');  
+      }
+    }
+
   }
+
   
+
+//Function that defines the relationships affected (broken) to uncomment a case of a all circuit
+function AllBrokenRelations(check, case_templates){
+   for(i=0;i<case_templates.length;i++){
+           BrokenRelations(check, case_templates[i])
+  	}
+}
+
+
   //Continue clicking is called, sends the selected cases to run the driver SuiteExecution
   function submit_form(){
 	form = document.getElementById('send_comment')

@@ -34,7 +34,7 @@
   // SUITE COMMENT
   -if @controller_data == 'suite_executions'
     %th.def{:style => "width:3%;"}
-      %input{ :type => "checkbox", :name => 'todos', :id => 'todos_'+circuit.id.to_s, :value => "checkbox", :onClick => "listItems(#{circuit.id},this.form);RelacionesRotasAll(#{circuit.id});"}
+      %input{ :type => "checkbox", :name => 'todos', :id => 'todos_'+circuit.id.to_s, :value => "checkbox", :onClick => "listItems(#{circuit.id},this.form);AllBrokenRelations($j(this), #{circuit.case_templates.map(&:id).to_javascript_expr});"}
 
   // SUITE EDIT
   -if @controller_data == 'suites'

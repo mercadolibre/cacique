@@ -23,16 +23,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
-.tag{:style => "position:fixed;left: 130px; top: 120px; width:950px; height:430px;"}
-  %img{ :src => "/images/icons/cross_grey.png", :alt=>"cross_grey.png", :onclick=>"document.getElementById('div_suite_comment').style.display='none';", :style=>"float:right;cursor:pointer;"}
-  %br
-
+.tag{:id => "suite_comment_popup", :name => "execution_config", :style=>"height:70%; width:70%; padding-bottom:10px;left: 15%;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"suite_comment_popup"} 
   %div
-    //%form{ :id =>"send_comment", :action => '/suite_executions/new?id=' + @suite.id.to_s }
     %h2
       =_("Select Cases to Run")
       =_("in Suite Execution")
-      //=submit_tag "Ok", :style=>"float:right;margin-right:20px;"
       %input{:type => "button", :value => "Ok", :id => "save_comment", :style => "float:right;margin-right:20px;", :onClick => "addFormCaseCommentIds();"}
 
     %select{ :id=>'select_circuits', :onChange=>"showCircuit();", :style=>"width:200px;margin-left:30px;float:left;margin-top:20px;"}
@@ -43,7 +39,7 @@
         %option{ :id=>circuit.name, :label => circuit.name, :value => circuit.id, :title=>circuit.name}
           =truncate(circuit.name,:ommision => "...", :length =>40)
 
-  .circuits{:id=>"circuits_suite", :style=>" margin: 0 auto;clear:both;height:300px;overflow:auto;"}
+  .circuits{:id=>"circuits_suite", :style=>" margin: 0 auto;clear:both;height:70%;overflow:auto;"}
     %input{ :type => "hidden", :name => "suite_id", :value => @suite.id}
     //SCRIPTS DIVS
     -@circuits.each do |circuit|
@@ -78,7 +74,9 @@
                     =suite_case_relation.case_destination
 
           //Script cases
-          =render :partial => '/case_templates/data_set', :locals=>{ :circuit => circuit, :circuit_case_columns=>@suite_circuits_data[circuit.id],  :case_template_columns=>case_template_columns, :case_templates=>suite_cases(circuit,@suite.case_templates)}   
+          =render :partial => '/case_templates/data_set', :locals=>{ :circuit => circuit, :circuit_case_columns=>@suite_circuits_data[circuit.id],  :case_template_columns=>case_template_columns, :case_templates=>suite_cases(circuit,@suite.case_templates)}  
+
+  %div{:style=>"clear:both"} 
 
 
 
