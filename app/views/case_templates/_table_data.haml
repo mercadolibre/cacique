@@ -42,7 +42,7 @@
       // SUITE COMMENT
       -if @controller_data == 'suite_executions'
         %td{:style=>"width:10px;"}
-          %input{ :id => "case_"+circuit.id.to_s, :type => "checkbox", :checked=>"checked", :name => "cases[]", :value => case_template.id, :onClick=>"RelacionesRotas(this,#{circuit.id}, #{case_template.id});"}
+          %input{ :id => "case_"+circuit.id.to_s, :type => "checkbox", :checked=>"checked", :name => "cases[]", :value => case_template.id, :onClick=>"BrokenRelations($j(this), #{case_template.id});"}
 
       // SUITE EDIT
       -if @controller_data == 'suites'
