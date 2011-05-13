@@ -1,0 +1,13 @@
+%div{:style=>"width:90%;padding: 10px 0;float:left;"}
+  %h2{:style=>'float: left;width: 10%;color:#288EB1;'}
+    =_('Suites:')
+  .form_tag{:style=>'max-height: 160px; width: 95%; overflow: auto; padding: 5px; margin-bottom: 10px;clear:both;float: left;'}
+    = check_box_tag '[execution][suite_ids][]', 0, false, :onClick => "ch_select_all(this, 'suites_ids');disable_all('disabled', 'suites_ids') "
+    %b
+      All
+    %br
+    -suite_selected = (@suite_id ? @suite_id.to_i : @suites.first.id  ) 
+    -@suites.each do |suite|
+      %div{:title=>suite.name.capitalize}
+        = check_box_tag '[execution][suite_ids][]', suite.id, suite_selected == suite.id, :class=>'suites_ids'
+        = truncate(suite.name.capitalize, :ommision => "...", :length => 30)
