@@ -1,4 +1,4 @@
-class AddingRelationsFromSuiteAndScripts < ActiveRecord::Migration
+class AddingRelationsFromProjectsAndScripts < ActiveRecord::Migration
   def self.up
     add_column :circuits, :project_id, :int
   end

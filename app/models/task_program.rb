@@ -33,7 +33,34 @@ class TaskProgram < ActiveRecord::Base
   
   validates_presence_of :user_id,    :message => _("Must complete User Field")
   validates_presence_of :suite_id,   :message => _("Must complete suite")
-    
+  
+
+
+
+  def self.create_all(params)
+      params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
+      times_to_run = TaskProgram.generate_times_to_run(params[:program])
+      #Returns in the format [[time, status],[time, status]]
+      #Por ex. [[Time0,0],[Time1,1],[Time2,0]]
+
+     #Suites
+     suite_ids = params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]
+     suite_ids.each do |suite_id|
+         run = TaskProgram.calculate_status(times_to_run)
+         params[:execution][:delayed_job_status] = 1
+         task_program = TaskProgram.create({:user_id => current_user.id,:suite_execution_ids => "", :identifier=> params[:execution][:identifier],
+                                              :suite_id => suite_id,:project_id => params[:project_id]})
+         params[:execution][:task_program_id] = task_program.id
+         params[:execution][:user_mail]       = current_user.email
+         params[:execution][:user_id]         = current_user.id
+         #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
+         run.each do |r|
+            DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
+         end
+      end
+  end
+
+  
   #builds all agreed on the basis of "params" and assembles the "delayed job" for
   def self.generate_times_to_run(params)
     times_to_run = Array.new #Dates to generate delayed jobs 
@@ -75,19 +102,25 @@ class TaskProgram < ActiveRecord::Base
     times_to_run = Array.new
     init_hour     = params[:init_hour].split(':')[0]  
     init_min      = params[:init_hour].split(':')[1]  
-    cant_corridas = params[:cant_corridas].to_i
-    if  cant_corridas  > 1 
-       case params[:range_hours]
-            when "per_hours"
-                per_hours =  params[:per_hour].to_i
+    runs          = params[:runs].to_i
+    if  runs > 1 
+       case params[:range_repeat]
+            when "each"
+                per_each =  params[:per_each].to_i
                 #Build the init date
-                per_hours_init_date = Time.local(date.year, date.month, date.day, init_hour, init_min, '00')
-                cant_corridas.times do |i|
-                  times_to_run << per_hours_init_date
-                  per_hours_init_date = per_hours_init_date + per_hours*60*60 #Add the selected hours to the date
+                per_each_init_date = Time.local(date.year, date.month, date.day, init_hour, init_min, '00')
+                #Each hours or minutes
+                if params[:each_hour_or_min] == "min" #Minutes   
+                     type_time = 60     #Add the selected minutes to the date             
+                else #hours
+                     type_time = 60*60 #Add the selected hours to the date
+                end
+                runs.times do |i|
+                  times_to_run << per_each_init_date
+                  per_each_init_date = per_each_init_date + per_each * type_time
                 end
             when "specific"
-              cant_corridas.times do |nro|
+              runs.times do |nro|
                   input_name   = "specific_hour_" + nro.to_s 
                   #Get the init_hour for the specific run
                   hour_and_min = params[input_name.to_sym]
@@ -98,11 +131,12 @@ class TaskProgram < ActiveRecord::Base
               end
             else          
               raise "Indefined range"
-          end#End case params[:range_hours] 
+          end#End case params[:range_each] 
    else
      times_to_run << Time.local(date.year, date.month, date.day, init_hour, init_min, '00') 
-   end#End cant_corridas
+   end#End runs
    return times_to_run
+
   end
   
   def self.get_next_valid_date(valid_dates, date, finish)
@@ -187,6 +221,61 @@ class TaskProgram < ActiveRecord::Base
     delayed_jobs.last.save
    end 
  end
+
+
+  def self.validate(params)
+     #Select any Suite
+     return _('Must Select any Suite')  if  !params[:execution][:suite_ids]
+     #Time format
+     return _('Invalid Time Format for Init Hour. Please verify it.') if !params[:program][:init_hour].match(/\d{2}:\d{2}/)
+     return _('Invalid Time Format. Time must be after the current.') if params[:program][:range]=="today" and params[:program][:init_hour] < Time.now.strftime("%H:%M")
+     #Identifier format
+     params[:execution][:identifier].gsub!(" ","_")
+     return _('Field ID must contain only letters, numbers, space or underscore') if params[:execution][:identifier].match(/^(\w*\_?)*$/).nil? and !params[:execution][:identifier].empty?
+     #Repetitions 
+     runs = params[:program][:runs].to_i
+     period = params[:program][:range_each].to_s
+     return _('Invalid Number of Repetitions')+_('. Please verify it.') if  runs  < 1 or params[:program][:runs].match(/\D/) or runs >500
+     #Select any Weekly
+     return _('Must select at least one day in your weekly schedule.') if params[:program][:frecuency]=="weekly" and !params[:program][:week_days]
+     #[Until Date] should be after to [From Date]
+     i_date = params[:program][:init_date].to_datetime
+     f_date = params[:program][:finish_date].to_datetime
+     return _('[Until Date] should be after to [From Date]') if params[:program][:range]=="extend" and i_date > f_date
+  
+   #Specific today
+   if params[:program][:range]=="today" and period == "specific"
+       runs.times do |nro|
+         nr= nro.to_s
+         input_name   = "specific_hour_" + nr 
+         #Get the init_hour for the specific run
+         hour_and_min = params[:program][input_name.to_sym]
+         
+         if !hour_and_min.match(/\d{2}:\d{2}/) or hour_and_min < Time.now.strftime("%H:%M")
+         return _('Invalid Time Format for Execution No.: ')+ nr +_('. Please verify it.')
+         end          
+       end
+   end  
+
+   #Specific with runs >1    
+   if  runs  > 1 and period == "specific"     
+       runs.times do |nro|
+         nr= nro.to_s
+         input_name   = "specific_hour_" + nr 
+         #Get the init_hour for the specific run
+         hour_and_min = params[:program][input_name.to_sym]
+         return _('Invalid Time Format for Execution No.: ')+ nr +_('. Please verify it.') if !hour_and_min.match(/\d{2}:\d{2}/)       
+       end    
+   else     
+     #Per each      
+     if runs  > 1 and period == "per_each"           
+       return _('Invalid Number of repetitions per hour') +_('. Please verify it.') if !params[:program][:per_hour].match(/^([1-9]\d*|0(\d*[1-9]\d*)+)$/)
+     end     
+   end
+   return ""
+
+  end
+
 
    
 end
