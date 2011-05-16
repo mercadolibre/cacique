@@ -1,6 +1,5 @@
 //
 //  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
 //      Guerra Brenda                   brenda.guerra.7@gmail.com
 //      Crosa Fernando                  fernandocrosa@hotmail.com
 //      Branciforte Horacio             horaciob@gmail.com
@@ -22,19 +21,28 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-%div{:id=>"result",:style=>"margin-left: 20px; margin-top: 20px;color:red;"}
 
-  .div_abm{:style=>"left: 50px;color:#0B610B;"}
-    =image_tag("/images/icons/add3.png",  :style=>"cursor:pointer;", :alt=>_("Create"), :title =>_("Create"), :onClick => "document.getElementById('create').show();")
-    =_('Create Project') 
-    %br 
-    %br
-  .div_abm{:style=>"margin-left: 50px;color:#FE9A2E;"}
-    =image_tag("/images/icons/edit.png", :alt=>_("Edit"), :title =>_("Edit"))
-    =_('Edit Project')  
+.tag{ :id => "create", :style=>"left: 40%; height:320px; width:225px; display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"create"}  
 
-#div_create
-  =render :partial=> "projects/create_popup"
-
-     
+  %div{:style=>"left: 30%; height:30%; width:70%;"}
+    .div_abm{:style=>"color:#0B610B;"}
+      %img{ :src => "/images/icons/add3.png",  :style=>"cursor:pointer;"}
+      =_('Create Project')
+      -form_for(:project, :url => projects_path, :html => { :method => :post, :style =>" border: 3px ridge #0B610B;" }) do |f|
+        %label{:for => "name"}
+          =_('Name')
+        = f.text_field :name
+        %label{:for => "description"}
+          =_('Description')
+        = f.text_field :description
+        %label
+          =_('Manager')
+        %select{:id => "project_user_id", :name=>"project[user_id]"}      
+          -@users.each do |user|
+            %option{ :value => user.id}
+              =user.login
+        %br
+        %br
+        =submit_tag _('Create'), :style=>"cursor:pointer;"
+  

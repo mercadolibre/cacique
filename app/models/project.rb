@@ -64,21 +64,17 @@ class Project < ActiveRecord::Base
          self.errors.add(:relation, _('User is already assigned to the project'))
          return false
        end
-
-      self.users << user
+      ProjectUser.create(:user_id=>user_id, :project_id=>self.id)
       user.reload_cached_projects
-      self.save
   end
   
   #Assing manager for the proyect
   def assign_manager(user_id)
-    if user_id.to_i != self.user_id
-      user = User.find user_id
-      self.user_id = user.id
-      self.users << user
-      user.reload_cached_projects
-      self.save
-    end
+    user = User.find user_id   
+    self.assign(user_id) if !self.users.include?(user) #if user is not assig
+    self.user_id = user.id
+    user.reload_cached_projects
+    self.save
   end
   
   #create user project relation
