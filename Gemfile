@@ -79,4 +79,5 @@ gem "activesupport", '2.3.5'
   gem "gettext_rails"
 #.....................................
 
+gem 'newrelic_rpm'
 
