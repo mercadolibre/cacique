@@ -63,16 +63,18 @@ class TaskProgramsController < ApplicationController
     conditions        = Array.new
     conditions_names  = Array.new
     conditions_values = Array.new
-    
+
     conditions_names << " run_at >= ? " 
-    date = @init_date
-    conditions_values << Time.local(date.year, date.month, date.day, date.hour, date.min, '00').getutc
+    conditions_values << @init_date 
     conditions_names << " run_at <= ? "    
-    date = @finish_date
-    conditions_values << Time.local(date.year, date.month, date.day, date.hour, date.min, '00').getutc
+    conditions_values << @finish_date 
     if @user_id != 0   
       conditions_names << " user_id = ? " 
       conditions_values << @user_id
+    end
+    if params[:program] && params[:program][:identifier]
+      conditions_names << " identifier  like ? " 
+      conditions_values << '%' + params[:program][:identifier] + '%'
     end
     if @suite_id != 0
       conditions_names << " suite_id  = ? " 
@@ -90,8 +92,6 @@ class TaskProgramsController < ApplicationController
   
   end
 
-
-
   def new
     @suite_id    = params[:id]  if params[:id]
     @init_date   = Time.now
@@ -107,54 +107,39 @@ class TaskProgramsController < ApplicationController
       @suites       = Suite.find_all_by_project_id params[:project_id]
       @weekly       = Date::DAYNAMES 
       @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
-      @range_hours  = [ [_("Each"), "per_hours"], [_("Specify"),"specific"] ]
+      @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
+      @each_hour_or_min  = [ [_("hs."), "hours"], [_("min"),"min"] ]
       @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
 
   end
 
   def create
-
-      @text_error=""    
-      
-      program_validate(params)
-
-      if !@text_error.empty?
-        #@js = "top.location='/task_programs/new/#{params[:execution][:suite_id]}'; alert('#{@text_error}')"
-        @js = "alert('#{@text_error}'); history.back();"
-        render :inline => "<%= javascript_tag(@js) %>", :layout => true
-
-      else
-
-         params[:execution][:identifier] = "Suite_Programada" if params[:execution][:identifier].empty?
-         params[:execution][:server_port] = request.port if request.port != 80
-         times_to_run = TaskProgram.generate_times_to_run(params[:program])
-
-         #Returns in the format [[time, status],[time, status]]
-         #Por ex. [[Time0,0],[Time1,1],[Time2,0]]
-
-         run = TaskProgram.calculate_status(times_to_run)
-         params[:execution][:delayed_job_status] = 1
-         task_program = TaskProgram.create({:user_id => current_user.id,
-                                            :suite_execution_ids => "",
-                                            :suite_id => params[:execution][:suite_id],
-                                            :project_id => params[:project_id]})
-
-         params[:execution][:task_program_id] = task_program.id
-         params[:execution][:user_mail]       = current_user.email
-         params[:execution][:user_id]         = current_user.id
-         #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
-         params[:execution][:server_port] = request.port
-         run.each do |r|
-
-            DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
-         #redirect_to "/task_programs?program[suite_id]=#{params[:execution][:suite_id]}" 
-          end
-         redirect_to "/task_programs?program[suite_id]=#{params[:execution][:suite_id]}"
+     @text_error = TaskProgram.validate(params)   
+     if !@text_error.empty?
+       @js = "alert('#{@text_error}'); history.back();"
+       render :inline => "<%= javascript_tag(@js) %>", :layout => true   
+     else
+       params[:execution][:server_port] = request.port if request.port != 80
+       cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
+       cant_suites = params[:execution][:suite_ids].include?("0")? 1 : params[:execution][:suite_ids].count
+       @user_configuration = current_user.user_configuration
+       @user_configuration.update_configuration(params[:execution])
+       cant_run_conbination = @user_configuration.run_combinations.count
+       suite_program_cant = cant_times * cant_suites * cant_run_conbination
+       if suite_program_cant < MAX_SUITE_PROGRAM
+           TaskProgram.create_all(params)
+           redirect_to "/task_programs"
+       else
+          text_confirm = _("You are to be scheduled #{suite_program_cant} executions, please enter the number of executions to confirm.")
+          text_error = _('Error')
+          @js = "value = prompt('#{text_confirm}', ''); if( value != '#{suite_program_cant}'){alert('#{text_error}');history.back();}else{'#{TaskProgram.create_all(params)}';location='/task_programs';}"
+          render :inline => "<%= javascript_tag(@js) %>", :layout => true  
        end
-
+     end    
   end
 
-  def delete()
+
+  def delete
     @job = DelayedJob.find params[:id]
     if current_user.has_role?("root") or @job.task_program.user_id == current_user.id
       @job.destroy
@@ -163,94 +148,6 @@ class TaskProgramsController < ApplicationController
       redirect_to "/users/access_denied?source_uri=task_programs"
     end
   end
-
-
- def program_validate(params)
-
-   if !params[:program][:init_hour].match(/\d{2}:\d{2}/)
-   @text_error=_('Invalid Time Format for Init Hour. Please verify it.')
-   return false
-   end
-   
-   if params[:program][:range]=="today" and params[:program][:init_hour] < Time.now.strftime("%H:%M")
-   @text_error=_('Invalid Time Format. Time must be after the current.')
-   return false
-   end
- 
-   params[:execution][:identifier].gsub!(" ","_")
-   if params[:execution][:identifier].match(/^(\w*\_?)*$/).nil? and !params[:execution][:identifier].empty?
-   @text_error=_('Field ID must contain only letters, numbers, space or underscore')
-   return false
-   end
-
-   cant_corridas = params[:program][:cant_corridas].to_i
-   period = params[:program][:range_hours].to_s
-
-     if  cant_corridas  < 1 or params[:program][:cant_corridas].match(/\D/) or cant_corridas >500
-       @text_error=_('Invalid Number of Repetitions')+_('. Please verify it.')
-       return false
-     
-     end
-     
-     
-     if params[:program][:frecuency]=="weekly" and !params[:program][:week_days]
-       @text_error=_('Must select at least one day in your weekly schedule.')
-       return false
-     end
-     
-     
-   i_date = params[:program][:init_date].to_datetime
-   f_date = params[:program][:finish_date].to_datetime
-     
-     if params[:program][:range]=="extend" and i_date > f_date
-       @text_error=_('[Until Date] should be after to [From Date]')
-       return false
-     end
-     
-   
-   if params[:program][:range]=="today" and period == "specific"
-       cant_corridas.times do |nro|
-         nr= nro.to_s
-         input_name   = "specific_hour_" + nr 
-         #Get the init_hour for the specific run
-         hour_and_min = params[:program][input_name.to_sym]
-         
-         if !hour_and_min.match(/\d{2}:\d{2}/) or hour_and_min < Time.now.strftime("%H:%M")
-         @text_error=_('Invalid Time Format for Execution No.: ')+ nr +_('. Please verify it.')
-         return false
-         end          
-       end
-   end
-     
-    
-   if  cant_corridas  > 1 and period == "specific"     
-
-       cant_corridas.times do |nro|
-         nr= nro.to_s
-         input_name   = "specific_hour_" + nr 
-         #Get the init_hour for the specific run
-         hour_and_min = params[:program][input_name.to_sym]
-         
-         if !hour_and_min.match(/\d{2}:\d{2}/)
-         @text_error=_('Invalid Time Format for Execution No.: ')+ nr +_('. Please verify it.')
-         return false
-         end          
-       end
-     
-   else   
-         
-     if cant_corridas  > 1 and period == "per_hours"           
-       if !params[:program][:per_hour].match(/^([1-9]\d*|0(\d*[1-9]\d*)+)$/)
-       @text_error=_('Invalid Number of repetitions per hour') +_('. Please verify it.')
-       return false
-       end
-     end     
-   end
-
-
-
- end
-
 
   def show_suites_of_project
     if params[:program][:project_id] == ''
