@@ -25,10 +25,10 @@
 //
 -javascript 'tablesort'
 %h1{:title=>"Queue Observer"}
-  Administrador de Tareas
+  =_('Queue Observer')
 
 %h2
-  Tareas en ejecucion
+  =_('Running Tasks')
   -if @admin
     =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"Refresh workers info", :title=>"Refresca los pids de los workers"), :action => "refresh"
 
@@ -37,11 +37,11 @@
     %th{:class => "sortable"}
       Worker
     %th{:class => "sortable"}
-      Tarea
+      =_('Task')
     %th{:class => "sortable"}
-      Usuario
+      =_('User')
     %th{:class => "sortable"}
-      Proyecto
+      =_('Project')
     %th{:class => "sortable"}
       Suite
   -@running.each do |name, task|
@@ -73,14 +73,14 @@
       =name.to_s.gsub("execution_workers__","").gsub("_"," ")
     %table.detail
       %th{ :class => "sortable"}
-        Tarea
+        =_('Task')
       %th{ :class => "sortable"}
-        Usuario
+        =_('User')
       %th{ :class => "sortable"}
-        Proyecto
+        =_('Project')
       -if @admin
         %th{ :class => "sortable"}
-          Acciones
+          =_('Actions')
       %tr 
       -queue.each do |tasks_values|
         %td
