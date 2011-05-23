@@ -100,7 +100,6 @@ gem "prawn"
 gem "passenger"
 gem "selenium-webdriver"
 gem "activesupport", '2.3.6'
-gem "hoptoad_notifier", "~> 2.3"
 
 #Cache
   gem "memcache-client"
