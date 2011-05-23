@@ -113,4 +113,4 @@ gem "hoptoad_notifier", "~> 2.3"
   gem "gettext_rails"
 #.....................................
 
-
+gem "fog"
