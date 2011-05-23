@@ -112,4 +112,4 @@ gem "activesupport", '2.3.6'
   gem "gettext_rails"
 #.....................................
 
-
+gem "fog"
