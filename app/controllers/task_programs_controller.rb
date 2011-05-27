@@ -113,29 +113,38 @@ class TaskProgramsController < ApplicationController
 
   end
 
+  def confirm
+     @text_error   = TaskProgram.validate(params)   
+     @text_confirm = ''
+     if @text_error.empty? 
+      	 params[:execution][:server_port] = request.port if request.port != 80
+      	 cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
+      	 cant_suites = params[:execution][:suite_ids].include?("0")? 1 : params[:execution][:suite_ids].count
+      	 @user_configuration = current_user.user_configuration
+      	 @user_configuration.update_configuration(params[:execution])
+      	 cant_run_conbination = @user_configuration.run_combinations.count
+      	 @suite_program_cant = cant_times * cant_suites * cant_run_conbination
+         @create_path = url_for(params.merge!(:action => :create))
+         if @suite_program_cant > MAX_SUITE_PROGRAM
+            @text_confirm = _("You are to be scheduled #{@suite_program_cant} executions, please enter the number of executions to confirm.") 
+         end
+     end  
+     respond_to do |format|
+         format.html
+         format.js # run the confirm.rjs template
+     end
+  end
+
+
   def create
      @text_error = TaskProgram.validate(params)   
-     if !@text_error.empty?
-       @js = "alert('#{@text_error}'); history.back();"
-       render :inline => "<%= javascript_tag(@js) %>", :layout => true   
-     else
-       params[:execution][:server_port] = request.port if request.port != 80
-       cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
-       cant_suites = params[:execution][:suite_ids].include?("0")? 1 : params[:execution][:suite_ids].count
-       @user_configuration = current_user.user_configuration
-       @user_configuration.update_configuration(params[:execution])
-       cant_run_conbination = @user_configuration.run_combinations.count
-       suite_program_cant = cant_times * cant_suites * cant_run_conbination
-       if suite_program_cant < MAX_SUITE_PROGRAM
-           TaskProgram.create_all(params)
-           redirect_to "/task_programs"
-       else
-          text_confirm = _("You are to be scheduled #{suite_program_cant} executions, please enter the number of executions to confirm.")
-          text_error = _('Error')
-          @js = "value = prompt('#{text_confirm}', ''); if( value != '#{suite_program_cant}'){alert('#{text_error}');history.back();}else{'#{TaskProgram.create_all(params)}';location='/task_programs';}"
-          render :inline => "<%= javascript_tag(@js) %>", :layout => true  
-       end
-     end    
+     params[:execution][:server_port] = request.port if request.port != 80
+     cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
+     cant_suites = params[:execution][:suite_ids].include?("0")? 1 : params[:execution][:suite_ids].count
+     @user_configuration = current_user.user_configuration
+     @user_configuration.update_configuration(params[:execution])
+     TaskProgram.create_all(params)
+     redirect_to "/task_programs" 
   end
 
 
