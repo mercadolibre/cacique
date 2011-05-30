@@ -84,7 +84,7 @@ class Circuit < ActiveRecord::Base
   before_validation     :delete_carriage_return
   after_save            :update_user_last_edited_scripts
   acts_as_authorizable
-
+  after_create  :adding_project
   include SaveModelAccess
 
   #Calumn name Verify
@@ -531,6 +531,10 @@ private
   def delete
     Version.destroy(self.versions.map(&:id))
     super delete
+  end
+  def adding_project
+     self.project_id=self.category.project_id
+     self.save
   end
 
 end
