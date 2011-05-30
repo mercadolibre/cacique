@@ -53,9 +53,11 @@ class TaskProgram < ActiveRecord::Base
          params[:execution][:task_program_id] = task_program.id
          params[:execution][:user_mail]       = current_user.email
          params[:execution][:user_id]         = current_user.id
-         #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
+         params[:execution][:suite_id]        = suite_id
+ 
+        #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
          run.each do |r|
-            DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
+            delayeddddd = DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
          end
       end
   end
@@ -228,7 +230,7 @@ class TaskProgram < ActiveRecord::Base
      return _('Must Select any Suite')  if  !params[:execution][:suite_ids]
      #Time format
      return _('Invalid Time Format for Init Hour. Please verify it.') if !params[:program][:init_hour].match(/\d{2}:\d{2}/)
-     return _('Invalid Time Format. Time must be after the current.') if params[:program][:range]=="today" and params[:program][:init_hour] < Time.now.strftime("%H:%M")
+     return _('Invalid Time Format. Time must be after the current.') if params[:program][:range]=="today" and  params[:program]["one_date"].to_date.today? and params[:program][:init_hour] < Time.now.strftime("%H:%M")
      #Identifier format
      params[:execution][:identifier].gsub!(" ","_")
      return _('Field ID must contain only letters, numbers, space or underscore') if params[:execution][:identifier].match(/^(\w*\_?)*$/).nil? and !params[:execution][:identifier].empty?
@@ -242,7 +244,6 @@ class TaskProgram < ActiveRecord::Base
      i_date = params[:program][:init_date].to_datetime
      f_date = params[:program][:finish_date].to_datetime
      return _('[Until Date] should be after to [From Date]') if params[:program][:range]=="extend" and i_date > f_date
-  
    #Specific today
    if params[:program][:range]=="today" and period == "specific"
        runs.times do |nro|
