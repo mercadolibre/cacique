@@ -1,3 +1,4 @@
+ADMIN_EMAIL="admin@myCaciqueAdmin.com"
 #Datos para enviar mail desde Cacique
 EMAIL =  "cacique@mercadolibre.com"
 EMAIL_SERVER = "surgemail.mercadolibre.com"
@@ -16,7 +17,7 @@ FIRST_USER_PASS="schumann"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.1"
+CACIQUE_VERSION = "0.1.10"
 
 #funcion que calcula el ip del servidor
 require 'socket'
@@ -63,6 +64,12 @@ end
 VERSION_MAX_ENTRIES_FACTOR = 5
 CIRCUIT_MIN_VERSION_ENTRIES = 5
 VERSION_MAX_FOR_CIRCUIT = 5
+
+VERSION_MAX_ENTRIES_FACTOR_FUNCTION = 5
+FUNCTION_MIN_VERSION_ENTRIES = 5
+VERSION_MAX_FOR_FUNCTION = 5
+
+MAX_SUITE_PROGRAM = 300
 
 #Constantes de tiempos de cacheo en seg.
 CACHE_EXPIRE_EXEC = 7200 
