@@ -113,5 +113,4 @@ gem "activesupport", '2.3.6'
 #.....................................
 
 gem "fog"
-gem "rmagick"
 gem "gruff"
