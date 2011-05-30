@@ -57,7 +57,7 @@ class TaskProgram < ActiveRecord::Base
  
         #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
          run.each do |r|
-            delayeddddd = DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
+            DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
          end
       end
   end
