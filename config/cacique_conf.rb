@@ -17,7 +17,7 @@ FIRST_USER_PASS="schumann"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.10"
+CACIQUE_VERSION = "0.1.11"
 
 #funcion que calcula el ip del servidor
 require 'socket'
@@ -68,6 +68,8 @@ VERSION_MAX_FOR_CIRCUIT = 5
 VERSION_MAX_ENTRIES_FACTOR_FUNCTION = 5
 FUNCTION_MIN_VERSION_ENTRIES = 5
 VERSION_MAX_FOR_FUNCTION = 5
+
+#this parameter is the amount of executions that scheduler will create before send an alert to confirm 
 
 MAX_SUITE_PROGRAM = 300
 
