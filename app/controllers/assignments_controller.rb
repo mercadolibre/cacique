@@ -30,11 +30,7 @@ class AssignmentsController < ApplicationController
   
   protect_from_forgery
   before_filter :box_values, :only => [:create,:destroy]
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> c9c7c7bfe8d9be534c8bcf39a498b965a6270f64
   def box_values
        @projects = (Project.find :all).sort_by { |x| x.name.downcase }
        @users    = (User.find :all).sort_by { |x| x.login.downcase }
@@ -43,10 +39,6 @@ class AssignmentsController < ApplicationController
   
   #User projects obtain
   def index
-<<<<<<< HEAD
-     #@assignments = @project.assignments.find(:all)
-=======
->>>>>>> c9c7c7bfe8d9be534c8bcf39a498b965a6270f64
      controller_from = params[:controller_from]
      my_projects = current_user.my_projects
      #Current user last scripts edited
@@ -62,53 +54,6 @@ class AssignmentsController < ApplicationController
      render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}    
   end
 
-<<<<<<< HEAD
-
-  #Other projects obtain
-  def show
-#     controller_from = params[:controller_from]
-#     all_projects = current_user.other_projects
-#     #Current user last scripts edited
-#     user_last_edited_scripts = Rails.cache.fetch("circuit_edit_#{current_user.id}"){Hash.new}
-#     render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}      
-  end
-
-
-# Create User Assignment
-  def create
-    #permit "root" do
-     if params[:user_id]
-       @project = Project.find params[:project_id]
-       @project.assign(params[:user_id])
-       flash[:notice] = _("The User has been Assign to the Project") if @project.valid?      
-       redirect_to :projects
-     else
-       redirect_to :projects
-     end
-    #end
-  end
-
-  def update
-    #...
-  end
-
-
-# Delete User Assignment
-  def destroy
-      #permit "root" do
-      if params[:user_id]
-       @project = Project.find params[:project_id]
-       @project.deallocate(params[:user_id])
-       flash[:notice] = _("The User has been Deallocate from the Project") if @project.valid?
-       redirect_to :projects
-      else
-       redirect_to :projects
-      end
-    #end
-  end
-  
-end
-=======
 # Create User Assignment
   def create
    permit "root" do
@@ -142,4 +87,3 @@ end
   
 
 end
->>>>>>> c9c7c7bfe8d9be534c8bcf39a498b965a6270f64
