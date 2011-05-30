@@ -349,7 +349,7 @@ class SuiteExecution < ActiveRecord::Base
   #It will show the command that you should use to run that configuration
   def self.generate_command(execution_params, function=nil)
     if function
-      command = "cacique #{function} "
+      command = "cacique #{function} " 
     else
       command = "cacique run "
     end
