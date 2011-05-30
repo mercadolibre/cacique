@@ -30,7 +30,11 @@ class AssignmentsController < ApplicationController
   
   protect_from_forgery
   before_filter :box_values, :only => [:create,:destroy]
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> c9c7c7bfe8d9be534c8bcf39a498b965a6270f64
   def box_values
        @projects = (Project.find :all).sort_by { |x| x.name.downcase }
        @users    = (User.find :all).sort_by { |x| x.login.downcase }
@@ -39,7 +43,10 @@ class AssignmentsController < ApplicationController
   
   #User projects obtain
   def index
+<<<<<<< HEAD
      #@assignments = @project.assignments.find(:all)
+=======
+>>>>>>> c9c7c7bfe8d9be534c8bcf39a498b965a6270f64
      controller_from = params[:controller_from]
      my_projects = current_user.my_projects
      #Current user last scripts edited
@@ -55,6 +62,7 @@ class AssignmentsController < ApplicationController
      render :partial=>"/layouts/projects", :locals => {:projects => all_projects, :user_last_edited_scripts=>user_last_edited_scripts, :controller_from=>controller_from}    
   end
 
+<<<<<<< HEAD
 
   #Other projects obtain
   def show
@@ -100,3 +108,38 @@ class AssignmentsController < ApplicationController
   end
   
 end
+=======
+# Create User Assignment
+  def create
+   permit "root" do
+       @project = Project.find params[:project_id]
+       @user    = User.find params[:user_id]
+       @project.assign(params[:user_id]) 
+       if !@project.errors.empty?
+         @text_error = @project.errors.full_messages
+         @js = "top.location='#{edit_project_path(@project.id)}'; alert('#{@text_error}')"
+         render :inline => "<%= javascript_tag(@js) %>", :layout => true
+       else
+         redirect_to edit_project_path(@project.id)
+       end
+    end
+  end
+
+# Delete User Assignment
+ def destroy
+    permit "root" do
+       @project = Project.find params[:id]
+       @project.deallocate(params[:user_id])
+       if !@project.errors.empty?
+         @text_error = _("Unable to deallocate Project Manager")
+         @js = "top.location='#{edit_project_path(@project.id)}'; alert('#{@text_error}')"
+         render :inline => "<%= javascript_tag(@js) %>", :layout => true
+       else
+         redirect_to edit_project_path(@project.id)
+       end
+    end
+ end
+  
+
+end
+>>>>>>> c9c7c7bfe8d9be534c8bcf39a498b965a6270f64

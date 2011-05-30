@@ -23,5 +23,8 @@ config.cache_store = :mem_cache_store, "127.0.0.1:11211"
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
-config.gem 'rspec-rails', :version => '>= 1.3.3', :lib => false unless File.directory?(File.join(Rails.root, 'vendor/plugins/rspec-rails'))
+
+config.gem "rspec", :lib => false
+config.gem "rspec-rails", :lib => false
+
 
