@@ -355,7 +355,7 @@ class SuiteExecution < ActiveRecord::Base
     end
   
     #Suite_id
-    command += execution_params[:suite_id]
+    command += execution_params[:suite_id].to_s
     
     #UserName
     command += " -u \<user_name\>"
