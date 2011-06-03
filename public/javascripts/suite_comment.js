@@ -31,23 +31,26 @@ function showCircuit(){
 }
 
 //Function that defines the relationships affected (broken) to uncomment a case of a circuit
-  function  RelacionesRotas(check, circuito, caso){
-  
-    div_circuit_relations = $j('#div_relation_broken_' + $j('#select_circuits').val() );
-    relation=$j('#broken_' + caso);
-   //If comments
-   if (!check.checked){
-      relation.show();
-      //Just shows the broken relationships div that circuit if you have
-      if( div_circuit_relations.find('.broken_relation').length != 0)div_circuit_relations.show();    
-   }else{
-      relation.hide();
-      //If it was the only visible, it hides the entire span of broken relationships that circuit
-      if( div_circuit_relations.find('.broken_relation:visible').length == 0) {
-         div_circuit_relations.hide(); 
-      }   
+ function  BrokenRelations(check, circuit, case_template){
+    div_circuit_relations = $j('#div_relation_broken_' + $j('#select_circuits').val() ); //Div circuit relations
+    div_name = circuit + '_' + case_template
+    relations= $j("div[name='broken_" +div_name+ "']") ; //All related cases
+   if( relations.length != 0 ){
+       //If comments
+       if ( !check.is(':checked')){
+           check.parent().css('background-color','#FDAFAF'); //Td red
+           relations.show();
+           div_circuit_relations.show();    
+       }else{
+           check.parent().css('background-color','#FFFFFF'); //Td ok
+           relations.hide();
+           //If it was the only visible, it hides the entire span of broken relationships that circuit
+           if( div_circuit_relations.find('.broken_relation:visible').length == 0) {
+               div_circuit_relations.hide(); 
+           }   
+       }
    }
-  }
+}
   
   //Continue clicking is called, sends the selected cases to run the driver SuiteExecution
   function submit_form(){
