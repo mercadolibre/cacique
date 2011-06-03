@@ -34,12 +34,14 @@
           %input{ :type => "checkbox", :value => "checkbox", :onClick => "ch_select_all(this, 'delayed_jobs_action');"}
         %th
           =_("Project")   
-        %th{:style=>"width:40%"}
+        %th{:style=>"width:32%"}
           =_("Suite")                  
         %th
           =_("Programmed by")            
         %th
           =_("Schedule")
+        %th{:style=>"min-width: 12%; max-width:12%;"}
+          =_('Identifier')
         %th
           =_("Status")                 
       -delayed_jobs.each do |dj|
@@ -50,8 +52,8 @@
             =check_box_tag "delayed_jobs_action[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"delayed_jobs_action"
           %td{:title=>dj.task_program.project.name,:style=>"width:100px;"}
             =truncate( dj.task_program.project.name, :ommision => "...", :length => 80)               
-          %td{:title=>dj.task_program.suite.name,:style=>"width:30%"}
-            =truncate(dj.task_program.suite.name, :ommision => "...", :length => 80)             
+          %td{:title=>dj.task_program.suite.name}
+            =truncate(dj.task_program.suite.name, :ommision => "...", :length => 70)             
           %td{:title=>dj.task_program.user.name,:style=>"width:100px;"}
             =truncate( dj.task_program.user.name, :ommision => "...", :length => 20)                 
           %td
@@ -61,7 +63,9 @@
               %b{:style=>"width:50px;float:left;"}
                 ="#{dj.run_at.hour}:#{dj.run_at.min}"                      
               %div{:style=>"float:left;width:100px;"}
-                =@weekly_trans[dj.run_at.strftime('%A')]                              
+                =@weekly_trans[dj.run_at.strftime('%A')] 
+          %td
+            =truncate( dj.task_program.identifier, :ommision => "...", :length => 20)                           
           %td 
             =dj.s_status
   -else
