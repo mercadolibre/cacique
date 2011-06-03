@@ -85,7 +85,7 @@ def index_other
 # Delete User Assignment
  def destroy
     permit "root" do
-       @project = Project.find params[:project_id]
+       @project = Project.find params[:id]
        @project.deallocate(params[:user_id])
        if !@project.errors.empty?
          @text_error = _("Unable to deallocate Project Manager")
