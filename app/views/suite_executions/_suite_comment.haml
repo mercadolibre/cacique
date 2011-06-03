@@ -59,11 +59,12 @@
                 =_("Case Source:")
               %div{:style=>"float:left; width:200px;"}
                 =_("Case Destination:")
-            //Obtain all script cases from any suite
+            //Obtain all script cases from suite
             //hash Format:{circuit.id => [case1, case2, ...]}
             -@suite_circuit_cases[circuit.id].each do |ct|
+              //Format:{caso_origen.id => [SuiteCasesRelation1, SuiteCasesRelation2, ...]}
               -@case_relations[ct.id].each do |suite_case_relation|
-                .broken_relation{:id=>'broken_' + ct.id.to_s, :style=>"display:none;clear:both;"}
+                .broken_relation{:name=>'broken_' + circuit.id.to_s + '_' + ct.id.to_s, :style=>"display:none;clear:both;"}
                   %div{:style=>"float:left; width:200px;"}
                     =truncate(ct.circuit.name,:ommision => "...", :length =>30)
                     \:
