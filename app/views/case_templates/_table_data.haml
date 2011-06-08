@@ -79,7 +79,7 @@
           %td{:name=>case_template.readonly ? "" : "edit_cell_select", :id=>circuit_case_column.name, :title => case_template.get_case_data[circuit_case_column.name], :ondblclick => no_permission_alert}
             =truncate(case_template.get_case_data[circuit_case_column.name].to_s, :ommision => "..." ,:length => 20)
         -else
-          %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>circuit_case_column.id, :title => case_template.get_case_data[circuit_case_column.name], :ondblclick => no_permission_alert}
+          %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>circuit_case_column.name, :title => case_template.get_case_data[circuit_case_column.name], :ondblclick => no_permission_alert}
             .div{:style=>"width:150px;"}
               =truncate(case_template.get_case_data[circuit_case_column.name].to_s, :ommision => "..." ,:length => 20)
 

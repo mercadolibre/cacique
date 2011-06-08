@@ -164,7 +164,6 @@ class SuiteExecutionsController < ApplicationController
       cant_corridas = "1"
       @project_id = params[:project_id]
     end
-    debugger 
     @user_configuration = current_user.user_configuration
     #Identifier seting
     identifier = ""
