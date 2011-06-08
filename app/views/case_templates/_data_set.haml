@@ -30,7 +30,8 @@
   var marcado  = "";
   var anterior = "";
   var color_anterior = "";
-  var url_update ="#{url_for(project_circuit_path(circuit.project_id,circuit.id))}"
+  window.url_update= "#{url_for(project_circuit_path(circuit.project_id,circuit.id))}"
+  //var url_update ="#{url_for(project_circuit_path(circuit.project_id,circuit.id))}"
 
 //To find out if called from case template, edit suite or suite comment
 -@controller_data = self.controller.controller_name()
