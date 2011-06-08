@@ -58,7 +58,7 @@
     %div{ :style=>"clear: both"}
 
     //Data Set
-    - form_for :execution, :html => {:id => 'ejecutar_circuitos'} do
+    - form_for :execution, :html => {:id => 'run_circuits', :method=>:get} do
       #cases_table
         =text_field_tag "source_uri", request.request_uri, :style => "display:none;"
         =text_field_tag "where_did_i_come", "case_templates_index", :style => "display:none;"
