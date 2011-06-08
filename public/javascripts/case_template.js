@@ -44,7 +44,7 @@ function validarSeleccionSinAlert(){
 //Run or Stop Selected Script
 function submitForm(action){
      if(validarSeleccion()){
-       form = document.getElementById('ejecutar_circuitos');
+       form = document.getElementById('run_circuits');
        form.action = action;
        form.submit();
      }
@@ -54,11 +54,11 @@ function submitForm(action){
 //Verify Cehckbox & submit
 function submit_delete(){
   	if(validarSeleccionSinAlert()){
-  		if(confirm(msgjs15 + '?'))submitForm('/case_templates/delete');
+  		if(confirm(msgjs15 + '?'))submitForm(url_update + '/case_templates/destroy_all');
   	}
   	else{
   		if(marcado){
-  			if(confirm(msgjs15 + marcado + '?'))location='/case_templates/delete/'+ marcado;
+  			if(confirm(msgjs15 + marcado + '?'))location=url_update + '/case_templates/'+ marcado +  '/destroy';
   		}
   		else{
   			alert(msgjs14);
