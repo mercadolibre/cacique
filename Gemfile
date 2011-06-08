@@ -27,7 +27,6 @@ end
 
 
 gem 'mysql'
-gem "thin"
 gem "rake"
 gem "haml", '2.2.2'
 gem "mechanize"
@@ -67,7 +66,9 @@ gem "prawn"
 gem "passenger"
 gem "activesupport", '2.3.5'
 
-gem "hoptoad_notifier", "~> 2.3"
+gem "hoptoad_notifier"
+gem "newrelic_rpm"
+
 
 
 #Cache
@@ -80,5 +81,4 @@ gem "hoptoad_notifier", "~> 2.3"
   gem "gettext_activerecord"
   gem "gettext_rails"
 #.....................................
-
 
