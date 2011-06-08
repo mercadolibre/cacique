@@ -10,7 +10,7 @@ ActionController::Routing::Routes.draw do |map|
         circuits.resources :circuit_case_columns do |circuit_case_column|
             circuit_case_column.resources :case_datum
         end
-        circuits.resources :case_templates, :collection => { :update_data=>:get, :update_status=>:get }, :active_scaffold => true do |case_templates|
+        circuits.resources :case_templates, :collection => { :update_data=>:get, :update_status=>:get, :destroy_all=>:get }, :active_scaffold => true do |case_templates|
              case_templates.resources :case_data, :active_scaffold => true
         end
      end

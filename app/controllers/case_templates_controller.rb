@@ -152,29 +152,25 @@ class CaseTemplatesController < ApplicationController
       send_file "#{RAILS_ROOT}/public/excels/casos_de_#{@circuit.id}.xls" if @circuit.export_cases    
   end
 
-  def delete
-    if params[:id]
-      @case_template = CaseTemplate.find params[:id]
-
-      permit "editor of :case_template" do
-        @case_template.destroy
-        redirect_to "/circuits/" + @case_template.circuit_id.to_s + "/case_templates"
-      end
-    else
+  def destroy_all
       params[:execution_run].each do |case_template_id|
         @case_template = CaseTemplate.find case_template_id
         permit "editor of :case_template" do
           @case_template.destroy
         end
       end
-    end
+      redirect_to project_circuit_case_templates_path(@case_template.circuit.project_id, @case_template.circuit_id)
+  end
 
-    begin
-      redirect_to "/circuits/" + @case_template.circuit_id.to_s + "/case_templates"
-    rescue ActionController::DoubleRenderError
-    end
+  def destroy
+     @case_template = CaseTemplate.find params[:id]
+     permit "editor of :case_template" do
+       @case_template.destroy
+       redirect_to project_circuit_case_templates_path(@case_template.circuit.project_id, @case_template.circuit_id)
+     end
 
   end
+
 
   def show
     @case_template  = CaseTemplate.find params[:id]
