@@ -60,7 +60,6 @@ gem 'w3c_validators', '1.0.2'
 gem 'xml-simple','1.0.12'
 
 gem 'mysql'
-gem "thin"
 gem "rake"
 gem "haml", '2.2.2'
 gem "mechanize"
@@ -98,8 +97,10 @@ gem "net-ssh"
 gem "camping" 
 gem "prawn"
 gem "passenger"
-gem "selenium-webdriver"
-gem "activesupport", '2.3.6'
+gem "activesupport", '2.3.5'
+
+gem "hoptoad_notifier"
+gem "newrelic_rpm"
 
 #Cache
   gem "memcache-client"
@@ -112,6 +113,3 @@ gem "activesupport", '2.3.6'
   gem "gettext_rails"
 #.....................................
 
-gem "fog"
-gem "rmagick"
-gem "gruff"
