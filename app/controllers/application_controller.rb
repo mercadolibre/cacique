@@ -60,15 +60,9 @@ class ApplicationController < ActionController::Base
      @action_controller = controller_name() + ":" + action_name()
      @view = Hash.new
      @view = get_view_names()
-     
+
      #Selected project is an user project?
-      if params.has_key?(:project_id)
-        @project_id = params[:project_id].to_i
-      elsif params.has_key?("project_id")
-        @project_id = params["project_id"].to_i
-      else
-        @project_id = nil
-      end    
+     @project_id =  params.has_key?(:project_id) ? params[:project_id].to_i : nil  
 
       #obtain current project
       if params[:project_id].to_i == 0 or @action_controller == 'home_cacique:index'
@@ -76,7 +70,7 @@ class ApplicationController < ActionController::Base
       else
         @project_actual =  Project.find params[:project_id].to_i if params[:project_id]
       end
-      
+
      #Slider menu is extended?
      cacique_slider_menu = cookies[:cacique_slider_menu]
      @menu_left_extended = (cacique_slider_menu.nil?)? 0 : cacique_slider_menu.to_i
