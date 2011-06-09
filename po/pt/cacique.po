@@ -2918,6 +2918,10 @@ msgstr "Deve selecionar pelo menos um dia na sua agenda semanal."
 msgid "[Until Date] should be after to [From Date]"
 msgstr "[Data Até] deve ser após a [Data Inicial]"
 
+#: app/views/task_programs/confirm_program.haml
+msgid "will be scheduled  #{suite_program_cant}  executions, please enter the number of executions to confirm."
+msgstr "serão agendados #{suite_program_cant} execuções, por favor, insira o número de execuções para confirmar."
+
 #: app/controllers/suite_executions.rb:
 msgid "Not executed because an error occurred while trying to communicate with Starling"
 msgstr "Não executado porque ocorreu um erro ao tentar se comunicar com Starling"

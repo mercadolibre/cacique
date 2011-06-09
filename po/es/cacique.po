@@ -3375,6 +3375,10 @@ msgid "The schedules were confirmed successful"
 msgstr "Las programaciones fueron confirmadas con éxito"
 
 #: app/views/task_programs/confirm_program.haml
+msgid "will be scheduled  #{suite_program_cant}  executions, please enter the number of executions to confirm."
+msgstr "se van a programar #{suite_program_cant}, por favor, ingrese el numero de ejecuciones para confirmarlo. "
+
+#: app/views/task_programs/confirm_program.haml
 msgid "Are you sure you confirm the programming?"
 msgstr "¿Esta seguro de confirmar las programaciones?"
 
