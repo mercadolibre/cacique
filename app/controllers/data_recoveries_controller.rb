@@ -1,0 +1,6 @@
+class DataRecoveriesController < ApplicationController
+
+
+
+
+end

@@ -136,7 +136,7 @@
   bindings: {
   'newScript': function(t) {
   $j('#selected_category').attr('value', t.id);
-  location='/circuits/new?cat=' + t.id
+  location="#{new_project_circuit_path(project.id)}?category_id=" + t.id
   },
   'newModule': function(t) {
   $j('#selected_category').attr('value', t.id);
@@ -161,15 +161,14 @@
   bindings: {
   'rename': function(t) {
   $j('#selected_script').attr('value', t.id);
-  =remote_function(:update => "script_edit",  :method => "get",  :url =>  {:controller=>"circuits", :action=>"editName"}, :with => "'circuit_id=' + t.id" )
+  =remote_function(:update => "script_edit",  :method => "get",  :url=>{:controller=>"circuits", :action=>"edit", :project_id=>project.id, :rename=>true }, :with => "'circuit_id=' + t.id" )
   },
   'copy': function(t) {
   $j('#selected_script').attr('value', t.id);
   document.getElementById('copy_circuit').toggle();
   },
   'delete': function(t) {
-  if(confirm("#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}"))
-  =remote_function(:update => "sideBarContentsInner",  :method => "get",  :url =>  {:controller=>"circuits", :action=>"delete", :id=>0}, :with => "'circuit_id=' + t.id"   )
+  =remote_function( :method=>"delete", :url=> {:controller=>"circuits", :action=>"destroy", :project_id=>project.id }, :with => "'id=' + t.id " , :confirm=>"#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}",:update => 'sideBarContentsInner', :before=>"$j('*').css('cursor', 'progress')", :complete=>"$('body').css('cursor', 'default')" ) 
   }
   }
   });
@@ -186,17 +185,6 @@
   return true;
   }
 
-  function checkrequiredforscript() {
-
-  script_name = document.getElementById("script_n");
-  script_descript = document.getElementById("script_d");
-  if(script_name.value=='')  {alert('#{_('Must complete Name Field')}'); return false;}
-  else{
-  if(script_descript.value=='')  {alert('#{_('Must complete Description Field')}'); return false;}
-  }
-  document.getElementById('parent_id').value = $j('#selected_category').val();
-  return true;
-  }
 
 //Help 
 =render :partial => "categories/info_category"

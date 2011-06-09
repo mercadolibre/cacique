@@ -24,13 +24,12 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-.tag{ :id => "comment_save", :style=>"display:none;left: 38%;width:215px; height:210px;"}
-  =render :partial =>"layouts/popup_header", :locals=>{:element =>"comment_save"}
-  %h3
-    =_('Comment')
-  %p{:style=>"text-align:left;margin-bottom:0px;height:120px;"}
-    =_('Write a comment indicating changes made:')
-    %br
-    %br
-    %textarea{ :id => "commit_message", :type => "text", :style=>"width:200px;"}
-  %img{:src => "/images/icons/save.png", :title => _("Save Changes"), :style=>"float:right;cursor:pointer;", :onClick => remote_function(:complete => "document.getElementById('comment_save').toggle();document.getElementById('commit_message').value='';", :update => "save_message", :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI(encode_text(codepress_content_free.getCode())) + '&originalcontent=' + encodeURI(document.getElementById('originalcontent').value) + '&commit_message=' + document.getElementById('commit_message').value" )}
+//Data recoveries
+-permission_denied = "alert('#{_("You do not have Edit Permissions for this script")}')"
+.tag{ :id => "data_recoveries", :style=>"left: 30%; height:290px; width:400px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"data_recoveries"}  
+  =render :partial =>"new"
+  =render :partial =>"index"
+
+           
+
