@@ -1,14 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
-  
+ 
   map.resource :session
   map.resources :execution_scaffolds, :active_scaffold => true  
-  map.resources :circuits, :collection => { :ruby=>:get, :checkit=>:post, :getDataRecovery=>:get, :delete=>:get, :editName=>:get, :updateCircuit=>:get, :updateFile=>:get, :uploadFile=>:get, :error=>:get, :updateDataRecovery=>:get, :deleteDataRecovery=>:get, :get_suites_of_script =>:get, :rename=>:get, :script_tutorial=>:get}
-  map.resources :circuits do |circuits|
-    circuits.resources :case_templates, :active_scaffold => true do |case_templates|
-      case_templates.resources :case_data, :active_scaffold => true
-    end
+  map.resources :circuits, :collection =>  { :ruby=>:get, :checkit=>:post, :error=>:get, :rename=>:get, :script_tutorial=>:get}
 
+  map.resources :projects do |projects|
+     projects.resources :circuits do |circuits|
+        circuits.resources :data_recovery_names
+        circuits.resources :case_templates, :active_scaffold => true do |case_templates|
+             case_templates.resources :case_data, :active_scaffold => true
+        end
+     end
   end
+
   map.resources :delayed_jobs, :collection => { :destroy_collection=>:get} 
   map.resources :case_data
   map.resources :case_templates, :collection => { :create=>:get, :update_data=>:get, :update_status=>:get } 
