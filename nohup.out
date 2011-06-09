@@ -1,0 +1,87 @@
+script/mannager.rb:78:in `select': Interrupt
+	from script/mannager.rb:78:in `listen'
+	from script/mannager.rb:97
+script/mannager.rb:76:in `listen': undefined method `accept_nonblock' for nil:NilClass (NoMethodError)
+	from script/mannager.rb:97
+10.4.0.33
+Can't open host due: Address already in use - bind(2)
+worker registration was succefully for: 10.4.0.33
+script/mannager.rb:76:in `listen': undefined method `accept_nonblock' for nil:NilClass (NoMethodError)
+	from script/mannager.rb:97
+10.4.0.33
+Can't open host due: Address already in use - bind(2)
+worker registration was succefully for: 10.4.0.33
+script/mannager.rb:76:in `listen': undefined method `accept_nonblock' for nil:NilClass (NoMethodError)
+	from script/mannager.rb:97
+10.4.0.33
+Can't open host due: Address already in use - bind(2)
+worker registration was succefully for: 10.4.0.33
+/usr/lib/ruby/1.8/net/protocol.rb:177:in `write': Broken pipe (MemCache::MemCacheError)
+	from /usr/lib/ruby/1.8/net/protocol.rb:177:in `write0'
+	from /usr/lib/ruby/1.8/net/protocol.rb:153:in `write'
+	from /usr/lib/ruby/1.8/net/protocol.rb:168:in `writing'
+	from /usr/lib/ruby/1.8/net/protocol.rb:152:in `write'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:741:in `cache_get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:865:in `call'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:865:in `with_socket_management'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:740:in `cache_get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:248:in `get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:886:in `with_server'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:246:in `get'
+	from script/mannager.rb:53:in `register_worker'
+	from script/mannager.rb:68:in `unregister_worker'
+	from script/mannager.rb:31:in `finalize'
+	from script/mannager.rb:24:in `initialize'
+	from script/mannager.rb:78:in `call'
+	from script/mannager.rb:78:in `select'
+	from script/mannager.rb:78:in `listen'
+	from script/mannager.rb:97
+10.4.0.33
+worker registration was succefully for: 10.4.0.33
+worker registration was succefully for: 10.4.0.33
+worker registration was succefully for: 10.4.0.33
+/usr/lib/ruby/1.8/net/protocol.rb:177:in `write': Broken pipe (MemCache::MemCacheError)
+	from /usr/lib/ruby/1.8/net/protocol.rb:177:in `write0'
+	from /usr/lib/ruby/1.8/net/protocol.rb:153:in `write'
+	from /usr/lib/ruby/1.8/net/protocol.rb:168:in `writing'
+	from /usr/lib/ruby/1.8/net/protocol.rb:152:in `write'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:741:in `cache_get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:865:in `call'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:865:in `with_socket_management'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:740:in `cache_get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:248:in `get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:886:in `with_server'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:246:in `get'
+	from script/mannager.rb:53:in `register_worker'
+	from script/mannager.rb:68:in `unregister_worker'
+	from script/mannager.rb:31:in `finalize'
+	from script/mannager.rb:24:in `initialize'
+	from script/mannager.rb:78:in `call'
+	from script/mannager.rb:78:in `select'
+	from script/mannager.rb:78:in `listen'
+	from script/mannager.rb:97
+10.4.0.33
+worker registration was succefully for: 10.4.0.33
+worker registration was succefully for: 10.4.0.33
+/usr/lib/ruby/1.8/net/protocol.rb:177:in `write': Broken pipe (MemCache::MemCacheError)
+	from /usr/lib/ruby/1.8/net/protocol.rb:177:in `write0'
+	from /usr/lib/ruby/1.8/net/protocol.rb:153:in `write'
+	from /usr/lib/ruby/1.8/net/protocol.rb:168:in `writing'
+	from /usr/lib/ruby/1.8/net/protocol.rb:152:in `write'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:741:in `cache_get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:865:in `call'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:865:in `with_socket_management'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:740:in `cache_get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:248:in `get'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:886:in `with_server'
+	from /usr/lib/ruby/gems/1.8/gems/memcache-client-1.8.5/lib/memcache.rb:246:in `get'
+	from script/mannager.rb:53:in `register_worker'
+	from script/mannager.rb:68:in `unregister_worker'
+	from script/mannager.rb:31:in `finalize'
+	from script/mannager.rb:24:in `initialize'
+	from script/mannager.rb:78:in `call'
+	from script/mannager.rb:78:in `select'
+	from script/mannager.rb:78:in `listen'
+	from script/mannager.rb:97
+10.4.0.33
+worker registration was succefully for: 10.4.0.33
