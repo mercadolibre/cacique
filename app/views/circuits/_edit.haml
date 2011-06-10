@@ -28,7 +28,7 @@
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"div_script_edit"}
   %h3
     =_('Rename Script')
-  -remote_form_for :circuit, :url => { :controller => 'circuits', :action => 'updateCircuit'}, :complete => visual_effect(:appear, 'sideBarContentsInner'), :update => "sideBarContentsInner" do
+  -remote_form_for :circuit, :method=>:put, :url => project_circuit_path(@circuit.project_id, @circuit), :complete => visual_effect(:appear, 'sideBarContentsInner'), :update => "sideBarContentsInner" do
     %label
       =_('Name')
       %br
@@ -38,10 +38,9 @@
       =_('Description')
       %br
       =text_area_tag 'description', @circuit.description, :id =>"script_d", :style=>"width:220px;margin-left:10px;margin-top:10px;"
-    %label
-      =text_field_tag 'id', @circuit.id, :style=>"display:none;"
+
     %br
     .form_button{:style=>"margin-right:10px;"}
-      =submit_tag _('Modify'), :onclick => "return checkrequiredforscript();"
+      =submit_tag _('Modify')
 
 
