@@ -24,10 +24,10 @@ test:
 production:
   adapter: mysql
   encoding: utf8
-  database: cacique_prod
+  database: cacique
   pool: 10
-  username: caciquedb
-  password: mozart
-  host: 10.4.0.30
+  username: cacique
+  password: cacique
+  host: localhost
 
 
