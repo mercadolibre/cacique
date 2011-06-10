@@ -1,0 +1,18 @@
+%h3
+  =_('Completed Fields:')
+-show_empty = @data_recovery_names.empty? ?  '' : 'none'   
+-show_data  = @data_recovery_names.empty? ?  'none' : ''  
+%div{:style=>"max-height:120px; overflow:auto;"}
+  #empty_data_recovery_name{:style=>"text-align:center; color:#31576F; display:#{show_empty}"}
+    =_('The current script does not retrieve data')
+    %br
+    =_('You can add')
+  %table.detail#data_recovery_table{:CELLSPACING=>0, :style=>"width:95%; margin: 0 auto; margin-top:0px; margin-bottom: 10px; padding: 10px;text-align:left;display:#{show_data}"}
+    %tr
+      %th{:style=>"padding:3px;"}
+        =_('Name')
+      %th{:style=>"padding:3px;"}
+        Data          
+      %th{:style=>"width:10px;padding:3px;"}
+    -@data_recovery_names.each do |dr|
+      =render :partial => "row_data_recovery_name", :locals=>{:project_id=> @project_id, :circuit_id=>@circuit.id, :data_recovery_name=>dr} 

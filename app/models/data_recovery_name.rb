@@ -39,10 +39,11 @@
 class DataRecoveryName < ActiveRecord::Base
   belongs_to :circuit
   
-  validates_presence_of :circuit_id, :message => _("Must complete circuit_id")
-  validates_presence_of :name, :message => _("Must complete Name field")
-  validates_presence_of :code, :message => _("Must complete Code Field")
-  
+  validates_presence_of   :circuit_id, :message => _("Must complete circuit_id")
+  validates_presence_of   :name,       :message => _("Must complete Name field")
+  validates_presence_of   :code,       :message => _("Must complete Code Field")
+  validates_uniqueness_of :name,       :message => _("The data recovery name already exists!")
+
   before_destroy :delete_suite_fields_relations
   def delete_suite_fields_relations
     #existing relations delete

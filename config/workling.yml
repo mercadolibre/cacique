@@ -7,10 +7,10 @@
 # list of server:port, server:port, server:port values to listens_on. 
 #
 production:
-  listens_on:  localhost:22122
+  listens_on:  10.4.0.30:22122
 
 development:
-  listens_on:  localhost:22122
+  listens_on:  10.4.0.30:22122
   
 test:
-  listens_on:  localhost:22122
+  listens_on:  10.4.0.30:22122
