@@ -10,7 +10,7 @@
             =_('Project')
       #sideBarContents{ :style => "width:270px;float:left;left:300px;" }
         #sideBarContentsInner       
-          =render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => nil}
+          =render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project_actual, :text_error => nil}
 
     %script  
       function setContenHeight(){

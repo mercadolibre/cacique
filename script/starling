@@ -1,7 +1,7 @@
 #!/bin/bash
 case "$1" in
   start)
-     exec /path/cacique/script/starling.rb  /dev/null &
+     exec /home/cacique/cacique/script/starling.rb -h 10.4.0.30 >  /dev/null &
   ;;
   stop)
      exec /bin/kill `/bin/cat /var/run/starling.pid`
