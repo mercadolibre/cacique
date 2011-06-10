@@ -35,7 +35,10 @@ class CircuitsController < ApplicationController
   before_filter :load_categories, :only => [:copy, :delete, :updateCircuit]
 
   def index
-
+    respond_to do  |format|
+       format.html
+       format.xml{render :index,:layout=> false }
+    end
   end
   
   def new
@@ -55,7 +58,9 @@ class CircuitsController < ApplicationController
 	       upload[:name] = @name
                upload[:file_name] = params['fileUpload'].original_filename
 	       DataFile.save( upload )
-	       redirect_to "/circuits/rename?" + "&category_id="+@category.id.to_s+ "&name="+CGI.escape(@name) + "&description="+CGI.escape(params[:description])
+	       redirect_to url_for(:controller=>:circuits, :action=>:rename, 
+                                   :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id, 
+                                   :name=>CGI.escape(@name), :description=>CGI.escape(params[:description]) )
 	    else
 	       #I generate a blank script
                @circuit = Circuit.create(:project_id =>@category.project_id, :category_id => @category.id, 
@@ -129,7 +134,6 @@ class CircuitsController < ApplicationController
     @name        = params[:name]
     @description = params[:description]
     @errors      = params[:errors]
-
     begin
       @fields = Circuit.selenium_data_collector( {:name => "#{RAILS_ROOT}/lib/temp/#{@name}"} )
       #Fields codify
@@ -137,8 +141,9 @@ class CircuitsController < ApplicationController
         t.id = CGI.escape(t.id)
         t.args = t.args.map{ |a| CGI.escape(a) }
       end
+
     rescue Exception => @error
-      redirect_to "/circuits/error?error=#{@error}&category_id=#{@category.id}"
+      redirect_to url_for(:controller=>:circuits, :action=>:error, :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id)
     end
   end
 
@@ -307,9 +312,11 @@ class CircuitsController < ApplicationController
           end 
         end
       end
-
+     respond_to do |format|
+       format.html
+       format.xml{ render :edit, :layout=> false }
+     end
    end
-
   end
 
   def destroy
@@ -350,11 +357,6 @@ class CircuitsController < ApplicationController
    @error = @error.split(':')[-1]
  end
 
-  #Ruby Help
- def ruby
-
- end
- 
  def load_categories
    @project = Project.find params[:project_id]
    permit "viewer of :project" do
@@ -367,55 +369,5 @@ class CircuitsController < ApplicationController
    check_data = Circuit.syntax_checker(code)
    render :partial => "circuits/check_data", :locals => { :status=>check_data[:status], :errors=>check_data[:errors], :warnings=>check_data[:warnings]}
  end
- 
-  #add new column to Data Set (Use in ABM columns for Case Template)
-  def add_column
-    @circuit    = Circuit.find params[:id]
-    permit "editor of :circuit" do
-       @circuit.add_case_columns( [params[:column_to_add]], params[:value_column_to_add] )
-       if @circuit.errors.empty?
-          redirect_to "/circuits/#{@circuit.id}/case_templates"
-        else
-          render :controller=>'case_template', :action=>'index'
-      end
-    end
-  end
- 
-  #Delete column to Data Set
-  def delete_column
-    @circuit    = Circuit.find params[:id]
-    permit "editor of :circuit" do
-      begin
-         @circuit.delete_case_columns( params[:column][:to_delete] )
-         @circuit.save
-         redirect_to "/circuits/#{@circuit.id}/case_templates"
-      rescue RuntimeError => error
-         @circuit.errors.add(:eliminarColumna, error)
-         self.index(@circuit)
-         render :action=>'index'
-      end
-    end
-  end
- 
-  #Modify column to Data Set
-  def modify_column
-    @circuit = Circuit.find params[:id]
-    permit "editor of :circuit" do
-      begin
-        @circuit.modify_case_columns( params[:column][:to_modify], params[:column_name_to_modify] )
-        @circuit.save
-        redirect_to "/circuits/#{@circuit.id}/case_templates"
-      rescue RuntimeError => error
-        @circuit.errors.add(:nuevaColumna, error)
-        self.index(@circuit)
-        render :action=>'index'
-      end
-    
-    end
-  end
-  
-  def script_tutorial
-    
-  end
-  
+
 end
