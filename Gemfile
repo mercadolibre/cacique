@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 source "http://gems.github.com"
 source "http://gemcutter.org"
 
-gem 'rails', '2.3.6'
+gem 'rails', '2.3.9'
   
 group :development do
  gem 'ruby-debug'
@@ -86,14 +86,13 @@ gem "camping"
 gem "prawn"
 gem "passenger"
 gem "selenium-webdriver"
-gem "activesupport", '2.3.6'
 
 #Cache
   gem "memcache-client"
 
 #...............GETTEXT.............
   gem 'locale'
-  gem 'locale_rails', '2.0.5'
+  gem 'locale_rails', "2.0.6",:git => "https://github.com/scambra/locale_rails.git" 
   gem "gettext"
   gem "gettext_activerecord"
   gem "gettext_rails"
