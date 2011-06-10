@@ -46,7 +46,7 @@
         Suite    
       =_('is a set of scripts that run one after the other.')  
 
-    =render :partial => "suite_tutorial"
+    =render :partial => "/helps/suite_tutorial"
 
   -elsif @suites.empty? && !params[:search].nil?
     %h1{:title=>"Suites of " + @project.name.capitalize}
