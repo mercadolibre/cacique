@@ -312,11 +312,10 @@ class CircuitsController < ApplicationController
           end 
         end
       end
-
-   end
-   respond_to do |format|
-     format.html
-     format.xml{ render :edit, :layout=> false }
+     respond_to do |format|
+       format.html
+       format.xml{ render :edit, :layout=> false }
+     end
    end
   end
 
