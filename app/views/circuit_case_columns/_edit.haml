@@ -1,0 +1,6 @@
+.tab{:id => 'modify_column', :style=>"display:none;width:307px;height:135px;background:#E0E0F8;-moz-border-radius-topright:0px;"}
+  %label
+    =_('Select Column to Modify')
+    =select('column_edit','id', @columns_data_show.collect{|c| [ c.name, c.id] }, {:prompt =>_('-Select-')}, :onchange=> remote_function( :method=>"delete", :url=> {:controller=>:circuit_case_columns, :action=>:edit, :project_id=>@circuit.project_id, :circuit_id=>@circuit.id },  :method=>:get, :with => "'id=' + this.value ", :update => "edit_column" )  )
+  #edit_column
+

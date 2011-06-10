@@ -29,54 +29,56 @@
 
   //Save
   -if @readonly
-    %img{:src => "/images/icons/d_save.png",    	:alt=>"save",    :title=>_("Without Edit Permissions "), :onclick=>"alert('#{_("You do not have Edit Permissions")}')",:style=>" height: 23px; width: 23px;margin-left:35px;" }
-    %img{:src => "/images/icons/d_comment.png", 	:alt=>"comment", :title=>_('Save with Comments'),        :onClick =>"alert('#{_("You do not have Edit Permissions")}')"}
+    =image_tag("/images/icons/d_save.png",:alt=>"save",:title=>_("Without Edit Permissions "), :onclick=>"alert('#{_("You do not have Edit Permissions")}')",:style=>" height: 23px; width: 23px;margin-left:35px;")
+    =image_tag("/images/icons/d_comment.png", 	:alt=>"comment", :title=>_('Save with Comments'),:onClick =>"alert('#{_("You do not have Edit Permissions")}')")
   -else
-    %img{:id =>"save_button", :src => "/images/icons/save.png",  		:alt=>"save",    :title =>_("Save"), :style=>"margin-left:35px; visibility:hidden;",:onClick => remote_function(:update => "save_message", :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI(encode_text(codepress_content_free.getCode())) + '&originalcontent=' + encodeURI(document.getElementById('originalcontent').value)" )} 
-    %img{:id =>"savewc_button", :src => "/images/icons/comment.png", 		:alt=>"comment", :title=>_('Save with Comments'), :style=>"visibility:hidden;",		 :onClick => "document.getElementById('comment_save').toggle();"}
+    =image_tag("/images/icons/save.png", :id =>"save_button",:alt=>"save", :title =>_("Save"), :style=>"margin-left:35px; visibility:hidden;",:onClick => remote_function(:update => "save_message", :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI(encode_text(codepress_content_free.getCode())) + '&originalcontent=' + encodeURI(document.getElementById('originalcontent').value)" ))
+    =image_tag("/images/icons/comment.png", :id =>"savewc_button",:alt=>"comment", :title=>_('Save with Comments'), :style=>"visibility:hidden;",:onClick => "document.getElementById('comment_save').toggle();")
     
   //Sintax check  
-  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"sintax check", :title=>_('Sintax Check')), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').show();", :method => :post
+  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"sintax check", :title=>_('Sintax Check')), :url => {:controller => "circuits", :circuit_id=>@circuit.id, :project_id=>@circuit.project_id, :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').show();", :method => :post
   
   //Data recovery
-  %img{:src => "/images/icons/recovery.png",  		:alt=>"recovery",:title =>_("Data Recovery"),:onClick => remote_function(:complete => "document.getElementById('div_data_recoveries').show();",:update => "div_data_recoveries",  :method => "get",  :url=>project_circuit_data_recovery_names_path(@project_id,@circuit))}
+  =image_tag("/images/icons/recovery.png",:alt=>"recovery",:title =>_("Data Recovery"),:onClick => remote_function(:complete => "document.getElementById('div_data_recoveries').show();",:update => "div_data_recoveries",  :method => "get",  :url=>project_circuit_data_recovery_names_path(@project_id,@circuit)))
 
   //Versions
   -if @previous_version
-    %img{:src => "/images/icons/backward.png",		:alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/circuits/#{@circuit.id}/edit?version=#{@previous_version}'", :id => "version_back"}
+    =image_tag("/images/icons/backward.png",:alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})",:onClick => "location.href='/circuits/#{@circuit.id}/edit?version=#{@previous_version}'", :id => "version_back")
   -else
-    %img{:style => "display:none;", :src => "/images/icons/backward.png",		:alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/circuits/#{@circuit.id}/edit?version=#{@previous_version}'", :id => "version_back"}
+    =image_tag("/images/icons/backward.png", :style => "display:none;",:alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/circuits/#{@circuit.id}/edit?version=#{@previous_version}'", :id => "version_back")
   -if @next_version
-    %img{:src => "/images/icons/forward.png", :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/circuits/#{@circuit.id}/edit?version=#{@next_version}'", :id => "version_forward"}
+    =image_tag("/images/icons/forward.png", :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",:onClick => "location.href='/circuits/#{@circuit.id}/edit?version=#{@next_version}'", :id => "version_forward")
     
   //History  
-  %img{:src => "/images/icons/clock.png",     :alt=>"clock",   :title=>_('Change History'),                               :onClick => "location.href='/circuits/versions/#{@circuit.id}'"}
+  =image_tag("/images/icons/clock.png",:alt=>"clock",   :title=>_('Change History'),:onClick => "location.href='/circuits/versions/#{@circuit.id}'")
  
   //Export
-  %img{:src => "/images/icons/import.png",    :alt=>"export",  :title=>_('Export Script'),                         :onclick=>"document.getElementById('import_circuit').show();"}
+  =image_tag("/images/icons/import.png",:alt=>"export",  :title=>_('Export Script'),:onclick=>"$j('#import_circuit').show();")
   
   //Functions
   -if !@readonly
-    =link_to_function image_tag("/images/icons/functions.png",     	 :title=>_('Functions'), :alt=>"functions"), 				:onclick => remote_function(:complete => "document.getElementById('div_with_functions').show();", :update => "div_with_functions", :url => "/user_functions/find_per_project")
+    =link_to_function image_tag("/images/icons/functions.png",     	 :title=>_('Functions'), :alt=>"functions"), 				:onclick => remote_function(:complete => "$j('#div_with_functions').show();", :update => "div_with_functions", :url => "/user_functions/find_per_project")
     
   //Script in suite
-  =image_tag("icons/suiteq.png", :alt=>"suite_min.png", :title=>_('Suites containing this script'),  :onClick => remote_function(:complete => "document.getElementById('suites_of_script').show();",:update => "suites_of_script",  :method => "get",  :url => { :controller => :circuits , :action => :get_suites_of_script, :id => @circuit.id }) )
+  =image_tag("icons/suiteq.png", :alt=>"suite_min.png", :title=>_('Suites containing this script'),  :onClick => remote_function(:complete => "$j('#suites_of_script').show();",:update => "suites_of_script",  :method => "get",  :url => { :controller => :circuits , :action => :get_suites_of_script, :id => @circuit.id }) )
    
   //Ruby
   =link_to image_tag("/images/icons/ruby.png",:alt=>"ruby"), '/circuits/ruby' , :title=>_('Ruby Help') , :popup => true
-  %img{:src => "/images/icons/info.png",      :alt=>"info",    :title=>_('Information'),   :onClick => "document.getElementById('infoCircuit').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;"}
+
+  //Info
+  =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoCircuit').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;")
 
   //Panel Execution
     
   //Execution Config
-  %img{:src => "/images/icons/config.png",  :alt=>"config.png", :title=>_('Execution Panel'),:onClick => remote_function(:complete => "document.getElementById('execution_panel').show();", :update => "execution_panel", :url => "/context_configurations/user_context_configuration_values")}
+  =image_tag("/images/icons/config.png",  :alt=>"config.png", :title=>_('Execution Panel'),:onClick => remote_function(:complete => "document.getElementById('execution_panel').show();", :update => "execution_panel", :url => "/context_configurations/user_context_configuration_values"))
 
   %div{ :style=>"margin:auto;width:300px;display:inline;padding-left:10px;"}
     //Cases
     -value =  @execution_running? @execution_running.case_template_id : 0
     =select("cases", "id" ,@circuit.case_templates.collect {|p| [ truncate( p.objective,  :ommision => "...",:length => 70), p.id ]}, {:include_blank => _("Without Cases"), :selected=>value}, {:style => "width:150px;vertical-align:9px;"}  )
     //Play
-    %img{:src => "/images/icons/play.png", 			:alt=>"play", 	 :title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' + document.getElementById('cases_id').value + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'"}
+    =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' + document.getElementById('cases_id').value + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
     //Ejecution Result
     -if @execution_running
       %div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
@@ -109,8 +111,6 @@
 
 //Execution pannel
 .div{:id=>"execution_panel",:style => "display:none; "}
-
-
   
 //Help 
 =render :partial => "info_script"
