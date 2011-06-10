@@ -25,21 +25,12 @@ end
   #please read more on http://rubygems.org/ 
 #end
 
-
-gem 'google-spreadsheet-ruby'
-gem 'jira4r', '0.3.0'
-gem 'ruby-oci8'
-gem 'mail'
-gem 'pony'
 gem 'commonwatir', '1.6.2'
 gem 'erubis', '2.6.6'
-gem 'faker', '0.3.1'
 gem 'mechanize'
 gem 'hpricot', '0.8.1'
 gem 'httpclient', '2.1.5.2'
 gem 'i18n', '0.4.2'
-gem 'jira4r', '0.3.0'
-gem 'json', '1.4.6'
 gem 'json_pure', '1.4.2'
 gem 'linecache', '0.43'
 gem 'memcache-client'
@@ -48,19 +39,15 @@ gem 'nokogiri'
 gem 'oauth', '0.4.4'
 gem 'polyglot'
 gem 'redis', '2.1.1'
-gem 'rest-client', '1.6.1'
 gem 'ruby-ole'
 gem 'rubyforge'
 gem 's4t-utils'
-gem 'soap4r', '1.5.8'
 gem 'spreadsheet'
 gem 'treetop'
 gem 'user-choices'
-gem 'w3c_validators', '1.0.2'
 gem 'xml-simple','1.0.12'
 
 gem 'mysql'
-gem "thin"
 gem "rake"
 gem "haml", '2.2.2'
 gem "mechanize"
@@ -112,6 +99,3 @@ gem "activesupport", '2.3.6'
   gem "gettext_rails"
 #.....................................
 
-gem "fog"
-gem "rmagick"
-gem "gruff"
