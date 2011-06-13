@@ -38,7 +38,7 @@ ensure
   Socket.do_not_reverse_lookup = orig
 end
 LOCAL_IP=local_ip
-IP_SERVER="10.4.0.30"
+IP_SERVER=local_ip
 
 #Workers machines localip, es para mi maquina de desarrollo
 WORKERS_ADDR=[LOCAL_IP]
@@ -61,7 +61,7 @@ module CaciqueConf
 end
 
 
-VERSION_MAX_ENTRIES_FACTOR = 5
+VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
 CIRCUIT_MIN_VERSION_ENTRIES = 5
 VERSION_MAX_FOR_CIRCUIT = 5
 

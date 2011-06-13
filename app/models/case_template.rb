@@ -53,13 +53,10 @@ class CaseTemplate < ActiveRecord::Base
   validates_presence_of :user_id, :message => _("Must complete User Field")
   validates_presence_of :circuit_id, :message => _("Must complete Script Field")
   
-
   class SymbolAccessHash < Hash
-
 	def [] (index)
 		super(index.to_sym)
 	end
-
 	def []= (index, value)
 		super(index.to_sym,value)
 	end
@@ -69,59 +66,46 @@ class CaseTemplate < ActiveRecord::Base
   def self.data_column_names( circuit )
     columns = circuit.circuit_case_columns.map(&:name)
     #order -> first default columns
-    others_columns  = columns.select {|n| n !~ /^default_*/}
-	  default_columns = columns.select {|n| n =~ /^default_*/}
+    others_columns  = columns.select{|n| n !~ /^default_*/}
+    default_columns = columns.select {|n| n =~ /^default_*/}
     default_columns + others_columns
   end
   
 
   def get_case_data( base_object = nil)
-
-	return @post_add_case_data_attributes if @post_add_case_data_attributes
-
-	aux = SymbolAccessHash.new
-	self.case_data.each do |cd|
-		aux[cd.column_name] = cd.data
-	end
-
+    aux = SymbolAccessHash.new
+    self.case_data.each do |cd|
+	aux[cd.column_name] = cd.data
+    end
     # Return nil for undefined col
     columns = CaseTemplate.data_column_names(circuit)
-
     columns.each do |col|
-      unless aux[col] then
-        aux[col] = ""
-      end
+        unless aux[col] then
+           aux[col] = ""
+       end
     end
-
-	return aux
+     return aux
   end
 
   def add_case_data( data_attributes={} )
-
-	unless circuit
-		# If the script is not defined
-    # redirect to add_case_data for save
-		@post_add_case_data_attributes = data_attributes
-	else
-		self.case_data.each do |case_data|
-			if data_attributes.include?(case_data.circuit_case_column.name.to_sym)
-				case_data.data = data_attributes[case_data.circuit_case_column.name.to_sym] 
-				case_data.save
-				data_attributes.delete(case_data.circuit_case_column.name.to_sym)
-			else
-				case_data.destroy
-			end
-		end
-		data_attributes.each do |key, value|
-			circuit_case_column = CircuitCaseColumn.find( :first, :conditions => ["circuit_id = ? and name = ? ", self.circuit_id,  key.to_s] )
-			raise "invalid column '#{key}' for circuit '#{self.circuit.name}'"  unless circuit_case_column
-			case_data = self.case_data.new
-			case_data.circuit_case_column_id = circuit_case_column.id
-			case_data.data = value
+	self.case_data.each do |case_data|
+		if data_attributes.include?(case_data.circuit_case_column.name.to_sym)
+			case_data.data = data_attributes[case_data.circuit_case_column.name.to_sym] 
 			case_data.save
+			data_attributes.delete(case_data.circuit_case_column.name.to_sym)
+		else
+			ase_data.destroy
 		end
-
 	end
+	data_attributes.each do |key, value|
+	    circuit_case_column = CircuitCaseColumn.find( :first, :conditions => ["circuit_id = ? and name = ? ", self.circuit_id,  key.to_s] )
+	    raise "invalid column '#{key}' for circuit '#{self.circuit.name}'"  unless circuit_case_column
+	    case_data = self.case_data.new
+	    case_data.circuit_case_column_id = circuit_case_column.id
+	    case_data.data = value
+	    case_data.save
+       end
+
   end
 
 
@@ -131,8 +115,8 @@ class CaseTemplate < ActiveRecord::Base
 
 
   def readonly
-	 begin
-		check_access
+        begin
+	   check_access
 		return false
 	rescue Exception => e
 		return true
@@ -142,19 +126,17 @@ class CaseTemplate < ActiveRecord::Base
 
 
   def save
-
-	check_access
-
-    #If saved data without an defined script, and staying in "pending",
-    # save it now
-	if @post_add_case_data_attributes
-	    super 
-		add_case_data(@post_add_case_data_attributes)
-		@post_case_data_attributes = nil
-		return true
-	else
-	    return super
-	end
+      check_access
+      #If saved data without an defined script, and staying in "pending",
+      # save it now
+      if @post_add_case_data_attributes
+	 super 
+	 add_case_data(@post_add_case_data_attributes)
+	 @post_case_data_attributes = nil
+	 return true
+      else
+	 return super
+      end
   end
 
   def last_execution(user_id=nil)
@@ -199,12 +181,32 @@ class CaseTemplate < ActiveRecord::Base
       end
     end
     
-      if cache_last_execution
-        return cache_last_execution
-      else
-        return last_execution
-      end    
+    if cache_last_execution
+       return cache_last_execution
+    else
+       return last_execution
+    end    
   end
+  
+
+   def self.build_conditions(params)
+
+   #Bulid conditions
+      conditions        = Array.new
+      conditions_names  = Array.new
+      conditions_values = Array.new
+
+      conditions_names << ' circuit_id = ? ' 
+      conditions_values << params[:circuit_id]
+      if  params[:case_templates] && params[:case_templates][:objective]
+         conditions_names << ' objective like ? ' 
+         conditions_values << '%' + params[:case_templates][:objective] + '%'
+      end
+
+      conditions << conditions_names.join('and')  
+      conditions = conditions + conditions_values
+      conditions
+   end
 
 
 end

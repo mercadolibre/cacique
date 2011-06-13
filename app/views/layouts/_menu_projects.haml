@@ -17,20 +17,21 @@
         %span
           =_('Other Projects')
       %ul{:id=>"div_all_projects"}
-    
-    %li  
-      -url_circuit = (!@project_actual.nil? and !@user_last_edited_scripts.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? edit_project_circuit_path(@project_actual.id,@user_last_edited_scripts[@project_actual.id].to_s) : circuits_path
-      %a.parent{ :href => url_circuit }
-        %span
-          Scripts
-      %li
-        %a.parent{ :href => "/suites" }
+ 
+    -if !@project_actual.nil?   
+      %li  
+        -url_circuit = (!@user_last_edited_scripts.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? edit_project_circuit_path(@project_actual.id,@user_last_edited_scripts[@project_actual.id].to_s) : project_circuits_path(@project_actual.id)
+        %a.parent{ :href => url_circuit }
           %span
-            Suites
-      %li
-        %a{ :href => "/suite_executions" }
-          %span
-            =_('History')
+            Scripts
+        %li
+          %a.parent{ :href => "/suites" }
+            %span
+              Suites
+        %li
+          %a{ :href => "/suite_executions" }
+            %span
+              =_('History')
 
     %li
       //By default is redirected to notes admin
@@ -45,22 +46,22 @@
           =_('Help')          
       %ul{:style=>"width:120px;"}
         %li
-          %a{ :href => "/circuits/script_tutorial"}
+          %a{ :href => help_path(1)}
             %span
               Scripts
         %li
-          %a{ :href => "/suites/suite_tutorial"}
+          %a{ :href => help_path(2)}
             %span
               Suites
         %li
-          %a{ :href => "/circuits/ruby", :popup=>"true"}
+          %a{ :href => help_path(3), :popup=>'true'}
             %span
               Ruby
         %li
           %a{ :onClick => "document.getElementById('about').toggle();" }
             %span
               =_('About us')  
-              %img{:src=>"/images/icons/star.png", :alt=>"star", :style=>"margin-left:5px;"}
+              =image_tag('/images/icons/star.png', :alt=>'star', :style=>'margin-left:5px;')
 
     //Only in circuit
     -if controller_name() == 'circuits' or controller_name() == 'categories'
