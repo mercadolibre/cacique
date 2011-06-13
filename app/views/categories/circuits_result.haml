@@ -36,7 +36,7 @@
       %ul
         -@pag.each do |script|
           %li
-            =link_to script.name, url_for(:controller => 'circuits',:action => 'edit',:id=>script.id )
+            =link_to script.name, edit_project_circuit_path(script.project_id,script) 
             %h4
               .description{:style => "width:600px;left: 150px; top: 50px;right: 40px;margin-left:4% "}
                 =h script.description
