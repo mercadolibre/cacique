@@ -31,7 +31,7 @@
       -for circuit in @suite.circuits do
         %h2{:title=>circuit.name, :style=>"margin:auto 0 10px;"}
           =image_tag('icons/script.png', :alt=>"script.png", :style=>"margin-right:10px;")
-          =link_to truncate(circuit.name.capitalize,:ommision => "...", :length =>30), "/circuits/edit/#{circuit.id}"
+          =link_to truncate(circuit.name.capitalize,:ommision => "...", :length =>30), edit_project_circuit_path(circuit.project_id,circuit) 
         //Cases
         .form_tag{:style=>"padding:0px; 10px; min-height:50px;margin:auto 0 10px;background:#EEEEEE;"}
           -if suite_cases(circuit,@suite.case_templates).empty?
