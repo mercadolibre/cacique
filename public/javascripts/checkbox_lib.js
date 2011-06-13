@@ -31,7 +31,7 @@ function ch_select_all(checker, attr_class){
 
 
 /* Disabled/enabled all checkbox */  
-function disable_all(disabled, attr_class){
+function disable_all(disabled, attr_class){z
   $j("." + attr_class).attr('disabled', disabled);
 }
 
