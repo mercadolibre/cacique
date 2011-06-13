@@ -69,6 +69,7 @@ gem "annotate-models"
 gem "polyglot"
 gem "ruby-graphviz"
 gem "calendar_date_select"
+gem 'ruby-oci8'
 gem "ruby-openid"
 gem "camping" 
 gem "prawn"
