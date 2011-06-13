@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 source "http://gems.github.com"
 source "http://gemcutter.org"
 
-gem 'rails', '2.3.6'
+gem 'rails', '2.3.9'
   
 group :development do
  gem 'ruby-debug'
@@ -25,12 +25,7 @@ end
   #please read more on http://rubygems.org/ 
 #end
 
-
-gem 'google-spreadsheet-ruby'
-gem 'jira4r', '0.3.0'
 gem 'ruby-oci8'
-gem 'mail'
-gem 'pony'
 gem 'commonwatir', '1.6.2'
 gem 'erubis', '2.6.6'
 gem 'faker', '0.3.1'
@@ -38,26 +33,21 @@ gem 'mechanize'
 gem 'hpricot', '0.8.1'
 gem 'httpclient', '2.1.5.2'
 gem 'i18n', '0.4.2'
-gem 'jira4r', '0.3.0'
 gem 'json', '1.4.6'
 gem 'json_pure', '1.4.2'
 gem 'linecache', '0.43'
 gem 'memcache-client'
 gem 'mime-types', '1.16'
 gem 'nokogiri'
-gem 'oauth', '0.4.4'
 gem 'polyglot'
 gem 'redis', '2.1.1'
 gem 'rest-client', '1.6.1'
 gem 'ruby-ole'
 gem 'rubyforge'
 gem 's4t-utils'
-gem 'soap4r', '1.5.8'
 gem 'spreadsheet'
 gem 'treetop'
 gem 'user-choices'
-gem 'w3c_validators', '1.0.2'
-gem 'xml-simple','1.0.12'
 
 gem 'mysql'
 gem "rake"
@@ -70,7 +60,6 @@ gem "searchlogic"
 gem "composite_primary_keys"
 gem "Selenium", :require => "selenium"
 gem "mislav-will_paginate", :require => "will_paginate"
-gem "hpricot", '0.8.1'
 gem 'laserlemon-vestal_versions', :require => 'vestal_versions'
 gem "calendar_date_select"
 gem "commonwatir", '1.6.2'
@@ -87,17 +76,14 @@ gem "starling"
 gem "SyslogLogger"
 gem "treetop"
 gem "user-choices"
-gem "xml-simple", '1.0.12'
 gem "annotate-models"
 gem "polyglot"
 gem "ruby-graphviz"
 gem "calendar_date_select"
 gem "ruby-openid"
-gem "net-ssh"
 gem "camping" 
 gem "prawn"
 gem "passenger"
-gem "activesupport", '2.3.5'
 
 gem "hoptoad_notifier"
 gem "newrelic_rpm"
