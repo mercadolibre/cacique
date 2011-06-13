@@ -1,0 +1,7 @@
+- form_for circuit_case_column, :as => :circuit_case_column, :url => project_circuit_circuit_case_column_path(circuit.project_id,circuit.id,circuit_case_column.id), :html => { :method => :put } do |f|
+
+  %label
+    =_('New Name:')
+    =f.text_field :name,:style=>'width:170px;'
+  .form_button
+    =submit_tag _("Modify")
