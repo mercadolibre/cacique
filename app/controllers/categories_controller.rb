@@ -72,7 +72,7 @@ class CategoriesController < ApplicationController
 		      @circuit_to_move.save
 		    end
 	    end
-	    redirect_to "/circuits"
+	    redirect_to project_circuits_path(@circuit_to_move.project_id)
      end
   end
 
