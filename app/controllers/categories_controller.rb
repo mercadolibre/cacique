@@ -72,7 +72,7 @@ class CategoriesController < ApplicationController
 		      @circuit_to_move.save
 		    end
 	    end
-	    redirect_to "/circuits"
+	    redirect_to project_circuits_path(@circuit_to_move.project_id)
      end
   end
 
@@ -187,11 +187,7 @@ class CategoriesController < ApplicationController
 
     #permision verify and copy my scripts to @category
     @category.import_circuits(@project, params[:circuits_ids], params[:cases])
-    if params.include?(:project)
-        redirect_to "/circuits?project_id=#{params[:project][:id]}"
-    else	
-	    redirect_to "/circuits?project_id=#{params[:project_id]}"
-    end
+    redirect_to project_circuits_path(@project.id)
   end
 
   def search_circuit
