@@ -25,7 +25,6 @@ end
   #please read more on http://rubygems.org/
 #end
     
-gem 'ruby-oci8'
 gem 'commonwatir', '1.6.2' 
 gem 'erubis', '2.6.6'
 gem 'faker', '0.3.1'
