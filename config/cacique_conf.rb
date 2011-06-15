@@ -11,7 +11,7 @@ LOGGING_MAIL="robot@mercadolibre.com"
 
 #Primer usuario Generico de la herramienta
 FIRST_USER_NAME="cacique"
-FIRST_USER_PASS="schumann"
+FIRST_USER_PASS="admin"
 
 #Default language
 CACIQUE_LANG="en_US"

@@ -3,7 +3,6 @@ source "http://gems.github.com"
 source "http://gemcutter.org"
 
 gem 'rails', '2.3.9'
-  
 group :development do
  gem 'ruby-debug'
  gem 'rak'
@@ -18,15 +17,12 @@ group :test do
   gem "autotest"
   gem "autotest-rails"
   gem "rcov"
-end
+end     
 
 #group :workers
   #here you could add your custom gems for your test
-  #please read more on http://rubygems.org/ 
+  #please read more on http://rubygems.org/
 #end
-
-gem 'ruby-oci8'
-gem 'commonwatir', '1.6.2'
 gem 'erubis', '2.6.6'
 gem 'faker', '0.3.1'
 gem 'mechanize'
@@ -34,7 +30,7 @@ gem 'hpricot', '0.8.1'
 gem 'httpclient', '2.1.5.2'
 gem 'i18n', '0.4.2'
 gem 'json', '1.4.6'
-gem 'json_pure', '1.4.2'
+gem 'json_pure', '1.4.2' 
 gem 'linecache', '0.43'
 gem 'memcache-client'
 gem 'mime-types', '1.16'
@@ -64,10 +60,10 @@ gem 'laserlemon-vestal_versions', :require => 'vestal_versions'
 gem "calendar_date_select"
 gem "commonwatir", '1.6.2'
 gem "daemons"
-gem "eventmachine", '0.12.8' 
+gem "eventmachine", '0.12.8'
 gem "hoe", '2.3.2'
 gem "polyglot"
-gem "ruby-graphviz" 
+gem "ruby-graphviz"
 gem "ruby-ole"
 gem "rubyforge"
 gem "s4t-utils"
@@ -81,10 +77,9 @@ gem "polyglot"
 gem "ruby-graphviz"
 gem "calendar_date_select"
 gem "ruby-openid"
-gem "camping" 
+gem "camping"
 gem "prawn"
 gem "passenger"
-
 gem "hoptoad_notifier"
 gem "newrelic_rpm"
 
@@ -93,7 +88,7 @@ gem "newrelic_rpm"
 
 #...............GETTEXT.............
   gem 'locale'
-  gem 'locale_rails', '2.0.5'
+  gem 'locale_rails', '2.0.6', :git=> "https://github.com/scambra/locale_rails.git"
   gem "gettext"
   gem "gettext_activerecord"
   gem "gettext_rails"
