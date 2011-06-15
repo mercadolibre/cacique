@@ -232,7 +232,7 @@ class CircuitsController < ApplicationController
     @circuit = Circuit.find params[:id]
     permit "editor of :circuit" do
       if @circuit.import( params['fileUpload'], "casos.xls", current_user.id )
-        redirect_to "/circuits/#{params[:id]}/case_templates"
+        redirect_to project_circuit_case_templates_path(@circuit.project_id,@circuit)
       else
         p _("FILE NO SAVED ")
         render :text => _("ERROR TO SAVE FILE IN ")+"#{RAILS_ROOT}/public"
@@ -320,7 +320,7 @@ class CircuitsController < ApplicationController
   end
 
   def destroy
-    @circuit = Circuit.find params[:circuit_id]
+    @circuit = Circuit.find params[:id]
       if  current_user.has_role?( "editor",  @circuit)
        @circuit.destroy
        @js = "window.location.reload()"
