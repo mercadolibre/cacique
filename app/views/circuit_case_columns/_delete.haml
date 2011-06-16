@@ -1,0 +1,13 @@
+.tab{:id => 'delete_column', :style=>'display:none;height:135px;background:#E0E0F8;width:90%;padding: 5% 5% 8%;'}
+  - if @columns_data_show.empty?
+    %div{:style=>'text-align: center;margin-top:20%'}
+      %i
+        =_('No hay columnas para eliminar')
+  -else
+    %div{ :style=>'background:#EEEEED;border:1px solid #C6C5C4;padding:10px;-moz-border-radius:10px;'}
+      %div{:style=>'height:80%; overflow-x: auto;margin-top:5px;'}
+        -@columns_data_show.each do |circuit_case_column|  
+          =link_to image_tag('/images/icons/cross.png', :alt=>'cross.png', :style=>'cursor:pointer; height:12px; width:12px; margin-left:10px;border:none;'), project_circuit_circuit_case_column_path(@circuit.project_id,@circuit.id,circuit_case_column.id), :method=>:delete, :confirm=>"#{_('Sure to remove the column: ')} #{circuit_case_column.name} ?"
+          =truncate(circuit_case_column.name, :ommision => "...", :length => 30)
+          %br
+

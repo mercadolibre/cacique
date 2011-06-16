@@ -1,0 +1,102 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+-javascript 'editcircuit'
+-javascript 'onclick_iframe'
+-javascript 'key_handler'
+-javascript 'checked_default'
+-javascript 'suite_execution_emails'
+
+%script{ :language => "javascript", :src => "/codepress.js" }
+-permission_denied = "alert(#{_('You do not have Edit Permissions for this script')})"
+%script
+  //For save before leave if there are changes in the script
+  window.onbeforeunload = function (evt) {
+  var message = "#{_('You have Unsaved Changes, do you want to Save before Exit?')}";
+  if(!add_asterisk){
+  if (evt) {
+  evt.returnValue = message;
+  }
+  return message;
+  }
+  }   
+  function is_read_only(){
+  ="return #{@readonly}"
+  }
+   
+  
+.main
+  #TabView.TabView
+    .Tabs
+      .tab_view{:onclick=>"location='#{edit_project_circuit_path(@circuit.project_id,@circuit)}'", :style=> "opacity:10;padding-top:4px;position:relative;top:2px;"}
+        =_('Edit Script')
+      .tab_view{:onclick=>"location='#{project_circuit_case_templates_path(@project_id,@circuit)}'"}
+        =_('Data Set')        
+      %div{ :style=>"clear: both"}           
+  .edit_free_table{:id=>"div_edit_free"}
+    %div{ :style=>"width:500px;float:left; margin-bottom:10px;"}
+      %div{ :id => "modified_file", :style => "width:20px;float:left;"}
+      %b
+        =truncate(@circuit.name.capitalize, :ommision => "...", :length => 60)
+      %br
+      %i{:style=>"font-size:12px;"}
+        =@version.message.capitalize  if  @version.message != ""
+
+        -if @version_number
+          =_("Version ")+"(#{@version_number})"
+          -if !@readonly
+            %script
+              //Adding '*'
+              document.getElementById('modified_file').innerHTML = "<image src='/images/icons/s-edit.png'></img>";
+              document.getElementById('save_button').style.visibility = "visible";
+              document.getElementById('savewc_button').style.visibility = "visible"; 
+              add_asterisk = false;
+              
+    %div{ :style=>"width:150px;float:right;margin-left:10px;text-align:right;",  :title=>@circuit.user.name}
+      =_('By')
+      =truncate(@circuit.user.name, :ommision => "...", :length => 20)
+    //Message after save
+    #save_message
+      =render :partial => "original_content", :locals => { :source_code => @last_circuit_version.source_code, :exito => nil, :text => nil }
+    
+    //SCRIPT
+    %textarea{ :id => "codepress_content_free", :name=>"content_free", :class => "codepress ruby linenumbers-on" + (@readonly ? " readonly-on" : ""), :style=>"width:100%; height:335px;"}
+      =@circuit.source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r")
+
+
+//Category Menu
+-content_for :left_category_menu do  
+  =render :partial => "layouts/left_category_menu"
+  
+//Tools menu
+-content_for :tools_menu do
+  = render :partial=> "menu_edit"
+  
+
+
+
+
+

@@ -53,8 +53,9 @@ class TaskProgram < ActiveRecord::Base
          params[:execution][:task_program_id] = task_program.id
          params[:execution][:user_mail]       = current_user.email
          params[:execution][:user_id]         = current_user.id
-         params[:execution][:suite_id]        = suite_id.to_s
-         #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
+         params[:execution][:suite_id]        = suite_id
+ 
+        #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
          run.each do |r|
             DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
          end
