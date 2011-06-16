@@ -180,8 +180,9 @@ class ContextConfiguration < ActiveRecord::Base
       #Delete the column of context_configuration.field_default
       circuits = Circuit.all
       column_name = "default_" + self.name 
-      circuits.each do |c|
-        c.delete_case_columns( column_name )
+      circuits.each do |circuit|
+        circuit_column_name = CircuitCaseColumn.find(:first, :conditions=>["circuit_id = ? AND name = ?",circuit.id, column_name])
+        circuit_column_name.destroy
       end    
      self
     end  
