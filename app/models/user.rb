@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
 
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :name,:language,:email, :password, :password_confirmation, :active #, :remember_token_expires_at, :remember_token
+  attr_accessible :login, :name,:language,:email, :password, :password_confirmation, :active,:api_key #, :remember_token_expires_at, :remember_token
 
 
   validates_presence_of     :login, :email, :name,              :message => _("User, Name and E-Mail are Mandatory Fields ")
@@ -360,7 +360,25 @@ class User < ActiveRecord::Base
       Rails.cache.write("projects_ids" , Project.all.map(&:id))
       Rails.cache.delete("user_projects_#{self.id}")
    end
-   
+
+   def enable_api!
+     self.generate_api_key!
+   end
+       
+   def disable_api!
+     #should be ....
+     #self.update_attribute(:api_key, "")
+
+     usr=User.find_by_login(current_user.login)
+     usr.update_attribute(:api_key, "")
+     expires_cached_user
+     current_user=usr
+   end
+               
+   def api_is_enabled?
+     !self.api_key.empty?
+   end
+
 
   protected
     # before filter
@@ -382,6 +400,24 @@ class User < ActiveRecord::Base
       #You should confing your mailserver to send mail when creating accounts.
      end
    end
+  
+  def secure_digest(*args)
+    Digest::SHA1.hexdigest(args.flatten.join('--'))
+  end
+               
+  def generate_api_key!
+    # Note: This is a dirty code, it should be something like:
+    #       self.update_attribute(:api_key, secure_digest(Time.now, (1..10).map{ rand.to_s }))
+    #       But Rails 2.3.x has a bug, and all Activerecord objects cached on memcached are frozen
+    #       and I couldn't modify, currently It's tested on rails 2.3.5 and 2.3.9 and It's not fixed yet
+    #       for more info about this bug: http://sleeplesscoding.blogspot.com/2010/08/rails-23-activesupportcachememorystore.html
+    usr=User.find_by_login(current_user.login)
+    usr.update_attribute(:api_key, secure_digest(Time.now, (1..10).map{ rand.to_s }))
+    expires_cached_user
+    current_user=usr
+  end
+
+
 
    def self.find(*args)
     if args.first.instance_of?(Fixnum) and args.length == 1
