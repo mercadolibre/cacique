@@ -1,0 +1,51 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+//Suite Tutorial
+%div{:style=>"width:77%; margin:auto;"}
+  .column{:style=>"padding-left: 10px;width: 250px;"}
+    %h1{:style=>"font-size:12px"}
+      1.
+      %i{:style=>"color:#FF8000;"}
+        %img{:src => "/images/icons/new.png",:alt=>"new",:title=>_('New'), :onClick => "location='/suites/new'", :style=>"cursor:pointer;"}     
+        =_('Create')
+
+    %div{:style=>"border:1px solid #9A9A9A;padding:10px;-moz-border-radius:10px;height:240px;"}
+      %div{:style=>"background-image:url('/images/tutorial/#{_('New')}-suite.png');background-repeat:no-repeat;height:100%;-moz-border-radius:10px;"}
+
+  .column{:style=>"padding-left: 10px;width: 250px;"}
+    %h1{:style=>"font-size:12px"}
+      2.
+      %i{:style=>"color:#FF8000;"}
+        =_('Add Scripts')
+    %div{:style=>"border:1px solid #9A9A9A;padding:10px;-moz-border-radius:10px;height:240px;"}
+      %div{:style=>"background-image:url('/images/tutorial/#{_('New')}-suite2.png');background-repeat:no-repeat;height:100%;-moz-border-radius:10px;"}
+  .column{:style=>"padding-left: 10px;width: 260px;"}
+    %h1{:style=>"font-size:12px"}
+      3.
+      %i{:style=>"color:#FF8000;;"}
+        =_('Sort Scripts and Add Cases')
+    %div{:style=>"border:1px solid #9A9A9A;padding:10px;-moz-border-radius:10px;height:240px;"}
+      %div{:style=>"background-image:url('/images/tutorial/#{_('New')}-suite3.png');background-repeat:no-repeat;height:100%;-moz-border-radius:10px;"}

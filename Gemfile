@@ -2,8 +2,8 @@ source 'http://rubygems.org'
 source "http://gems.github.com"
 source "http://gemcutter.org"
 
-gem 'rails', '2.3.5'
-  
+gem 'rails', '2.3.9'
+
 group :development do
  gem 'ruby-debug'
  gem 'rak'
@@ -18,16 +18,37 @@ group :test do
   gem "autotest"
   gem "autotest-rails"
   gem "rcov"
-end
+end     
 
 #group :workers
   #here you could add your custom gems for your test
-  #please read more on http://rubygems.org/ 
+  #please read more on http://rubygems.org/
 #end
-
+    
+gem 'commonwatir', '1.6.2' 
+gem 'erubis', '2.6.6'
+gem 'faker', '0.3.1'
+gem 'mechanize'
+gem 'hpricot', '0.8.1'
+gem 'httpclient', '2.1.5.2'
+gem 'i18n', '0.4.2'
+gem 'json', '1.4.6'
+gem 'json_pure', '1.4.2' 
+gem 'linecache', '0.43'
+gem 'memcache-client'
+gem 'mime-types', '1.16'
+gem 'nokogiri'
+gem 'polyglot'
+gem 'redis', '2.1.1'
+gem 'rest-client', '1.6.1'
+gem 'ruby-ole'
+gem 'rubyforge'
+gem 's4t-utils'
+gem 'spreadsheet'
+gem 'treetop'
+gem 'user-choices'
 
 gem 'mysql'
-gem "thin"
 gem "rake"
 gem "haml", '2.2.2'
 gem "mechanize"
@@ -38,15 +59,14 @@ gem "searchlogic"
 gem "composite_primary_keys"
 gem "Selenium", :require => "selenium"
 gem "mislav-will_paginate", :require => "will_paginate"
-gem "hpricot", '0.8.1'
 gem 'laserlemon-vestal_versions', :require => 'vestal_versions'
 gem "calendar_date_select"
 gem "commonwatir", '1.6.2'
-gem "daemons", '1.0.10'
-gem "eventmachine", '0.12.8' 
+gem "daemons"
+gem "eventmachine", '0.12.8'
 gem "hoe", '2.3.2'
 gem "polyglot"
-gem "ruby-graphviz" 
+gem "ruby-graphviz"
 gem "ruby-ole"
 gem "rubyforge"
 gem "s4t-utils"
@@ -55,27 +75,24 @@ gem "starling"
 gem "SyslogLogger"
 gem "treetop"
 gem "user-choices"
-gem "xml-simple", '1.0.12'
 gem "annotate-models"
 gem "polyglot"
 gem "ruby-graphviz"
 gem "calendar_date_select"
 gem "ruby-openid"
-gem "net-ssh"
-gem "camping" 
+gem "camping"
 gem "prawn"
 gem "passenger"
-gem "activesupport", '2.3.5'
-
-gem "hoptoad_notifier", "~> 2.3"
-
+gem "activesupport", "2.3.9"
+gem "hoptoad_notifier"
+gem "newrelic_rpm"
 
 #Cache
   gem "memcache-client"
 
 #...............GETTEXT.............
   gem 'locale'
-  gem 'locale_rails', '2.0.5'
+  gem 'locale_rails', '2.0.6', :git=> "https://github.com/scambra/locale_rails.git"
   gem "gettext"
   gem "gettext_activerecord"
   gem "gettext_rails"

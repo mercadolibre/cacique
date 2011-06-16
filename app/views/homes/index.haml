@@ -35,11 +35,11 @@
       .tag{:style=>"width:80%;"}
         %ul
           %li
-            =link_to 'Tutorial Script', '/circuits/script_tutorial' , :popup => true   
+            =link_to 'Tutorial Script',  help_path(1) , :popup => true   
           %li
-            =link_to 'Tutorial Suite', '/suites/suite_tutorial' , :popup => true                                    
+            =link_to 'Tutorial Suite',  help_path(2) , :popup => true                                    
           %li
-            =link_to 'Ruby', '/circuits/ruby' , :popup => true
+            =link_to 'Ruby',  help_path(3), :popup => true
           %li
             =link_to _('Ruby Tutorial'),'http://rubytutorial.wikidot.com/introduccion', :popup => true
           %li 

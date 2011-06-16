@@ -1,0 +1,8 @@
+%tr{:id=>"row_" + data_recovery_name.id.to_s}
+  %td{:title=>data_recovery_name.name,  :name=>"data_recovery_names"}
+    =truncate(data_recovery_name.name,  :ommision => "...",:length => 20)
+  %td{:title=>data_recovery_name.code}
+    =truncate(data_recovery_name.code,  :ommision => "...",:length => 20)
+  %td{:style=>"width:10px;"}
+    =image_tag '/images/icons/cross.png', :alt=>"cross",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;", :onclick=>( @readonly ? permission_denied : "if(confirm(msgjs10)){ #{ remote_function(:method=>:delete, :url =>project_circuit_data_recovery_name_path(project_id,circuit_id,data_recovery_name.id))} }" )
+
