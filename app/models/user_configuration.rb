@@ -45,7 +45,8 @@ class UserConfiguration < ActiveRecord::Base
 
   validates_presence_of :user_id, :message => _("Must complete circuit_id")
 
-  attr_accessor :emails_to_send
+  attr_accessor :emails_to_send_ok
+  attr_accessor :emails_to_send_fail
 
   # user_configuration_values generator for all run configuration with value=nil
     def add_first_user_configuration_values
@@ -76,22 +77,38 @@ class UserConfiguration < ActiveRecord::Base
 
   #user_configuration_values update
   def update_configuration(values)
-    if values.has_key?(:send_mail) 
-      self.send_mail = true
-      if values.has_key?(:emails_to_send)
-        if values[:emails_to_send].instance_of? Array
-          @emails_to_send = values[:emails_to_send].join(",")
+    if values.has_key?(:send_mail_ok) 
+      self.send_mail_ok = true
+      if values.has_key?(:emails_to_send_ok)
+        if values[:emails_to_send_ok].instance_of? Array
+          @emails_to_send_ok = values[:emails_to_send_ok].join(",")
         else
-          @emails_to_send = values[:emails_to_send].gsub(";",",")  
+          @emails_to_send_ok = values[:emails_to_send_ok].gsub(";",",")  
         end
       else
-        @emails_to_send = current_user.email
+        @emails_to_send_ok = current_user.email
       end
     else
-      self.send_mail = false
-      @emails_to_send = []
+      self.send_mail_ok = false
+      @emails_to_send_ok = []
     end
-    
+ 
+    if values.has_key?(:send_mail_fail) 
+      self.send_mail_fail = true
+      if values.has_key?(:emails_to_send_fail)
+        if values[:emails_to_send_fail].instance_of? Array
+          @emails_to_send_fail = values[:emails_to_send_fail].join(",")
+        else
+          @emails_to_send_fail = values[:emails_to_send_fail].gsub(";",",")  
+        end
+      else
+        @emails_to_send_fail = current_user.email
+      end
+    else
+      self.send_mail_fail = false
+      @emails_to_send_fail = []
+    end
+   
     self.debug_mode = values.has_key?(:debug_mode) 
     self.remote_control_addr = values[:remote_control_addr]
     self.remote_control_port = values[:remote_control_port]

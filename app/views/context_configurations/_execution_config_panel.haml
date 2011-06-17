@@ -24,15 +24,17 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-.tag{:id => "execution_config", :name => "execution_config", :style=>"height:400px; width:auto; padding-bottom:10px; left:auto;"}
+.tag{:id => "execution_config", :name => "execution_config", :style=>" left: 25%;min-width: 52%; width:auto; padding-bottom:10px;"}
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"execution_config"}  
   %h3
     =_('Execution Panel')
   - remote_form_for :execution, :url => "/executions/save_execution_config", :html=>{:style=>"width:auto;"}, :complete => "document.getElementById('execution_panel').style.display='none';" do
-    %div{:style=>"width:auto;;max-height:300px;overflow:auto;"}
-      =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => column_1, :column_2 => column_2 }
-      =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => user_configuration }
+    %div{:style=>"max-height:300px;;overflow:auto;margin:0 auto;"}
+      %div{:style=>"width:60%;float:left;"}
+        =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => column_1, :column_2 => column_2 }
+      %div{:style=>"width:38%;float:left; margin-left: 1%;"}
+        =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => user_configuration }
     %div{ :style=>"clear: both"}
-    .form_button
+    .form_button{:style=> "margin: 1.5% 0;"}
       =submit_tag _('Save')
   %div{ :style=>"clear: both"}
