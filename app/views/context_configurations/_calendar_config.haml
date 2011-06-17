@@ -7,43 +7,43 @@
   });
   }
 
-%div{:style=>"width:90%;padding: 10px 0;float:left;"}
-  %h2{:style=>"color:#288EB1;"}
+%div{:style=>"width:95%; float:left;"}
+  %h2{:style=>"color:#373737;"}
     =_('Schedules')
   .form_tag 
     //RANGE  
-    %div{:style=>"width:80px; float:left;"}
+    %div{:style=>"width:80px; float:left;color:#848484;"}
       =radio_button_tag "program[range]", "today", true, {:onclick=>"$j('#extended').hide();$j('#frecuency').hide();$j('#one').show();"}  
       =_('A Day')
-    %div{ :style=>"width:100px; float:left;margin-bottom:10px;"}
+    %div{ :style=>"width:100px; float:left;margin-bottom:10px;color:#848484;"}
       =radio_button_tag "program[range]", "extend", false, {:onclick=>"$j('#one').hide();$j('#extended').show();$j('#frecuency').show();"}   
       =_('Range')
     %div{ :style=>"border-top:1px solid #C3C3C3;clear: both;margin-bottom:10px;"}
     
     //DATES ONE          
     %div#one
-      %label{ :style=>"float:left;"}
+      %label{ :style=>"float:left;color:#848484;"}
         =_('Date')
       =calendar_date_select_tag "program[one_date]", @init_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;margin-left:10px;"
 
       
     //DATES EXTENDED         
     %div#extended{:style=>"display:none;"}
-      %label{ :style=>"width:50px;float:left;"}
+      %label{ :style=>"width:50px;float:left;color:#848484;"}
         =_('From:')
       =calendar_date_select_tag "program[init_date]", @init_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;"
       %br
-      %label{ :style=>"width:50px;float:left;"}
+      %label{ :style=>"width:50px;float:left;color:#848484;"}
         =_('Until:')
       =calendar_date_select_tag "program[finish_date]", @finish_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;"
     
     %div{ :style=>"border-top:1px solid #C3C3C3;clear: both; margin-top:10px;"}    
-      %label{:style=>"margin-top:10px;"}
+      %label{:style=>"margin-top:10px;color:#848484;"}
         =_('Start Time')
         %input{:name=>"program[init_hour]", :value=>(@init_date + 10*60).strftime("%H:%M"),:style=>"width:50px;text-align:center"} 
         Hs.                   
       //REPEAT    
-      %label{:style=>"margin-top:10px;"}
+      %label{:style=>"margin-top:10px;color:#848484;"}
         =_('Repetitions')
         %input#repeat{:name=>"program[runs]",:value=>"1", :style=>"width:30px;text-align:center;", :onkeyup =>"change_repeat($j(this).val())"}
         (Max. 500)
@@ -59,7 +59,7 @@
         %div{ :style=>"clear: both"}  
   
     //FRECUENCY                       
-    %div#frecuency{:style=>"display:none;margin-top:10px;border-top:1px solid #C3C3C3;padding-top:10px;"}
+    %div#frecuency{:style=>"display:none;margin-top:10px;border-top:1px solid #C3C3C3;padding-top:10px;color:#848484;"}
       =_('Frequency:')
       %br
         =radio_button_tag "program[frecuency]", "daily", true, {:class=>"calendar_options"} 
