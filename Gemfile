@@ -3,7 +3,6 @@ source "http://gems.github.com"
 source "http://gemcutter.org"
 
 gem 'rails', '2.3.9'
-
 group :development do
  gem 'ruby-debug'
  gem 'rak'
@@ -24,8 +23,6 @@ end
   #here you could add your custom gems for your test
   #please read more on http://rubygems.org/
 #end
-    
-gem 'commonwatir', '1.6.2' 
 gem 'erubis', '2.6.6'
 gem 'faker', '0.3.1'
 gem 'mechanize'
