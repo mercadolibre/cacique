@@ -44,8 +44,9 @@ class ExecutionsController < ApplicationController
 
     @user_configuration = UserConfiguration.find_by_user_id(current_user.id)
     
-    @user_configuration.send_mail = params[:execution].has_key?(:send_mail)
-    @user_configuration.debug_mode = params[:execution].has_key?(:debug_mode)
+    @user_configuration.send_mail_ok        = params[:execution].has_key?(:send_mail_ok)
+    @user_configuration.send_mail_fail      = params[:execution].has_key?(:send_mail_fail)
+    @user_configuration.debug_mode          = params[:execution].has_key?(:debug_mode)
     @user_configuration.remote_control_addr = params[:execution][:remote_control_addr]
     @user_configuration.remote_control_port = params[:execution][:remote_control_port]
     @user_configuration.remote_control_mode = params[:execution][:remote_control_mode]

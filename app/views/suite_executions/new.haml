@@ -42,7 +42,7 @@
     = ' - '
     =truncate(@suite.name.capitalize,:ommision => "...", :length =>80)
 
-  .form{:style => 'margin:auto;width:80%;'}
+  .form{:style => 'margin:auto;width:90%;'}
     = error_messages_for :suite_executions
     = error_messages_for :user_configuration
     - form_for :suite_executions, :url => "/suite_executions/create", :html => {:id => "form_to_run_suite"} do
@@ -50,9 +50,12 @@
       =text_field_tag "where_did_i_come", "suite_executions_new", :style => "display:none;"
       =text_field_tag "project_id", @suite.project_id, :style => "display:none;"
 
-      =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
-      =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
-      =render :partial => 'context_configurations/suite_config',    :locals => {:suite_id => @suite.id, :command=>@command}
+      %div{:style=>"width:50%;float:left; "}
+        =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
+      %div{:style=>"width:26%;float:left;margin: 0 3% 0 1%;"}
+        =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
+      %div{:style=>"width:20%;float:left;"}
+        =render :partial => 'context_configurations/suite_config',    :locals => {:suite_id => @suite.id, :command=>@command}
   
 
 //Tools menu
