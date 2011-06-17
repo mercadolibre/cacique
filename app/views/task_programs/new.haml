@@ -39,14 +39,15 @@
       =_("Suite Scheduler:")          
       .form_button
         =submit_tag _('Schedule')
-    
-    %div{:style=>"width:24%;float:left;margin-rigth:1%;"}
+  
+    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:24%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:49%;float:left;margin-left:1%;")   
+    %div{:style=>style_1}
       =render :partial => 'select_suites'
       =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
-    %div{:style=>"width:23%;float:left;margin: 0 1%;"}
+    %div{:style=>style_2}
       =render :partial => 'context_configurations/suite_program_config'
       =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
-    %div{:style=>"width:49%;float:left;margin-left:1%;"}
+    %div{:style=>style_3}
       =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
 
 

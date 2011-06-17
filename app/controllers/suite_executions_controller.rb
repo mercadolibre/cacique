@@ -175,7 +175,8 @@ class SuiteExecutionsController < ApplicationController
       emails_to_send_fail = @user_configuration.emails_to_send_fail
       identifier = params[:execution][:identifier]
     else
-      emails_to_send = current_user.email
+      emails_to_send_ok   = current_user.email
+      emails_to_send_fail = current_user.email
     end
     #search the number of combinations that I can do with run configuration
     #[{:site => "ar"},{:site => "br"}]
