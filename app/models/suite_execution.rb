@@ -353,7 +353,7 @@ class SuiteExecution < ActiveRecord::Base
     else
       command = "cacique run "
     end
-  
+ 
     #Suite_id
     command += execution_params[:suite_id].to_s
     
@@ -408,16 +408,25 @@ class SuiteExecution < ActiveRecord::Base
       command += " -ip " + execution_params[:remote_control_addr]
       command += " -port " + execution_params[:remote_control_port]
     end
-    
-    #SendEmail
-    if execution_params.has_key?(:send_mail) and execution_params.has_key?(:emails_to_send)
-        execution_params[:emails_to_send].gsub!(",",";")
-        emails = execution_params[:emails_to_send].split(";")
+     
+    #SendEmail ok
+    if execution_params.has_key?(:send_mail_ok) and execution_params.has_key?(:emails_to_send_ok)
+        execution_params[:emails_to_send_ok].gsub!(",",";")
+        emails = execution_params[:emails_to_send_ok].split(";")
         emails.each do |email|
-          command += " -sm " + email
+          command += " -smo " + email
         end
     end
-    
+ 
+    #SendEmail fail
+    if execution_params.has_key?(:send_mail_fail) and execution_params.has_key?(:emails_to_send_fail)
+        execution_params[:emails_to_send_fail].gsub!(",",";")
+        emails = execution_params[:emails_to_send_fail].split(";")
+        emails.each do |email|
+          command += " -smf " + email
+        end
+    end
+   
     #DebugMode
     if execution_params.has_key?(:debug_mode)
       command += " -debug_mode true"
