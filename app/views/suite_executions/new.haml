@@ -50,11 +50,12 @@
       =text_field_tag "where_did_i_come", "suite_executions_new", :style => "display:none;"
       =text_field_tag "project_id", @suite.project_id, :style => "display:none;"
 
-      %div{:style=>"width:50%;float:left; "}
+      -(@column_1.empty? or @column_2.empty?) ? (style_1 ="width:30%;float:left;"; style_2="width:36%;float:left;margin: 0 3% 0 1%;"; style_3="width:30%;float:left;"): (style_1 = "width:50%;float:left;"; style_2="width:26%;float:left;margin: 0 3% 0 0%;"; style_3="width:20%;float:left;") 
+      %div{:style=>style_1}
         =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
-      %div{:style=>"width:26%;float:left;margin: 0 3% 0 1%;"}
+      %div{:style=>style_2}
         =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
-      %div{:style=>"width:20%;float:left;"}
+      %div{:style=>style_3}
         =render :partial => 'context_configurations/suite_config',    :locals => {:suite_id => @suite.id, :command=>@command}
   
 

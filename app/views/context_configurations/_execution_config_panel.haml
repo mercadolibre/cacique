@@ -28,11 +28,12 @@
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"execution_config"}  
   %h3
     =_('Execution Panel')
-  - remote_form_for :execution, :url => "/executions/save_execution_config", :html=>{:style=>"width:auto;"}, :complete => "document.getElementById('execution_panel').style.display='none';" do
-    %div{:style=>"max-height:300px;;overflow:auto;margin:0 auto;"}
-      %div{:style=>"width:60%;float:left;"}
+  - remote_form_for :execution, :url => '/executions/save_execution_config', :html=>{:style=>"width:auto;"}, :complete => "document.getElementById('execution_panel').style.display='none';" do
+    %div{:style=>'max-height:300px;;overflow:auto;margin:0 auto;'}
+      -(column_1.empty? or column_2.empty?) ? (style_1 = 'width:48%;float:left;'; style_2='width:48%;float:left; margin-left: 3%;')  :(style_1 = 'width:60%;float:left;'; style_2='width:38%;float:left; margin-left: 1%;')   
+      %div{:style=>style_1}
         =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => column_1, :column_2 => column_2 }
-      %div{:style=>"width:38%;float:left; margin-left: 1%;"}
+      %div{:style=>style_2}
         =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => user_configuration }
     %div{ :style=>"clear: both"}
     .form_button{:style=> "margin: 1.5% 0;"}
