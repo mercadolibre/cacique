@@ -72,7 +72,9 @@ class RunSuiteProgram < Struct.new(:params)
   end
   
   def run_program( args )
+
     command = SuiteExecution.generate_command(args, "program") 
+
     #Complete User & pass
     #UserName
     command.gsub!("\<user_name\>",FIRST_USER_NAME)
