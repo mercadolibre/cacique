@@ -1,23 +1,23 @@
 ADMIN_EMAIL="admin@myCaciqueAdmin.com"
 #Datos para enviar mail desde Cacique
-EMAIL =  "cacique@mercadolibre.com"
-EMAIL_SERVER = "surgemail.mercadolibre.com"
-EMAIL_USER_NAME='cacique'
-EMAIL_PASS='Cq123456'
+EMAIL =  "user@domain.com"
+EMAIL_SERVER = "servermail"
+EMAIL_USER_NAME='user'
+EMAIL_PASS='xxxxxx'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "mercadolibre.com"
-LOGGING_MAIL="robot@mercadolibre.com"
+EMAIL_DOMAIN = "domain"
+LOGGING_MAIL="user@domain.com"
 
 #Primer usuario Generico de la herramienta
 FIRST_USER_NAME="cacique"
-FIRST_USER_PASS="schumann"
+FIRST_USER_PASS="admin"
 
 #Default language
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.12"
+CACIQUE_VERSION = "0.1.13"
 
 #funcion que calcula el ip del servidor
 require 'socket'
