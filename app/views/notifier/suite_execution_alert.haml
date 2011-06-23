@@ -1,0 +1,52 @@
+=render :partial=>'css'
+
+%body
+  %table.header
+    %tr
+      %td{ :rowspan=>"2", :style=>'width:300px;font-size:16px;text-align:center;font-weight: bold;'}
+        =link_to "Cacique Report" , @url
+      %td
+        Suite:
+        %b
+          =truncate(@suite_execution.suite.name, :ommision => '...', :length => 70)
+    %tr
+      %td
+        Date:
+        = @suite_execution.updated_at.strftime("%d/%m/%y %H:%M") 
+        -if !@suite_execution.identifier.empty?
+          ;   Identifier:
+          =truncate(@suite_execution.identifier, :ommision => '...', :length => 70)
+
+
+
+  %table.general{:style=>"clear:both;"}
+    %tr
+      %th{:style=>'width:40%;'}
+        Script
+      %th{:style=>'width:5%;'}
+        Case
+      %th{:style=>'width:5%;'}
+        Result
+      %th{:style=>'width:50%;'}
+        Output
+    -for execution in @suite_execution.executions_cache(@suite_execution.executions.map(&:id))
+      %tr
+        %td   
+          =truncate(execution.circuit.name.capitalize, :ommision => "...", :length => 60)
+        %td  
+          = execution.case_template_id
+        -color = (execution.status == 2)? 'DarkGreen' : (execution.status == 3 ? 'red' :'#336699')
+        %td  
+          = execution.s_status
+        %td
+          -execution.data_recoveries.each do |data_recovery|
+            %dd{ :style => 'color:DarkGreen;'}
+              = data_recovery.data_name
+              \:
+              = data_recovery.data
+              %br
+          %div{ :style => 'color:red;' }
+            = execution.error
+
+
+

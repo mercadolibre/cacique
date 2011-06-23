@@ -1,0 +1,28 @@
+%div{ :style => "margin: 0pt auto; background: #293484 none repeat scroll 0% 0%; min-width: 500px; height: 40px; float: left; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; -moz-border-radius:10px; font-size: 40px; color: white;padding:10px; padding-left:20px" }
+  Cacique
+%br
+%br
+%br
+%br
+%div{ :style => "width:600px; padding:10px;  font-family:sans-serif;font-size: 13px;" }
+  %b{ :style => "font-size: 20px; color:#293484; font-family:sans-serif; font-size:15px; font-weight:bold;" }
+    Confirm schedules
+  %br
+  %div
+    Debe confirmar la programación de la suite
+    %b{ :style => "font-family:sans-serif;letter-spacing:1px;margin:10px auto 15px;text-align:left;" }
+      = truncate(@suite_name, :ommision => "...", :length => 20)
+    %br
+    Si no se realiza la confimación, la siguiente ejecución programada para el día
+    %br
+    %b
+      = "#{@next_execution.run_at.strftime('%A')},"
+      = "#{ @next_execution.run_at.day}/#{ @next_execution.run_at.mon}/#{ @next_execution.run_at.year}"
+    %b
+      = "#{@next_execution.run_at.hour}:#{@next_execution.run_at.min}"
+    %br
+    %b
+      NO será ejecutada
+  %div{ :style => "color:#293484;font-size:16px; margin-left:20px; margin-top:10px;" }
+    %a{ :name => "link_recovery", :href => h @url_confirm, :style => "color:#293484;font-weight:bold;font-size:14px;" }
+      Confirm!
