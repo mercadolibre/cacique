@@ -3126,6 +3126,10 @@ msgstr "Debe seleccionar al menos un día en la programación semanal"
 msgid "[Until Date] should be after to [From Date]"
 msgstr "[Fecha Hasta] debe ser posterior a [Fecha Desde]"
 
+#: app/views/task_programs/new.haml:
+msgid "Daily repetitions"
+msgstr "Repeticiones por día"
+
 #: app/controllers/suite_executions.rb:
 msgid "Not executed because an error occurred while trying to communicate with Starling"
 msgstr "No se ejecuto porque ocurrio un error al intentar comunicarse con  Starling"

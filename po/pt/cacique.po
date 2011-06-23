@@ -3085,6 +3085,10 @@ msgstr "Sábado"
 msgid "Sunday"
 msgstr "Domingo"
 
+#: app/views/task_programs/new.haml:
+msgid "Daily repetitions"
+msgstr "repetições por dia"
+
 #: lib/suites/suite_relation.rb
 msgid "getting data from related case"
 msgstr "obtenção de dados relacionados com o caso"
