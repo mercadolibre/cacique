@@ -1,0 +1,26 @@
+=render :partial=>'css'
+
+%body
+  %table.header{:style=>"width:500px;margin-top:20px;"}
+    %tr
+      %td{ :rowspan=>"2", :style=>'width:300px;font-size:16px;text-align:center;font-weight: bold;'}
+        Cacique 
+        %div{:style=>"font-size:15px;font-weight:normal;"}
+          Wellcome!
+      %td{:style=>"padding:20px 0px;width:250px;"}
+          Thank you for choosing Cacique!
+    %tr
+      %td
+        Your account details are:
+        %div{ :style => "text-align:left;color:#31576F; margin-top:10px;;" }
+          %b
+            User  =
+          = @user.login
+          %br
+          %b
+            Password =
+          = @user.password            
+
+
+
+
