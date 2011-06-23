@@ -64,7 +64,7 @@ class SuiteExecution < ActiveRecord::Base
       when 1
         _("Running ...")
       when 2
-        _("Success")
+        _("Ok")
       when 3
         _("Error")
       when 4

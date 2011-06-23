@@ -579,7 +579,7 @@ msgid "Import Excel"
 msgstr "Importar Excel"
 
 #: app/views/case_templates/_status.haml:
-msgid "Success"
+msgid "Ok"
 msgstr "Exito"
 
 #: app/views/case_templates/index.haml:
