@@ -1698,6 +1698,19 @@ msgstr "En lista de espera"
 msgid "Total Time"
 msgstr "Tiempo total"
 
+#: app/views/suite_executions/rates.haml:
+msgid "Errors"
+msgstr "erros"
+
+#: app/views/suite_executions/rates.haml:
+msgid "Success"
+msgstr "sucessos"
+
+#: app/views/suite_executions/rates.haml:
+msgid "Others"
+msgstr "outros"
+
+
 #: app/views/suite_executions/_history.haml:
 msgid "ID:"
 msgstr "Identificador:"

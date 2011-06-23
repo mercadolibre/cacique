@@ -616,4 +616,16 @@ class SuiteExecution < ActiveRecord::Base
       return suite_executions
   end
   
+  #Get percentages of states
+  def self.get_rates(suite_executions)
+     total  = suite_executions.count
+     total = 1 if total == 0
+     ok     = suite_executions.count{|se| se.status == 2} 
+     error  = suite_executions.count{|se| se.status == 3} 
+     others = total -  ok - error
+     rates = {:ok=>[ok,(ok*100/total.to_f).round(2)], :error=>[error,(error*100/total.to_f).round(2)], :others=>[others,(others*100/total.to_f).round(2)] }
+  end
+
+
+
 end
