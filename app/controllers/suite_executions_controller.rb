@@ -67,6 +67,8 @@ class SuiteExecutionsController < ApplicationController
       suite_executions = SuiteExecution.get_suite_exec_with_filters(@project, Hash.new)
       @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
    end
+   #Get percentages of states
+   @rates =  SuiteExecution.get_rates(suite_executions)
 
    #Run configurations
    @run_configurations = Hash.new
