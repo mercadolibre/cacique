@@ -26,8 +26,9 @@
 -javascript 'history'
 
 //Rates
-%div{:style=>"width:96%;"}
-  =render :partial => "rates"
+-if !@suite_executions.empty?
+  %div{:style=>"width:96%;"}
+    =render :partial => "rates"
 
 .main{:style=>"width:100%;padding:0%;"}
   %h1{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize, :style=>"   margin: 20px auto 0;;"}
