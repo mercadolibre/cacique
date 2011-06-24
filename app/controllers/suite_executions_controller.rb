@@ -67,6 +67,8 @@ class SuiteExecutionsController < ApplicationController
       suite_executions = SuiteExecution.get_suite_exec_with_filters(@project, Hash.new)
       @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
    end
+   #Get percentages of states
+   @rates =  SuiteExecution.get_rates(suite_executions)
 
    #Run configurations
    @run_configurations = Hash.new
@@ -151,7 +153,6 @@ class SuiteExecutionsController < ApplicationController
   end
 
   def create
-
     if !params[:execution].nil? and params[:execution].include?(:suite_id) 
       #if run a suite, i have suite_id
       suite_id = params[:execution][:suite_id]
@@ -167,14 +168,17 @@ class SuiteExecutionsController < ApplicationController
     @user_configuration = current_user.user_configuration
     #Identifier seting
     identifier = ""
+
     #if come from case_template use User configuration.
     #if come from suite update configuration.
     if params.include?(:execution)
       @user_configuration.update_configuration(params[:execution])
-      emails_to_send = @user_configuration.emails_to_send
+      emails_to_send_ok   = @user_configuration.emails_to_send_ok
+      emails_to_send_fail = @user_configuration.emails_to_send_fail
       identifier = params[:execution][:identifier]
     else
-      emails_to_send = current_user.email
+      emails_to_send_ok   = current_user.email
+      emails_to_send_fail = current_user.email
     end
     #search the number of combinations that I can do with run configuration
     #[{:site => "ar"},{:site => "br"}]
@@ -224,18 +228,18 @@ class SuiteExecutionsController < ApplicationController
      
       suite_executions << @suite_execution
     end
-    
 
     suite_container_id = 0
-   
     #Hash con parametros que se pasan al controlador
     options = { :project_id => @project_id,
                 :debug_mode => @user_configuration.debug_mode,
                 :remote_control_mode => @user_configuration.remote_control_mode,
                 :remote_control_addr => @user_configuration.remote_control_addr,
                 :remote_control_port => @user_configuration.remote_control_port,
-                :send_mail => @user_configuration.send_mail,
-                :emails_to_send => emails_to_send,
+                :send_mail_ok        => @user_configuration.send_mail_ok,
+                :send_mail_fail      => @user_configuration.send_mail_fail,
+                :emails_to_send_ok   => emails_to_send_ok,
+                :emails_to_send_fail => emails_to_send_fail,
               }
     #if suite_execution has not project_id (i.e when is called from the comman line) it should take it value from the relation 
               

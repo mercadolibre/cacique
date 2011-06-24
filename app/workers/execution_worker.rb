@@ -100,16 +100,28 @@ class ExecutionWorker < Workling::Base
     db_suite_execution = all_suite_execution[0]
     db_suite_execution.calculate_status
     db_suite_execution.save
-
-    if options[:send_mail]
+    #Send mail OK
+    if (db_suite_execution.status == 2 and options[:send_mail_ok])
       begin
         if suite_execution.suite_id == 0
-          Notifier.deliver_execution_single_alert(db_suite_execution,options[:emails_to_send])
+          Notifier.deliver_execution_single_alert(db_suite_execution,options[:emails_to_send_ok])
         else
-          Notifier.deliver_suite_execution_alert(db_suite_execution,options[:emails_to_send])
+          Notifier.deliver_suite_execution_alert(db_suite_execution,options[:emails_to_send_ok])
         end
       rescue
-          print "error al enviar notificacion:"
+          print "Failure to send notification: "
+          p $!
+      end
+    #Send mail FAIL
+    elsif (db_suite_execution.status != 2 and options[:send_mail_fail])
+      begin
+        if suite_execution.suite_id == 0
+          Notifier.deliver_execution_single_alert(db_suite_execution,options[:emails_to_send_fail])
+        else
+          Notifier.deliver_suite_execution_alert(db_suite_execution,options[:emails_to_send_fail])
+        end
+      rescue
+          print "Failure to send notification: "
           p $!
       end
     end

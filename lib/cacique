@@ -16,11 +16,12 @@ function show_help(){
         echo "OPTIONS:"
         echo "-i <identifier>            Cambia el identificador de la ejecucion"
         echo "-n <number>                Especifica la cantidad de veces que se va a ejecutar la suite, por defecto es 1"
-        echo "-queries <true|false>            Indica si se va a ejecutar la suite con queries o no, por defecto es true"
+        echo "-queries <true|false>      Indica si se va a ejecutar la suite con queries o no, por defecto es true"
         echo "-ip <ip_address>           Indica la direccion de ip para ejecutar BenderEnMiPc"       
         echo "-port <port>               Indica el numero de puerto con el que se va a conectar a BenderEnMiPc por defecto es 4444"
         echo "-c <case_id>               Comenta los casos al ejecutar la suite"
-        echo "-sm <email>				 Mail al cual se va a enviar el logueo de la corrida"
+        echo "-smo <email>		 Mail al cual se va a enviar el logueo de la corrida en caso de éxito"
+        echo "-smf <email>		 Mail al cual se va a enviar el logueo de la corrida en caso de falla"
         echo "-server_ip  <ip addr>      Ip del servidor de Cacique"
         echo "-server_port <port>        Puerto del servidor de Cacique"
 	echo "-format <text|xml|json>    Formato en el que Cacique va a devolver los resultados, por defecto xml"
@@ -50,7 +51,8 @@ PLATAFORM=""
 SITES=""
 CASE_COMMENT=""
 ENVIROMENT="stage"
-SEND_MAIL=""
+SEND_MAIL_OK=""
+SEND_MAIL_FAIL=""
 PORT_CLIENT=4444
 IP_CLIENT=ip_client
 FORMAT="application/xml"
@@ -75,7 +77,8 @@ for i in  $@ ; do
     echo "ipclient: $IP_CLIENT" 
     echo "case_coment: $CASE_COMMENT" 
     echo "port_clien: $PORT_CLIENT"
-    echo "send_mail $SEND_MAIL"
+    echo "send_mail_ok $SEND_MAIL_OK"
+    echo "send_mail_fail $SEND_MAIL_FAIL"
   fi
 done
 
@@ -84,9 +87,10 @@ done
 function suite_execution() {
     #la siguiente linea muestra el comando que se va a lanzar con las opciones pasadas, descomentar para ver el comando 
    
-    #echo "curl -X POST -u $USER_NAME:$USER_PASS -s -H \"Accept: text/plain\"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d \"[execution][suite_id]=$id\" -d \"[execution][identifier]=$IDENTIFIER\" -d \"[execution][cant_corridas]=$N_TIMES\" -d \"[execution][send_mail]=true\" $SEND_MAIL -d \"[execution][remote_control_mode]=$RC_MODE\" -d \"[execution][remote_control_addr]=$IP_CLIENT\" -d \"[execution][cases_comment]=$CASE_COMMENT\" -d \"[execution][remote_control_port]=$PORT_CLIENT\" $CONFIGURATION"
+    #echo "curl -X POST -u $USER_NAME:$USER_PASS -s -H \"Accept: text/plain\"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d \"[execution][suite_id]=$id\" -d \"[execution][identifier]=$IDENTIFIER\" -d \"[execution][cant_corridas]=$N_TIMES\" $SEND_MAIL_OK $SEND_MAIL_FAIL -d \"[execution][remote_control_mode]=$RC_MODE\" -d \"[execution][remote_control_addr]=$IP_CLIENT\" -d \"[execution][cases_comment]=$CASE_COMMENT\" -d \"[execution][remote_control_port]=$PORT_CLIENT\" $CONFIGURATION"
 
-    SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$id" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" -d "[execution][send_mail]=true" $SEND_MAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION`
+
+    SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$id" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" $SEND_MAIL_OK $SEND_MAIL_FAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION`
 }
 
 
@@ -153,8 +157,12 @@ while (( $# ))
 	N_TIMES=$2
 	shift
 	;;
-    -sm)
-	SEND_MAIL="$SEND_MAIL -d [execution][emails_to_send][]=$2"
+    -smo)
+	SEND_MAIL_OK=" -d [execution][send_mail_ok]=true -d [execution][emails_to_send_ok][]=$2 "
+	shift
+	;;
+    -smf)
+	SEND_MAIL_FAIL=" -d [execution][send_mail_fail]=true -d [execution][emails_to_send_fail][]=$2 "
 	shift
 	;;
     -ip)
