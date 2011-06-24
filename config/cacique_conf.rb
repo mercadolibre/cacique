@@ -17,7 +17,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.12"
+CACIQUE_VERSION = "0.1.13"
 
 #funcion que calcula el ip del servidor
 require 'socket'
