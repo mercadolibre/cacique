@@ -66,7 +66,7 @@ gem "daemons"
 gem "eventmachine", '0.12.8'
 gem "hoe", '2.3.2'
 gem "polyglot"
-gem "ruby-graphviz"
+gem "ruby-graphviz", '0.9.20'
 gem "ruby-ole"
 gem "rubyforge"
 gem "s4t-utils"
@@ -77,7 +77,6 @@ gem "treetop"
 gem "user-choices"
 gem "annotate-models"
 gem "polyglot"
-gem "ruby-graphviz"
 gem "calendar_date_select"
 gem "ruby-openid"
 gem "camping"
