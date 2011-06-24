@@ -113,18 +113,6 @@ function buscar_argumentos(){
   }
 }
 
-//Function to show or hide the select input in DATA_RECOVERIES
-  function changeInput(){
-  visual = document.getElementById('return_2'  ).style.display;
-  if (visual == 'none'){
-    document.getElementById('return_3').style.display='none';
-    document.getElementById('return_2' ).style.display = 'block';
-    }else{
-    document.getElementById('return_3' ).style.display = 'block';
-    document.getElementById('return_2').style.display='none';
-  }
-}
-
 
 
 //-------------------------- SEND CHANGES -------------------------//
@@ -141,129 +129,18 @@ function sendCircuitUpdate(){
 
 //--------------------------- DATA RECOVERY --------------------------------//
 
-//Function to validate the data entered in data recoveries
-  function checkNewDataRecovery(){
-
-    input1 = document.getElementById( 'return_1');  //Input1
-    input2 = document.getElementById('return_2');   //Select
-    input3 = document.getElementById('return_3' ); //Input2
-
-    //If the values are not completed
-    if ( input1.value == "" || (input3.style.display != 'none' && input3.value == "" )|| (input2.style.display != 'none' &&  input2.value == ""  ) ) 
-    {alert(msgjs6);return false;}
-    //It verifies that does not repeat
-      //You get all those in the table
-      names = document.getElementsByName('data_recovery_names');
-      exists_names = [];
-      for(i=0;i< names.length;i++){exists_names[i] = names[i].parentNode.id.split('_')[1];}
-      if(exists_names.inArray(input1.value)){alert(msgjs7 + input1.value +" "+ msgjs8);return false;}
-      
-    return true;
-
- }
- 
- //Function that searches for the parameters to send for Ajax to create a DataRecovery
-   function findParamsDataRecovery(){
-   	  input1  = document.getElementById('return_1');  //Input1
-      input2  = document.getElementById('return_2');  //Select
-      input3  = document.getElementById('return_3'); //Input2
-      new_name=input1.value;
-      new_value = '';
-       
-      //If the INPUT is visible
-      if ( input2.style.display == 'none'){
-           new_value  = input3.value;
-      }else{//If the SELECT is visible
-           new_value         = input2.value ;
+//Function to show or hide the select input in DATA_RECOVERIES
+  function changeInput(){   
+      if (document.getElementById('data_recovery_name_code').style.display == 'none'){
+          document.getElementById('data_recovery_name_code').style.display = 'block';   
+          document.getElementById('data_recovery_name_code_2').style.display = 'none';  
+      } else {
+          document.getElementById('data_recovery_name_code').style.display = 'none';   
+          document.getElementById('data_recovery_name_code_2').style.display = 'block';  
       }
-      return 'name='+ new_name + '&code='+ new_value;
-   }
-
-//Function to add a data recovery to the table
-  function addDataRecoveryIntoTable(circuit_id){
-      input1  = document.getElementById('return_1');  //Input1
-      input2  = document.getElementById('return_2');  //Select
-      input3  = document.getElementById('return_3'); //Input2
-      new_name=input1.value;
-      new_value = '';
-       
-      //If the INPUT is visible
-      if ( input2.style.display == 'none'){
-           new_value  = input3.value;
-      }else{//If the SELECT is visible
-           new_value         = input2.value ;
-      }
-      
-     table = document.getElementById('data_recovery_table');
-     
-     //creates the table if not exists (there was no data recovered)
-     if(!table){
-         //table is created
-	      table = document.createElement('table');
-	      table.setAttribute('style', 'margin: 0 auto; margin-top:0px; margin-bottom: 10px; padding: 10px;text-align:left; width:95%;');
-	      table.setAttribute('class', 'detail');
-	      table.setAttribute('CELLSPACING', '0');
-	      table.id = 'data_recovery_table';   
-
-		 //Titles
-		  tr=document.createElement('tr');
-         //Name
-         th=document.createElement('th');
-         th.innerHTML =   msgjs36;
-         tr.appendChild(th);
-         //Value
-         th=document.createElement('th');
-         th.innerHTML = 'Data';
-   	     tr.appendChild(th); 
-		    //Delete
-		    th=document.createElement('th');
-	      tr.appendChild(th);   
-	         	      
-        container = document.getElementById('campos_ya_ingresados');
-        container.innerHTML = '';
-        container.appendChild(table);   
-        table = document.getElementById('data_recovery_table');  
-        table.appendChild(tr);   
-     }
-  
-     //Recovered data is added to the table
-     row = table.insertRow(table.rows.length);
-     row.id =  'row_' + new_name;
- 	    
-     //Name
-	   cell = row.insertCell(0);
-     cell.innerHTML =  new_name.truncate([length = 20]);
-     cell.title= new_name;
-     cell.setAttribute('name','data_recovery_names');
-     //Value
-	   cell = row.insertCell(1);
-	   cell.title= new_value;
-     cell.innerHTML = new_value.truncate([length = 20]);
-     
-     //Delete
-	   cell = row.insertCell(2);
-	   cell.setAttribute('style','width:10px;padding:0 10px;');
-     elemento = document.createElement('img');
-     elemento.src = '/images/icons/cross.png';
-     elemento.alt = 'cross.png';
-     elemento.name = new_name;
-     elemento.setAttribute('style', 'cursor:pointer; height:12px; width:12px;margin:0 auto;');
-     elemento.onclick = function(){ if(confirm(msgjs10)){new Ajax.Request('/circuits/deleteDataRecovery/' + circuit_id , {asynchronous:true, evalScripts:true, onComplete:function(request){deleteDataRecoveryTable( row.rowIndex );}, parameters:'name=' + new_name }) } }
-  	 cell.appendChild(elemento);
-  	    
 }
 
-//Function to delete a data recovery
-function deleteDataRecoveryTable(rowIndex){
-  //Are removed from the table
-  table = document.getElementById('data_recovery_table');
-  table.deleteRow(rowIndex);
-  
-  //If the elimination of all
-  if(table.tBodies[0].rows.length == 1) { 
-         container= table.parentNode; 
-         container.removeChild(table); 
-         container.innerHTML= '<br> ' + msgjs11 + ', <br> '+ msgjs12;
-  }
-}
- 
+
+
+
+

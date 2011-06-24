@@ -24,19 +24,50 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-%img{:src => "/images/icons/new.png",     :alt=>"new.png",    :title=>_('New'),                  :onClick => "location='/case_templates/create?circuit_id=#{@circuit.id}&origin=case_template';", :style=>"margin-left:150px;"}
-%img{:src => "/images/icons/column.png",  :alt=>"column.png", :title=>_('Inset / Delete Column'),:onClick => "document.getElementById('abm_columns').show();"}
-%img{:src => "/images/icons/trash.png",   :alt=>"trash.png",  :title=>_('Delete'),               :onClick => "submit_delete();"}
-%img{:src => "/images/icons/clock.png",   :alt=>"clock.png",  :title=>_('Execution History'),    :onClick => "if(marcado)location.href='/suite_executions?[filter][model]=scripts&[filter][suite_id]=0&[filter][circuit_id]=#{@circuit.id}&[filter][case_id]=' + marcado;"}
-%img{:src => "/images/icons/eimport.png", :alt=>"eimport.png",:title=>_('Import'),               :onClick => ( current_user.has_role?("editor",@circuit) ? "document.getElementById('excel_import').show()" : "alert(msgalert)" ) }
-%img{:src => "/images/icons/eexport.png", :alt=>"eexport.png",:title=>_('Export'),               :onClick => "location='/case_templates/export/1?circuit_id=#{@circuit.id}';"}
-%img{:src => "/images/icons/info.png",    :alt=>"info.png",   :title=>_('Information'),          :onClick => "document.getElementById('infoCaseTemplate').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;"}
-%img{:src => "/images/icons/config.png",  :alt=>"config.png", :title=>_('Execution Panel'),      :onClick => remote_function(:complete => "document.getElementById('execution_panel').show();", :update => "execution_panel", :url => "/context_configurations/user_context_configuration_values")}
-%img{:src => "/images/icons/play.png",    :alt=>"play.png",   :title=>_('Run Selected'),         :onClick => "submit_play('#{@project_id}','#{@circuit.id}');"}
+//New
+=link_to image_tag("/images/icons/new.png",:alt=>"new.png",:title=>_('New'),:style=>"margin-left:150px;"), project_circuit_case_templates_path(@project_id,@circuit), :method=>:post
+
+//Abm columns
+=image_tag("/images/icons/column.png",:alt=>"column.png",:title=>_('Inset / Delete Column'),:onClick => "$j('#abm_columns').show();")
+
+//Delete
+=image_tag("/images/icons/trash.png", :alt=>"trash.png", :title=>_('Delete'), :onClick => "submit_delete();")
+
+//History
+=image_tag( "/images/icons/clock.png",:alt=>"clock.png", :title=>_('Execution History'), :onClick => "if(marcado)location.href='/suite_executions?[filter][model]=scripts&[filter][suite_id]=0&[filter][circuit_id]=#{@circuit.id}&[filter][case_id]=' + marcado;")
+
+//Import
+=image_tag("/images/icons/eimport.png", :alt=>"eimport.png",:title=>_('Import'),:onClick => ( current_user.has_role?("editor",@circuit) ? "$j('#excel_import').show()" : "alert(msgalert)" ) )
+
+//Export
+=image_tag("/images/icons/eexport.png", :alt=>"eexport.png",:title=>_('Export'),:onClick => "location='/case_templates/export/1?circuit_id=#{@circuit.id}';")
+
+//Info
+=image_tag("/images/icons/info.png",:alt=>"info.png", :title=>_('Information'),:onClick => "$j('#infoCaseTemplate').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;")
+
+//Execution Panel
+=image_tag("/images/icons/config.png",  :alt=>"config.png", :title=>_('Execution Panel'),:onClick => remote_function(:complete => "$j('#execution_panel').show();", :update => "execution_panel", :url => "/context_configurations/user_context_configuration_values") )
+
+//Play
+=image_tag("/images/icons/play.png",:alt=>"play.png",:title=>_('Run Selected'),:onClick => "submit_play('#{@project_id}','#{@circuit.id}');")
+
+//Queue observers
 =render :partial => "queue_observers/queue_icon"
 
+//Serch
 .buscar
-  - form_for @search do  |f|
-    = f.text_field :objective_like, :style => 'width: 130px; ', :style => 'width: 130px',:value=>_("Search case") , :onblur=>"if (this.value == '') {this.value = '#{_('Search case')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search case')}') {this.value = '';this.style.color='black'}"
-    = f.text_field :circuit_id_equals, :value => @circuit.id, :style => 'display:none;'
-    %input{:type=>"image",:src=>"/images/icons/search.png"}
+  - form_for :case_templates, :url=> project_circuit_case_templates_path(@circuit.project_id,@circuit), :html=>{:method=>:get} do  |f|
+    =f.text_field :objective, :style => 'width: 130px; ', :style => 'width: 130px',:value=>_("Search case") , :onblur=>"if (this.value == '') {this.value = '#{_('Search case')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search case')}') {this.value = '';this.style.color='black'}"
+    =image_submit_tag('/images/icons/search.png')
+  
+//ABM Column
+=render :partial=>"circuit_case_columns/abm_columns"
+
+//Excel import
+=render :partial => "import"
+
+//Execution pannel
+.div{:id=>"execution_panel",:style => "display:none; "}
+  
+//Help 
+=render :partial => "info_case_template"

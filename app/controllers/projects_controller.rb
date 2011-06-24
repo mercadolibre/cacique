@@ -26,7 +26,7 @@
 
 
 class ProjectsController < ApplicationController
-  protect_from_forgery
+ # protect_from_forgery
   before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
   #skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
   
@@ -36,16 +36,26 @@ class ProjectsController < ApplicationController
        @users    = (User.find :all).sort_by { |x| x.login.downcase }
   end
 
-  def index
-    permit "root" do
-         @users =  User.all
-    end
 
+#curl -X GET -H "Accept: text/plain" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
+#curl -X GET -H "Accept: application/xml" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
+#curl -X GET -H "Accept: application/json" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
+
+def index
+    permit "root" do
+      @users =  User.all
+      respond_to do |format|
+        format.html
+        format.text {render :text => @projects.inspect}
+        format.xml {render :xml=>@projects.to_xml}
+        format.json {render :json=>@projects.to_json}
+      end
+    end  
  
   end
 
   def show
-
+  
   end
 
   def create

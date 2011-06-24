@@ -17,7 +17,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.11"
+CACIQUE_VERSION = "0.1.12"
 
 #funcion que calcula el ip del servidor
 require 'socket'
@@ -47,7 +47,7 @@ WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"
 #Puerto del hub
 HUB_PORT = 4444
 #URL del hub
-HUB_URL = "http://#{LOCAL_IP}:#{HUB_PORT}/"
+HUB_URL = "http://#{IP_SERVER}:#{HUB_PORT}/"
 
 IP_QUEUE=IP_SERVER
 PORT_QUEUE="22122"
