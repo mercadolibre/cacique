@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
   end
 
   def user_stuff
-     self.user_configuration=UserConfiguration.create( :send_mail => CaciqueConf::SEND_MAIL,
+     self.user_configuration=UserConfiguration.create( 
                                           :debug_mode => CaciqueConf::DEBUG_MODE,
                                           :remote_control_addr => CaciqueConf::REMOTE_CONTROL_ADDR,
                                           :remote_control_port => CaciqueConf::REMOTE_CONTROL_PORT,

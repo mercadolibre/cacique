@@ -31,10 +31,9 @@
   form.submit();
   }
 
-%div{:style=>"width:200px; float:left;padding: 10px;"}
-  %h2{:style=>"color:#288EB1;margin-top:10px;"}
-    =_('Execution')
-  .form_tag
-    =render :partial=>'context_configurations/identifier'
-    =render :partial=>'context_configurations/repetitions'
-  =render :partial=>'context_configurations/suite_extra_config', :locals => {:suite_id => @suite.id, :command=>@command}
+%h2{:style=>"color:#373737;"}
+  =_('Execution')
+.form_tag
+  =render :partial=>'context_configurations/identifier'
+  =render :partial=>'context_configurations/repetitions'
+=render :partial=>'context_configurations/suite_extra_config', :locals => {:suite_id => @suite.id, :command=>@command}
