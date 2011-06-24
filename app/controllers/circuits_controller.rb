@@ -229,7 +229,7 @@ class CircuitsController < ApplicationController
   end
 
   def import
-    @circuit = Circuit.find params[:id]
+    @circuit = Circuit.find params[:circuit_id]
     permit "editor of :circuit" do
       if @circuit.import( params['fileUpload'], "casos.xls", current_user.id )
         redirect_to project_circuit_case_templates_path(@circuit.project_id,@circuit)
