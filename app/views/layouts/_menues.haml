@@ -14,9 +14,7 @@
 
             %ul{:id=>"options_user", :style=>"top:22px;width:120px;-moz-border-radius:0px 0px 10px 10px;"}
               %li
-                %a{ :href => "/users/my_account" }
-                  %span
-                    =_('My Account')                  
+                =link_to _('My account'),edit_user_path(current_user)
               %li
                 %a{ :href => "/sessions/destroy" }
                   %span

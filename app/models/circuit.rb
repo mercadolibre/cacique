@@ -84,7 +84,7 @@ class Circuit < ActiveRecord::Base
   before_validation     :delete_carriage_return
   after_save            :update_user_last_edited_scripts
   acts_as_authorizable
-  after_create  :adding_project
+
   include SaveModelAccess
 
   #Calumn name Verify
@@ -155,27 +155,6 @@ class Circuit < ActiveRecord::Base
     ccc.name = new_name
     ccc.save
   end
-
-  #col Delete
-  def delete_case_columns( column )
-    circuit_case_column = self.circuit_case_columns.find_by_name(column)
-
-    #SuiteFieldsRelation dependencies delete
-      suite_fields_relations =  self.suite_fields_relations_origin.find_all_by_field_origin(column) +
-                                self.suite_fields_relations_destination.find_all_by_field_destination(column)
-      suite_fields_relations.each do |sfr|
-        sfr.destroy
-      end
-    #DataRecoveryName dependencies delete
-      data_recovery_names = self.data_recovery_names.find_all_by_code( 'data[:' + column + ']')
-      data_recovery_names.each do |dr|
-        dr.destroy
-      end
-    #col destroy
-    circuit_case_column.destroy
-
-  end
-
 
   #first case for an cacique script
   def add_first_data_set( new_data )
@@ -465,7 +444,7 @@ class Circuit < ActiveRecord::Base
       if current_user
         user_scrips_edit = Rails.cache.read("circuit_edit_#{current_user.id}")
         user_scrips_edit = {} if user_scrips_edit.nil?
-        user_scrips_edit[self.category.project_id] = self.id
+        user_scrips_edit[self.project_id] = self.id
         Rails.cache.write("circuit_edit_#{current_user.id}",user_scrips_edit)   
       end   
  end
@@ -532,9 +511,6 @@ private
     Version.destroy(self.versions.map(&:id))
     super delete
   end
-  def adding_project
-     self.project_id=self.category.project_id
-     self.save
-  end
+
 
 end
