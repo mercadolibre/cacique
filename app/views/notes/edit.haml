@@ -40,7 +40,8 @@
         writeRichText('rte1', "#{@text}", 650, 200, true, false);
       %div{:style=>" float:right;"}
         = submit_tag _('Edit'), { :style => "cursor:pointer;" }
-        %input{:type=>"button", :value=>_("Cancel"), :onclick => "if(confirm('Exit Without Save?')){location='/notes'};", :style=>"cursor:pointer;"}
+        -@msg=_('Exit Without Save?')
+        %input{:type=>"button", :value=>_("Cancel"), :onclick => "if(confirm('#{@msg}')){location='/notes'};", :style=>"cursor:pointer;"}
         
         
 //Tools menu

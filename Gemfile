@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 source "http://gems.github.com"
 source "http://gemcutter.org"
 
-gem 'rails', '2.3.5'
+gem 'rails', '2.3.9'
   
 group :development do
  gem 'ruby-debug'
@@ -25,10 +25,22 @@ end
   #please read more on http://rubygems.org/ 
 #end
 
-
+gem 'erubis', '2.6.6'
+gem 'mechanize'
+gem 'hpricot', '0.8.1'
+gem 'httpclient', '2.1.5.2'
+gem 'i18n', '0.4.2'
+gem 'memcache-client'
+gem 'mime-types', '1.16'
+gem 'nokogiri'
+gem 'polyglot'
+gem 'rubyforge'
+gem 's4t-utils'
+gem 'spreadsheet'
+gem 'treetop'
+gem 'user-choices'
 gem 'mysql'
-gem "thin"
-gem "rake"
+gem "rake", "0.8.7"
 gem "haml", '2.2.2'
 gem "mechanize"
 gem 'nokogiri'
@@ -42,7 +54,7 @@ gem "hpricot", '0.8.1'
 gem 'laserlemon-vestal_versions', :require => 'vestal_versions'
 gem "calendar_date_select"
 gem "commonwatir", '1.6.2'
-gem "daemons", '1.0.10'
+gem "daemons"
 gem "eventmachine", '0.12.8' 
 gem "hoe", '2.3.2'
 gem "polyglot"
@@ -50,25 +62,18 @@ gem "ruby-graphviz"
 gem "ruby-ole"
 gem "rubyforge"
 gem "s4t-utils"
-gem "spreadsheet"
-gem "starling"
 gem "SyslogLogger"
-gem "treetop"
 gem "user-choices"
 gem "xml-simple", '1.0.12'
 gem "annotate-models"
 gem "polyglot"
 gem "ruby-graphviz"
 gem "calendar_date_select"
+gem 'ruby-oci8'
 gem "ruby-openid"
-gem "net-ssh"
 gem "camping" 
 gem "prawn"
 gem "passenger"
-gem "activesupport", '2.3.5'
-
-gem "hoptoad_notifier", "~> 2.3"
-
 
 #Cache
   gem "memcache-client"
@@ -80,5 +85,3 @@ gem "hoptoad_notifier", "~> 2.3"
   gem "gettext_activerecord"
   gem "gettext_rails"
 #.....................................
-
-
