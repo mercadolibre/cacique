@@ -1,8 +1,8 @@
 %div{:style=>" border: 1px solid #D2D2D2;border-top:0px; width:auto;float:right;padding:5px;margin-left:5px;font-size: 10px;font-weight: normal;"}
-  %b{:title=>"#{@rates[:ok][0]} #{_('Errors')}",:style=>'color:DarkGreen;border-right: 1px solid #D2D2D2;'}
+  %b{:title=>"#{@rates[:ok][0]} #{_('Success')}",:style=>'color:DarkGreen;border-right: 1px solid #D2D2D2;'}
     =@rates[:ok][1]
     \%
-  %b{:title=>"#{@rates[:error][0]} #{_('Success')}",:style=>'color:red; margin-left:10px; border-right: 1px solid #D2D2D2;'}
+  %b{:title=>"#{@rates[:error][0]}  #{_('Errors')}",:style=>'color:red; margin-left:10px; border-right: 1px solid #D2D2D2;'}
     =@rates[:error][1]
     \%
   %b{:title=>"#{@rates[:others][0]} #{_('Others')}",:style=>'color:#2C4B9B; margin-left:10px;'}
