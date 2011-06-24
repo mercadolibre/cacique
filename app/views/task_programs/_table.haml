@@ -64,7 +64,7 @@
                 ="#{dj.run_at.hour}:#{dj.run_at.min}"                      
               %div{:style=>"float:left;width:100px;"}
                 =@weekly_trans[dj.run_at.strftime('%A')] 
-          %td
+          %td{:title=>dj.task_program.identifier}
             =truncate( dj.task_program.identifier, :ommision => "...", :length => 20)                           
           %td 
             =dj.s_status
