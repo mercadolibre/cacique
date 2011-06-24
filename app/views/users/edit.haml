@@ -1,0 +1,72 @@
+//
+//  @Authors:
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+.main
+  %h1
+    =_('My Account')
+  %div
+    -form_for @user, :url => { :controller => "users", :action => 'update_my_account', :id => @user.id }, :html => {:style => "width:80%;"}  do |f|
+      .form_tag{:style => "width:50%;float:left;"}
+        .form{:style => "width:50%;"}
+          %br
+          =_('User')
+          .field
+            =f.text_field :login
+          %br
+          =_('User Name')
+          .field
+            = f.text_field :name 
+          %br
+          Email:
+          .field
+            = f.text_field  :email
+          %br
+          =_('Languange:')
+          .select
+            = select("user[language]",@translate,[[_("English"),"en_US"],[_("Spanish"),"es"],[_("Portuguese"),"pt"]], {:selected =>@user.language})
+          %br
+          .form_button{:style=>"float:left;"}
+            = submit_tag _('Save')
+      .form_show_errors{ :style=>"width:40%;float:left;"}
+        = error_messages_for :user
+        %div{:style => "margin-left: 50px; width:97%;float:left;border: 1px solid #C3C3C3;"}
+          %div{:style => "margin-left: 10px; margin-right: 10px;"}
+            -if @user.api_is_enabled? 
+              %p
+                Your API Key:
+                =link_to "re-generate", api_key_path, :method => :post  
+                | 
+                = link_to "disable", api_key_path, :method => :delete 
+              %p
+                %strong
+                  =@user.api_key 
+            -else
+              %p
+                You'll need a unique key to make calls to the API.  Remember to keep this key a secret as it can be used to access your account.
+              %p
+                =link_to("Get a key", api_key_path, :method => :post) 
+      %div{ :style=>"clear: both"}
+
+

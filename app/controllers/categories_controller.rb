@@ -72,7 +72,7 @@ class CategoriesController < ApplicationController
 		      @circuit_to_move.save
 		    end
 	    end
-	    redirect_to "/circuits"
+	    redirect_to project_circuits_path(@circuit_to_move.project_id)
      end
   end
 
@@ -144,14 +144,14 @@ class CategoriesController < ApplicationController
 		        #if is a New category without parent, must refresh parent categories in before_filter
 		        @categories = @project.categories.find_all_by_parent_id "0"
 		      end
-          render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => nil}
+                      render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => nil}
 		    else
-              text_error = Array.new
-              text_error << _("Impossible to create ")+"#{@category.name_was}"
-              @category.errors.full_messages.each {|error|  text_error << error}
-              render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => text_error}
+                       text_error = Array.new
+                       text_error << _("Impossible to create ")+"#{@category.name_was}"
+                       @category.errors.full_messages.each {|error|  text_error << error}
+                       render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => text_error}
 		    end
-		  else
+      else
             text_error = [_("Impossible to create ")+"- "+_("You do not have Edit Permissions")]
             render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @project, :text_error => text_error}
       end
@@ -187,11 +187,7 @@ class CategoriesController < ApplicationController
 
     #permision verify and copy my scripts to @category
     @category.import_circuits(@project, params[:circuits_ids], params[:cases])
-    if params.include?(:project)
-        redirect_to "/circuits?project_id=#{params[:project][:id]}"
-    else	
-	    redirect_to "/circuits?project_id=#{params[:project_id]}"
-    end
+    redirect_to project_circuits_path(@project.id)
   end
 
   def search_circuit

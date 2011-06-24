@@ -29,31 +29,26 @@ class CaseTemplatesController < ApplicationController
 
   skip_before_filter :find_projects, :only => :update_status
 
-  #May or not receive errors from add_column
-  def index(circuit_error =nil)
-    if !circuit_error.nil?
-      @circuit = circuit_error
-    elsif params[:circuit_id]
-      @circuit= Circuit.find(params[:circuit_id])
-    elsif params[:search] && params[:search][:circuit_id_equals]
-      @circuit = Circuit.find(params[:search][:circuit_id_equals])
-    elsif params[:case_template] && params[:case_template][:circuit_id]
-      @circuit = Circuit.find(params[:case_template][:circuit_id])
-    end
 
-    @columns_template = CaseTemplate.column_names
-    @columns_data = CaseTemplate.data_column_names( @circuit )
-    @columns_data_show = @columns_data.select {|n| n !~ /^default_*/}.sort_by{ |x| x.downcase }
-    
-    @case_templates  = CaseTemplate.circuit_id_equals(@circuit.id).descend_by_updated_at
-    @exclude_show = [ :circuit_id, :user_id, :updated_at, :case_template_id]
-    @exclude_show_data = [:id, :case_template_id, :updated_at, :created_at]
+  def index
 
-    @search = @case_templates.search(params[:search])#.paginate({:page => params[:page], :per_page => 1})
-    @cases_pag = @search.paginate :page => params[:page], :per_page => 10 # :order=>"created_at"
-    @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
-    @project_id = @circuit.category.project_id
+    #Circuit
+    @circuit = Circuit.find(params[:circuit_id])
+
+    #Case Templates 
+    conditions      = CaseTemplate.build_conditions(params) 
+    cases_pag       = CaseTemplate.find :all, :conditions=> conditions
+    @case_templates = cases_pag.paginate :page => params[:page], :per_page => 10 
+
+    #Variables
+    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
+    @circuit_case_columns  = @circuit.circuit_case_columns  #Columns variables 
+    @columns_data_show     = CircuitCaseColumn.find_all_by_circuit_id(@circuit.id).select{|x| !x.default?} #Columns case template variables without default
+    @cell_selects          = ContextConfiguration.build_select_data #Build the selects for edit cell
+
   end
+
+
 
   def update_status
     if params[:case_template] == "0"
@@ -95,7 +90,7 @@ class CaseTemplatesController < ApplicationController
       @case_template.add_case_data(@new_case_data)
       @case_template.save
 
-      redirect_to "/circuits/#{@circuit.id}/case_templates"
+      redirect_to project_circuit_case_templates_path(@circuit.project_id,@circuit)
 
     end   
   end
@@ -157,29 +152,25 @@ class CaseTemplatesController < ApplicationController
       send_file "#{RAILS_ROOT}/public/excels/casos_de_#{@circuit.id}.xls" if @circuit.export_cases    
   end
 
-  def delete
-    if params[:id]
-      @case_template = CaseTemplate.find params[:id]
-
-      permit "editor of :case_template" do
-        @case_template.destroy
-        redirect_to "/circuits/" + @case_template.circuit_id.to_s + "/case_templates"
-      end
-    else
+  def destroy_all
       params[:execution_run].each do |case_template_id|
         @case_template = CaseTemplate.find case_template_id
         permit "editor of :case_template" do
           @case_template.destroy
         end
       end
-    end
+      redirect_to project_circuit_case_templates_path(@case_template.circuit.project_id, @case_template.circuit_id)
+  end
 
-    begin
-      redirect_to "/circuits/" + @case_template.circuit_id.to_s + "/case_templates"
-    rescue ActionController::DoubleRenderError
-    end
+  def destroy
+     @case_template = CaseTemplate.find params[:id]
+     permit "editor of :case_template" do
+       @case_template.destroy
+       redirect_to project_circuit_case_templates_path(@case_template.circuit.project_id, @case_template.circuit_id)
+     end
 
   end
+
 
   def show
     @case_template  = CaseTemplate.find params[:id]

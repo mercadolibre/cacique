@@ -1,7 +1,7 @@
 #!/bin/bash
 case "$1" in
   start)
-        cd /path/cacique/extras/selenium-grid-1.0.8
+        cd /home/cacique/cacique/extras/selenium-grid-1.0.8
         exec nohup ant launch-hub > /dev/NULL &
 	pgrep -f launch-hub > /tmp/hub.pid
   ;;
