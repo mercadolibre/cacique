@@ -26,8 +26,6 @@ production:
   encoding: utf8
   database: cacique_prod
   pool: 10
-  username: cacique
-  password: cacique
-  host: localhost
-
-
+  username: caciquedb
+  password: mozart
+  host: 10.4.0.30
