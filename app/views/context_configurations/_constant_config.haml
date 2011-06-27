@@ -66,11 +66,12 @@
     =_("Send Mail")
   -show_emails_ok   =  (!@user_configuration.nil? and @user_configuration.send_mail_ok)   ? 'inline' : 'none'
   -show_emails_fail =  (!@user_configuration.nil? and @user_configuration.send_mail_fail) ? 'inline' : 'none'
-  %label{:style=>"color:#848484;"}
+  %div{:style=>"display: inline-block;text-align: left;"}
     =check_box_tag "execution[send_mail_ok]",true, (!@user_configuration.nil? and @user_configuration.send_mail_ok), {:onclick => "$j('#execution_emails_to_send_ok').toggle();"}
     =_("Ok")
     =text_field "execution", "emails_to_send_ok", :value => current_user.email, :style =>"display:#{show_emails_ok}; margin: 5px 20px;width:85%;"
-  %label{:style=>"clear:both;color:#848484;"}
+  %br
+  %div{:style=>"display: inline-block;text-align: left;"}
     =check_box_tag "execution[send_mail_fail]",true, (!@user_configuration.nil? and @user_configuration.send_mail_fail), {:onclick => "$j('#execution_emails_to_send_fail').toggle();"}
     =_("Error")
     =text_field "execution", "emails_to_send_fail", :value => current_user.email, :style =>"display:#{show_emails_fail};margin: 5px 20px;width:85%;"
