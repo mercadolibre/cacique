@@ -83,8 +83,8 @@
     -if @execution_running
       %div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
         =render :partial => '/case_templates/status', :locals => {:case_template_id => @execution_running.case_template_id, :execution => @execution_running}
-      //Status
-      =periodically_call_remote(:url => {:controller => "case_templates", :action => "update_status", :circuit_id => @execution_running.circuit_id, :case_template => @execution_running.case_template_id}, :condition => "!ejecucion_completa_#{@execution_running.case_template_id}", :update => 'status', :frequency => 8)
+      //Status  
+      =periodically_call_remote(:url => {:controller => :case_templates, :action => "update_status", :project_id => @circuit.project_id, :circuit_id => @execution_running.circuit_id, :case_template => @execution_running.case_template_id}, :method=>:get, :condition => "!ejecucion_completa_#{@execution_running.case_template_id}", :update => 'status', :frequency => 8)
   //Queue observer
   =render :partial => "queue_observers/queue_icon"
   %div{ :style=>"clear: both"}
