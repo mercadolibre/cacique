@@ -138,7 +138,7 @@ class Category < ActiveRecord::Base
 	      circuit_new.description = circuit_import.description
 	      circuit_new.category_id = self.id
 	      circuit_new.user_id = current_user.id
-	      circuit_new.project_id  = circuit_import.project_id
+	      circuit_new.project_id  = project.id
               circuit_new.source_code = circuit_import.source_code
 	      circuit_new.save
 	      
