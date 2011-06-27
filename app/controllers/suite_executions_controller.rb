@@ -300,7 +300,7 @@ class SuiteExecutionsController < ApplicationController
       if params[:where_did_i_come] == "case_templates_index"
           params[:circuit_id] = CaseTemplate.find(params[:execution_run][0]).circuit_id if params[:circuit_id].nil?
           params[:project_id] = Circuit.find(params[:circuit_id]).project_id if params[:project_id].nil?
-          url = project_circuit_case_templates_path(params[:project_id],params[:circuit_id])
+          url = project_circuit_case_templates_path(params[:project_id],params[:circuit_id]) + "?execution_running=#{suite_executions.last.executions.first.id}"
       elsif params[:where_did_i_come] == "circuits_edit"
         url = edit_project_circuit_path(params[:project_id],params[:circuit_id]) + "?execution_running=#{suite_executions.last.executions.first.id}"
       elsif params[:where_did_i_come] == "suite_executions_new"
