@@ -1,4 +1,4 @@
-ADMIN_EMAIL="admin@myCaciqueAdmin.com"
+ADMIN_EMAIL="cacique@mercadolibre.com"
 #Datos para enviar mail desde Cacique
 EMAIL =  "cacique@mercadolibre.com"
 EMAIL_SERVER = "surgemail.mercadolibre.com"
@@ -11,7 +11,7 @@ LOGGING_MAIL="robot@mercadolibre.com"
 
 #Primer usuario Generico de la herramienta
 FIRST_USER_NAME="cacique"
-FIRST_USER_PASS="admin"
+FIRST_USER_PASS="schumann"
 
 #Default language
 CACIQUE_LANG="en_US"
@@ -71,7 +71,7 @@ VERSION_MAX_FOR_FUNCTION = 5
 
 #this parameter is the amount of executions that scheduler will create before send an alert to confirm 
 
-MAX_SUITE_PROGRAM = 300
+MAX_SUITE_PROGRAM = 6
 
 #Constantes de tiempos de cacheo en seg.
 CACHE_EXPIRE_EXEC = 7200 
