@@ -579,7 +579,7 @@ msgid "Import Excel"
 msgstr "Importar Excel"
 
 #: app/views/case_templates/_status.haml:
-msgid "Success"
+msgid "Ok"
 msgstr "Exito"
 
 #: app/views/case_templates/index.haml:
@@ -1089,6 +1089,10 @@ msgstr "Clases comunes"
 #: app/views/circuits/ruby.haml:
 msgid "Class Methods"
 msgstr "Métodos de classe, com exemplos"
+
+#: app/views/data_recovery_names:
+msgid "The data recovery name already exists!"
+msgstr "O nome da recuperação dos dados já existe!"
 
 #: app/views/graphs/index.haml:
 msgid "Indicators"
@@ -1693,6 +1697,19 @@ msgstr "En lista de espera"
 #: app/views/suite_executions/_group_execution_status.haml:
 msgid "Total Time"
 msgstr "Tiempo total"
+
+#: app/views/suite_executions/rates.haml:
+msgid "Errors"
+msgstr "erros"
+
+#: app/views/suite_executions/rates.haml:
+msgid "Success"
+msgstr "sucessos"
+
+#: app/views/suite_executions/rates.haml:
+msgid "Others"
+msgstr "outros"
+
 
 #: app/views/suite_executions/_history.haml:
 msgid "ID:"
@@ -3067,6 +3084,10 @@ msgstr "Sábado"
 #: app/controllers/task_programs_controller.rb
 msgid "Sunday"
 msgstr "Domingo"
+
+#: app/views/task_programs/new.haml:
+msgid "Daily repetitions"
+msgstr "repetições por dia"
 
 #: lib/suites/suite_relation.rb
 msgid "getting data from related case"

@@ -24,22 +24,29 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 //Script Cases DIV
-%img{:src => "/images/icons/cross_grey.png", :alt=>"cross_grey.png", :onClick => "document.getElementById('div_circuit_cases').style.display='none';", :style=>"cursor:pointer;float:right;"}
+=image_tag('/images/icons/cross_grey.png', :alt=>'cross_grey.png', :onClick => "document.getElementById('div_circuit_cases').style.display='none';", :style=>'cursor:pointer;float:right;')
+
+//Without cases
 -if case_templates.empty?
-  %h3{:style=>"margin-top:10%;"}
+  %h3{:style=>'margin-top:10%;'}
     %i{:title=>circuit.name.capitalize}
-      =truncate(circuit.name.capitalize,:ommision => "...", :length =>30)
+      =truncate(circuit.name.capitalize,:ommision => '...', :length =>30)
       =_("Without Cases")
     %br
     %br
-    \-->
-    =link_to _("Create Cases"), "/circuits/#{circuit.id}/case_templates", :popup=>true, :style=>"margin-left:10px;"
-    \<--
+    %br
+    =link_to "--> #{_('Create Cases')} <--", project_circuit_case_templates_path(@circuit.project_id,@circuit), :popup=>true, :style=>'margin-left:10px;'
 -else
-  %h3{:title=>circuit.name.capitalize, :style=>" font: bold 14px sans-serif;color:#31576F; margin-bottom:10px;font-size: 13px;"}
-    =truncate(circuit.name.capitalize,:ommision => "...", :length =>30)
-  %div{ :style=>"background:#EEEEED;border:1px solid #C6C5C4;padding:20px;-moz-border-radius:15px;"}
-    =link_to _("Managing Cases"), "/circuits/#{circuit.id}/case_templates", :popup=>true, :style=>"color:grey;margin-left:10px;"
-    %div{:style=>"height:270px; overflow-x: auto;margin-top:5px;"}
-      =render :partial => '/case_templates/data_set', :locals=>{ :circuit => circuit, :columns_data=>columns_data, :case_templates=>case_templates, :columns_template => columns_template, :exclude_show => exclude_show, :exclude_show_data => exclude_show_data}
+  //Cases
+  %h3{:title=>circuit.name.capitalize, :style=>'font: bold 14px sans-serif;color:#31576F; margin-bottom:10px;font-size: 13px;'}
+    =truncate(circuit.name.capitalize,:ommision => '...', :length =>30)
+  %div{ :style=>'background:#EEEEED;border:1px solid #C6C5C4;padding:20px;-moz-border-radius:15px;'}
+    =link_to _('Managing Cases'), project_circuit_case_templates_path(@circuit.project_id,@circuit), :popup=>true, :style=>'color:grey;margin-left:10px;'
+    %div{:style=>'height:270px; overflow-x: auto;margin-top:5px;'}
+      //Data set
+      =render :partial => '/case_templates/data_set', :locals=>{ :circuit=>circuit, :case_templates=>case_templates, :circuit_case_columns=>circuit_case_columns, :case_template_columns=>case_template_columns }
+
+
   %input{:value=>"ok",:type=>"button", :onclick=>remote_function(:url => {:controller => "suites", :action => "update_circuit", :id => suite.id}, :complete => visual_effect(:toggle_blind, 'div_circuit_cases') , :update => "suite_circuits"), :style=>"float:right;margin-top:10px;cursor:pointer;"}
+
+

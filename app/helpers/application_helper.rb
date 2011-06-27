@@ -102,7 +102,8 @@ end
                 circuits = category.circuits.sort_by { |x| x.name.downcase }
                  circuits.each do |circuit|
                    aux_html = "<c id= #{circuit.id}  name='script' title='#{h(circuit.description)}' >#{truncate(h(circuit.name), :length =>25)} </c>"
-                   ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_s + ", #{aux_html.to_javascript_expr} );"
+                   aux_url  = edit_project_circuit_path(circuit.project_id,circuit)
+                   ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_s + ", #{aux_html.to_javascript_expr},'" + aux_url + "');"
                  end
            else
               #main category
@@ -112,7 +113,8 @@ end
                circuits = category.circuits.sort_by { |x| x.name.downcase }
                circuits.to_a.each do |circuit|
                    aux_html = "<c id= #{circuit.id} name='script' title='#{h(circuit.description)}' >#{truncate(h(circuit.name), :length =>25)} </c>"
-                   ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_s + ", #{aux_html.to_javascript_expr});"
+                   aux_url = edit_project_circuit_path(circuit.project_id,circuit)
+                   ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}',#{category.id.to_s},#{aux_html.to_javascript_expr},'" + aux_url + "');"
                end
            end
            childrens = category.children.sort_by { |x| x.name.downcase }

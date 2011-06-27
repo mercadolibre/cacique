@@ -25,8 +25,13 @@
 //
 -javascript 'history'
 
-.main{:style=>"width:100%;padding:1% 0 0 2%;"}
-  %h1{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize, :style=>"margin:0;"}
+//Rates
+-if !@suite_executions.empty?
+  %div{:style=>"width:96%;"}
+    =render :partial => "rates"
+
+.main{:style=>"width:100%;padding:0%;"}
+  %h1{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize, :style=>"   margin: 20px auto 0;;"}
     =_('History of Execution from: ')
     =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
   =render :partial => "filter_index"
