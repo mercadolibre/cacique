@@ -59,17 +59,17 @@
       -case_template_columns.each do |case_template_column|
         -case case_template_column
           - when 'id' 
-            %td{ :title => case_template.send(case_template_column), :style=>"width:40px;text-align:center;"}
+            %td{ :title => case_template.send(case_template_column),  :id=>case_template_column, :style=>"width:40px;text-align:center;"}
               =truncate(case_template.send(case_template_column).to_s, :ommision => "..",:length => 8)             
           - when 'objective'
-            %td{:name=>case_template.readonly ? "" : "edit_cell", :title => case_template.send(case_template_column), :style=>"width:300px;",:ondblclick => no_permission_alert}
+            %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>case_template_column, :title => case_template.send(case_template_column), :style=>"width:300px;",:ondblclick => no_permission_alert}
               %div{ :style=>"width:300px;"}
                 =truncate(case_template.send(case_template_column).to_s,  :ommision => "...",:length => 40)
           - when 'created_at'
-            %td{ :title => case_template.send(case_template_column)}
+            %td{ :id=>case_template_column,  :title => case_template.send(case_template_column)}
               =case_template.send(case_template_column).to_s(:short).split("-")[1]
           -when 'priority'
-            %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>case_template_column, :title => case_template.send(case_template_column), :ondblclick => no_permission_alert}
+            %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>case_template_column,  :title => case_template.send(case_template_column), :ondblclick => no_permission_alert}
               =case_template.send(case_template_column)
 
       //Case data
