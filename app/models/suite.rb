@@ -69,11 +69,11 @@ class Suite < ActiveRecord::Base
 
   #obtain col from every suite's script
   def circuits_data
-      # hash format: [circuit_id =>{data pool col}]
+      # hash format: [circuit_id =>{circuit_case_column1, circuit_case_column2, etc..}]
       suite_circuits_data = Hash.new
       columns_data        = Array.new
       self.circuits.to_a.each do |circuit|
-        columns_data = CaseTemplate.data_column_names( circuit )
+        columns_data = circuit.circuit_case_columns
         suite_circuits_data[circuit.id] = columns_data
       end
       return suite_circuits_data

@@ -64,7 +64,7 @@ class SuiteExecution < ActiveRecord::Base
       when 1
         _("Running ...")
       when 2
-        _("Success")
+        _("Ok")
       when 3
         _("Error")
       when 4
@@ -349,13 +349,13 @@ class SuiteExecution < ActiveRecord::Base
   #It will show the command that you should use to run that configuration
   def self.generate_command(execution_params, function=nil)
     if function
-      command = "cacique #{function} "
+      command = "cacique #{function} " 
     else
       command = "cacique run "
     end
-  
+ 
     #Suite_id
-    command += execution_params[:suite_id]
+    command += execution_params[:suite_id].to_s
     
     #UserName
     command += " -u \<user_name\>"
@@ -408,16 +408,25 @@ class SuiteExecution < ActiveRecord::Base
       command += " -ip " + execution_params[:remote_control_addr]
       command += " -port " + execution_params[:remote_control_port]
     end
-    
-    #SendEmail
-    if execution_params.has_key?(:send_mail) and execution_params.has_key?(:emails_to_send)
-        execution_params[:emails_to_send].gsub!(",",";")
-        emails = execution_params[:emails_to_send].split(";")
+     
+    #SendEmail ok
+    if execution_params.has_key?(:send_mail_ok) and execution_params.has_key?(:emails_to_send_ok)
+        execution_params[:emails_to_send_ok].gsub!(",",";")
+        emails = execution_params[:emails_to_send_ok].split(";")
         emails.each do |email|
-          command += " -sm " + email
+          command += " -smo " + email
         end
     end
-    
+ 
+    #SendEmail fail
+    if execution_params.has_key?(:send_mail_fail) and execution_params.has_key?(:emails_to_send_fail)
+        execution_params[:emails_to_send_fail].gsub!(",",";")
+        emails = execution_params[:emails_to_send_fail].split(";")
+        emails.each do |email|
+          command += " -smf " + email
+        end
+    end
+   
     #DebugMode
     if execution_params.has_key?(:debug_mode)
       command += " -debug_mode true"
@@ -607,4 +616,16 @@ class SuiteExecution < ActiveRecord::Base
       return suite_executions
   end
   
+  #Get percentages of states
+  def self.get_rates(suite_executions)
+     total  = suite_executions.count
+     total = 1 if total == 0
+     ok     = suite_executions.count{|se| se.status == 2} 
+     error  = suite_executions.count{|se| se.status == 3} 
+     others = total -  ok - error
+     rates = {:ok=>[ok,(ok*100/total.to_f).round(2)], :error=>[error,(error*100/total.to_f).round(2)], :others=>[others,(others*100/total.to_f).round(2)] }
+  end
+
+
+
 end

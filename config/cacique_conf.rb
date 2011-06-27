@@ -1,4 +1,4 @@
-ADMIN_EMAIL="admin@myCaciqueAdmin.com"
+ADMIN_EMAIL="cacique@mercadolibre.com"
 #Datos para enviar mail desde Cacique
 EMAIL =  "cacique@mercadolibre.com"
 EMAIL_SERVER = "surgemail.mercadolibre.com"
@@ -17,7 +17,7 @@ FIRST_USER_PASS="schumann"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.10"
+CACIQUE_VERSION = "0.1.13"
 
 #funcion que calcula el ip del servidor
 require 'socket'
@@ -38,7 +38,7 @@ ensure
   Socket.do_not_reverse_lookup = orig
 end
 LOCAL_IP=local_ip
-IP_SERVER=local_ip
+IP_SERVER="10.4.0.31"
 
 #Workers machines localip, es para mi maquina de desarrollo
 WORKERS_ADDR=[LOCAL_IP]
@@ -47,7 +47,7 @@ WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"
 #Puerto del hub
 HUB_PORT = 4444
 #URL del hub
-HUB_URL = "http://#{LOCAL_IP}:#{HUB_PORT}/"
+HUB_URL = "http://#{IP_SERVER}:#{HUB_PORT}/"
 
 IP_QUEUE=IP_SERVER
 PORT_QUEUE="22122"
@@ -69,7 +69,9 @@ VERSION_MAX_ENTRIES_FACTOR_FUNCTION = 5
 FUNCTION_MIN_VERSION_ENTRIES = 5
 VERSION_MAX_FOR_FUNCTION = 5
 
-MAX_SUITE_PROGRAM = 300
+#this parameter is the amount of executions that scheduler will create before send an alert to confirm 
+
+MAX_SUITE_PROGRAM = 6
 
 #Constantes de tiempos de cacheo en seg.
 CACHE_EXPIRE_EXEC = 7200 

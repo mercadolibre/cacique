@@ -146,9 +146,8 @@ class UsersController < ApplicationController
         render :text => _("Permissions Updated Successfully")
     end
    end
-   
-   def my_account
-    @user = current_user
+   def edit
+     @user=current_user
    end
    
    def update_my_account
@@ -157,10 +156,10 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       #redirect_to "/users/my_account"
       @conf = _('Changes have been made successfully')
-      @js = "top.location='/users/my_account' ; alert('#{@conf}')"
+      @js = "top.location='#{url_for(:controller=>:users , :action=> "edit", :id=>@user.id)}' ; alert('#{@conf}')"
       render :inline => "<%= javascript_tag(@js) %>", :layout => true
     else 
-      render :action => :my_account
+      render :action => :edit
     end
    end
    
