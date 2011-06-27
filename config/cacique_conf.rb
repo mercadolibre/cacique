@@ -71,7 +71,7 @@ VERSION_MAX_FOR_FUNCTION = 5
 
 #this parameter is the amount of executions that scheduler will create before send an alert to confirm 
 
-MAX_SUITE_PROGRAM = 6
+MAX_SUITE_PROGRAM = 3000
 
 #Constantes de tiempos de cacheo en seg.
 CACHE_EXPIRE_EXEC = 7200 
