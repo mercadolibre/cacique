@@ -1,0 +1,27 @@
+=render :partial=>'css'
+
+%body
+  %table.header{:style=>"width:600px;margin-top:20px;"}
+    %tr
+      %td{ :rowspan=>"2", :style=>'width:200px;font-size:16px;text-align:center;font-weight: bold;'}
+        Cacique 
+        %div{:style=>"font-size:15px;font-weight:normal;"}
+          Confirm schedules
+      %td{:style=>"padding:10px"}
+        You must confirm the programming suite:
+        %div{ :style => "text-align:left; margin-top:10px;;" }
+          %b
+            = truncate(@suite_name, :ommision => "...", :length => 20)
+    %tr
+      %td{:style=>"padding:10px"}
+        If confimación not performed, the next scheduled for the day
+        = "#{@next_execution.run_at.strftime('%A')},"
+        = "#{ @next_execution.run_at.day}/#{ @next_execution.run_at.mon}/#{ @next_execution.run_at.year}"
+        = "#{@next_execution.run_at.hour}:#{@next_execution.run_at.min}"
+        %b
+          Not be executed
+        %br
+        =link_to "Confirm!", @url_confirm
+      
+         
+

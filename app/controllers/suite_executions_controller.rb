@@ -67,6 +67,8 @@ class SuiteExecutionsController < ApplicationController
       suite_executions = SuiteExecution.get_suite_exec_with_filters(@project, Hash.new)
       @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
    end
+   #Get percentages of states
+   @rates =  SuiteExecution.get_rates(suite_executions)
 
    #Run configurations
    @run_configurations = Hash.new
@@ -151,7 +153,6 @@ class SuiteExecutionsController < ApplicationController
   end
 
   def create
-
     if !params[:execution].nil? and params[:execution].include?(:suite_id) 
       #if run a suite, i have suite_id
       suite_id = params[:execution][:suite_id]
@@ -164,18 +165,20 @@ class SuiteExecutionsController < ApplicationController
       cant_corridas = "1"
       @project_id = params[:project_id]
     end
-    
     @user_configuration = current_user.user_configuration
     #Identifier seting
     identifier = ""
+
     #if come from case_template use User configuration.
     #if come from suite update configuration.
     if params.include?(:execution)
       @user_configuration.update_configuration(params[:execution])
-      emails_to_send = @user_configuration.emails_to_send
+      emails_to_send_ok   = @user_configuration.emails_to_send_ok
+      emails_to_send_fail = @user_configuration.emails_to_send_fail
       identifier = params[:execution][:identifier]
     else
-      emails_to_send = current_user.email
+      emails_to_send_ok   = current_user.email
+      emails_to_send_fail = current_user.email
     end
     #search the number of combinations that I can do with run configuration
     #[{:site => "ar"},{:site => "br"}]
@@ -225,18 +228,18 @@ class SuiteExecutionsController < ApplicationController
      
       suite_executions << @suite_execution
     end
-    
 
     suite_container_id = 0
-   
     #Hash con parametros que se pasan al controlador
     options = { :project_id => @project_id,
                 :debug_mode => @user_configuration.debug_mode,
                 :remote_control_mode => @user_configuration.remote_control_mode,
                 :remote_control_addr => @user_configuration.remote_control_addr,
                 :remote_control_port => @user_configuration.remote_control_port,
-                :send_mail => @user_configuration.send_mail,
-                :emails_to_send => emails_to_send,
+                :send_mail_ok        => @user_configuration.send_mail_ok,
+                :send_mail_fail      => @user_configuration.send_mail_fail,
+                :emails_to_send_ok   => emails_to_send_ok,
+                :emails_to_send_fail => emails_to_send_fail,
               }
     #if suite_execution has not project_id (i.e when is called from the comman line) it should take it value from the relation 
               
@@ -295,9 +298,11 @@ class SuiteExecutionsController < ApplicationController
       end
     if !not_continue
       if params[:where_did_i_come] == "case_templates_index"
-        url = "/circuits/#{circuit_id}/case_templates"
+          params[:circuit_id] = CaseTemplate.find(params[:execution_run][0]).circuit_id if params[:circuit_id].nil?
+          params[:project_id] = Circuit.find(params[:circuit_id]).project_id if params[:project_id].nil?
+          url = project_circuit_case_templates_path(params[:project_id],params[:circuit_id])
       elsif params[:where_did_i_come] == "circuits_edit"
-        url = "/circuits/edit/#{circuit_id}?execution_running=#{suite_executions.last.executions.first.id}"
+        url = edit_project_circuit_path(params[:project_id],params[:circuit_id]) + "?execution_running=#{suite_executions.last.executions.first.id}"
       elsif params[:where_did_i_come] == "suite_executions_new"
         if params[:execution][:cant_corridas] != "1"
           #Run Suite N Times
@@ -396,18 +401,18 @@ class SuiteExecutionsController < ApplicationController
     #Cases Script
       #Hash con formato: id caso-> nombre circuito)
       @suite.case_templates.each do |c|
-	       @circuit_case[c.id] = c.circuit.name
-	    end
+	 @circuit_case[c.id] = c.circuit.name
+      end
 
     #case template table
-      @exclude_show      = [ :circuit_id, :user_id, :updated_at, :case_template_id]
-      @exclude_show_data = [:id, :case_template_id, :updated_at, :created_at]
-      @columns_template  = CaseTemplate.column_names
+    @columns_template  = CaseTemplate.column_names
  
-      #Script column obtain
-         #hash Format: [circuit_id =>{data sets column}]
-         @suite_circuits_data = Hash.new
-         @suite_circuits_data = @suite.circuits_data()
+    #Script column obtain
+       #hash Format: [circuit_id =>{data sets column}]
+       @suite_circuits_data = Hash.new
+       @suite_circuits_data = @suite.circuits_data()
+    #Case template columns
+    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
 
     #Broken relations
     @circuits  = @suite.circuits
@@ -426,7 +431,7 @@ class SuiteExecutionsController < ApplicationController
          @suite_circuit_cases[circuit.id] = @suite.case_templates.find_all_by_circuit_id circuit.id
     end
     
-    render :partial => "/suite_executions/suite_comment", :locals => {:suite=>@suite,:case_relation=>@case_relation,:circuits_ids=>@circuits_ids,:circuits_names=>@circuits_names,:circuits=>@circuits,:suite_circuits_data=>@suite_circuits_data}
+    render :partial => "/suite_executions/suite_comment", :locals => {:case_relation=>@case_relation,:circuits_ids=>@circuits_ids,:circuits_names=>@circuits_names,:suite_circuits_data=>@suite_circuits_data, :case_template_columns=>@case_template_columns}
   end
   
   def get_report

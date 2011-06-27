@@ -23,24 +23,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
-
+-width_column =  (column_1.empty? or column_2.empty?) ? "100%" : "45%"
 -if !column_1.empty?
-  %div{:id=>"column_1",:style=>"float:left;padding:10px;"}
+  %div{:id=>"column_1",:style=>"float:left;width:#{width_column};"}
     -column_1.each do |context_configuration|
       %div{:style=>"text-align:left;", :valign=>"top"}
         %label{:for => context_configuration.name}
           %h2{:title=>context_configuration.name.capitalize,:style=>"font-size:12px; color:#288EB1;"}
             =truncate(context_configuration.name.capitalize, :ommision => "...", :length => 26)
-          .form_tag{:style=>"max-height:150px;width:190px; overflow:auto;padding:5px; margin-bottom:10px;"}
+          .form_tag{:style=>"max-height:180px; overflow:auto;padding:5px; margin-bottom:10px;"}
             =render :partial => 'context_configurations/variable_config_types', :locals => {:context_configuration => context_configuration}
       %div{ :style=>"clear: both"}
 -if !column_2.empty?
-  %div{:id=>"column_2", :style=>"float:left;padding:10px;"}
+  %div{:id=>"column_2", :style=>"float:left;width:#{width_column};margin-left:5%;"}
     -column_2.each do |context_configuration|
       %div{:style=>"text-align:left;", :valign=>"top"}
         %label{:for => context_configuration.name}
           %h2{:title=>context_configuration.name.capitalize,:style=>"font-size:12px; color:#288EB1;"}
             =truncate(context_configuration.name.capitalize, :ommision => "...", :length => 26)
-          .form_tag{:style=>"max-height:150px;width:190px; overflow:auto;padding:5px; margin-bottom:10px;"}
+          .form_tag{:style=>"max-height:180px; overflow:auto;padding:5px; margin-bottom:10px;"}
             =render :partial => 'context_configurations/variable_config_types', :locals => {:context_configuration => context_configuration}
       %div{ :style=>"clear: both"}   

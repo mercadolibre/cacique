@@ -56,9 +56,10 @@ class Notifier < ActionMailer::Base
   def suite_execution_alert(suite_execution,emails_to_send)
     @recipients = emails_to_send
     @from = EMAIL
-    @subject = _("[Cacique] Suite Execution Detail (#{suite_execution.s_status})")
+    @subject = "[CCQ] [#{suite_execution.s_status}] #{suite_execution.suite.name}"
     @body['suite_execution'] = suite_execution
-    @url = "http://" + IP_SERVER.to_s + "/suite_executions/#{suite_execution.id}"    
+    @attachment = {:content_type => "image/png",:filename=> "image.png", :body=> File.read(Rails.root.join('public/images/cacique/logo_cacique.png'))}
+    @url = "http://" + IP_SERVER.to_s + "/suite_executions/#{suite_execution.id}"  
     @content_type = "text/html"
   end 
   
@@ -66,7 +67,7 @@ class Notifier < ActionMailer::Base
       @execution = Execution.find suite_execution.execution_ids[0]
       @recipients = emails_to_send
       @from = EMAIL
-      @subject = _("[Cacique] Case ")+ @execution.case_template_id.to_s + _(": Execution Detail (#{suite_execution.s_status}) ")
+      @subject = "[CCQ] [#{@execution.s_status}] #{@execution.circuit.name} "
       @body['execution'] = @execution
       @url = "http://" + IP_SERVER.to_s + "/suite_executions/#{suite_execution.id}"      
       @content_type = "text/html"
@@ -78,8 +79,7 @@ class Notifier < ActionMailer::Base
     @from = EMAIL
     @body['url_confirm'] = "http://" + IP_SERVER.to_s + ":" + server_port.to_s + "/task_programs/confirm_program/#{task_program_id}"
     @body['suite_name'] = Suite.find(suite_id).name
-    @body['next_execution'] = task_program.delayed_jobs[1]
-    @url = "/suite_executions/#{suite_execution.id}"    
+    @body['next_execution'] = task_program.delayed_jobs[1] 
     @content_type = "text/html" 
     dj = @body['next_execution']
     name = @body['suite_name'].length <= 30  ? @body['suite_name'] : @body['suite_name'][0..27] + "..."

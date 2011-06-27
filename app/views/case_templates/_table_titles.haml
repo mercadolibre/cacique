@@ -25,33 +25,33 @@
 //
 
 %tr
-  //     CASE TEMPLATE INDEX
+  // CASE TEMPLATE INDEX
   -if @controller_data == 'case_templates'
     %th.def{:style => "width:3%;"}
       %input{ :type => "checkbox", :name => 'todos', :id => 'todos_'+circuit.id.to_s, :value => "checkbox", :onClick => "listItems(#{circuit.id},this.form);"}
     %th.def{  :style => "width:3%;"}
 
-  //    SUITE COMMENT
+  // SUITE COMMENT
   -if @controller_data == 'suite_executions'
     %th.def{:style => "width:3%;"}
-      %input{ :type => "checkbox", :name => 'todos', :id => 'todos_'+circuit.id.to_s, :value => "checkbox", :onClick => "listItems(#{circuit.id},this.form);RelacionesRotasAll(#{circuit.id});"}
+      %input{ :type => "checkbox", :name => 'todos', :id => 'todos_'+circuit.id.to_s, :value => "checkbox", :onClick => "listItems(#{circuit.id},this.form);AllBrokenRelations($j(this), #{circuit.case_templates.map(&:id).to_javascript_expr});"}
 
-  //   SUITE EDIT
+  // SUITE EDIT
   -if @controller_data == 'suites'
     %th.def{:style => "width:3%"}
       %input{ :type => "checkbox", :name => 'todos', :id => 'todos_'+circuit.id.to_s, :value => "checkbox", :onClick => "update_cases_all(#{@suite.id},#{circuit.id},this);listItems(#{circuit.id},this.form);"}
 
-  //    GENERAL
-  -for column in columns_template
-    -if !@exclude_show.include?(column.to_sym)
+  //GENERAL
+  -case_template_columns.each do |case_template_column|
+    %th.def{ :class => "sortable"}
+      =h case_template_column
+  -circuit_case_columns.each do |circuit_case_column|
+    //If the columns if default
+    -if circuit_case_column.default?
       %th.def{ :class => "sortable"}
-        =h column
-  -for column in columns_data
-    -if !@exclude_show_data.include?(column.to_sym)
-      //If the columns if default
-      -if @cell_selects.keys.include?(column)
-        %th.def{ :class => "sortable"}
-          =truncate(h(column), :ommision => "...", :length => 20)
-      -else
-        %th{ :class => "sortable"}
-          =truncate(h(column), :ommision => "...", :length => 20)
+        =truncate(h(circuit_case_column.name), :ommision => "...", :length => 20)
+    -else
+      %th{ :class => "sortable"}
+        =truncate(h(circuit_case_column.name), :ommision => "...", :length => 20)
+
+

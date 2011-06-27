@@ -3,17 +3,17 @@
 %script
   = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
   
-%h2{:style=>"color:#288EB1;margin-top:10px;"}
+%h2{:style=>"color:#373737;margin-top:10px;"}
   Extra
 .form_tag
   %div{:onclick=>remote_function(:complete => "$j('#div_suite_comment').toggle();iniciarTabla();", :update => "div_suite_comment", :url => {:controller => 'suite_executions', :action => 'suite_comment', :id => suite_id}), :style=>"width:200px;cursor:pointer;margin-top:10px;height:20px;"}
     =image_tag('icons/case.png', :alt=>"task.png", :style=>"float:left;margin:0 10px;")
-    %label{:style=>"cursor:pointer"}
+    %label{:style=>"cursor:pointer; color:#848484;"}
       =_('Comment Cases')
     =text_field "execution", "case_comment", :style => "display:none;"
   %div{:onclick=>"submitFormSuiteExec('/suite_executions/generate_command');", :style=>"width:200px;cursor:pointer;margin-top:10px;height:20px;"}
     =image_tag('icons/console.png', :title=>"Generate Command", :alt => "console.png", :style=>"float:left;margin:0 10px;")
-    %label{:style=>"cursor:pointer"}
+    %label{:style=>"cursor:pointer;color:#848484;"}
       =_('Generate Command')
 
 -if command

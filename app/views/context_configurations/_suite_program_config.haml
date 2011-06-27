@@ -5,9 +5,8 @@
   form.submit();
   }
 
-%div{:style=>"width:200px; float:left;padding: 10px;"}
-  %h2{:style=>"color:#288EB1;margin-top:10px;"}
-    =_('Execution')
-  .form_tag
-    =render :partial=>'context_configurations/identifier'
+%h2{:style=>"color:#288EB1;margin-top:10px;color:#373737;"}
+  =_('Execution')
+.form_tag{:style=>"margin-bottom:10px;"}
+  =render :partial=>'context_configurations/identifier'
 
