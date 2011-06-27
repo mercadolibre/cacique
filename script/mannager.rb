@@ -4,7 +4,7 @@ require "rubygems"
 require "socket"  
 require 'memcache'
 
-SERVER_IP="10.4.0.30"
+SERVER_IP="127.0.0.1"
  
 cache = MemCache.new "#{SERVER_IP}:11211"
 #srv=TCPServer.open(33133)

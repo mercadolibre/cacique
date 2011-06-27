@@ -125,7 +125,7 @@ function crearSelect(celda) {
     //It is coded to send the new value and then invert coding
      encoded_value = encode_text(new_value);
 
-      var url = '/case_templates/update_data';
+      var url = url_update + '/case_templates/update_data';
       var params = 'case_template_id=' + case_id + '&column_name='+ column +'&new_value=' + encodeURI(encoded_value);
       var ajaxRequest = new Ajax.Request(
                         url,

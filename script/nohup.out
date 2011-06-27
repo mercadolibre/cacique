@@ -1,0 +1,5 @@
+mannager.rb:76:in `listen': undefined method `accept_nonblock' for nil:NilClass (NoMethodError)
+	from mannager.rb:97
+10.4.0.33
+Can't open host due: Address already in use - bind(2)
+worker registration was succefully for: 10.4.0.33
