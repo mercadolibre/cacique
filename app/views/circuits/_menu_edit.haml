@@ -81,15 +81,13 @@
     =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' + document.getElementById('cases_id').value + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
     //Ejecution Result
     -if @execution_running
-      %div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
-        =render :partial => '/case_templates/status', :locals => {:case_template_id => @execution_running.case_template_id, :execution => @execution_running}
-      //Status  
-      =periodically_call_remote(:url => {:controller => :case_templates, :action => "update_status", :project_id => @circuit.project_id, :circuit_id => @execution_running.circuit_id, :case_template => @execution_running.case_template_id}, :method=>:get, :condition => "!ejecucion_completa_#{@execution_running.case_template_id}", :update => 'status', :frequency => 8)
-  //Queue observer
+      =render :partial=>'execution', :locals=> {:execution=>@execution_running}
+      =periodically_call_remote(:url => {:controller=>:executions, :action => :show, :id =>  @execution_running.id}, :method=>:get, :condition => "execution_finish_#{@execution_running.id.to_s} == false", :frequency => 8)
+
+  //Queue observers
   =render :partial => "queue_observers/queue_icon"
   %div{ :style=>"clear: both"}
 
-  
   
 //Save with comment
 =render :partial => "save_with_comment"
