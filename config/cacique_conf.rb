@@ -17,7 +17,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.13"
+CACIQUE_VERSION = "0.1.14"
 
 #funcion que calcula el ip del servidor
 require 'socket'
@@ -39,7 +39,7 @@ ensure
 end
 LOCAL_IP=local_ip
 IP_SERVER=local_ip
-
+MANNAGER_PORT=33133
 #Workers machines localip, es para mi maquina de desarrollo
 WORKERS_ADDR=[LOCAL_IP]
 WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"
