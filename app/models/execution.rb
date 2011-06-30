@@ -1,4 +1,26 @@
- #
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: executions
+#
+#  id                 :integer(4)      not null, primary key
+#  circuit_id         :integer(4)
+#  time_spent         :integer(4)      default(0)
+#  user_id            :integer(4)
+#  case_template_id   :integer(4)
+#  suite_execution_id :integer(4)
+#  status             :integer(4)      default(0)
+#  error              :text
+#  position_error     :text
+#  worker_pid         :string(255)
+#  output             :text
+#  created_at         :datetime
+#  updated_at         :datetime
+#  ip                 :string(255)     default("0.0.0.0")
+#  pid                :integer(4)
+#
+
+#
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
  #      Guerra Brenda                   brenda.guerra.7@gmail.com
@@ -23,26 +45,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: executions
-#
-#  id                 :integer(4)      not null, primary key
-#  circuit_id         :integer(4)
-#  time_spent         :integer(4)      default(0)
-#  user_id            :integer(4)
-#  case_template_id   :integer(4)
-#  suite_execution_id :integer(4)
-#  status             :integer(4)      default(0)
-#  error              :text
-#  position_error     :text
-#  worker_pid         :string(255)
-#  output             :text
-#  created_at         :datetime
-#  updated_at         :datetime
-#
-
 class Execution < ActiveRecord::Base
   belongs_to :suite_execution
   belongs_to :case_template
@@ -120,8 +122,23 @@ class Execution < ActiveRecord::Base
     execution.status = status
     execution.output = message
     execution.save
-    
     Rails.cache.write("exec_#{id}",execution)
   end
-  
+ 
+ def stop_execution
+   require 'socket'
+   #streamSock.send( "Hello\n" ) 
+   connect_mannager
+   str = @mannager.send("stop;#{self.pid}",500)
+   str = @mannager.recv( 500 )
+   print str
+   @mannager.close
+ end 
+
+private
+
+ def connect_mannager
+   require 'socket'
+    @mannager = TCPSocket.new( ip, MANNAGER_PORT )
+ end
 end
