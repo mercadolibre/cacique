@@ -124,7 +124,9 @@ class ScriptRunner < ActiveRecord::Base
 	
 	#Script Run
 	def run_source_code( file_code )
-        
+    execution.ip=local_ip
+    execution.pid=$$
+    execution.save
     Rails.cache.write WORKER_CACHE_KEY, execution
 		#format checker
 		generated_module_name = "M#{rand(100000000)}"
