@@ -186,7 +186,8 @@ font-weight:bold;
 	vertical-align: middle;
 	border:none;
 }
-.dtree a {
+.dtree a {
+
 	text-decoration: none;
 	font-weight:normal;
 }
@@ -222,7 +223,8 @@ dTreeNode a{
 
 .dtree a.node:hover, .dtree a.nodeSel:hover {
 	background: #CFD7DF;
-	-moz-border-radius:5px;
+	-moz-border-radius:5px;
+
 }
 .dtree a.nodeSel {
 	background-color: #c0d2ec;

@@ -1686,6 +1686,13 @@ msgstr "Lembrar o meu login"
 msgid "Log in"
 msgstr "Entrar"
 
+#: app/views/suite_executions/index.haml:
+msgid "Yes"
+msgstr "Se"
+
+msgid "No"
+msgstr "Não"
+
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Complete"
 msgstr "Completa"
