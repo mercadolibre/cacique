@@ -33,56 +33,65 @@
           %li
             =error
 
-    .form_tag{:style=>"width:65%;float:left;margin-bottom:10px;"}
+    .form_tag{:style=>"width:auto;float:left;margin-bottom:10px;"}
       .filter{:style=>" font-size:12px; color: #31576F; font-family:font-family:arial,sans-serif;font-weight:normal ;margin-top: 10px;float:left; "}
 
       //Identifier
       %label{:style=>" display:inline;"}
         =_('Identifier:')
-      -value = display== '' && params[:filter][:identifier]  ? params[:filter][:identifier]: ''
+      -value = params[:filter] && params[:filter][:identifier]  ? params[:filter][:identifier]: ''
       =text_field("filter", "identifier", {:value=>value, :style => "color:black ;width: 125px;"})
 
       //Date From
       %label{:style=>"display:inline;margin-left:15px;"}
         =_('From:')
-      -value = display== '' && params[:filter][:init_date] ? params[:filter][:init_date]: ''
+      -value = params[:filter] && params[:filter][:init_date] ? params[:filter][:init_date]: ''
       =calendar_date_select_tag "filter[init_date]", @init_date.strftime("%d.%m.%Y %H:%M"),:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date < (new Date()).stripTime()", :popup => :force, :year_range => (DateTime.now << 24)..DateTime.now
-      
+     
+      //Quantity
+      %label{:style=>"margin-left: 15px;display:inline;"}
+        =_('Quantity:')
+      -value = params[:filter] && params[:filter][:paginate] ? params[:filter][:paginate].to_i: ''
+      =select("filter","paginate",[7,10,20,30, 40,50,60,70,80,90,100], {:selected => value})
+ 
       //Model: suite or script
       %label{:style=>"display:inline;margin-left: 15px;"}
         =_('Execution of:')
-      -value = display== '' && params[:filter][:model]  ? params[:filter][:model]: ''
+      -value = params[:filter] && params[:filter][:model]  ? params[:filter][:model]: ''
       =select("filter", "model", [_('All'), 'suites', 'scripts'],{ :selected => value}, {:onchange => remote_function(:update => "filter_model_div",  :method => "get",  :url => { :controllers => :suite_execution, :action => :show_model_filter},:with => 'Form.Element.serialize(this)') })
+      //Scripts or Suites
+      #filter_model_div{:style=>"float:right;"}
+        -if  params[:filter] && params[:filter][:model]
+          =render :partial => "filter_model_div", :locals => {:show_model=>@show_model, :suite_names=>@suite_names, :script_names=>@script_names, :case_names=>@case_names}
+
       %br
       %br
-      
-      //User
-      %label{:style=>"margin-left: 25px;display:inline;"}
-        =_('User')
-      -value = display== '' && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''
-      =select("filter", "user_id", @user_names.collect {|u| [ truncate(u.login.capitalize, :ommision => "...", :length => 60), u.id ] }.sort!,{  :selected => value, :include_blank => _('All')},{ :style => "width: 132px; magin-left: 90px; margin-bottom:5px;"})  
+      //Status
+      %label{:style=>"margin-left: 20px;display:inline;"}
+        =_('Status:')
+      -value = params[:filter] && params[:filter][:status] ? params[:filter][:status].to_i: ''
+      =select("filter","status",@status, {:selected => value})
 
       //Date Until
       %label{:style=>"display:inline;margin-left:20px;"}
         =_('Until:')
-      -value = display== '' && params[:filter][:finish_date] ? params[:filter][:finish_date]: ''
+      -value = params[:filter] && params[:filter][:finish_date] ? params[:filter][:finish_date]: ''
       =calendar_date_select_tag "filter[finish_date]", @finish_date.strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date <= (new Date()).stripTime()", :popup => :force, :year_range => (DateTime.now << 24)..DateTime.now, :after_show => "set_date();",:onchange => "set_hour();"
 
-      //Quantity
+      //User
       %label{:style=>"margin-left: 15px;display:inline;"}
-        =_('Quantity:')
-      -value = display== '' && params[:filter][:paginate] ? params[:filter][:paginate].to_i: ''
-      =select("filter","paginate",[7,10,20,30, 40,50,60,70,80,90,100], {:selected => value})
+        =_('User')
+      -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''
+      =select("filter", "user_id", @user_names.collect {|u| [ truncate(u.login.capitalize, :ommision => "...", :length => 60), u.id ] }.sort!,{  :selected => value, :include_blank => _('All')},{ :style => "width: 132px; magin-left: 90px; margin-bottom:5px;"})  
+      %br
 
-      //Status
-      %label{:style=>"margin-left: 10px;display:inline;"}
-        =_('Status:')
-      -value = display== '' && params[:filter][:status] ? params[:filter][:status].to_i: ''
-      =select("filter","status",@status, {:selected => value})
-            
-    #filter_model_div
-      -if  display== '' && params[:filter][:model]
-        =render :partial => "filter_model_div", :locals => {:show_model =>@show_model, :suite_names=>@suite_names, :script_names=>@script_names, :case_names=>@case_names}
-    .form_button
-      %label{:style=>"display:inline;"}
-      =submit_tag _("Apply")
+      //Context Configuration
+      .form_tag{:style=>"width:90%; overflow: auto; margin: 10px 0;"}
+        =render :partial => "filter_variable", :locals=>{:context_configurations=>@context_configurations}
+
+      //Submit
+      .form_button{:style=>"float: right;  margin: 0 0 0 5%;"}
+        %label
+          =submit_tag _("Apply")
+
+
