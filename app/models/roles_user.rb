@@ -1,3 +1,14 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: roles_users
+#
+#  user_id    :integer(4)
+#  role_id    :integer(4)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,17 +34,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: roles_users
-#
-#  user_id    :integer(4)
-#  role_id    :integer(4)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 # The table that links roles with users (generally named RoleUser.rb)
 require 'composite_primary_keys'
 

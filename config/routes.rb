@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :delayed_jobs, :collection => { :destroy_collection=>:get} 
   map.resources :case_data
   map.resources :categories, :collection => { :circuits_result => :get, :create=>:get, :delete=>:get, :edit=>:get, :update=>:get, :save_import_circuit=>:get, :import_circuit=>:get, :move=>:get, :move_save=>:get }
-  map.resources :executions, :collection => { :retry_run=>:get, :show_snapshot=>:get, :stop=>:get }
+  map.resources :executions, :collection => { :retry_run=>:get, :show_snapshot=>:get}
   map.resources :homes, :collection => { :add_link=>:get, :delete_links=>:get, :about=> :get}
   map.resources :suites, :collection => { :sort=>:post, :index=>:get, :new_program=>:get, :import_suite=>:get, :save_import_suite=>:get, :delete_suite_case=>:get, :add_suite_case=>:get, :show=>:get, :calendar=>:get}
   map.resources :suite_executions, :collection =>  { :workling_error=>:get, :index=>:get, :create => :post,:apply_filter=>:get, :export_popup=>:get, :refresh=>:get, :export=>:get, :get_report=>:get, :update_data=>:get, :show_model_filter=>:get, :show_cases_filter =>:get, :create=>:get, :update_suite_execution_status_index=>:get, :update_suite_execution_status_show=>:get }
