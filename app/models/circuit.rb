@@ -379,6 +379,8 @@ class Circuit < ActiveRecord::Base
  #search last script execution
  def last_execution_self
    Execution
+   DataRecovery
+   DataRecoveryName
   #search first in cache
   execution_id = Rails.cache.read("user_#{current_user.id}_circuit_#{self.id}_self")
   if execution_id
