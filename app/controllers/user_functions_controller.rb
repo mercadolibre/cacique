@@ -173,7 +173,7 @@ class UserFunctionsController < ApplicationController
       #Projects to which I have permission to move the function
       #With the format [[name, id],[name2, id2]]
       @projects = @user_function.find_projects_to_move(current_user)
-      @can_move_to_generico = (current_user.has_role?("root") and @user_function.project_id != 0)
+      [[_('Generals'), 0]] + @projects if (current_user.has_role?("root") and @user_function.project_id != 0)
       render :partial => "move", :locals => { :user_function => @user_function, :projects => @projects, :can_move_to_generico => @can_move_to_generico }
     else
       redirect_to "/users/access_denied?source_uri=user_functions"
@@ -184,14 +184,14 @@ class UserFunctionsController < ApplicationController
   def move
     @user_function = UserFunction.find params[:id]
     if !params[:user_function].nil?
-      if params[:user_function].include?(:move_generico)
-        project_id = 0
+      #To Generic
+      if params[:user_function][:project] == 0
         redirect = "/user_functions"
       else
-        project_id = params[:user_function][:project]
         redirect =  "/user_functions?filter[project_id]=#{params[:user_function][:project]}"   
       end
-    
+
+      project_id = params[:user_function][:project]   
       @has_permission = current_user.has_permission_admin_project?(@user_function.project_id) and current_user.has_permission_admin_project?(project_id)
       if @has_permission
         if @user_function.move_project(project_id)
