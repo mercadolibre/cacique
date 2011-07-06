@@ -135,6 +135,7 @@ class Execution < ActiveRecord::Base
    end
  end 
  def stop_waiting
+     QueueObserver.delete_execution(self.suite_execution.id)
  end
  
  def stop_running_exec
