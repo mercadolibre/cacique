@@ -1,3 +1,23 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: delayed_jobs
+#
+#  id              :integer(4)      not null, primary key
+#  priority        :integer(4)      default(0)
+#  attempts        :integer(4)      default(0)
+#  handler         :text
+#  last_error      :text
+#  run_at          :datetime
+#  locked_at       :datetime
+#  failed_at       :datetime
+#  locked_by       :text
+#  created_at      :datetime
+#  updated_at      :datetime
+#  task_program_id :integer(4)
+#  status          :integer(1)      default(1)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,26 +43,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: delayed_jobs
-#
-#  id              :integer(4)      not null, primary key
-#  priority        :integer(4)      default(0)
-#  attempts        :integer(4)      default(0)
-#  handler         :text
-#  last_error      :text
-#  run_at          :datetime
-#  locked_at       :datetime
-#  failed_at       :datetime
-#  locked_by       :text
-#  created_at      :datetime
-#  updated_at      :datetime
-#  task_program_id :integer(4)
-#  status          :integer(1)      default(1)
-#
-
 require "#{RAILS_ROOT}/lib/run_suite_program.rb"
 class DelayedJob < ActiveRecord::Base
   unloadable
