@@ -3195,8 +3195,8 @@ msgid "to project: "
 msgstr "al proyecto: "
 
 #: app/views/user_functions/_move.haml:
-msgid "Move to Generic Functions"
-msgstr "Mover a Funciones Genéricas"
+msgid "Generals"
+msgstr "Generales"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Function properly moved"
