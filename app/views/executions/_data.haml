@@ -23,15 +23,20 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-.tab{:id => 'add_column', :style=>'-moz-border-radius-topleft:0px;height:135px;background:#E0E0F8;'}
-  -form_for(:circuit_case_column, :url=>project_circuit_circuit_case_columns_path(@circuit.project_id,@circuit.id), :method => :post , :html=>{:style=>"color:#31576F; font-size:12px;"}) do |f|
-    %label
-      =_('New Column:')
-      =f.text_field :name, :style=>'width:170px;'
-    %label
-      =_('Default Value:')
-      =f.text_field :value, :style => 'width:170px;'
-    %label
-      =_('*this value will be used for all cases previously created')
-    .form_button
-      =submit_tag _("Create")
+=render :partial =>"layouts/popup_header", :locals=>{:element =>"data_#{execution.id}"}    
+.p{:style=>"width:280px;  height:230px; color:grey;"}
+  %img{:src => "/images/icons/recovery.png",  :alt=>"recovery.png",:title => "Datos recuperados", :style=>"float:left;"}
+  %h3
+    =_('Generated Data:')
+  -if !execution.filtered_data_recoveries.empty? && !execution.filtered_data_recoveries.nil?            
+    %ul{:style=>"color:#2C4B9B;margin-top:30px;font-size:12px;height:130px;overflow:auto;"}
+      -execution.filtered_data_recoveries.each do |data_recovery|
+        %li{:style=>"margin-bottom:5px;"}
+          =data_recovery.data_name + ':'
+          =data_recovery.data   
+  -else
+    %br
+    %br         
+    %h2{:style=>"text-align:center;"}
+      %i
+        =_('The current script does not retrieve data')   
