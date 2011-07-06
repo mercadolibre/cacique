@@ -80,11 +80,11 @@ class SuiteExecution < ActiveRecord::Base
     end
   end
   
-  def self.cancel(id)
+  def self.cancel(id,status=6)
    suite_execution=SuiteExecution.find id
     suite_execution.executions.each do |exe|
       if (exe.status== 0 or exe.status==1)
-         exe.status=6
+         exe.status=status
          exe.output = _("Canceled run")
          exe.save
          Rails.cache.delete "exec_#{exe.id}"

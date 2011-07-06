@@ -255,7 +255,8 @@ class CircuitsController < ApplicationController
    else
    #Edit SOURCE CODE
       Execution
-    
+      DataRecovery
+      DataRecoveryName    
       if !Circuit.exists?(params[:id])
         Circuit.expires_cache_circuit(params[:id], @project_actual)
         redirect_to "/circuits"
