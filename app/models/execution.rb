@@ -101,6 +101,8 @@ class Execution < ActiveRecord::Base
         _("Not Run")
       when 6
         _("Canceled")
+      when 7
+        _("Stoped")
       else
         _("Complete")
     end
@@ -125,15 +127,22 @@ class Execution < ActiveRecord::Base
     Rails.cache.write("exec_#{id}",execution)
   end
  
- def stop_execution
-   require 'socket'
-   #streamSock.send( "Hello\n" ) 
-   connect_mannager
-   str = @mannager.send("stop;#{self.pid}",500)
-   str = @mannager.recv( 500 )
-   print str
-   @mannager.close
+ def stop
+   if self.status==1
+     stop_running_exec
+   else
+     stop_waiting
+   end
  end 
+ def stop_waiting
+ end
+ 
+ def stop_running_exec
+   require 'socket'
+   connect_mannager
+   str = @mannager.send("stop;#{self.pid};#{self.id}",500)
+   @mannager.close
+ end
 
 private
 
