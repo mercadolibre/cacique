@@ -24,9 +24,9 @@ test:
 production:
   adapter: mysql
   encoding: utf8
-  database: cacique_prod
+  database: cacique_dev
   pool: 10
-  username: cacique
+  username: root
   password: cacique
   host: localhost
 

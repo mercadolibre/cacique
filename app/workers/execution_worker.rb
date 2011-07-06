@@ -180,12 +180,10 @@ class ExecutionWorker < Workling::Base
             
             begin
               @execution.status = 1
-              @execution.worker_pid = $$.to_s
 
               #caching status
               cache_execution = Rails.cache.fetch("exec_#{@execution.id}",:expires_in => CACHE_EXPIRE_SUITE_EXEC){ Execution.find @execution.id }
               cache_execution.status = 1
-              cache_execution.worker_pid = $$.to_s
 
               #save execution status in cache
               Rails.cache.write("exec_#{@execution.id}",cache_execution,:expires_in => CACHE_EXPIRE_SUITE_EXEC)
