@@ -1822,6 +1822,14 @@ msgstr "Recordar mi sesión"
 msgid "Log in"
 msgstr "Ingresar"
 
+
+#: app/views/suite_executions/index.haml:
+msgid "Yes"
+msgstr "Si"
+
+msgid "No"
+msgstr "No"
+
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Complete"
 msgstr "Completa"
@@ -1985,10 +1993,6 @@ msgstr "Generar comando"
 #: app/views/suite_executions/times.haml:
 msgid "Execution:"
 msgstr "Ejecución:"
-
-#: app/views/suite_executions/get_report.pdf.prawn:
-msgid "Identifier:"
-msgstr "Identificador de corrida:"
 
 #: app/views/suite_executions/get_report.pdf.prawn:
 msgid "Run Start:"
@@ -3191,8 +3195,8 @@ msgid "to project: "
 msgstr "al proyecto: "
 
 #: app/views/user_functions/_move.haml:
-msgid "Move to Generic Functions"
-msgstr "Mover a Funciones Genéricas"
+msgid "Generals"
+msgstr "Generales"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Function properly moved"

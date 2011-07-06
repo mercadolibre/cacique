@@ -1,0 +1,28 @@
+-if execution.status == 1
+  %script
+    execution_finish_#{execution.id.to_s} = false;
+  %img{:src => "/images/load/spinner.gif", :alt => "load", :style=>"width:14px; height:14px;"}
+
+-elsif execution.status == 0
+  %script
+    execution_finish_#{execution.id.to_s} = false;
+  =image_tag("/images/icons/waiting_1.png",:style=>'border:none;', :alt=>"waiting_1.png", :title=>execution.s_status)
+
+-elsif execution.status == 2
+  =image_tag '/images/icons/ok_1.png', :style=>'border:none;cursor:pointer;', :alt=>'ok_1.png', :title=>execution.s_status, :onclick=> "$j('#data_#{execution.id.to_s}').show();"
+  .tag{ :id => "data_#{execution.id.to_s}", :style=>" display:none; border:1ps solid #D1E1E7; width: 270px;height: 200px;left: 480px; top: 150px;"}
+    =render :partial=>'executions/data', :locals=> {:execution=>execution}
+
+-elsif execution.status == 6
+  =image_tag("/images/icons/cancel.png", :alt=>"cancel_execution.png", :title=>execution.s_status)
+
+-elsif execution.status == 3
+  =image_tag '/images/icons/fail_1.png', :style=>'border:none;cursor:pointer;', :alt=>'fail_1.png',:title=>execution.s_status, :onclick=> "$j('#error_#{execution.id.to_s}').show();"
+  .tag{ :id => "error_#{execution.id.to_s}", :style=>" display:none; width:600px; max-height:425px;padding-bottom:20px; left:320px;top:120px;"} 
+    =render :partial=>'executions/error', :locals=> {:execution=>execution}
+
+-elsif execution.status == 5
+  =image_tag("/images/icons/fail_execution.png",:style=>'border:none;', :alt=>"fail_execution.png",:title=>execution.s_status)
+-else
+  =execution.s_status
+
