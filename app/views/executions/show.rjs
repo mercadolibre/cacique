@@ -21,16 +21,5 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see http://www.gnu.org/licenses/.
 #
-
-#Errors
-if !@data_recovery_name.errors.empty?
-   page.alert @data_recovery_name.errors.full_messages
-else
-  page.insert_html :bottom, :data_recovery_table, :partial => 'row_data_recovery_name', :locals=>{:project_id=>      @project_id, :circuit_id=>@circuit_id, :data_recovery_name=> @data_recovery_name}
-
-  if page['empty_data_recovery_name'].visible
-     page.hide :empty_data_recovery_name
-     page.show :data_recovery_table 
-  end
-end
+page.replace_html "status", :partial => 'circuits/execution', :locals=>{:execution=>@execution}
 

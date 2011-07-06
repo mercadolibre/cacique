@@ -31,6 +31,16 @@ class ExecutionsController < ApplicationController
 
   skip_before_filter :context_stuff, :only => :update_execution
 
+  def show
+    Execution
+    Circuit
+    #search suite runned in cache
+    @execution  = Rails.cache.fetch("exec_#{params[:id]}"){Execution.find(params[:id])}
+    respond_to do |format|
+        format.js # run the show.rjs template
+    end
+  end
+
   def show_snapshot
     sp = ExecutionSnapshot.find params[:snapshot_id]
 
