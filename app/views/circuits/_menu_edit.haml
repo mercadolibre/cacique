@@ -91,7 +91,6 @@
       //Status  
       =periodically_call_remote(:url => {:controller => :case_templates, :action => "update_status", :project_id => @circuit.project_id, :circuit_id => @execution_running.circuit_id, :case_template => @execution_running.case_template_id}, :method=>:get, :condition => "!ejecucion_completa_#{@execution_running.case_template_id}", :update => 'status', :frequency => 8)
   //Queue observer
-  =link_to "STOP!",execution_path(@execution_running), :method => :delete
   =render :partial => "queue_observers/queue_icon"
   %div{ :style=>"clear: both"}
   
