@@ -30,19 +30,21 @@ require "#{RAILS_ROOT}/lib/runner/fake_oracle_logger.rb"
 class ScriptRunner < ActiveRecord::Base
 
   attr_accessor	:debug_mode
-	attr_accessor   :remote_control_addr
-	attr_accessor   :remote_control_port
+	attr_accessor :remote_control_addr
+	attr_accessor :remote_control_port
 	attr_accessor	:data
 	attr_accessor	:devuelve
-	attr_accessor   :output
+	attr_accessor :output
 	attr_accessor	:data_recoveries
-	attr_accessor   :project_id #to find required cacique functions
-  attr_accessor   :configuration_values
-  attr_accessor   :execution 
+	attr_accessor :project_id #to find required cacique functions
+  attr_accessor :configuration_values
+  attr_accessor :execution 
   attr_accessor :free_values
+  attr_accessor :execution_flag
   def initialize
 		@devuelve = Hash.new
 		@output = String.new
+    Signal.trap("SIGUSR2") {$execution_thread.kill; self.stop}
 	end
 	
     #only for obtain position_error variable, through an extend
@@ -174,43 +176,46 @@ class ScriptRunner < ActiveRecord::Base
 		extend eval(generated_module_name)
 
 		self.devuelve = Hash.new
-
-		begin
-		    ######################################################################
-		    ############                Run script header             ############
-		    initialize_run_script
-		    ######################################################################
-		    ############                   Run script                 ############
-			retorno =  run_script()
-			devuelve.merge! retorno if retorno.instance_of? Hash
+      $execution_thread=Thread.new do
+  
+      begin
+  		    ######################################################################
+	  	    ############                Run script header             ############
+		      initialize_run_script
+  		    ######################################################################
+	  	    ############                   Run script                 ############
+		  	  retorno =  run_script()
+			    devuelve.merge! retorno if retorno.instance_of? Hash
 		
-		rescue Exception => e
-      ######################################################################
-		  ###########          Running error handling           ############
-          Rails.cache.delete WORKER_CACHE_KEY
-		  error_run_script
-		  e.extend PositionErrorHolder
-		  eval_line = e.backtrace.select{ |str| str =~ /^\(eval\)/ }.first
-		  line_number = eval_line.split(":")[1].to_i - 3
-		  piso = line_number - 4
-		  piso = piso < 0 ? 0 : piso
-		  lnum = piso
-          fragmento = file_code.split("\n")[piso..piso+7]
-          if fragmento
+  		rescue Exception => e
+        ######################################################################
+		    ###########          Running error handling           ############
+        Rails.cache.delete WORKER_CACHE_KEY
+	  	  error_run_script
+		    e.extend PositionErrorHolder
+  		  eval_line = e.backtrace.select{ |str| str =~ /^\(eval\)/ }.first
+	  	  line_number = eval_line.split(":")[1].to_i - 3
+		    piso = line_number - 4
+		    piso = piso < 0 ? 0 : piso
+  		  lnum = piso
+        fragmento = file_code.split("\n")[piso..piso+7]
+        if fragmento
   		    e.position_error = fragmento.map{|x| "#{lnum==line_number-1 ? "*" : ""}#{ (lnum+=1) }: #{x}" }.join("\n") + "..."
-    	  else
+      	else
             print _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
             e.position_error = _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
-          end
-          # solo en debug mode imprime el error y el stack del error
-		  print "---> Error: #{e.to_s} <---\n" if debug_mode
-		  raise e
-		ensure
-      ######################################################################
-      ###########                Run script footer             ############
-			finalize_run_script
-		end
-
+        end
+        # solo en debug mode imprime el error y el stack del error
+	  	  print "---> Error: #{e.to_s} <---\n" if debug_mode
+		    raise e
+  		ensure
+        ######################################################################
+        ###########                Run script footer             ############
+  			finalize_run_script
+	  	end
+      #thread ends
+      end
+    $execution_thread.join
 		devuelve_aux = Hash.new
 
 		self.devuelve.each do |k,v| devuelve_aux[k.to_s] = v end
@@ -245,23 +250,31 @@ class ScriptRunner < ActiveRecord::Base
     
     # puts script manager. Adds to output log
     def print(*x)
-		self.output << x.join
-		super(*x)
+		  self.output << x.join
+		  super(*x)
     end
+
     def p(*args)
-		args.each do |x|
-			self.print x.inspect,"\n"
-		end
-		nil
+		  args.each do |x|
+		  	self.print x.inspect,"\n"
+		  end
+		  nil
     end
+
     def puts(*args)
-		args.each do |x|
-			self.print x,"\n"
-		end	
-		nil
+		  args.each do |x|
+		   self.print x,"\n"
+		  end	
+		  nil
     end
+
     def reset_output
-		@output = String.new
+		  @output = String.new
+    end
+    def stop
+       self.execution_flag=1
+       self.execution.status=7
+       self.execution.save
     end
     
 end
