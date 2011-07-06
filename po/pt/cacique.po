@@ -1686,6 +1686,13 @@ msgstr "Lembrar o meu login"
 msgid "Log in"
 msgstr "Entrar"
 
+#: app/views/suite_executions/index.haml:
+msgid "Yes"
+msgstr "Se"
+
+msgid "No"
+msgstr "Não"
+
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Complete"
 msgstr "Completa"
@@ -2997,8 +3004,8 @@ msgid "to project: "
 msgstr "ao projeto: "
 
 #: app/views/user_functions/_move.haml:
-msgid "Move to Generic Functions"
-msgstr "Mover-se para funções genéricas"
+msgid "Generals"
+msgstr "generais"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Function properly moved"
