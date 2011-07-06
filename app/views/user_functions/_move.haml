@@ -37,13 +37,8 @@
     =_('to project: ')
 
   -form_for @user_function, :url => { :controller => 'user_functions', :action => 'move', :id => user_function.id} do |f|
-    %label{ :for => "project" }
+    %label{ :for => "project" }      
       =f.select "project" ,projects
-    %br
-    -if can_move_to_generico
-      %label{ :for => "generico" }
-        =check_box_tag "user_function[move_generico][]", "1", false, :onClick => "select_projects=$j('#user_function_project'); select_projects.attr('disabled',!select_projects.attr('disabled')) ;"
-        =_('Move to Generic Functions')
     %br
     .form_button{:style=>"margin-right:20px;"}
       =submit_tag _('Move')

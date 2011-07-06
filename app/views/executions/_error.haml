@@ -23,15 +23,23 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-.tab{:id => 'add_column', :style=>'-moz-border-radius-topleft:0px;height:135px;background:#E0E0F8;'}
-  -form_for(:circuit_case_column, :url=>project_circuit_circuit_case_columns_path(@circuit.project_id,@circuit.id), :method => :post , :html=>{:style=>"color:#31576F; font-size:12px;"}) do |f|
-    %label
-      =_('New Column:')
-      =f.text_field :name, :style=>'width:170px;'
-    %label
-      =_('Default Value:')
-      =f.text_field :value, :style => 'width:170px;'
-    %label
-      =_('*this value will be used for all cases previously created')
-    .form_button
-      =submit_tag _("Create")
+=render :partial =>"layouts/popup_header", :locals=>{:element =>"error_#{execution.id}"}     
+-if !execution.error.nil?     
+  %h3{:style=>"color:red;"}
+    Error
+  %p{:style=>"height:auto;max-height:160px;width:100%;border:1px solid #C6C5C4;padding:5px;-moz-border-radius:5px;"}
+    =CGI.escapeHTML(execution.error)
+  %div{ :style=>"clear: both"} 
+//POS ERROR
+-if !execution.position_error.nil?
+  %h3
+    =_('Position Error:')
+  %div{:style=>"overflow:auto;width:100%;max-height:150px;border:1px solid #C6C5C4;padding:5px;-moz-border-radius:5px;"}
+    -CGI.escapeHTML(execution.position_error.to_s).split("\n").each do |line|
+      %pre{ :style => " color: #{line[0..0]=="*" ? "red":"000"};" }
+        =line.gsub(/^\*/,"")     
+
+-if( execution.error.nil? and execution.position_error.nil? )
+  %i
+    Widthout errors
+
