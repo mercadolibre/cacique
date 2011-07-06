@@ -28,5 +28,5 @@
   %label{:style=>"margin-left:10px;display:inline;"}
     Case:
   -value = (params[:filter] && params[:filter][:case_id] && !params[:filter][:case_id].empty?) ? params[:filter][:case_id].to_i : ''
-  -cases = case_names.collect{|p| [ truncate(p.objective.capitalize, :ommision => "...", :length => 60), p.id ]} + [["Self", 0]]
+  -cases = [[_("Without Cases"), 0]] + case_names.collect{|p| [ truncate(p.objective.capitalize, :ommision => "...", :length => 60), p.id ]}
   =select("filter", "case_id",  cases.sort! ,{ :selected => value,:include_blank => _('All')},{:style => "width: 132px;"})

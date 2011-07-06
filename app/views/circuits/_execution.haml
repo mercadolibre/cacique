@@ -23,15 +23,11 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-.tab{:id => 'add_column', :style=>'-moz-border-radius-topleft:0px;height:135px;background:#E0E0F8;'}
-  -form_for(:circuit_case_column, :url=>project_circuit_circuit_case_columns_path(@circuit.project_id,@circuit.id), :method => :post , :html=>{:style=>"color:#31576F; font-size:12px;"}) do |f|
-    %label
-      =_('New Column:')
-      =f.text_field :name, :style=>'width:170px;'
-    %label
-      =_('Default Value:')
-      =f.text_field :value, :style => 'width:170px;'
-    %label
-      =_('*this value will be used for all cases previously created')
-    .form_button
-      =submit_tag _("Create")
+%div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
+  =render :partial=>'executions/status', :locals=> {:execution=>execution}
+
+  -if (!execution.output.nil? and !execution.output.empty?) || (!execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?)
+    =image_tag'/images/icons/output.png',:style=>'border:none;cursor:pointer;', :alt=>'output', :title=>_("Output"), :onclick=> "$j('#output_#{execution.id.to_s}').show();"
+    .tag{ :id => "output_#{execution.id.to_s}",:style=>" display:none; left: 320px; top: 150px;width:600px; height:390px;"}
+      =render :partial=>'executions/output', :locals=> {:execution=>execution}
+
