@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111126105725) do
+ActiveRecord::Schema.define(:version => 20110630143837) do
 
   create_table "case_data", :force => true do |t|
     t.integer  "circuit_case_column_id"
@@ -18,8 +18,6 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "case_data", ["case_template_id"], :name => "index_case_data_on_case_template_id"
 
   create_table "case_templates", :force => true do |t|
     t.integer  "circuit_id"
@@ -31,17 +29,14 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
   end
 
   add_index "case_templates", ["id"], :name => "index_case_templates_on_id"
-  add_index "case_templates", ["objective"], :name => "index_case_templates_on_objective"
-  add_index "case_templates", ["priority"], :name => "index_case_templates_on_priority"
-  add_index "case_templates", ["updated_at"], :name => "index_case_templates_on_updated_at"
 
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.string   "description"
     t.integer  "parent_id"
-    t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_id"
   end
 
   create_table "circuit_access_registries", :force => true do |t|
@@ -59,16 +54,14 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.datetime "updated_at"
   end
 
-  add_index "circuit_case_columns", ["circuit_id"], :name => "index_circuit_case_columns_on_circuit_id"
-
   create_table "circuits", :force => true do |t|
-    t.text     "name"
+    t.string   "name"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "category_id"
     t.text     "source_code"
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "project_id"
   end
 
@@ -78,6 +71,11 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.text     "values"
     t.boolean  "field_default", :default => false
     t.boolean  "enable",        :default => true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "data_files", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,9 +93,9 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
   create_table "data_recovery_names", :force => true do |t|
     t.integer  "circuit_id"
     t.string   "name"
-    t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "code"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -144,14 +142,13 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.text     "output"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ip",                 :default => "0.0.0.0"
+    t.integer  "pid"
   end
 
-  add_index "executions", ["case_template_id", "user_id"], :name => "index_executions_on_case_template_id_and_user_id"
   add_index "executions", ["case_template_id"], :name => "index_executions_on_case_template_id"
   add_index "executions", ["id"], :name => "index_executions_on_id"
   add_index "executions", ["suite_execution_id"], :name => "index_executions_on_suite_execution_id"
-  add_index "executions", ["updated_at"], :name => "index_executions_on_updated_at"
-  add_index "executions", ["user_id"], :name => "index_executions_on_user_id"
 
   create_table "notes", :force => true do |t|
     t.integer  "user_id"
@@ -171,10 +168,9 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "description"
-    t.string   "status"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "queue_observers", :force => true do |t|
@@ -202,19 +198,19 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.integer  "suite_id"
     t.integer  "circuit_id"
     t.integer  "position"
-    t.integer  "case_template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "case_template_id"
   end
 
   create_table "suite_cases_relations", :force => true do |t|
     t.integer  "suite_id"
     t.integer  "case_origin"
     t.integer  "case_destination"
-    t.integer  "circuit_origin"
-    t.integer  "circuit_destination"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "circuit_origin"
+    t.integer  "circuit_destination"
   end
 
   create_table "suite_containers", :force => true do |t|
@@ -237,7 +233,6 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
   end
 
   add_index "suite_executions", ["id"], :name => "index_suite_executions_on_id"
-  add_index "suite_executions", ["suite_id"], :name => "index_suite_executions_on_suite_id"
 
   create_table "suite_fields_relations", :force => true do |t|
     t.integer  "suite_id"
@@ -251,10 +246,10 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
 
   create_table "suites", :force => true do |t|
     t.string   "name"
-    t.text     "description"
-    t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
+    t.integer  "project_id"
   end
 
   create_table "task_programs", :force => true do |t|
@@ -264,6 +259,7 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "identifier",          :limit => 50, :default => " "
   end
 
   create_table "user_configuration_values", :force => true do |t|
@@ -276,26 +272,27 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
 
   create_table "user_configurations", :force => true do |t|
     t.integer  "user_id"
-    t.boolean  "send_mail"
+    t.boolean  "send_mail_ok"
     t.boolean  "debug_mode"
     t.string   "remote_control_mode"
     t.string   "remote_control_addr"
     t.string   "remote_control_port"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "send_mail_fail",      :default => true
   end
 
   create_table "user_functions", :force => true do |t|
     t.integer  "user_id"
     t.integer  "project_id"
-    t.string   "name",        :limit => 50
+    t.string   "name"
     t.text     "description"
-    t.integer  "cant_args",                 :default => 0
+    t.integer  "cant_args",   :default => 0
     t.text     "source_code"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "example"
-    t.boolean  "hide",                      :default => false
+    t.boolean  "hide",        :default => false
   end
 
   create_table "user_links", :force => true do |t|
@@ -312,12 +309,13 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.string   "email"
     t.string   "crypted_password",          :limit => 40
     t.string   "salt",                      :limit => 40
-    t.string   "remember_token"
-    t.datetime "remember_token_expires_at"
-    t.boolean  "active",                                  :default => true
-    t.string   "language",                  :limit => 5,  :default => "en_US"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.boolean  "active",                                  :default => false,   :null => false
+    t.string   "language",                  :limit => 5,  :default => "en_US"
+    t.string   "api_key",                   :limit => 40, :default => ""
   end
 
   create_table "versions", :force => true do |t|
@@ -328,11 +326,6 @@ ActiveRecord::Schema.define(:version => 20111126105725) do
     t.datetime "created_at"
     t.string   "message",        :default => ""
     t.integer  "user_id"
-    t.datetime "updated_at"
   end
-
-  add_index "versions", ["created_at"], :name => "index_versions_on_created_at"
-  add_index "versions", ["number"], :name => "index_versions_on_number"
-  add_index "versions", ["versioned_type", "versioned_id"], :name => "index_versions_on_versioned_type_and_versioned_id"
 
 end

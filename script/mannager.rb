@@ -92,8 +92,7 @@ class WorkerMannager
   end
   
   def stop(pid,exe)
-     puts pid
-     puts exe
+     puts "Stopping execution #{exe} with pid #{pid}"
      Process.kill("SIGUSR2", pid.to_i)
   end
 

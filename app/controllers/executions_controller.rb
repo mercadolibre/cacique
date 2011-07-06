@@ -40,6 +40,16 @@ class ExecutionsController < ApplicationController
   end
 
 
+  #stoping execution!
+  def destroy
+    exe=Execution.find(:id)
+    if exe.user_id == current_user.id || curren_user.has_role?("root")
+      exe.stop
+    else
+      render :text => "you couldnt do that"
+    end
+  end
+
   def save_execution_config
 
     @user_configuration = UserConfiguration.find_by_user_id(current_user.id)

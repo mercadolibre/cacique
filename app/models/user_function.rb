@@ -1,3 +1,21 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: user_functions
+#
+#  id          :integer(4)      not null, primary key
+#  user_id     :integer(4)
+#  project_id  :integer(4)
+#  name        :string(255)
+#  description :text
+#  cant_args   :integer(4)      default(0)
+#  source_code :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  example     :text
+#  hide        :boolean(1)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,22 +41,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: user_functions
-#
-#  id          :integer(4)      not null, primary key
-#  user_id     :integer(4)
-#  project_id  :integer(4)
-#  name        :string(255)
-#  description :text
-#  cant_args   :integer(4)      default(0)
-#  source_code :text
-#  created_at  :datetime
-#  updated_at  :datetime
-#
-
 class UserFunction < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
