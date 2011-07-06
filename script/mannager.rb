@@ -7,25 +7,23 @@ require 'memcache'
 SERVER_IP="127.0.0.1"
  
 cache = MemCache.new "#{SERVER_IP}:11211"
-#srv=TCPServer.open(33133)
 
 class WorkerMannager
 
   def initialize
     @cache = MemCache.new "#{SERVER_IP}:11211"
-   
-    @ip=self.get_ip 
     puts @ip
-    begin    
+    begin
       @cn=TCPServer.open(33133)
     rescue  Exception => e
-      puts "Can't open host due: #{e.message}"
+       puts "Can't open host due: #{e.message}"
+       exit(1)
     end
+
+    @ip=self.get_ip 
     Signal.trap("TERM") {finalize}
     Signal.trap("SIGUSR1") {register_worker}
   end
-
-
 
   def finalize
     self.unregister_worker
@@ -69,25 +67,39 @@ class WorkerMannager
     end
   end 
   
+  #this methods handles request
   def listen
-   #sock=@cn.accept_nonblock
-    while true
-      begin
-        sock = @cn.accept_nonblock
-      rescue Errno::EAGAIN, Errno::ECONNABORTED, Errno::EPROTO, Errno::EINTR
-        IO.select([@cn])
-        retry
-      end
-     begin
-     action = case sock.read
-       when "refresh" then self.register_worker 
-       else puts "Invalid Score"
+    require "socket"
+    loop do
+      Thread.start(@cn.accept) do |s|
+        request=s.recv(1000)
+        request=request.split(";")
+         case request.first
+         when "refresh"
+           register_worker
+         when "stop"
+           stop(request[1],request[2])
+         when "C"
+           puts 'You need help!!!'
+         else
+           puts "You just making it up!"
+           s.write(":aaaaaaaaaaaaa"+ a)
+           print(s,a)
+           s.close
+          end
        end
-    rescue
-      rescue Errno::EAGAIN, Errno::ECONNABORTED, Errno::EPROTO, Errno::EINTR
-      retry
     end
-    end
+  end
+  
+  def stop(pid,exe)
+     puts pid
+     puts exe
+     Process.kill("SIGUSR2", pid.to_i)
+  end
+
+
+  def stop_execution
+  puts "llego la señal"
   end
 
 end
