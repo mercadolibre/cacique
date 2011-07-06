@@ -185,7 +185,7 @@ class QueueObserver < ActiveRecord::Base
         end
       end
       self.refill_queued_data(tasks)
-      SuiteExecution.cancel id.to_i
+      SuiteExecution.cancel(status) id.to_i
     end
      
     #pull all task 
