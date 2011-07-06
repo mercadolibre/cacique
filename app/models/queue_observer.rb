@@ -1,3 +1,14 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: queue_observers
+#
+#  id         :integer(4)      not null, primary key
+#  values     :string(600)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,17 +34,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: queue_observers
-#
-#  id         :integer(4)      not null, primary key
-#  values     :string(600)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 require "socket"
 
 class QueueObserver < ActiveRecord::Base
