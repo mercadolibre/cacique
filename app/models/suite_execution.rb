@@ -73,6 +73,8 @@ class SuiteExecution < ActiveRecord::Base
         _("Not Run")
       when 6
         _("Canceled")
+      when 7
+        ("Stoped")
       else
         _("Complete")
     end
@@ -625,6 +627,11 @@ class SuiteExecution < ActiveRecord::Base
      error  = suite_executions.count{|se| se.status == 3} 
      others = total -  ok - error
      rates = {:ok=>[ok,(ok*100/total.to_f).round(2)], :error=>[error,(error*100/total.to_f).round(2)], :others=>[others,(others*100/total.to_f).round(2)] }
+  end
+
+  def stop
+    self.executions.each{|exe| exe.stop if (exe.status == 0 ||  exe.status == 1)  }
+    self.calculate_status
   end
 
 
