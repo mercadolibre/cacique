@@ -79,12 +79,11 @@ class WorkerMannager
            register_worker
          when "stop"
            stop(request[1],request[2])
+           register_worker
          when "C"
            puts 'You need help!!!'
          else
-           puts "You just making it up!"
-           s.write(":aaaaaaaaaaaaa"+ a)
-           print(s,a)
+           s.write("Ops, that is not an available command")
            s.close
           end
        end
