@@ -54,9 +54,10 @@ class ExecutionsController < ApplicationController
 
   #stoping execution!
   def destroy
-    exe=Execution.find(:id)
+    exe=Execution.find(params[:id])
     if exe.user_id == current_user.id || curren_user.has_role?("root")
       exe.stop
+      render :nothing
     else
       render :text => "you couldnt do that"
     end
