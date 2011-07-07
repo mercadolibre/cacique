@@ -39,7 +39,7 @@
           %div{:id=>'status_' + case_template.id.to_s}
             -if case_template.last_execution
               //stop
-              =link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop'), :id=>"stop_#{case_template.last_execution.id}"), execution_path(case_template.last_execution.id), :method=>:delete
+              =link_to_remote image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') , :id=>"stop_#{case_template.last_execution.id}", :style=>"margin-bottom:2px;"), :url=>execution_path(case_template.last_execution.id), :method=>:delete
               =render :partial => 'executions/status', :locals => {:execution => case_template.last_execution}
       // SUITE COMMENT
       -if @controller_data == 'suite_executions'
