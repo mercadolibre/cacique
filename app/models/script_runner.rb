@@ -273,7 +273,7 @@ class ScriptRunner < ActiveRecord::Base
     end
     def stop
        self.execution_flag=1
-       self.execution.status=7
+       self.execution.status=6
        self.execution.save
     end
     

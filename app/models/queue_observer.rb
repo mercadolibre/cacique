@@ -176,8 +176,8 @@ class QueueObserver < ActiveRecord::Base
       self.refill_queued_data(tasks)
       tasks
     end
-    #deletes an execution form a queue, status indicates wich value will be able for executions, by default is canceled, but if you call from stop execution should be 7
-    def delete_execution(id,status=6)
+    #deletes an execution form a queue
+    def delete_execution(id)
       tasks=self.get_queued_data
       @connection.available_queues.each do |queue|
       	tasks[queue.to_sym].delete_if  do |task| 
@@ -185,7 +185,7 @@ class QueueObserver < ActiveRecord::Base
         end
       end
       self.refill_queued_data(tasks)
-      SuiteExecution.cancel(status) id.to_i
+      SuiteExecution.cancel id.to_i
     end
      
     #pull all task 
