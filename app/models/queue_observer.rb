@@ -1,4 +1,4 @@
-# == Schema Information
+
 # Schema version: 20110630143837
 #
 # Table name: queue_observers
@@ -187,7 +187,7 @@ class QueueObserver < ActiveRecord::Base
       self.refill_queued_data(tasks)
       SuiteExecution.cancel id.to_i
     end
-     
+
     #pull all task 
     def get_queued_data
       ExecutionConfigurationValue
