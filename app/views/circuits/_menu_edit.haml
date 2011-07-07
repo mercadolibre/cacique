@@ -78,18 +78,22 @@
 
   %div{ :style=>"margin:auto;width:300px;display:inline;padding-left:10px;"}
     //Cases
-    -cases = [[_("Without Cases"), ""]] + @circuit.case_templates.collect{|c| [ truncate(c.objective.capitalize, :ommision => "...", :length => 70), c.id ]}
+    -cases =[[_("Without Cases"), ""]] + @circuit.case_templates.collect{|c| [ truncate(c.objective.capitalize, :ommision => "...", :length => 70), c.id ]}
     -value =  @execution_running? @execution_running.case_template_id : ""
     =select("cases", "id",  cases ,{:selected => value},{:style => "width:150px;vertical-align:9px;"})
 
+    //Ejecution
     //Play
-    =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
-    //Ejecution Result
+    =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :id=>"play_#{@execution_running.id}", :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
     -if @execution_running
+      //stop
+      =link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') , :id=>"stop_#{@execution_running.id}"), execution_path(@execution_running.id), :method=>:delete
+      //Status
       %div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
-        =render :partial => '/case_templates/status', :locals => {:case_template_id => @execution_running.case_template_id, :execution => @execution_running}
-      //Status  
-      =periodically_call_remote(:url => {:controller => :case_templates, :action => "update_status", :project_id => @circuit.project_id, :circuit_id => @execution_running.circuit_id, :case_template => @execution_running.case_template_id}, :method=>:get, :condition => "!ejecucion_completa_#{@execution_running.case_template_id}", :update => 'status', :frequency => 8)
+        =render :partial=>'execution', :locals=> {:execution=>@execution_running}
+      //Status refresh 
+      =periodically_call_remote(:url => {:controller=>:executions, :action => :show, :id =>  @execution_running.id}, :method=>:get, :condition => "ejecucion_completa_#{@execution_running.id} == false", :frequency => 8)
+
   //Queue observer
   =render :partial => "queue_observers/queue_icon"
   %div{ :style=>"clear: both"}

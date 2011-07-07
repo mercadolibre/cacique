@@ -1043,6 +1043,10 @@ msgid "Run"
 msgstr "Ejecutar"
 
 #: app/views/circuits/edit.haml:
+msgid "Stop"
+msgstr "Detener"
+
+#: app/views/circuits/edit.haml:
 msgid "By"
 msgstr "Por"
 
