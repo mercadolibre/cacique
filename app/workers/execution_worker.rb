@@ -205,8 +205,8 @@ class ExecutionWorker < Workling::Base
               ####################################################
 
               if options[:remote_control_mode] == "hub"
-                script_runner.remote_control_addr = IP_SERVER
-                script_runner.remote_control_port = 4444
+                script_runner.remote_control_addr = HUB_IP
+                script_runner.remote_control_port = HUB_PORT
               else
                 script_runner.remote_control_addr = options[:remote_control_addr]
                 script_runner.remote_control_port = options[:remote_control_port].to_i
