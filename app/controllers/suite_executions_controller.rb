@@ -83,14 +83,14 @@ class SuiteExecutionsController < ApplicationController
 
   #stoping suite_execution!
   def destroy
-     suite_exe=SuiteExecution.find(params[:id])
-     if suite_exe.user_id == current_user.id || curren_user.has_role?("root")
-        suite_exe.stop
-        render :nothing => true
-     else
-       render :text => "you couldnt do that"
+     @suite_execution=SuiteExecution.find(params[:id])
+     if @suite_execution.user_id == current_user.id || curren_user.has_role?("root")
+        @suite_execution.stop
+        respond_to do |format|
+          format.js # run the show.rjs template
+        end
      end
-    end
+  end
 
   def show_model_filter
     @show_model = params[:filter][:model]

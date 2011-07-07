@@ -60,7 +60,6 @@ class ExecutionsController < ApplicationController
       respond_to do |format|
         format.js # run the show.rjs template
       end
-
     end
 end
   def save_execution_config
