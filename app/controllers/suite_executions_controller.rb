@@ -356,6 +356,9 @@ class SuiteExecutionsController < ApplicationController
   def update_executions_status
     Execution
     Circuit
+    DataRecovery
+    DataRecoveryName
+    SuiteExecution
     #search suite runned in cache
     execution  = Rails.cache.fetch("exec_#{params[:execution]}"){Execution.find(params[:execution])}
 
