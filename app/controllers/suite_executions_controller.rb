@@ -79,6 +79,19 @@ class SuiteExecutionsController < ApplicationController
    
   end
 
+
+
+  #stoping suite_execution!
+  def destroy
+     suite_exe=SuiteExecution.find(:id)
+     if suite_exe.user_id == current_user.id || curren_user.has_role?("root")
+        suite_exe.stop
+       render :nothing
+     else
+       render :text => "you couldnt do that"
+     end
+    end
+
   def show_model_filter
     @show_model = params[:filter][:model]
     project ||= Project.find params[:project_id]
