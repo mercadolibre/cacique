@@ -72,19 +72,17 @@ class SuiteExecution < ActiveRecord::Base
       when 5
         _("Not Run")
       when 6
-        _("Canceled")
-      when 7
         ("Stoped")
       else
         _("Complete")
     end
   end
   
-  def self.cancel(id,status=6)
+  def self.cancel(id)
    suite_execution=SuiteExecution.find id
     suite_execution.executions.each do |exe|
       if (exe.status== 0 or exe.status==1)
-         exe.status=status
+         exe.status=6
          exe.output = _("Canceled run")
          exe.save
          Rails.cache.delete "exec_#{exe.id}"
@@ -106,10 +104,7 @@ class SuiteExecution < ActiveRecord::Base
      executions_status = last_executions.map(&:status)
      total = executions_status.length 
      #stoped
-     if ( executions_status.include?(7) )
-       self.status=7
-     #Not run
-     elsif ( executions_status.include?(6) )#(al least one was cancel)
+     if ( executions_status.include?(6) )#(al least one was cancel)
        self.status = 6  
        
      #Success

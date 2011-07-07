@@ -249,66 +249,65 @@ datos_recuperados = script_runner.run_source_code( @execution.circuit.source_cod
         @execution.output +=  @suite_relation.output + script_runner.output
         cache_execution.output = @suite_relation.output + script_runner.output
         if @execution.case_template_id != 0
-@suite_relation.process_return_values(@execution.case_template_id, data, datos_recuperados)
+          @suite_relation.process_return_values(@execution.case_template_id, data, datos_recuperados)
         end
+
         if script_runner.execution_flag==1
-        @execution.status=7
-              Rails.cache.write("exec_#{@execution.id}",@execution,:expires_in => CACHE_EXPIRE_SUITE_EXEC)
-              @execution.save
-              cache_execution=Rails.cache.read("exec_#{@execution.id}")
-              #Rails.cache.delete "suite_exec_#{suite_execution.id}"
-            end
-             rescue Exception => e
-               print "--> Error de suite #{e} <--\n" if options[:debug_mode]
+          @execution.status=6
+          Rails.cache.write("exec_#{@execution.id}",@execution,:expires_in => CACHE_EXPIRE_SUITE_EXEC)
+          @execution.save
+          cache_execution=Rails.cache.read("exec_#{@execution.id}")
+          #Rails.cache.delete "suite_exec_#{suite_execution.id}"
+       end
+       rescue Exception => e
+         print "--> Error de suite #{e} <--\n" if options[:debug_mode]
+         @execution.output ||= ""
+         cache_execution.output ||= ""
+         @execution.output +=  @suite_relation.output + script_runner.output
+         cache_execution.output +=  @suite_relation.output + script_runner.output
+         @suite_relation.executions_error << @execution.case_template_id
+
+         @execution.error = e.to_s
+         @execution.position_error = self.parse_position_error(e,@execution.circuit.name)
+    
+         cache_execution.error = e.to_s
+         cache_execution.position_error = self.parse_position_error(e,@execution.circuit.name)
  
-               @execution.output ||= ""
-               cache_execution.output ||= ""
-               @execution.output +=  @suite_relation.output + script_runner.output
-               cache_execution.output +=  @suite_relation.output + script_runner.output
+       if e.instance_of? SuiteRelation::FatherRelationError or e.instance_of? SuiteCasesRunnerDb::FatherRelationError
+         @execution.status = 5
+         cache_execution.status = 5
+         @execution.output += e.to_s
+         cache_execution.output += e.to_s
+       else
+         @execution.status = 3
+         cache_execution.status = 3
+       end
+               
+       end
+       if datos_recuperados.instance_of? Hash
+         if datos_recuperados.include?(:error)
+         @execution.error = datos_recuperados[:error]
+         @execution.status = 3
+               
+         cache_execution.error = datos_recuperados[:error]
+         cache_execution.status = 3
+                
+         @suite_relation.executions_error << @execution.case_template_id
+       else
+         datos_recuperados.each do |k,v|
+         data_recovery = @execution.data_recoveries.new
+         data_recovery.execution_id = @execution.id
+         data_recovery.data_name = k
+         data_recovery.data = v
 
-                @suite_relation.executions_error << @execution.case_template_id
-  
-                @execution.error = e.to_s
-                @execution.position_error = self.parse_position_error(e,@execution.circuit.name)
-                
-                cache_execution.error = e.to_s
-                cache_execution.position_error = self.parse_position_error(e,@execution.circuit.name)
-
-                if e.instance_of? SuiteRelation::FatherRelationError or e.instance_of? SuiteCasesRunnerDb::FatherRelationError
-                  @execution.status = 5
-                  cache_execution.status = 5
-                  @execution.output += e.to_s
-                  cache_execution.output += e.to_s
-                else
-                  @execution.status = 3
-                  cache_execution.status = 3
-                end
-                
-              end
-              if datos_recuperados.instance_of? Hash
-                if datos_recuperados.include?(:error)
-                  @execution.error = datos_recuperados[:error]
-                  @execution.status = 3
-                
-                  cache_execution.error = datos_recuperados[:error]
-                  cache_execution.status = 3
-                
-                  @suite_relation.executions_error << @execution.case_template_id
-                else
-                  datos_recuperados.each do |k,v|
-                  data_recovery = @execution.data_recoveries.new
-                  data_recovery.execution_id = @execution.id
-                  data_recovery.data_name = k
-                  data_recovery.data = v
-
-                  retry_save do
-                    data_recovery.save
-                  end
-                end
-              end
-            end
+         retry_save do
+           data_recovery.save
+         end
+        end
+        end
+        end
        
-            if @execution.status != 3 and @execution.status != 5 and @execution.status != 7
+            if @execution.status != 3 and @execution.status != 5 and @execution.status != 6
               @execution.status = 2 
               cache_execution.status = 2
             end
@@ -339,8 +338,6 @@ datos_recuperados = script_runner.run_source_code( @execution.circuit.source_cod
    end#End executions
    
   end
-  
-  
   
   def retry_execution( options )
 
