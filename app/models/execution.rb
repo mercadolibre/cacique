@@ -142,6 +142,11 @@ class Execution < ActiveRecord::Base
    str = @mannager.send("stop;#{self.pid};#{self.id}",500)
    @mannager.close
  end
+ 
+  def finished?
+      #Not Waiting or Running
+     ![0,1].include?(self.status) 
+  end
 
 private
 

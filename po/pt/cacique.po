@@ -964,7 +964,11 @@ msgstr "Ajuda Ruby"
 
 #: app/views/circuits/edit.haml:
 msgid "Run"
-msgstr "Executar"
+msgstr "Parar"
+
+#: app/views/circuits/edit.haml:
+msgid "Stop"
+msgstr "Detener"
 
 #: app/views/circuits/edit.haml:
 msgid "By"
