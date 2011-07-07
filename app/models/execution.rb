@@ -100,8 +100,6 @@ class Execution < ActiveRecord::Base
       when 5
         _("Not Run")
       when 6
-        _("Canceled")
-      when 7
         _("Stoped")
       else
         _("Complete")
@@ -135,7 +133,7 @@ class Execution < ActiveRecord::Base
    end
  end 
  def stop_waiting
-     QueueObserver.new.delete_execution(self.suite_execution.id,7)
+     QueueObserver.new.delete_execution(self.suite_execution.id)
  end
  
  def stop_running_exec
