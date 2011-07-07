@@ -92,7 +92,15 @@ class SuiteExecution < ActiveRecord::Base
      se = suite_execution.calculate_status #Recalculate status
      se.save
   end
- 
+  #stop execution
+  def destroy
+    suite_exe=SuiteExecution.find(:id)
+     if suite_exe.user_id == current_user.id || curren_user.has_role?("root")
+       suite_exe.stop
+     else
+       render :text => "you couldnt do that"
+     end
+  end
   #Returns the status of suite_execution (depending of executions)
   def calculate_status
      #Get only the last execution of the scripts with one case
