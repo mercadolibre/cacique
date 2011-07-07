@@ -54,15 +54,15 @@ class ExecutionsController < ApplicationController
 
   #stoping execution!
   def destroy
-    exe=Execution.find(params[:id])
-    if exe.user_id == current_user.id || curren_user.has_role?("root")
-      exe.stop
-      render :nothing
-    else
-      render :text => "you couldnt do that"
-    end
-  end
+    @execution=Execution.find(params[:id].to_i)
+    if @execution.user_id == current_user.id || curren_user.has_role?("root")
+      @execution.stop
+      respond_to do |format|
+        format.js # run the show.rjs template
+      end
 
+    end
+end
   def save_execution_config
 
     @user_configuration = UserConfiguration.find_by_user_id(current_user.id)
