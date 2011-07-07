@@ -83,10 +83,10 @@ class SuiteExecutionsController < ApplicationController
 
   #stoping suite_execution!
   def destroy
-     suite_exe=SuiteExecution.find(:id)
+     suite_exe=SuiteExecution.find(params[:id])
      if suite_exe.user_id == current_user.id || curren_user.has_role?("root")
         suite_exe.stop
-       render :nothing
+        render :nothing => true
      else
        render :text => "you couldnt do that"
      end
