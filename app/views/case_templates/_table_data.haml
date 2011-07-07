@@ -37,8 +37,10 @@
         //Status
         %td{:style=>"width:10px;"}
           %div{:id=>'status_' + case_template.id.to_s}
-            =render :partial => 'status', :locals => {:execution => case_template.last_execution, :case_template_id => case_template.id}
-
+            -if case_template.last_execution
+              //stop
+              =link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop'), :id=>"stop_#{case_template.last_execution.id}"), execution_path(case_template.last_execution.id), :method=>:delete
+              =render :partial => 'executions/status', :locals => {:execution => case_template.last_execution}
       // SUITE COMMENT
       -if @controller_data == 'suite_executions'
         %td{:style=>"width:10px;"}

@@ -34,6 +34,8 @@ class ExecutionsController < ApplicationController
   def show
     Execution
     Circuit
+    DataRecovery
+    DataRecoveryName
     #search suite runned in cache
     @execution  = Rails.cache.fetch("exec_#{params[:id]}"){Execution.find(params[:id])}
     respond_to do |format|

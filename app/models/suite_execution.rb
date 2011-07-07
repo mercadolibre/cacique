@@ -151,9 +151,9 @@ class SuiteExecution < ActiveRecord::Base
     self.executions.count(:all, :conditions => "status = 3")
   end 
 
-  
   def finished?
-    self.executions.count == self.executions.count(:conditions => "status = 2 or status = 3 or status = 4 or status = 5 or status = 6")
+     #Not Waiting or Running
+     ![0,1].include?(self.status) 
   end
 
   def executions_cache(execution_ids=nil)
