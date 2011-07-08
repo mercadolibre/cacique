@@ -92,6 +92,4 @@ gem "newrelic_rpm"
   gem "gettext_activerecord"
   gem "gettext_rails"
 #.....................................
-
-gem 'newrelic_rpm'
-
+gem "RbYAML"
