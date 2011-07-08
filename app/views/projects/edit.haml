@@ -67,7 +67,7 @@
       %div{:style=>"height:200px; overflow-x: auto;margin-top:5px;"}
         -@users.each do |user|  
           =link_to image_tag("/images/icons/new.png", :alt=>"new.png",:style=>"cursor:pointer; height:12px; width:12px; margin-left:10px;border:none;"), user_assignments_path(user.id) + "?project_id=#{@project.id}", :method=>"post"
-          =user.login
+          =user.name
           %br
 
 //Tools menu
