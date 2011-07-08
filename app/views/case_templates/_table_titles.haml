@@ -29,7 +29,7 @@
   -if @controller_data == 'case_templates'
     %th.def{:style => "width:3%;"}
       %input{ :type => "checkbox", :name => 'todos', :id => 'todos_'+circuit.id.to_s, :value => "checkbox", :onClick => "listItems(#{circuit.id},this.form);"}
-    %th.def{  :style => "width:3%;"}
+    %th.def{  :style => "width:5%;"}
 
   // SUITE COMMENT
   -if @controller_data == 'suite_executions'

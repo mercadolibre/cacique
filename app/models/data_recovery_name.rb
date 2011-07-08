@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: data_recovery_names
+#
+#  id         :integer(4)      not null, primary key
+#  circuit_id :integer(4)
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  code       :string(255)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,26 +36,13 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: data_recovery_names
-#
-#  id         :integer(4)      not null, primary key
-#  circuit_id :integer(4)
-#  name       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  code       :string(255)
-#
-
 class DataRecoveryName < ActiveRecord::Base
   belongs_to :circuit
   
   validates_presence_of   :circuit_id, :message => _("Must complete circuit_id")
   validates_presence_of   :name,       :message => _("Must complete Name field")
   validates_presence_of   :code,       :message => _("Must complete Code Field")
-  validates_uniqueness_of :name,       :message => _("The data recovery name already exists!")
+  validates_uniqueness_of :name,:scope => [:circuit_id], :message => _("The data recovery name already exists!")
 
   before_destroy :delete_suite_fields_relations
   def delete_suite_fields_relations

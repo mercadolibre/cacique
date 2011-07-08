@@ -1,0 +1,51 @@
+:server:
+  :ip: 10.4.0.30
+
+:db:
+  :development:
+    :adapter: mysql
+    :encoding: utf8
+    :database: cacique_prod
+    :pool: 10
+    :username: root
+    :password: mozart
+    :host: localhost
+  :test:
+    :adapter: mysql
+    :encoding: utf8
+    :database: cacique_prod
+    :pool: 10
+    :username: root
+    :password: mozart
+    :host: localhost
+  :production:
+    :adapter: mysql
+    :encoding: utf8
+    :database: cacique_dev
+    :pool: 10
+    :username: caciquedb
+    :password: mozart
+    :host: 10.4.0.30
+
+:workling:
+  :production: "10.4.0.30:22122"
+  :development: "10.4.0.30:22122"
+  :test: "10.4.0.30:22122"
+
+:hub:
+  :ip: 10.4.0.30
+  :port: 4444
+  :rest: "/"
+
+:queue:
+  :ip: 10.4.0.30
+  :port: "22122"
+
+:memcached:
+  :ip: 10.4.0.30
+
+:environment:
+  :production:
+    :ip: 10.4.0.30
+
+
