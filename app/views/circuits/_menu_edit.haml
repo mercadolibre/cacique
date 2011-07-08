@@ -49,9 +49,6 @@
   -if @next_version
     =image_tag("/images/icons/forward.png", :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",:onClick => "location.href='#{edit_project_circuit_path(@circuit.project_id,@circuit)}?version=#{@next_version}'", :id => "version_forward")
     
-  //Versions 
-  =image_tag("/images/icons/versions.png",:alt=>"versions.png",   :title=>_('Change History'),:onClick => "location.href='/circuits/versions/#{@circuit.id}'")
- 
   //Export
   =image_tag("/images/icons/import.png",:alt=>"export",  :title=>_('Export Script'),:onclick=>"$j('#import_circuit').show();")
   
@@ -78,21 +75,27 @@
 
   %div{ :style=>"margin:auto;width:300px;display:inline;padding-left:10px;"}
     //Cases
-    -cases = [[_("Without Cases"), ""]] + @circuit.case_templates.collect{|c| [ truncate(c.objective.capitalize, :ommision => "...", :length => 70), c.id ]}
+    -cases =[[_("Without Cases"), ""]] + @circuit.case_templates.collect{|c| [ truncate(c.objective.capitalize, :ommision => "...", :length => 70), c.id ]}
     -value =  @execution_running? @execution_running.case_template_id : ""
     =select("cases", "id",  cases ,{:selected => value},{:style => "width:150px;vertical-align:9px;"})
 
+    //Ejecution
     //Play
-    =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
-    //Ejecution Result
     -if @execution_running
-      =render :partial=>'execution', :locals=> {:execution=>@execution_running}
-      =periodically_call_remote(:url => {:controller=>:executions, :action => :show, :id =>  @execution_running.id}, :method=>:get, :condition => "execution_finish_#{@execution_running.id.to_s} == false", :frequency => 8)
-
-  //Queue observers
+      =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :id=>"play_#{@execution_running.id}", :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'") 
+      //stop
+      =link_to_remote image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') , :id=>"stop_#{@execution_running.id}", :style=>"margin-bottom:2px;"), :url=>execution_path(@execution_running.id), :method=>:delete
+      //Status
+      %div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
+        =render :partial=>'execution', :locals=> {:execution=>@execution_running}
+      //Status refresh 
+      =periodically_call_remote(:url => {:controller=>:executions, :action => :show, :id =>  @execution_running.id}, :method=>:get, :condition => "ejecucion_completa_#{@execution_running.id} == false", :frequency => 8)
+    -else
+      =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
+   
+  //Queue observer
   =render :partial => "queue_observers/queue_icon"
   %div{ :style=>"clear: both"}
-
   
 //Save with comment
 =render :partial => "save_with_comment"

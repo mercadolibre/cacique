@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: suite_executions
+#
+#  id                 :integer(4)      not null, primary key
+#  suite_id           :integer(4)
+#  user_id            :integer(4)
+#  suite_container_id :integer(4)
+#  identifier         :string(50)      default(" ")
+#  project_id         :integer(4)
+#  time_spent         :integer(4)      default(0)
+#  status             :integer(4)      default(0)
+#  created_at         :datetime
+#  updated_at         :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,23 +40,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: suite_executions
-#
-#  id                 :integer(4)      not null, primary key
-#  suite_id           :integer(4)
-#  user_id            :integer(4)
-#  suite_container_id :integer(4)
-#  identifier         :string(50)      default(" ")
-#  project_id         :integer(4)
-#  time_spent         :integer(4)      default(0)
-#  status             :integer(4)      default(0)
-#  created_at         :datetime
-#  updated_at         :datetime
-#
-
 require "socket"
 
 class SuiteExecution < ActiveRecord::Base
@@ -72,7 +72,7 @@ class SuiteExecution < ActiveRecord::Base
       when 5
         _("Not Run")
       when 6
-        _("Canceled")
+        ("Stoped")
       else
         _("Complete")
     end
@@ -92,10 +92,17 @@ class SuiteExecution < ActiveRecord::Base
      se = suite_execution.calculate_status #Recalculate status
      se.save
   end
- 
+  #stop execution
+  def destroy
+    suite_exe=SuiteExecution.find(:id)
+     if suite_exe.user_id == current_user.id || curren_user.has_role?("root")
+       suite_exe.stop
+     else
+       render :text => "you couldnt do that"
+     end
+  end
   #Returns the status of suite_execution (depending of executions)
   def calculate_status
-
      #Get only the last execution of the scripts with one case
      last_executions_ids = Rails.cache.read("suite_exec_#{self.id}_last_executions")    
      last_executions_ids = self.executions.maximum(:created_at, :group => "circuit_id,case_template_id", :select=>:id).values  if !last_executions_ids
@@ -104,9 +111,8 @@ class SuiteExecution < ActiveRecord::Base
      last_executions   = self.executions_cache(last_executions_ids)
      executions_status = last_executions.map(&:status)
      total = executions_status.length 
-
-     #Not run
-     if ( executions_status.include?(6) )#(al least one is cancel)
+     #stoped
+     if ( executions_status.include?(6) )#(al least one was cancel)
        self.status = 6  
        
      #Success
@@ -135,7 +141,7 @@ class SuiteExecution < ActiveRecord::Base
       
      #Complete
      else
-       self.status = 7
+       self.status = 8
      end 
    
    self
@@ -145,9 +151,9 @@ class SuiteExecution < ActiveRecord::Base
     self.executions.count(:all, :conditions => "status = 3")
   end 
 
-  
   def finished?
-    self.executions.count == self.executions.count(:conditions => "status = 2 or status = 3 or status = 4 or status = 5 or status = 6")
+     #Not Waiting or Running
+     ![0,1].include?(self.status) 
   end
 
   def executions_cache(execution_ids=nil)
@@ -624,6 +630,11 @@ class SuiteExecution < ActiveRecord::Base
      error  = suite_executions.count{|se| se.status == 3} 
      others = total -  ok - error
      rates = {:ok=>[ok,(ok*100/total.to_f).round(2)], :error=>[error,(error*100/total.to_f).round(2)], :others=>[others,(others*100/total.to_f).round(2)] }
+  end
+
+  def stop
+    self.executions.each{|exe| exe.stop if (exe.status == 0 ||  exe.status == 1)  }
+    self.calculate_status
   end
 
 
