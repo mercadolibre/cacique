@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: case_data
+#
+#  id                     :integer(4)      not null, primary key
+#  circuit_case_column_id :integer(4)
+#  case_template_id       :integer(4)
+#  data                   :text
+#  created_at             :datetime
+#  updated_at             :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,19 +36,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: case_data
-#
-#  id                     :integer(4)      not null, primary key
-#  circuit_case_column_id :integer(4)
-#  case_template_id       :integer(4)
-#  data                   :text
-#  created_at             :datetime
-#  updated_at             :datetime
-#
-
 
 
 class CaseDatum < ActiveRecord::Base

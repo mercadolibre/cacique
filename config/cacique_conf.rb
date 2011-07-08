@@ -23,7 +23,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.13"
+CACIQUE_VERSION = "0.1.14"
 
 #funcion que calcula el ip del servidor
 #require 'socket'
@@ -47,8 +47,7 @@ end
 LOCAL_IP=local_ip
 IP_SERVER=CONFIG[:server][:ip]
 IP_DB=CONFIG[:db][:ip]
-
-
+MANNAGER_PORT=CONFIG[:mannager][:port]
 #Workers machines localip, es para mi maquina de desarrollo
 WORKERS_ADDR=[LOCAL_IP]
 WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"

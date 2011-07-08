@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: user_links
+#
+#  id         :integer(4)      not null, primary key
+#  user_id    :integer(4)
+#  name       :string(255)
+#  link       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,19 +36,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: user_links
-#
-#  id         :integer(4)      not null, primary key
-#  user_id    :integer(4)
-#  name       :string(255)
-#  link       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class UserLink < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :user_id, :message => _("Enter User Name")
