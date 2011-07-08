@@ -63,7 +63,7 @@
   =image_tag("icons/suiteq.png", :alt=>"suite_min.png", :title=>_('Suites containing this script'),  :onClick => remote_function(:complete => "$j('#suites_of_script').show();",:update => "suites_of_script",  :method => "get",  :url => { :controller => :circuits , :action => :get_suites_of_script, :id => @circuit.id }) )
    
   //Ruby
-  =link_to image_tag("/images/icons/ruby.png",:alt=>"ruby"), '/circuits/ruby' , :title=>_('Ruby Help') , :popup => true
+  =link_to image_tag("/images/icons/ruby.png",:alt=>"ruby"), help_path(3) , :title=>_('Ruby Help') , :popup => true
 
   //Info
   =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoCircuit').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;")
@@ -83,8 +83,8 @@
     -if @execution_running
       %div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
         =render :partial => '/case_templates/status', :locals => {:case_template_id => @execution_running.case_template_id, :execution => @execution_running}
-      //Status
-      =periodically_call_remote(:url => {:controller => "case_templates", :action => "update_status", :circuit_id => @execution_running.circuit_id, :case_template => @execution_running.case_template_id}, :condition => "!ejecucion_completa_#{@execution_running.case_template_id}", :update => 'status', :frequency => 8)
+      //Status  
+      =periodically_call_remote(:url => {:controller => :case_templates, :action => "update_status", :project_id => @circuit.project_id, :circuit_id => @execution_running.circuit_id, :case_template => @execution_running.case_template_id}, :method=>:get, :condition => "!ejecucion_completa_#{@execution_running.case_template_id}", :update => 'status', :frequency => 8)
   //Queue observer
   =render :partial => "queue_observers/queue_icon"
   %div{ :style=>"clear: both"}
