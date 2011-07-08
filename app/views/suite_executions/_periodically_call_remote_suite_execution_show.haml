@@ -25,13 +25,9 @@
 //
 %script
   suite_execution_finish = true;
-
 %th.exe{:style=>"width:250px;"}
-  //stop
-  -if !suite_execution.finished?
-    =link_to_remote image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') , :id=>"stop_#{suite_execution.id}", :style=>"height:15px;"), :url=>suite_execution_path(suite_execution.id), :method=>:delete   
-    %script
-      suite_execution_finish = false;
+  %script
+    suite_execution_finish = false;
   =suite_execution.s_status  
 %th.exe{:title=>suite_execution.time_spent,:style=>"width:220px;text-align:center;"}
   =truncate(suite_execution.time_spent.to_s + ".s", :ommision => "...", :length => 10)
