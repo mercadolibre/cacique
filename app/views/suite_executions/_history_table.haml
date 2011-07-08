@@ -49,7 +49,7 @@
       =_("No results were found")
       
 -else
-  %div{:style=>"width:95%;height:15px;"}
+  %div{:style=>"width:95%;"}
     -unless params.include? "filter"
       = will_paginate suite_executions
     -else
