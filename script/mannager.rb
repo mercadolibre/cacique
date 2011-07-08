@@ -6,7 +6,7 @@ require 'memcache'
 gem "RbYAML"
 
 
-config_file = File.read(Dir.pwd + "/config/CACIQUE.YML")
+config_file = File.read(Dir.pwd + "/config/cacique.yml")
 CONFIG = YAML.load(config_file)
 
 SERVER_IP=CONFIG[:server][:ip]
