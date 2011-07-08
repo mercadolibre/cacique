@@ -1,3 +1,9 @@
+require "rubygems"
+gem "RbYAML"
+
+config_file = File.read(RAILS_ROOT + "/config/cacique.yml")
+CONFIG = YAML.load(config_file)
+
 ADMIN_EMAIL="cacique@mercadolibre.com"
 #Datos para enviar mail desde Cacique
 EMAIL =  "cacique@mercadolibre.com"
@@ -17,10 +23,10 @@ FIRST_USER_PASS="schumann"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.13"
+CACIQUE_VERSION = "0.1.14"
 
 #funcion que calcula el ip del servidor
-require 'socket'
+#require 'socket'
 
 def local_ip
   begin
@@ -37,20 +43,23 @@ def local_ip
 ensure
   Socket.do_not_reverse_lookup = orig
 end
-LOCAL_IP=local_ip
-IP_SERVER="10.4.0.30"
 
+LOCAL_IP=local_ip
+IP_SERVER=CONFIG[:server][:ip]
+IP_DB=CONFIG[:db][:ip]
+MANNAGER_PORT=CONFIG[:mannager][:port]
 #Workers machines localip, es para mi maquina de desarrollo
 WORKERS_ADDR=[LOCAL_IP]
 WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"
 
 #Puerto del hub
-HUB_PORT = 4444
+HUB_IP = CONFIG[:hub][:ip]
+HUB_PORT = CONFIG[:hub][:port]
 #URL del hub
-HUB_URL = "http://#{IP_SERVER}:#{HUB_PORT}/"
+HUB_URL = "http://"+CONFIG[:hub][:ip]+":"+CONFIG[:hub][:port].to_s+CONFIG[:hub][:rest]
 
-IP_QUEUE=IP_SERVER
-PORT_QUEUE="22122"
+IP_QUEUE=CONFIG[:queue][:ip]
+PORT_QUEUE=CONFIG[:queue][:port]
 
 module CaciqueConf
   SEND_MAIL = true
