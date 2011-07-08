@@ -25,9 +25,11 @@
 //
 %script
   suite_execution_finish = true;
+
 %th.exe{:style=>"width:250px;"}
-  %script
-    suite_execution_finish = false;
+  -if (!suite_execution.finished?)
+    %script
+      suite_execution_finish = false;
   =suite_execution.s_status  
 %th.exe{:title=>suite_execution.time_spent,:style=>"width:220px;text-align:center;"}
   =truncate(suite_execution.time_spent.to_s + ".s", :ommision => "...", :length => 10)
