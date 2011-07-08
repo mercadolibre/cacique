@@ -29,7 +29,7 @@
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"excel_import"} 
   %h3
     =_("Import Cases")
-    %form{ :url => {:controller=>:circuits, :action=>:import,:project_id=>@circuit.project_id, :circuit=>@circuit}, :enctype => 'multipart/form-data', :method => 'post'}
+    -form_for :circuit, :url=> url_for(:controller=>:circuits, :action=>:import, :project_id=>@circuit.project_id, :circuit_id=>@circuit.id), :html => {:method => :post, :enctype => "multipart/form-data"} do
       .form{ :style=> 'margin-top:20px;'}
         %label{:for => 'upload'}
           =_("File")
@@ -37,3 +37,5 @@
           %input{ :name => "fileUpload", :type => "file" }
       .form_button{:style=>"margin-top:10px;margin-right: 20px;"}
         =submit_tag _('Import Excel')
+
+
