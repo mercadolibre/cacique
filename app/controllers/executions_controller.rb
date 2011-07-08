@@ -1,4 +1,4 @@
- #
+#
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
  #      Guerra Brenda                   brenda.guerra.7@gmail.com
@@ -34,6 +34,8 @@ class ExecutionsController < ApplicationController
   def show
     Execution
     Circuit
+    DataRecovery
+    DataRecoveryName
     #search suite runned in cache
     @execution  = Rails.cache.fetch("exec_#{params[:id]}"){Execution.find(params[:id])}
     respond_to do |format|
@@ -50,6 +52,16 @@ class ExecutionsController < ApplicationController
   end
 
 
+  #stoping execution!
+  def destroy
+    @execution=Execution.find(params[:id].to_i)
+    if @execution.user_id == current_user.id || curren_user.has_role?("root")
+      @execution.stop
+      respond_to do |format|
+        format.js 
+      end
+    end
+end
   def save_execution_config
 
     @user_configuration = UserConfiguration.find_by_user_id(current_user.id)
@@ -77,6 +89,8 @@ class ExecutionsController < ApplicationController
    SuiteExecution
    ExecutionConfigurationValue
    Circuit
+   DataRecoveryName
+   DataRecovery
       @execution = Rails.cache.fetch("exec_#{params[:id]}",:expires_in => CACHE_EXPIRE_EXEC){ Execution.find(params[:id]) }
 
       @user_configuration = UserConfiguration.find_by_user_id(current_user.id)

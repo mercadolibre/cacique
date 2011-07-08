@@ -79,6 +79,17 @@ class SuiteExecutionsController < ApplicationController
    
   end
 
+
+
+  #stoping suite_execution!
+  def destroy
+     suite_execution=SuiteExecution.find(params[:id])
+     if suite_execution.user_id == current_user.id || curren_user.has_role?("root")
+        suite_execution.stop
+        redirect_to suite_execution_path(suite_execution.id)
+     end
+  end
+
   def show_model_filter
     @show_model = params[:filter][:model]
     project ||= Project.find params[:project_id]
@@ -356,6 +367,9 @@ class SuiteExecutionsController < ApplicationController
   def update_executions_status
     Execution
     Circuit
+    DataRecovery
+    DataRecoveryName
+    SuiteExecution
     #search suite runned in cache
     execution  = Rails.cache.fetch("exec_#{params[:execution]}"){Execution.find(params[:execution])}
 
