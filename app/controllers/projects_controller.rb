@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   #get values about projects and users that will be showed on projects selects
   def box_values
        @projects = (Project.find :all).sort_by { |x| x.name.downcase }
-       @users    = (User.find :all).sort_by { |x| x.login.downcase }
+       @users    = (User.find :all).sort_by { |x| x.name.downcase }
   end
 
 
@@ -43,7 +43,6 @@ class ProjectsController < ApplicationController
 
 def index
     permit "root" do
-      @users =  User.all
       respond_to do |format|
         format.html
         format.text {render :text => @projects.inspect}
@@ -83,7 +82,7 @@ def index
   def edit
      @project    = Project.find params[:id]
      @assigments = ProjectUser.find_all_by_project_id @project.id
-     @users      = User.all
+     @users      = User.all.sort_by { |x| x.name.downcase }
   end
 
   def update

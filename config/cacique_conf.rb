@@ -1,13 +1,13 @@
 ADMIN_EMAIL="admin@myCaciqueAdmin.com"
 #Datos para enviar mail desde Cacique
-EMAIL =  "my_mail_user@my_server.com"
-EMAIL_SERVER = "surgemail.cacique.com"
-EMAIL_USER_NAME='cacique'
-EMAIL_PASS='my_secure_mail'
+EMAIL =  "user@domain.com"
+EMAIL_SERVER = "servermail"
+EMAIL_USER_NAME='user'
+EMAIL_PASS='xxxxxx'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "my_domain.com"
-LOGGING_MAIL="cacique@my_domain.com"
+EMAIL_DOMAIN = "domain"
+LOGGING_MAIL="user@domain.com"
 
 #Primer usuario Generico de la herramienta
 FIRST_USER_NAME="cacique"
@@ -17,7 +17,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.12"
+CACIQUE_VERSION = "0.1.13"
 
 #funcion que calcula el ip del servidor
 require 'socket'
