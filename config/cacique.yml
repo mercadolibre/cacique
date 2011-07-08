@@ -48,4 +48,6 @@
   :production:
     :ip: 10.4.0.30
 
+:mannager:
+  :port: 33133
 
