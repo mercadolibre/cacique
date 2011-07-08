@@ -49,9 +49,6 @@
   -if @next_version
     =image_tag("/images/icons/forward.png", :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",:onClick => "location.href='#{edit_project_circuit_path(@circuit.project_id,@circuit)}?version=#{@next_version}'", :id => "version_forward")
     
-  //Versions 
-  =image_tag("/images/icons/versions.png",:alt=>"versions.png",   :title=>_('Change History'),:onClick => "location.href='/circuits/versions/#{@circuit.id}'")
- 
   //Export
   =image_tag("/images/icons/import.png",:alt=>"export",  :title=>_('Export Script'),:onclick=>"$j('#import_circuit').show();")
   
