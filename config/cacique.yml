@@ -5,24 +5,20 @@
   :development:
     :adapter: mysql
     :encoding: utf8
-    :database: cacique_prod
+    :database: cacique_dev
     :pool: 10
-    :username: root
-    :password: mozart
+    :username: user
+    :password: passwors
     :host: localhost
   :test:
     :adapter: mysql
     :encoding: utf8
-    :database: cacique_prod
+    :database: cacique_test
     :pool: 10
-    :username: root
-    :password: mozart
+    :username: user
+    :password: password
     :host: localhost
   :production:
-    :adapter: mysql
-    :encoding: utf8
-    :database: cacique_dev
-    :pool: 10
     :username: caciquedb
     :password: mozart
     :host: 10.4.0.30
@@ -48,4 +44,5 @@
   :production:
     :ip: 10.4.0.30
 
-
+:mannager:
+  :port: 33133
