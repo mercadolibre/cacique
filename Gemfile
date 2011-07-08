@@ -97,4 +97,4 @@ gem "newrelic_rpm"
   gem "gettext_rails"
 #.....................................
 
-
+gem "RbYAML"
