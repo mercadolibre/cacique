@@ -3,16 +3,23 @@
 require "rubygems" 
 require "socket"  
 require 'memcache'
+gem "RbYAML"
 
-SERVER_IP="127.0.0.1"
+
+config_file = File.read(Dir.pwd + "/config/CACIQUE.YML")
+CONFIG = YAML.load(config_file)
+
+SERVER_IP=CONFIG[:server][:ip]
+MEMCACHED_IP=CONFIG[:memcached][:ip]
+
  
-cache = MemCache.new "#{SERVER_IP}:11211"
+cache = MemCache.new "#{MEMCACHED_IP}:11211"
 #srv=TCPServer.open(33133)
 
 class WorkerMannager
 
   def initialize
-    @cache = MemCache.new "#{SERVER_IP}:11211"
+    @cache = MemCache.new "#{MEMCACHED_IP}:11211"
    
     @ip=self.get_ip 
     puts @ip
