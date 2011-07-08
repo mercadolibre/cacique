@@ -633,7 +633,7 @@ class SuiteExecution < ActiveRecord::Base
   end
 
   def stop
-    self.executions.each{|exe| exe.stop if (exe.status == 0 ||  exe.status == 1)  }
+    self.executions.each{|exe| exe.stop if (!exe.finished?)  }
     self.calculate_status
   end
 
