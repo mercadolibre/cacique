@@ -23,7 +23,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
--javascript 'suite_execution_emails'
 -javascript 'select_all'
 -javascript 'checked_default'
 -javascript 'checkbox_lib'
@@ -31,7 +30,7 @@
 = calendar_date_select_includes "blue"
 = stylesheet_link_tag 'blue.css'
 
-.main{:style=>"width:80%;padding:1.5% 0;margin:0 auto;"}
+.main{:style=>"width:90%;padding:1.5% 0;margin:0 auto;"}
   -remote_form_for @suite_execution, :url =>{:controller=>:task_programs, :action=> :confirm}, :html => {:id => "form_to_run_suite"} do
     =text_field "execution", "where_did_i_come", :value => "new_program", :style => "display:none;"
     %h1
@@ -39,14 +38,15 @@
       =_("Suite Scheduler:")          
       .form_button
         =submit_tag _('Schedule')
-    
-    %div{:style=>"width:30%;float:left;margin-right:1%;margin-left:5%;"}
+  
+    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:25%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:49%;float:left;margin-left:1%;")   
+    %div{:style=>style_1}
       =render :partial => 'select_suites'
       =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
-    %div{:style=>"width:30%;float:left;margin-right:1%;"}
-      =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
+    %div{:style=>style_2}
       =render :partial => 'context_configurations/suite_program_config'
-    %div{:style=>"width:30%;float:left;"}
+      =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
+    %div{:style=>style_3}
       =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
 
 
