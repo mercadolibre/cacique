@@ -58,7 +58,7 @@ class ExecutionsController < ApplicationController
     if @execution.user_id == current_user.id || curren_user.has_role?("root")
       @execution.stop
       respond_to do |format|
-        format.js # run the show.rjs template
+        format.js 
       end
     end
 end
