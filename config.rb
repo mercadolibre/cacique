@@ -123,6 +123,20 @@ config.action_controller.perform_caching             = true
 
 
 
+#STARLING CONF
+
+
+starling = '#!/bin/bash
+case "$1" in
+  start)
+     exec /home/cacique/cacique/script/starling.rb -h '+CONFIG[:queue][:ip]+' >  /dev/null &
+  ;;
+  stop)
+     exec /bin/kill `/bin/cat /var/run/starling.pid`
+  ;;
+esac
+'
+
 ####
 
 
@@ -130,6 +144,7 @@ config.action_controller.perform_caching             = true
 
 
 write(Dir.pwd + "/config/database.yml",dbconf)
-write(Dir.pwd + "/script/memcached.sh",memcached)
 write(Dir.pwd + "/config/workling.yml",workling)
 write(Dir.pwd + "/config/environments/production.rb",env_prod)
+write(Dir.pwd + "/script/memcached.sh",memcached)
+write(Dir.pwd + "/script/starling",starling)
