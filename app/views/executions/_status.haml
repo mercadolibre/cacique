@@ -1,0 +1,65 @@
+//
+// @Authors:    
+//      Brizuela Lucia                  lula.brizuela@gmail.com
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+%script
+  ejecucion_completa_#{execution.id}=true
+
+//Stop
+-if (execution and !execution.finished?)
+  %script
+    ejecucion_completa_#{execution.id}=false;
+    $j("#play_#{execution.id}").hide();
+    $j("#stop_#{execution.id}").show();
+-else
+  %script
+    $j("#stop_#{execution.id}").hide();
+    $j("#play_#{execution.id}").show();
+
+-case execution.status
+  -when 0
+    =link_to image_tag("/images/icons/waiting_1.png", :style=>'border:none;', :alt=>"waiting_1.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+
+  -when 1 
+    =link_to image_tag("/images/load/spinner.gif", :style=>'border:none;', :alt => "spinner"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+
+  -when 2
+    =image_tag '/images/icons/ok_1.png', :style=>'border:none;cursor:pointer;', :alt=>'ok_1.png', :title=>execution.s_status, :onclick=> "$j('#data_#{execution.id.to_s}').show();"
+    .tag{ :id => "data_#{execution.id.to_s}", :style=>" display:none; border:1ps solid #D1E1E7; width: 270px;height: 200px;left: 480px; top: 120px;"}
+      =render :partial=>'executions/data', :locals=> {:execution=>execution}
+
+  -when 3
+    =link_to image_tag("/images/icons/fail_1.png", :style=>'border:none;', :alt => "fail_1.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+
+  -when 5
+    =link_to image_tag("/images/icons/fail_execution.png", :style=>'border:none;', :alt => "fail_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+
+  -when 6
+    =link_to image_tag("/images/icons/cancel.png", :style=>'border:none;', :alt => "cancel_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status    
+
+  -else
+    =link_to image_tag("/images/load/spinner.gif", :style=>'border:none;', :alt => "spinner"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status    
+
+
