@@ -37,31 +37,33 @@
     %th{:class => "sortable"}
       Worker
     %th{:class => "sortable"}
-      =_('Task')
-    %th{:class => "sortable"}
       =_('User')
+    %th{:class => "sortable"}
+      =_('Script')
     %th{:class => "sortable"}
       =_('Project')
     %th{:class => "sortable"}
       Suite
-    %th
+    %th{:style=>"width:5%;"}
       =_('Actions')
   -@running.each do |name, task|
     %tr
       %td
         =name.gsub("_"," ")
       -if task.instance_of? Hash
-        %td
-          =truncate(task[:circuit],:ommision => "...", :length =>50)
-        %td
+        %td{:title=>task[:user_name]}
           =truncate(task[:user_name],:ommision => "...", :length =>25)
-        %td
+        %td{:title=>task[:circuit]}
+          =truncate(task[:circuit],:ommision => "...", :length =>50)
+        %td{:title=>task[:project]}
           =truncate(task[:project],:ommision => "...", :length =>30)
-        %td
+        %td{:title=>task[:suite]}
           =truncate(task[:suite],:ommision => "...", :length =>60)
         %td
           =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(task[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
       -else
+        %td
+          \--
         %td
           \--
         %td
@@ -77,23 +79,23 @@
       =name.to_s.gsub("execution_workers__","").gsub("_"," ")
     %table.detail
       %th{ :class => "sortable"}
-        =_('Task')
-      %th{ :class => "sortable"}
         =_('User')
       %th{ :class => "sortable"}
         =_('Project')
+      %th{ :class => "sortable"}
+        =_('Task')
       -if @admin
-        %th{ :class => "sortable"}
+        %th{ :class => "sortable", :style=>"width:5%;"}
           =_('Actions')
       %tr 
       -queue.each do |tasks_values|
-        %td
-          =tasks_values[:task_name]
-        %td
-          =tasks_values[:username]
-        %td
-          =tasks_values[:project]
+        %td{:title=>tasks_values[:username]}
+          =truncate(tasks_values[:username],:ommision => "...", :length =>50)
+        %td{:title=>tasks_values[:project]}
+          =truncate(tasks_values[:project],:ommision => "...", :length =>50)
+        %td{:title=>tasks_values[:task_name]}
+          =truncate(tasks_values[:task_name],:ommision => "...", :length =>80)
         -if @admin
           %td
-            =link_to "X", {:action => "delete", :id=> tasks_values[:suite_execution_id]} if @admin
+            =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
         %tr
