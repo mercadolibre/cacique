@@ -51,7 +51,9 @@
       =render :partial=>'executions/data', :locals=> {:execution=>execution}
 
   -when 3
-    =link_to image_tag("/images/icons/fail_1.png", :style=>'border:none;', :alt => "fail_1.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+    =image_tag "/images/icons/fail_1.png", :style=>'border:none;', :alt => "fail_1.png", :title=>execution.s_status, :onclick=> "$j('#error_#{execution.id.to_s}').show();"
+    .tag{ :id => "error_#{execution.id.to_s}", :style=>"display:none;border:1ps solid #D1E1E7; width: 600px;max-height: 425px;left: 320px; top: 120px;"}
+      =render :partial=>'executions/error', :locals=> {:execution=>execution}
 
   -when 5
     =link_to image_tag("/images/icons/fail_execution.png", :style=>'border:none;', :alt => "fail_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
