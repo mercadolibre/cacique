@@ -82,7 +82,7 @@
     //Ejecution
     //Play
     -if @execution_running
-      =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :id=>"play_#{@execution_running.id}", :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'") 
+      =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :id=>"play_#{@execution_running.id}",  :style=>"margin-bottom:3px;", :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
       //stop
       =link_to_remote image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') , :id=>"stop_#{@execution_running.id}", :style=>"margin-bottom:2px;"), :url=>execution_path(@execution_running.id), :method=>:delete
       //Status
@@ -91,7 +91,7 @@
       //Status refresh 
       =periodically_call_remote(:url => {:controller=>:executions, :action => :show, :id =>  @execution_running.id}, :method=>:get, :condition => "ejecucion_completa_#{@execution_running.id} == false", :frequency => 8)
     -else
-      =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
+      =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'),  :style=>"margin-bottom:3px;", :onClick => "location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'")
    
   //Queue observer
   =render :partial => "queue_observers/queue_icon"
