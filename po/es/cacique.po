@@ -1839,6 +1839,10 @@ msgid "Complete"
 msgstr "Completa"
 
 #: app/views/suite_executions/_bar_image.haml:
+msgid "Stopped"
+msgstr "Detenida"
+
+#: app/views/suite_executions/_bar_image.haml:
 msgid "Waiting"
 msgstr "En lista de espera"
 
