@@ -100,7 +100,7 @@ class Execution < ActiveRecord::Base
       when 5
         _("Not Run")
       when 6
-        _("Stoped")
+        _("Stopped")
       else
         _("Complete")
     end
