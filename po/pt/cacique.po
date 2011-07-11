@@ -1705,6 +1705,10 @@ msgstr "Completa"
 msgid "Waiting"
 msgstr "En lista de espera"
 
+#: app/views/suite_executions/_bar_image.haml:
+msgid "Stopped"
+msgstr "Parou"
+
 #: app/views/suite_executions/_group_execution_status.haml:
 msgid "Total Time"
 msgstr "Tiempo total"

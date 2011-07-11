@@ -45,7 +45,7 @@ class SuiteExecutionsController < ApplicationController
     @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone
     @readonly    = true unless current_user.has_role?("editor", @project)
     row_per_page = (params[:filter] && params[:filter][:paginate])? params[:filter][:paginate].to_i : 12
-    @status = [  [_("all"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5] ]
+    @status = [  [_("all"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5], [_("Stoped"),6] ]
     @context_configurations = ContextConfiguration.find_all_by_enable true
 
    #show filters
