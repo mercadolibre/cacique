@@ -72,7 +72,7 @@ class SuiteExecution < ActiveRecord::Base
       when 5
         _("Not Run")
       when 6
-        ("Stoped")
+        _("Stopped")
       else
         _("Complete")
     end
