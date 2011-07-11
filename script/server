@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
+puts system "ruby config.rb"
 require File.dirname(__FILE__) + '/../config/boot'
 require 'commands/server'
