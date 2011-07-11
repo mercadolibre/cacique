@@ -19,6 +19,10 @@
     :password: password
     :host: localhost
   :production:
+    :adapter: mysql
+    :encoding: utf8
+    :database: cacique_prod
+    :pool: 10
     :username: caciquedb
     :password: mozart
     :host: 10.4.0.30
