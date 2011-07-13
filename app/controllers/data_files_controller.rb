@@ -2,8 +2,8 @@ class DataFilesController < ApplicationController
 
 
   def index 
-    path = SHARED_DIRECTORY + "/project_#{params[:project_id]}/"
-    @files = Dir.glob(path + "*")
+    path = SHARED_DIRECTORY + "/project_#{params[:project_id]}/*"
+    @files = Dir.glob(path).collect{|file| file.gsub(SHARED_DIRECTORY, "")}
   end
 
 
