@@ -3309,3 +3309,9 @@ msgstr "Nenhum arquivo"
 msgid "The added file, can be accessed from any script of the project using the File class in Ruby. For more information:"
 msgstr "O arquivo é adicionado, pode ser acessado de qualquer roteiro do projeto usando a classe File em Ruby Para mais informações:".
 
+#: app/views/data_files/index.rb:
+msgid "Example usage:"
+msgstr "Exemplo de uso:"
+
+
+
