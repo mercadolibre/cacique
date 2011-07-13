@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :execution_scaffolds, :active_scaffold => true  
 
   map.resources :projects do |projects|
+     projects.resource :data_files, :collection =>  { :index=>:get}
      projects.resources :circuits, :collection =>  { :checkit=>:post, :rename=>:get, :error=>:get, :import=>:post} do |circuits|
         circuits.resources :data_recovery_names
         circuits.resources :circuit_case_columns do |circuit_case_column|
