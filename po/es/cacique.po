@@ -3555,4 +3555,9 @@ msgid "The added file, can be accessed from any script of the project using the 
 msgstr "El archivo que se agregue, podrá ser accedido desde cualquier script del proyecto, utilizando la clase File de ruby. Para mas información:"
 
 
+#: app/views/data_files/index.rb:
+msgid "Example usage:"
+msgstr "Ejemplo de uso:"
+
+
 
