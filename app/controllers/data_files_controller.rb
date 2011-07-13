@@ -18,11 +18,16 @@ class DataFilesController < ApplicationController
       upload[:project_id] = params['project_id']
       upload[:fileUpload] = params['fileUpload'].read
       upload[:file_name]  = params['fileUpload'].original_filename
-      if DataFile.create( upload )  
-         redirect_to url_for(:action=>:index, :project_id=>params['project_id'])
-      else
-        flash.now[:error] = _('There is already a file with that name')
-        render :action => 'new'
+      begin
+         if DataFile.create( upload ) 
+           redirect_to url_for(:action=>:index, :project_id=>params['project_id'])
+         else
+            flash.now[:error] = _('There is already a file with that name')
+            render :action => 'new'
+         end
+      rescue Exception => e
+          flash.now[:error] =  e.message + "/n/n An error occurred, please check that SHARED_DIRECTORY is correctly defined in the file /config/cacique_conf"
+          render :action => 'new'        
       end
   end
 
