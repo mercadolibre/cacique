@@ -23,12 +23,11 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-%div{:id=>'status', :style=>"margin:auto;vertical-align:2px;display:inline;"}
-  //Status
-  =render :partial => 'executions/status', :locals => {:execution => execution}
-  //Log
-  -if (!execution.output.nil? and !execution.output.empty?) || (!execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?)
-    =image_tag'/images/icons/output.png',:style=>'border:none;cursor:pointer;', :alt=>'output', :title=>_("Output"), :onclick=> "$j('#output_#{execution.id.to_s}').show();"
-    .tag{ :id => "output_#{execution.id.to_s}",:style=>" display:none; left: 320px; top: 120px;width:600px; height:390px;"}
-      =render :partial=>'executions/output', :locals=> {:execution=>execution}
+//Status
+=render :partial => 'executions/status', :locals => {:execution => execution}
+//Log
+-if (!execution.output.nil? and !execution.output.empty?) || (!execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?)
+  =image_tag'/images/icons/output.png',:style=>'border:none;cursor:pointer;', :alt=>'output', :title=>_("Output"), :onclick=> "$j('#output_#{execution.id.to_s}').show();"
+  .tag{ :id => "output_#{execution.id.to_s}",:style=>" display:none; left: 320px; top: 120px;width:600px; height:390px;"}
+    =render :partial=>'executions/output', :locals=> {:execution=>execution}
 
