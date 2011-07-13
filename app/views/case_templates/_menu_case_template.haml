@@ -42,6 +42,9 @@
 //Export
 =image_tag("/images/icons/eexport.png", :alt=>"eexport.png",:title=>_('Export'),:onClick => "location='/case_templates/export/1?circuit_id=#{@circuit.id}';")
 
+//Files
+=link_to image_tag("icons/files.png", :alt=>"script", :title=>"Script"), url_for(:controller=>:data_files,:action=>:index, :project_id=>params['project_id'])
+
 //Info
 =image_tag("/images/icons/info.png",:alt=>"info.png", :title=>_('Information'),:onClick => "$j('#infoCaseTemplate').show();", :style=>"padding-right:20px;border-right: 1px solid #C6C5C4;")
 
