@@ -25,6 +25,23 @@
  #
 class DataFile 
 
+ def self.create(upload)
+     #Create directory if not exist
+     system "mkdir -p #{SHARED_DIRECTORY}/project_#{upload[:project_id]}" 
+     directory = "#{SHARED_DIRECTORY}/project_#{upload[:project_id]}"
+     #Create file path
+     path = File.join(directory, upload[:name])
+     #Verify if not exists
+     if !FileTest.exists?(SHARED_DIRECTORY + "/project_#{upload[:project_id]}/#{upload[:name]}") 
+        # Write file
+        File.open(path, "wb") { |f| f.write(upload[:fileUpload]) }        
+     else
+        return false
+     end
+ end
+
+
+ #Upload Selenium script
  def self.save(upload)
 
    text = upload[:fileUpload]
