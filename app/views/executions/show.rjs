@@ -21,6 +21,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see http://www.gnu.org/licenses/.
 #
-page.replace_html "status", :partial => 'circuits/execution', :locals=>{:execution=>@execution}
+page.replace_html "status_#{@execution.id}", :partial => 'circuits/execution', :locals=>{:execution=>@execution}
 
 
