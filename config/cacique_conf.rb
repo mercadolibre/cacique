@@ -92,7 +92,7 @@ IP_QUEUE=CONFIG[:queue][:ip]
 PORT_QUEUE=CONFIG[:queue][:port]
 
 #Directory for file sharing
-SHARED_DIRECTORY = "<file sharing route>"
+SHARED_DIRECTORY = "/home/cacique/shared/"
 
 #Circuits versions
 VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
