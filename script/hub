@@ -1,14 +1,12 @@
 #!/bin/bash
 case "$1" in
   start)
-        cd /home/cacique/cacique/extras/selenium-grid2.0rc3
-        exec nohup java -jar selenium-server-standalone-2.0rc3.jar -role hub > /dev/NULL &
-	pgrep -f selenium-server > /tmp/hub.pid
+        cd /home/cacique/cacique/extras/selenium-grid-1.0.8
+        exec nohup ant launch-hub > /dev/NULL &
+        pgrep -f launch-hub > /tmp/hub.pid
   ;;
   stop)
-	rm /tmp/hub.pid
-	kill `pgrep -f selenium-server`
+        rm /tmp/hub.pid
+        kill `pgrep -f launch-hub`
   ;;
 esac
-
-
