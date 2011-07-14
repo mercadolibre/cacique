@@ -3288,3 +3288,30 @@ msgstr "Seu usuário foi criado com sucesso, <br/> Entre em contato com "
 #: app/views/controllers/users_controller.rb:
 msgid " to activate it."
 msgstr " ativá-lo."
+
+#: app/views/data_files/new.rb:
+msgid "There is already a file with that name"
+msgstr "Já existe um arquivo com esse nome"
+
+#: app/views/data_files/new.rb:
+msgid "Files"
+msgstr "Registros"
+
+#: app/views/data_files/new.rb:
+msgid "New file"
+msgstr "Novo arquivo"
+
+#: app/views/data_files/index.rb:
+msgid "Without files"
+msgstr "Nenhum arquivo"
+
+#: app/views/data_files/index.rb:
+msgid "The added file, can be accessed from any script of the project using the File class in Ruby. For more information:"
+msgstr "O arquivo é adicionado, pode ser acessado de qualquer roteiro do projeto usando a classe File em Ruby Para mais informações:".
+
+#: app/views/data_files/index.rb:
+msgid "Example usage:"
+msgstr "Exemplo de uso:"
+
+
+
