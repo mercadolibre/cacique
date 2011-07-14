@@ -45,7 +45,7 @@
 
   .form_tag{ :style=>"float:left;margin-left:40px; width:35%;"}
     %h2{:style=>"font-size:16px;"}
-      =image_tag("icons/files.png", :alt=>"script", :title=>"Script", :style=>"width:20px; height:20px;")
+      =image_tag("icons/files.png", :alt=>"script", :title=>"Script")
       =_('Files')
     %p{:style=>"margin:20px;"}
       %i
@@ -57,6 +57,6 @@
         %i{:style=>"color:grey;"}
           =_('Example usage:')
           %br
-          File.open("\#{SHARED_DIRECTORY}/project_1/myfile")
+          File.open("\#{SHARED_DIRECTORY}/project_1/myfile", "wb")
 
 
