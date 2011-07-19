@@ -44,7 +44,8 @@ class ScriptRunner < ActiveRecord::Base
   def initialize
 		@devuelve = Hash.new
 		@output = String.new
-    Signal.trap("SIGUSR2") {$execution_thread.kill; self.stop}
+                @ccq_atomic = false
+                Signal.trap("SIGUSR2"){while @ccq_atomic do puts @ccq_atomic end; $execution_thread.kill; self.stop;}
 	end
 	
     #only for obtain position_error variable, through an extend
