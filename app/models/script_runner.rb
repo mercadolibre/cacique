@@ -45,7 +45,7 @@ class ScriptRunner < ActiveRecord::Base
 		@devuelve = Hash.new
 		@output = String.new
                 @ccq_atomic = false
-                Signal.trap("SIGUSR2"){while @ccq_atomic do puts @ccq_atomic end; $execution_thread.kill; self.stop;}
+                Signal.trap("SIGUSR2"){while @ccq_atomic do end; $execution_thread.kill; self.stop;}
 	end
 	
     #only for obtain position_error variable, through an extend
@@ -274,8 +274,9 @@ class ScriptRunner < ActiveRecord::Base
     end
     def stop
        self.execution_flag=1
-       self.execution.status=6
+       self.execution.status=6        
        self.execution.save
+       Rails.cache.write "exec_#{self.execution.id}", self.execution
     end
     
 end
