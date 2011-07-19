@@ -107,6 +107,9 @@ VERSION_MAX_FOR_FUNCTION = 5
 #Amount of executions that scheduler will create before send an alert to confirm 
 MAX_SUITE_PROGRAM = 300
 
+#Timeout that system is going to wait before stop an atomic execution
+ATOMIC_TIMEOUT = 90
+
 #Constants caching time (seconds)
 CACHE_EXPIRE_EXEC = 7200 
 CACHE_EXPIRE_SUITE_EXEC = 7200
