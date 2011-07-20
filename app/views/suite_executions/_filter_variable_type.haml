@@ -37,7 +37,7 @@
   -when 'boolean'
     =radio_button_tag "filter[context_configurations][#{context_configuration.id}]", "1", (value=="1" or value.empty?), :class=>"context_configurations_#{context_configuration.id.to_s}_class"
     =_('Yes')
-    =radio_button_tag "filter[context_configurations][#{context_configuration.id}]", "0", value=="0", :class=>"context_configurations_#{context_configuration.id.to_s}_class"
+    =radio_button_tag "filter[context_configurations][#{context_configuration.id}]", "", value=="", :class=>"context_configurations_#{context_configuration.id.to_s}_class"
     =_('No')
 
 -if value == []
