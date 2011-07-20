@@ -34,15 +34,16 @@
     =_("Select a suite to view Scheduling:")
     
   //Filter
-  =render :partial=>"filter_index"   
-  %div{ :style=>"clear: both"}  
+  -form_for :task_program, :url => {:controller => 'task_programs', :action => :index}, :html=>{:id=>"dj_actions",:style=>"margin-bottom:10px;"} do
+    =render :partial=>"filter_index"   
+    %div{ :style=>"clear: both"}  
     
-  //Table    
-  -if params[:program]
-    = will_paginate @delayed_jobs, :params => { 'program' => params[:program]},  :page => params[:paginate].to_i 
-  -else
-    = will_paginate @delayed_jobs 
-  =render :partial => "table", :locals => {:delayed_jobs => @delayed_jobs}
+    //Table    
+    -if params[:program]
+      = will_paginate @delayed_jobs, :params => { 'program' => params[:program]},  :page => params[:paginate].to_i 
+    -else
+      = will_paginate @delayed_jobs 
+    =render :partial => "table", :locals => {:delayed_jobs => @delayed_jobs}
   
 //Tools menu
 -content_for :tools_menu do
