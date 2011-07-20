@@ -599,11 +599,19 @@ class SuiteExecution < ActiveRecord::Base
 
      #Context configurations
      if params[:context_configurations]
+p params[:context_configurations]
+        #Get boolean context configuration
+        boolean_context_configuration = (ContextConfiguration.find_all_by_view_type "boolean").map(&:id)
         params[:context_configurations].each do | context_configuration_id , context_configuration_values |
-                  if !context_configuration_values.empty?
+               if (!context_configuration_values.empty? or boolean_context_configuration.include?(context_configuration_id.to_i))
+                  #Boolean
+                  if boolean_context_configuration.include?(context_configuration_id.to_i) and context_configuration_values.empty?
+                     values_sql_statment =  "('')"
+                  else
                      values_sql_statment =  "(" + context_configuration_values.collect{|ccv| "\'" + ccv + "\'"}.to_a.join(',') + ")"
-                     conditions_names  << " EXISTS (SELECT * FROM execution_configuration_values WHERE suite_executions.id = execution_configuration_values.suite_execution_id AND execution_configuration_values.context_configuration_id = #{context_configuration_id.to_i} AND execution_configuration_values.value in #{values_sql_statment})  " 
                   end
+                  conditions_names  << " EXISTS (SELECT * FROM execution_configuration_values WHERE suite_executions.id = execution_configuration_values.suite_execution_id AND execution_configuration_values.context_configuration_id = #{context_configuration_id.to_i} AND execution_configuration_values.value in #{values_sql_statment})  " 
+                end
         end
      end
 
