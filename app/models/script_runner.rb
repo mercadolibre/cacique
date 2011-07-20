@@ -30,22 +30,33 @@ require "#{RAILS_ROOT}/lib/runner/fake_oracle_logger.rb"
 class ScriptRunner < ActiveRecord::Base
 
   attr_accessor	:debug_mode
-	attr_accessor :remote_control_addr
-	attr_accessor :remote_control_port
-	attr_accessor	:data
-	attr_accessor	:devuelve
-	attr_accessor :output
-	attr_accessor	:data_recoveries
-	attr_accessor :project_id #to find required cacique functions
+  attr_accessor :remote_control_addr
+  attr_accessor :remote_control_port
+  attr_accessor	:data
+  attr_accessor	:devuelve
+  attr_accessor :output
+  attr_accessor	:data_recoveries
+  attr_accessor :project_id #to find required cacique functions
   attr_accessor :configuration_values
   attr_accessor :execution 
   attr_accessor :free_values
   attr_accessor :execution_flag
+
+  require 'timeout'
+
   def initialize
-		@devuelve = Hash.new
-		@output = String.new
-    Signal.trap("SIGUSR2") {$execution_thread.kill; self.stop}
-	end
+	@devuelve = Hash.new
+	@output = String.new
+        @ccq_atomic = false
+        Signal.trap("SIGUSR2") do
+              self.stop
+              Timeout::timeout(ATOMIC_TIMEOUT) do
+                 while @ccq_atomic do end 
+              end
+              $execution_thread.kill 
+        end
+
+   end
 	
     #only for obtain position_error variable, through an extend
     module PositionErrorHolder
@@ -273,8 +284,9 @@ class ScriptRunner < ActiveRecord::Base
     end
     def stop
        self.execution_flag=1
-       self.execution.status=6
+       self.execution.status=6        
        self.execution.save
+       Rails.cache.write "exec_#{self.execution.id}", self.execution
     end
     
 end
