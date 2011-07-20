@@ -31,11 +31,11 @@ class TaskProgramsController < ApplicationController
     @projects    = Project.all
     @users       = User.all   
     @suites      = Array.new 
-    @user_id     = (params[:program] && params[:program][:user_id])   ? params[:program][:user_id].to_i    : 0 
-    @project_id  = (params[:program] && params[:program][:project_id])? params[:program][:project_id].to_i : params[:project_id].to_i
-    @suite_id    = (params[:program] && params[:program][:suite_id])  ? params[:program][:suite_id].to_i   : 0
-    @init_date   = (params[:program] && params[:program][:init_date]) ? DateTime.strptime(params[:program][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone
-    @finish_date = params[:program] && params[:program][:finish_date]? DateTime.strptime(params[:program][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone >> 1 #One month later
+    @user_id     = (params[:filter] && params[:filter][:user_id])   ? params[:filter][:user_id].to_i    : 0 
+    @project_id  = (params[:filter] && params[:filter][:project_id])? params[:filter][:project_id].to_i : params[:project_id].to_i
+    @suite_id    = (params[:filter] && params[:filter][:suite_id])  ? params[:filter][:suite_id].to_i   : 0
+    @init_date   = (params[:filter] && params[:filter][:init_date]) ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone
+    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone >> 1 #One month later
     @weekly_trans  = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
     
     #One project selected
@@ -72,9 +72,9 @@ class TaskProgramsController < ApplicationController
       conditions_names << " user_id = ? " 
       conditions_values << @user_id
     end
-    if params[:program] && params[:program][:identifier]
+    if params[:filter] && params[:filter][:identifier]
       conditions_names << " identifier  like ? " 
-      conditions_values << '%' + params[:program][:identifier] + '%'
+      conditions_values << '%' + params[:filter][:identifier] + '%'
     end
     if @suite_id != 0
       conditions_names << " suite_id  = ? " 
@@ -86,7 +86,7 @@ class TaskProgramsController < ApplicationController
    conditions << conditions_names.join("and")  
    conditions = conditions + conditions_values
    number_per_page=10
-   number_per_page= params[:program][:paginate].to_i if params[:program] && params[:program].include?(:paginate)
+   number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
    delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
    @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
   
