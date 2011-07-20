@@ -49,11 +49,11 @@ class ScriptRunner < ActiveRecord::Base
 	@output = String.new
         @ccq_atomic = false
         Signal.trap("SIGUSR2") do
+              self.stop
               Timeout::timeout(ATOMIC_TIMEOUT) do
                  while @ccq_atomic do end 
               end
               $execution_thread.kill 
-              self.stop
         end
 
    end
