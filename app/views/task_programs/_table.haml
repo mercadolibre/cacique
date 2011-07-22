@@ -26,51 +26,49 @@
 
 -javascript 'checkbox_lib' 
  
--form_for(:delayed_job, :url=>{:controller=>"delayed_jobs", :action=>"destroy_collection"}, :html=>{:id=>"dj_actions"}) do
-  -if !delayed_jobs.empty?
-    %table.detail
-      %tr     
-        %th.def{:style => "width:3%;"}
-          %input{ :type => "checkbox", :value => "checkbox", :onClick => "ch_select_all(this, 'delayed_jobs_action');"}
-        %th
-          =_("Project")   
-        %th{:style=>"width:32%"}
-          =_("Suite")                  
-        %th
-          =_("Programmed by")            
-        %th
-          =_("Schedule")
-        %th{:style=>"min-width: 12%; max-width:12%;"}
-          =_('Identifier')
-        %th
-          =_("Status")                 
-      -delayed_jobs.each do |dj|
-        %tr  
-          %td{:style=>"padding-left:8px;width:10px;"}
-            //enabled
-            -enabled = !(current_user.has_role?("root") or dj.task_program.user_id == current_user.id)
-            =check_box_tag "delayed_jobs_action[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"delayed_jobs_action"
-          %td{:title=>dj.task_program.project.name,:style=>"width:100px;"}
-            =truncate( dj.task_program.project.name, :ommision => "...", :length => 80)               
-          %td{:title=>dj.task_program.suite.name}
-            =truncate(dj.task_program.suite.name, :ommision => "...", :length => 70)             
-          %td{:title=>dj.task_program.user.name,:style=>"width:100px;"}
-            =truncate( dj.task_program.user.name, :ommision => "...", :length => 20)                 
-          %td
-            %div{:style=>"width:80%; margin:0 auto;"}
-              %b{:style=>"width:90px;float:left;"}
-                ="#{dj.run_at.day}/#{dj.run_at.mon}/#{dj.run_at.year}"  
-              %b{:style=>"width:50px;float:left;"}
-                ="#{dj.run_at.hour}:#{dj.run_at.min}"                      
-              %div{:style=>"float:left;width:100px;"}
-                =@weekly_trans[dj.run_at.strftime('%A')] 
-          %td{:title=>dj.task_program.identifier}
-            =truncate( dj.task_program.identifier, :ommision => "...", :length => 20)                           
-          %td 
-            =dj.s_status
-  -else
-    %div{ :style=>"clear: both"}        
-    %h2
-      %i
-        =_('Without Schedule')     
-          
+-if !delayed_jobs.empty?
+  %table.detail
+    %tr     
+      %th.def{:style => "width:3%;"}
+        %input{ :type => "checkbox", :value => "checkbox", :onClick => "ch_select_all(this, 'delayed_jobs_action');"}
+      %th
+        =_("Project")   
+      %th{:style=>"width:32%"}
+        =_("Suite")                  
+      %th
+        =_("Programmed by")            
+      %th
+        =_("Schedule")
+      %th{:style=>"min-width: 12%; max-width:12%;"}
+        =_('Identifier')
+      %th
+        =_("Status")                 
+    -delayed_jobs.each do |dj|
+      %tr  
+        %td{:style=>"padding-left:8px;width:10px;"}
+          //enabled
+          -enabled = !(current_user.has_role?("root") or dj.task_program.user_id == current_user.id)
+          =check_box_tag "delayed_jobs_action[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"delayed_jobs_action"
+        %td{:title=>dj.task_program.project.name,:style=>"width:100px;"}
+          =truncate( dj.task_program.project.name, :ommision => "...", :length => 80)               
+        %td{:title=>dj.task_program.suite.name}
+          =truncate(dj.task_program.suite.name, :ommision => "...", :length => 70)             
+        %td{:title=>dj.task_program.user.name,:style=>"width:100px;"}
+          =truncate( dj.task_program.user.name, :ommision => "...", :length => 20)                 
+        %td
+          %div{:style=>"width:80%; margin:0 auto;"}
+            %b{:style=>"width:90px;float:left;"}
+              ="#{dj.run_at.day}/#{dj.run_at.mon}/#{dj.run_at.year}"  
+            %b{:style=>"width:50px;float:left;"}
+              ="#{dj.run_at.hour}:#{dj.run_at.min}"                      
+            %div{:style=>"float:left;width:100px;"}
+              =@weekly_trans[dj.run_at.strftime('%A')] 
+        %td{:title=>dj.task_program.identifier}
+          =truncate( dj.task_program.identifier, :ommision => "...", :length => 20)                           
+        %td 
+          =dj.s_status
+-else
+  %div{ :style=>"clear: both"}        
+  %h2
+    %i
+      =_('Without Schedule')    

@@ -28,7 +28,7 @@ class DelayedJobsController < ApplicationController
    #Removes a collection of Delayed Jobs
    def destroy_collection
      DelayedJob.destroy params[:delayed_jobs_action] if params[:delayed_jobs_action]
-     redirect_to "/task_programs"
+     redirect_to url_for( :controller=>:task_programs, :action=>:index, :filter=>params[:filter])
    end
 
 end
