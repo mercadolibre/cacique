@@ -129,13 +129,46 @@ config.action_controller.perform_caching             = true
 starling = '#!/bin/bash
 case "$1" in
   start)
-     exec /home/cacique/cacique/script/starling.rb -h '+CONFIG[:queue][:ip]+' >  /dev/null &
+     exec '+Dir.pwd+'/script/starling.rb -h '+CONFIG[:queue][:ip]+' >  /dev/null &
   ;;
   stop)
      exec /bin/kill `/bin/cat /var/run/starling.pid`
   ;;
 esac
 '
+
+#MANNAGER CONF
+
+mannager= '#!/bin/bash
+case "$1" in
+  start)
+        cd '+Dir.pwd+'
+        exec script/mannager.rb > /dev/null &
+        pgrep -f mann > '+Dir.pwd+'/log/task_manager.pid
+  ;;
+  stop)
+        rm '+Dir.pwd+'/log/task_manager.pid
+        kill `pgrep -f mann`
+  ;;
+esac
+'
+
+#RAKE_JOBS
+
+rake_jobs= '#!/bin/bash
+case "$1" in
+  start)
+        cd '+Dir.pwd+'
+        exec rake jobs:work RAILS_ENV=production > /dev/NULL &
+        pgrep -f jobs:work > /tmp/rake_jobs.pid
+  ;;
+  stop)
+        rm /tmp/rake_jobs.pid
+        kill `pgrep -f jobs:work`
+  ;;
+esac
+'
+
 
 ####
 
@@ -148,3 +181,8 @@ write(Dir.pwd + "/config/workling.yml",workling)
 write(Dir.pwd + "/config/environments/production.rb",env_prod)
 write(Dir.pwd + "/script/memcached.sh",memcached)
 write(Dir.pwd + "/script/starling",starling)
+write(Dir.pwd + "/script/manager",mannager)
+write(Dir.pwd + "/script/rake_jobs",rake_jobs)
+
+
+
