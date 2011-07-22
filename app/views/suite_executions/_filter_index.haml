@@ -45,7 +45,6 @@
       //Date From
       %label{:style=>"display:inline;margin-left:15px;"}
         =_('From:')
-      -value = params[:filter] && params[:filter][:init_date] ? params[:filter][:init_date]: ''
       =calendar_date_select_tag "filter[init_date]", @init_date.strftime("%d.%m.%Y %H:%M"),:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date < (new Date()).stripTime()", :popup => :force, :year_range => (DateTime.now << 24)..DateTime.now
      
       //Quantity
@@ -75,7 +74,6 @@
       //Date Until
       %label{:style=>"display:inline;margin-left:20px;"}
         =_('Until:')
-      -value = params[:filter] && params[:filter][:finish_date] ? params[:filter][:finish_date]: ''
       =calendar_date_select_tag "filter[finish_date]", @finish_date.strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date <= (new Date()).stripTime()", :popup => :force, :year_range => (DateTime.now << 24)..DateTime.now, :after_show => "set_date();",:onchange => "set_hour();"
 
       //User
