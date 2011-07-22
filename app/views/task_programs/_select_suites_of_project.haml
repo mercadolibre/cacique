@@ -24,9 +24,9 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 %label{:style=>"width:170px; float:left;"}      
-  -value = (suite_id) ? suite_id : ''
+  -value = params[:filter] && params[:filter][:suite_id]  ? params[:filter][:suite_id].to_i: ''  
   -if !suites.empty?
-    =select("program", "suite_id", suites.collect {|s| [ truncate(s.name.capitalize, :ommision => "...", :length => 60) , s.id ] }.sort!,{ :selected => value, :include_blank => "All"},{ :style=>"width:160px;"})
+    =select("filter", "suite_id", suites.collect {|s| [ truncate(s.name.capitalize, :ommision => "...", :length => 60) , s.id ] }.sort!,{ :selected => value, :include_blank => _('All')},{ :style=>"width:160px;"})
   -else
     %i
       Sin suites
