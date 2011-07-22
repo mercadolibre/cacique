@@ -1,7 +1,7 @@
 /*--------------------------------------------------|
 | dTree 2.05 | www.destroydrop.com/javascript/tree/ |
 |---------------------------------------------------|
-| Copyright (c) 2002-2003 Geir Landrö               |
+| Copyright (c) 2002-2003 Geir Landrï¿½               |
 |                                                   |
 | This script can be used freely as long as all     |
 | copyright messages are intact.                    |
@@ -199,7 +199,7 @@ dTree.prototype.s = function(id) {
 		eNew = document.getElementById("s" + this.obj + id);
 		eNew.className = "nodeSel";
 		this.selectedNode = id;
-		if (this.config.useCookies) this.setCookie('cs' + this.obj, cn.id);
+		if (this.config.useCookies) {					$j.cookie('cs' + this.obj, cn.id, { path: '/' });				}
 	}
 };
 
@@ -320,7 +320,7 @@ dTree.prototype.updateCookie = function() {
 			str += this.aNodes[n].id;
 		}
 	}
-	this.setCookie('co' + this.obj, str);
+    $j.cookie('co' + this.obj, str, { path: '/' });
 };
 
 // [Cookie] Checks if a node id is in a cookie
