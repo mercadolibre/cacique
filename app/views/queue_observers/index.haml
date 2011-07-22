@@ -44,8 +44,8 @@
       =_('Project')
     %th{:class => "sortable"}
       Suite
-    %th{:style=>"width:5%;"}
-      =_('Actions')
+    //%th{:style=>"width:5%;"}
+    //=_('Actions')
   -@running.each do |name, task|
     %tr
       %td
@@ -59,8 +59,8 @@
           =truncate(task[:project],:ommision => "...", :length =>30)
         %td{:title=>task[:suite]}
           =truncate(task[:suite],:ommision => "...", :length =>60)
-        %td
-          =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(task[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
+        //%td
+        //=link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(task[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
       -else
         %td
           \--
@@ -70,8 +70,8 @@
           \--
         %td
           \--
-        %td
-          \--
+        //%td
+        //  \--
 
 -@tasks.each do |name, queue|
   -if queue.size>0
