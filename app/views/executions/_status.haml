@@ -31,12 +31,12 @@
 -if (execution and !execution.finished?)
   %script
     ejecucion_completa_#{execution.id}=false;
-    $j("#play_#{execution.id}").hide();
-    $j("#stop_#{execution.id}").show();
--else
-  %script
-    $j("#stop_#{execution.id}").hide();
-    $j("#play_#{execution.id}").show();
+    //$j("#play_#{execution.id}").hide();
+    //$j("#stop_#{execution.id}").show();
+//-else
+//  %script
+//    $j("#stop_#{execution.id}").hide();
+//    $j("#play_#{execution.id}").show();
 
 -case execution.status
   -when 0
