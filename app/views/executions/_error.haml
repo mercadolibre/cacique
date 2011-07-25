@@ -28,7 +28,7 @@
   %h3{:style=>"color:red;"}
     Error
   %p{:style=>"height:auto;max-height:160px;width:100%;border:1px solid #C6C5C4;padding:5px;-moz-border-radius:5px;"}
-    =CGI.escapeHTML(execution.error)
+    =execution.error
   %div{ :style=>"clear: both"} 
 //POS ERROR
 -if !execution.position_error.nil? 

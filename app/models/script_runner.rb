@@ -218,7 +218,7 @@ class ScriptRunner < ActiveRecord::Base
         end
         # solo en debug mode imprime el error y el stack del error
 	  	  print "---> Error: #{e.to_s} <---\n" if debug_mode
-		    raise e
+		    raise e.message + '<br><br>'+ '<span style="color : #ff0000;">'+e.position_error+'</span>'
   		ensure
         ######################################################################
         ###########                Run script footer             ############
