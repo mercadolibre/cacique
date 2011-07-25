@@ -55,6 +55,9 @@
     .tag{ :id => "error_#{execution.id.to_s}", :style=>"display:none;border:1ps solid #D1E1E7; width: 600px;max-height: 425px;left: 320px; top: 120px;"}
       =render :partial=>'executions/error', :locals=> {:execution=>execution}
 
+  -when 4
+    =link_to image_tag("/images/icons/not_execution.png", :style=>'border:none;', :alt => "not_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+
   -when 5
     =link_to image_tag("/images/icons/fail_execution.png", :style=>'border:none;', :alt => "fail_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
 
@@ -62,6 +65,6 @@
     =link_to image_tag("/images/icons/cancel.png", :style=>'border:none;', :alt => "cancel_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status    
 
   -else
-    =link_to image_tag("/images/load/spinner.gif", :style=>'border:none;', :alt => "spinner"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status    
+    =execution.s_status   
 
 
