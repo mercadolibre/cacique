@@ -26,6 +26,7 @@
 = calendar_date_select_includes "blue"
 = stylesheet_link_tag 'blue.css'
 -javascript 'tabla_suiteExe_editable'
+-javascript 'tablesort'
 
 %script
   //Tabla editable
@@ -59,25 +60,25 @@
   -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do
     %table.detail{:id=>"executions",:name=>"table_zebra", :cellspacing=>0, :style=>"float:left;width:96%; margin-top:0px;"}
       %tr
-        %th{:style=>"width:30px;"}
+        %th{:style=>"width:30px;", :class => "sortable"}
           %input{ :type => "checkbox", :id=>"seleccion",:name => 'todos',:value => "checkbox", :onChange => "ModificarTodos(this);", :style=>"margin:0px;"}
-        %th{:style=>"width:30px;"}
+        %th{:style=>"width:30px;", :class => "sortable"}
           T
-        %th{:style=>"min-width: 12%; max-width:12%;"}
+        %th{:style=>"min-width: 12%; max-width:12%;", :class => "sortable"}
           =_('Identifier')
-        %th{:style=>"min-width: 40%; max-width:40%;"}
+        %th{:style=>"min-width: 40%; max-width:40%;", :class => "sortable"}
           =_('Name')
-        %th{:style=>"min-width: 5%; max-width:10%;"}
+        %th{:style=>"min-width: 5%; max-width:10%;", :class => "sortable"}
           =_('User')
-        %th
+        %th{:class => "sortable"}
           =_('Date')
-        %th
+        %th{:class => "sortable"}
           =_('Duration')   
-        %th{:style=>"min-width:12%;"}
+        %th{:style=>"min-width:12%;", :class => "sortable"}
           Configuration                
-        %th
+        %th{:class => "sortable"}
           Ok        
-        %th
+        %th{:style=>"min-width:6%;", :class => "sortable"}
           =_('Status')
 
       -suite_executions.each do |suite_execution|
