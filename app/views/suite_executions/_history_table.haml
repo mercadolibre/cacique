@@ -38,7 +38,6 @@
   var anterior = "";
   var color_anterior = "";
   
--no_permission_alert="alert('User has no permission to perform this action')"
 -if suite_executions.empty? && params[:filter].nil?
   %h2{:style=>"text-align:center;margin-top:10%;"}
     %i
@@ -82,39 +81,14 @@
           =_('Status')
 
       -suite_executions.each do |suite_execution|
-        -average = average(suite_execution)
         //verifies the name of the suite, or if an execution unit, the script
         -entity = (suite_execution.suite_id==0)? suite_execution.executions.first.circuit : suite_execution.suite
-        %tr{:onClick=>"marcar(this,'#D8DCDF');"}
-          %td{:style=>"width:30px;"}
-            =check_box_tag "suite_executions[]", suite_execution.id
-          %td{:style=>"width:30px;"}
-            =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
-          -#identificador
-          %td{:name=> @readonly ? "" : "edit_cell", :id=>suite_execution.id, :title => suite_execution.identifier, :ondblclick => no_permission_alert}
-            =h truncate(suite_execution.identifier, :ommision => "...", :length => 20)
-          %td{:title=>entity.name, :style=>"text-align: left;"}
-            -#Name 
-            =h truncate(entity.name, :ommision => "...", :length => 70)
-          %td
-            =h suite_execution.user.login.to_s            
-          %td
-            -#Date
-            -if suite_execution.created_at.to_s(:short).match(/0?#{Time.now.day.to_s}\/0?#{Time.now.month.to_s}\/#{Time.now.year.to_s}/)
-              =h suite_execution.created_at.to_s(:short).split("-")[0]
-            -else
-              =h suite_execution.created_at.to_s(:short).split("-")[1]
-          %td
-            =truncate(suite_execution.time_spent.to_s,:ommision => "...", :length => 10)
-            \.s       
-          %td{:style=>"width:200px;"}
-            =render :partial => 'run_configuration_values', :locals=>{:exec_conf_values=> @run_configurations[suite_execution.id]}            
+        -if entity
+          =render :partial=>'history_table_row', :locals=>{:entity =>entity, :suite_execution=>suite_execution}
+        -else
+          %tr
+            %td{:colspan=>"10"}
+              ="Error  (Please, delete Suite execution #{suite_execution.id})"
+ 
 
-          %td{:style => 'color:green;width:30px;'}
-            =h average[:success].to_s + '%'
-          %td{:style=>"width:30px;"}   
-            %div{:id=>'status_' + suite_execution.id.to_s}
-              =render :partial => 'status', :locals=>{:suite_execution => suite_execution}
-            =periodically_call_remote(:url => {:action => 'update_suite_execution_status_index', :suite_execution => suite_execution.id}, :condition => "!ejecucion_completa_#{suite_execution.id.to_s}", :update => 'status_' + suite_execution.id.to_s, :frequency => 5)
-                     
 
