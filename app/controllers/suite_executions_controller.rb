@@ -63,9 +63,11 @@ class SuiteExecutionsController < ApplicationController
          @case_names = circuit.case_templates
       end      
       #Paginate
+      @total_rate = suite_executions.count
       @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page
    else
       suite_executions = SuiteExecution.filter(@project, Hash.new)
+      @total_rate = suite_executions.count
       @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
    end
    #Get percentages of states
