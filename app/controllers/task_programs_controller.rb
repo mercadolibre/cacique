@@ -157,10 +157,10 @@ class TaskProgramsController < ApplicationController
   end
 
   def show_suites_of_project
-    if params[:program][:project_id] == ''
+    if params[:filter][:project_id] == ''
       @suites = Suite.find :all
     else
-      project = Project.find params[:program][:project_id]
+      project = Project.find params[:filter][:project_id]
       @suites= project.suites
     end
     render :partial => "select_suites_of_project", :locals => { :suites=>@suites, :suite_id=>nil }
