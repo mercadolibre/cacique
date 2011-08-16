@@ -25,37 +25,5 @@
  #
 class VersionExtras
   def self.clean_versions(type)
-    case type.downcase
-      when "circuit"
-        count = Circuit.count * VERSION_MAX_ENTRIES_FACTOR_CIRCUIT
-        size = CIRCUIT_MIN_VERSION_ENTRIES
-        
-      when "user_function"
-        count = UserFunction.count * VERSION_MAX_ENTRIES_FACTOR_FUNCTION
-        size = FUNCTION_MIN_VERSION_ENTRIES
-    end
-      
-    if Version.find_all_by_versioned_type(type).count > count
-        #delete oldest version
-        version_deleted = false
-
-        Version.find_all_by_versioned_type(type).each do |v|
-          if v.versioned
-            if v.versioned.versions
-              if v.versioned.versions.size > size
-                v.delete
-                version_deleted = true
-                break
-              end
-            end
-          end
-        end
-
-        unless version_deleted
-          v = Version.first
-          v.delete
-        end
-    end
-    
   end
 end
