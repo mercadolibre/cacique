@@ -68,6 +68,12 @@ class TaskProgramsController < ApplicationController
     conditions_values << @init_date 
     conditions_names << " run_at <= ? "    
     conditions_values << @finish_date 
+
+    if @project_id != 0   
+      conditions_names << " project_id = ? " 
+      conditions_values << @project_id
+    end
+
     if @user_id != 0   
       conditions_names << " user_id = ? " 
       conditions_values << @user_id
