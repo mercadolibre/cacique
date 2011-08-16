@@ -35,7 +35,7 @@
     %label{:style=>"width:60px; float:left;"}
       =_("Project")
     %label{:style=>"width:150px; float:left;"}  
-      -value = params[:filter] && params[:filter][:project_id]  ? params[:filter][:project_id].to_i: ''  
+      -value =(@project_id !=0) ? @project_id.to_i: ''  
       =select("filter", "project_id", @projects.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60) , p.id ] }.sort!,{ :selected => value, :include_blank => _('All')},{:onchange => remote_function(:update => "select_suites",  :method => "get",  :url => { :controllers => :task_programs, :action => :show_suites_of_project},:with => 'Form.Element.serialize(this)'), :style=>"width:160px;" })
         
   //Suite
