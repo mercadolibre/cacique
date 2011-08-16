@@ -504,10 +504,14 @@ class SuiteExecution < ActiveRecord::Base
    init_date    = params[:init_date] ? DateTime.strptime(params[:init_date], "%d.%m.%Y %H:%M"): DateTime.strptime( (DateTime.now.in_time_zone - (7*24*60*60)).to_s , "%Y-%m-%d %H:%M")#7 days after
   finish_date  = params[:init_date] ? DateTime.strptime(params[:finish_date], "%d.%m.%Y %H:%M") : DateTime.strptime(  DateTime.now.in_time_zone.to_s , "%Y-%m-%d %H:%M:%S")
 
+   #Bulid include
+    query_include     = Array.new
+
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
     conditions_names  = Array.new
+   
     #Project   
     conditions_names  <<  " suite_executions.project_id = ? "
     conditions_values <<  project.id
@@ -537,7 +541,7 @@ class SuiteExecution < ActiveRecord::Base
       conditions_values <<  status.to_i
     end        
 
-   case params[:model]
+   case params[:model] 
     #SUITES
     when "suites"
             #Programs
@@ -547,16 +551,16 @@ class SuiteExecution < ActiveRecord::Base
                tp_conditions_values = Array.new
                tp_conditions_names  = Array.new 
                if user && !user.empty? 
-                  tp_conditions_names  <<  " suite_executions.user_id = ? "
+                  tp_conditions_names  <<  " user_id = ? "
                   tp_conditions_values <<  user   
                end  
                if !params[:suite_id].empty?
-                  tp_conditions_names  << " suite_executions.suite_id  = ? " 
+                  tp_conditions_names  << " suite_id  = ? " 
                   tp_conditions_values <<  params[:suite_id]
                end    
                tp_conditions << tp_conditions_names.join("and")  
                tp_conditions = tp_conditions + tp_conditions_values                         
-               task_program_suite_executions = TaskProgram.find :all, :conditions=>tp_conditions   
+               task_program_suite_executions = TaskProgram.find :all, :conditions=>tp_conditions 
                #For all task programs get the suite_executions_ids
                suite_execution_ids = Array.new
                task_program_suite_executions.each do |tp|
@@ -583,6 +587,7 @@ class SuiteExecution < ActiveRecord::Base
             end    
       #SCRIPTS
       when  "scripts"
+            query_include << "executions"
             conditions_names  << " suite_executions.suite_id  = ? " 
             conditions_values << 0    
             #Search specific script
@@ -599,7 +604,7 @@ class SuiteExecution < ActiveRecord::Base
 
      #Context configurations
      if params[:context_configurations]
-p params[:context_configurations]
+        query_include << "execution_configuration_values"
         #Get boolean context configuration
         boolean_context_configuration = (ContextConfiguration.find_all_by_view_type "boolean").map(&:id)
         params[:context_configurations].each do | context_configuration_id , context_configuration_values |
@@ -618,7 +623,9 @@ p params[:context_configurations]
     #Build conditions
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values 
-    suite_executions = SuiteExecution.find :all, :conditions=>conditions, :order => 'suite_executions.created_at DESC', :include => [:executions, {:suite => :circuits}, :execution_configuration_values]  
+
+
+    suite_executions = SuiteExecution.find :all, :conditions=>conditions, :order => 'suite_executions.created_at DESC', :include => query_include
     return suite_executions
   end
   
