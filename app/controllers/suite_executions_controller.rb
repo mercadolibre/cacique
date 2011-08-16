@@ -61,7 +61,8 @@ class SuiteExecutionsController < ApplicationController
       if params[:filter][:circuit_id] && !params[:filter][:circuit_id].empty?
          circuit = Circuit.find params[:filter][:circuit_id]
          @case_names = circuit.case_templates
-      end      
+      end     
+
       #Paginate
       @total_rate = suite_executions.count
       @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page
