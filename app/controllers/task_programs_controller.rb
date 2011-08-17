@@ -65,9 +65,9 @@ class TaskProgramsController < ApplicationController
     conditions_values = Array.new
 
     conditions_names << " run_at >= ? " 
-    conditions_values << @init_date 
+    conditions_values << @init_date.strftime("%y-%m-%d %H:%M:%S") 
     conditions_names << " run_at <= ? "    
-    conditions_values << @finish_date 
+    conditions_values << @finish_date.strftime("%y-%m-%d %H:%M:%S") 
 
     if @project_id != 0   
       conditions_names << " project_id = ? " 
@@ -92,6 +92,7 @@ class TaskProgramsController < ApplicationController
    conditions << conditions_names.join("and")  
    conditions = conditions + conditions_values
    number_per_page=10
+   debugger
    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
    delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
    @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
