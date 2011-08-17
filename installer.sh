@@ -22,6 +22,8 @@
  sudo gem install -V rubygems-update -v 1.3.6 2>> installer.log
  sudo /var/lib/gems/1.8/bin/./update_rubygems
  sudo gem install -V bundler 2>> installer.log
+ # this is a workaround until I have more time to figure out why the $HOME/.gem dir is created as root
+ sudo chown -R $(id -nu):$(id -gn) ${HOME}/.gem
  bundle install --without development test
 echo ""
 echo ""
