@@ -34,8 +34,9 @@ class TaskProgramsController < ApplicationController
     @user_id     = (params[:filter] && params[:filter][:user_id])   ? params[:filter][:user_id].to_i    : 0 
     @project_id  = (params[:filter] && params[:filter][:project_id])? params[:filter][:project_id].to_i : params[:project_id].to_i
     @suite_id    = (params[:filter] && params[:filter][:suite_id])  ? params[:filter][:suite_id].to_i   : 0
-    @init_date   = (params[:filter] && params[:filter][:init_date]) ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone
-    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone - (2*24*60*60) #2 days later
+    @init_date   = (params[:filter] && params[:filter][:init_date]) ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): 
+DateTime.now.in_time_zone
+    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone + (2*24*60*60) #2 days after
     @weekly_trans  = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
     
     #One project selected
