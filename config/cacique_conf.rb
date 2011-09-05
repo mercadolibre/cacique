@@ -47,7 +47,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.14"
+CACIQUE_VERSION = "0.1.20"
 
 
 #Function that calculates the server ip
@@ -71,6 +71,7 @@ end
 
 
 #Ips config
+SERVER_DOMAIN="cacique.mercadolibre.com"
 LOCAL_IP=local_ip
 IP_SERVER=CONFIG[:server][:ip]
 IP_DB=CONFIG[:db][:ip]
