@@ -71,7 +71,7 @@ end
 
 
 #Ips config
-SERVER_DOMAIN="cacique.mercadolibre.com"
+SERVER_DOMAIN="cacique.ml.com"
 LOCAL_IP=local_ip
 IP_SERVER=CONFIG[:server][:ip]
 IP_DB=CONFIG[:db][:ip]
