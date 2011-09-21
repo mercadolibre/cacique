@@ -1,9 +1,9 @@
 class AddColumnPublicInUserFunction < ActiveRecord::Migration
   def self.up
-      add_column :user_functions, :public, :boolean, {:default => false}
+      add_column :user_functions, :visibility, :boolean, {:default => false}
   end
 
   def self.down
-      remove_column :user_functions, :public
+      remove_column :user_functions, :visibility
   end
 end
