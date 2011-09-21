@@ -253,13 +253,15 @@ class UserFunction < ActiveRecord::Base
     self.save
   end
 
-  def self.get_user_functions_with_filters(project,params)   
+  def self.get_user_functions_with_filters(projects,visibility, params)   
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
     conditions_names  = Array.new     
-    conditions_names  <<  " project_id = ? "
-    conditions_values <<  project.to_i
+    conditions_names  <<  " ( project_id in (?) or visibility = ? ) "
+    conditions_values <<  projects.collect{|x| x.to_i}#Ids string to integer
+    conditions_values <<  visibility
+
     if params[:filter] && params[:filter][:text]
         text = params[:filter][:text]
         conditions_names  <<  " ( name like ? or description like ? ) "
