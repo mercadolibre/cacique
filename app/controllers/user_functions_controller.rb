@@ -71,6 +71,7 @@ class UserFunctionsController < ApplicationController
                                         :project_id => params[:user_function][:project_id],
                                         :cant_args => args.length,
                                         :example => params[:user_function][:example],
+                                        :visibility => (params[:user_function][:visibility] == "1" ? true : false),
                                         :hide => (params[:user_function][:hide] == "1" ? true : false) )
                                      
       #source_code Generate
@@ -123,6 +124,7 @@ class UserFunctionsController < ApplicationController
       @user_function.description = params[:user_function][:description].to_s
       @user_function.cant_args = args.length
       @user_function.example = params[:user_function][:example]
+      @user_function.visibility = (params[:user_function][:visibility] == "1" ? true : false)
       @user_function.hide = (params[:user_function][:hide] == "1" ? true : false)
     
       #source_code Generate
