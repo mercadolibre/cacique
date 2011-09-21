@@ -81,10 +81,16 @@
       =f.text_area :description, {:rows => 6, :style => "width:750px;"}
     %br
     %br
+    -if(@user_function.project_id != 0)
+      %label{:for => "visibility"} 
+        =f.check_box :visibility, {:onClick => "$j('#visibility_message').toggle();"}
+        =_('Public the code of the function')
+        %div{:id => "visibility_message", :style => "display:#{(@user_function.visibility ? 'block' : 'none' )};color:blue;"}
+          =_("Will Public the the function")
     %label{:for => "hide"} 
-      =f.check_box :hide, {:onClick => "show_hide_message();"}
+      =f.check_box :hide, {:onClick => "$j('#hide_message').toggle();"}
       =_('Hide the code of the function')
-      %div{:id => "message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
+      %div{:id => "hide_message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
         =_("Will hide the code and the example of the function")
     %br
     %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }  
