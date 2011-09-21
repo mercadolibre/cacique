@@ -3484,11 +3484,17 @@ msgstr "Usted no tiene permisos para Ver"
 
 #: app/views/user_functions/new.haml:
 msgid "Hide the code of the function"
-msgstr "Ocultar el codigo de la función"
+msgstr "Ocultar el código de la función"
 
 #: app/views/user_functions/new.haml:
 msgid "Will hide the code and the example of the function"
 msgstr "Se ocultará el código y el ejemplo de la función"
+
+msgid "Public visibility"
+msgstr "Visibilidad pública"
+
+msgid "The function can be used by all users"
+msgstr "La función podrá ser utilizada por todos los usuarios"
 
 #: app/controllers/circuits_controller.rb
 msgid "Last Edit"
