@@ -85,9 +85,9 @@
     -if(@project_id != 0)
       %label{:for => "visibility"} 
         =f.check_box :visibility, {:onClick => "$j('#visibility_message').toggle();"}
-        =_('Public the code of the function')
+        =_('Public visibility')
         %div{:id => "visibility_message", :style => "display:#{(@user_function.visibility ? 'block' : 'none' )};color:blue;"}
-          =_("Will Public the the function")
+          =_("The function can be used by all users")
     %label{:for => "hide"} 
       =f.check_box :hide, {:onClick => "$j('#hide_message').toggle();"}
       =_('Hide the code of the function')
