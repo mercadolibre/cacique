@@ -29,7 +29,7 @@
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"div_functions"}
   %h3
     =_('Functions')
-  .data{:id => "FUNC", :style=>"height:80%;overflow:auto;"}
+  .data{:id => "FUNC", :style=>"height:80%;overflow:none;"}
     %h2{:style=>"width:100%;"}
       =_('Select the function you want to add:')
     %div{:id => "functions_div", :style => "width:35%;float:left;" }
@@ -47,28 +47,41 @@
     -@methods.each do |method|
       .div{ :id=>method.name, :name=>"div_function", :style=>'display:none;'}
         %br
-        .functionInfo{:style=>"font: 12px sans-serif;line-height:normal;width:60%;"}
+        .form_tag{:style=>"font: 12px sans-serif;line-height:normal;"}
           .title{:title=>method.name.capitalize + ":" + method.description.capitalize}
             %b
               =truncate(method.name.capitalize , :ommision => "...", :length => 30)
+            (
+            -method.cant_args.times do  |num|
+              %label{ :title => "argument_#{num}", :style=>"margin-top:5px; display: inline;"}
+                %input{ :id => method.name + '_'+ num.to_s, :name=>method.name, :type => "text", :style=>'width:80px;'}
+            )
+
+        .form_tag{:style=>"font: 12px sans-serif;line-height:normal;margin-top:10px; max-height:150px;overflow:auto;"}
+          %b
+            =_("Example")
+          %br
+          =method.example.gsub("\n","<br>")   
+          -if method.visibility
+            %br
+            %br
+            %b
+              =_("Project")
+            %br
+            =truncate(method.project.name.capitalize , :ommision => "...", :length => 30)
+          %br
+          %br
+          %b
+            =_("Description")
+          %br
           =method.description.gsub("\n","<br>")
           %br
           %br
-          %h2
-            =_("Example")
-          %br
-          =method.example.gsub("\n","<br>")               
-        .div{ :style=>'float:left; width:30%;font: 12px sans-serif;'}
           %b
-          .title
-            =method.name
-          (
-          -method.cant_args.times do  |num|
-            %label{ :title => "argument_#{num}", :style=>"margin-top:5px;"}
-              %input{ :id => method.name + '_'+ num.to_s, :name=>method.name, :type => "text", :style=>'width:80px;'}
-          )
+            =_('Created by:')
           %br
-    %br
-    %br
-    .form_button
-      %input{ :id=>"botonAgregar", :onClick =>"buscar_argumentos();", :type => "Button", :value => _("Add"), :style=>'display:none;' }
+          =truncate(method.user.name.capitalize , :ommision => "...", :length => 30)
+
+    .form_button{:style=>"margin-top:10px;margin-right:0px;"}
+      %input{ :id=>"botonAgregar", :onClick =>"buscar_argumentos();", :type => "Button", :value => _("Add"), :style=>'display:none;' }       
+
