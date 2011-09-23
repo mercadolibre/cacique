@@ -59,28 +59,35 @@
 
         .form_tag{:style=>"font: 12px sans-serif;line-height:normal;margin-top:10px; max-height:150px;overflow:auto;"}
           %b
-            =_("Example")
+            =_('Example')
           %br
           =method.example.gsub("\n","<br>")   
-          -if method.visibility
-            %br
-            %br
-            %b
-              =_("Project")
-            %br
-            =truncate(method.project.name.capitalize , :ommision => "...", :length => 30)
           %br
           %br
           %b
-            =_("Description")
+            =_('Description')
           %br
           =method.description.gsub("\n","<br>")
           %br
           %br
+          -if ((method.project_id = 0 or method.visibility) and !method.hide)
+            %b
+              =link_to  _('Show code'), {:controller=>:user_functions, :action=>:edit, :id=>method.id}, :popup=>true
+            %br
+            %br
           %b
             =_('Created by:')
           %br
           =truncate(method.user.name.capitalize , :ommision => "...", :length => 30)
+          %br
+          %br         
+          %b
+            =_('Project')
+            %br
+          = (method.project_id !=0) ? truncate(method.project.name.capitalize , :ommision => "...", :length => 30) : _('Generals')
+          %br
+          %br
+
 
     .form_button{:style=>"margin-top:10px;margin-right:0px;"}
       %input{ :id=>"botonAgregar", :onClick =>"buscar_argumentos();", :type => "Button", :value => _("Add"), :style=>'display:none;' }       
