@@ -2522,6 +2522,14 @@ msgstr "Sin Parámetros Configurables"
 msgid "Actions"
 msgstr "Acciones"
 
+#: app/views/circuits/_functions.haml:
+msgid "Select the function you want to add:"
+msgstr "Seleccione la función que desea agregar:"
+
+#: app/views/circuits/_functions.haml:
+msgid "Show code"
+msgstr "Ver código"
+
 #: app/views/circuits/_script_tutorial.haml:
 msgid "To create a Script, first must we do a right click in our Project Folder"
 msgstr "Para crear un Script, primero debemos hacer un Click-Derecho sobre la Carpeta de nuestro Proyecto"
