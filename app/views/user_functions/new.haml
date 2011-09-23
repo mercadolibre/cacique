@@ -84,12 +84,14 @@
     %br
     -if(@project_id != 0)
       %label{:for => "visibility"} 
-        =f.check_box :visibility, {:onClick => "$j('#visibility_message').toggle();"}
+        -checked_visibility = FUNCTION_VISIBILITY_DEFAULT ? 'checked' : ''
+        =f.check_box :visibility, {:onClick => "$j('#visibility_message').toggle();", :checked=>checked_visibility}
         =_('Public visibility')
         %div{:id => "visibility_message", :style => "display:#{(@user_function.visibility ? 'block' : 'none' )};color:blue;"}
           =_("The function can be used by all users")
     %label{:for => "hide"} 
-      =f.check_box :hide, {:onClick => "$j('#hide_message').toggle();"}
+      -checked_hide = FUNCTION_HIDE_DEFAULT ? 'checked' : ''
+      =f.check_box :hide, {:onClick => "$j('#hide_message').toggle();", :checked=> checked_hide}
       =_('Hide the code of the function')
       %div{:id => "hide_message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
         =_("Will hide the code and the example of the function")
