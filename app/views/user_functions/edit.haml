@@ -85,12 +85,12 @@
       %label{:for => "visibility"} 
         =f.check_box :visibility, {:onClick => "$j('#visibility_message').toggle();"}
         =_('Public visibility')
-        %div{:id => "visibility_message", :style => "display:#{(@user_function.visibility ? 'block' : 'none' )};color:blue;"}
+        %div{:id => "visibility_message", :style => "display:#{(@user_function.visibility ? '-moz-stack' : 'none' )};color:blue;"}
           =_("The function can be used by all users")
     %label{:for => "hide"} 
       =f.check_box :hide, {:onClick => "$j('#hide_message').toggle();"}
       =_('Hide the code of the function')
-      %div{:id => "hide_message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
+      %div{:id => "hide_message", :style => "display:#{(@user_function.hide ? '-moz-stack' : 'none' )};color:red;"}
         =_("Will hide the code and the example of the function")
     %br
     %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }  
@@ -150,6 +150,12 @@
       -else
         -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
       %input{:type=>"button", :value=>_("Cancel"), :onclick => "if(confirm('#{_('Are you sure you want to quit?')}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
+    %br
+    %br
+    %b
+      =_('Last modified by the user')
+      \:
+    =truncate(@last_modifier.name, :ommision => "...", :length => 30)
     %br
     %br
     

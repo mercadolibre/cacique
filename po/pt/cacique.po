@@ -1915,6 +1915,10 @@ msgid "General Functions"
 msgstr "Recursos Gerais"
 
 #: app/views/user_functions/index.haml:
+msgid "Public"
+msgstr "Público"
+
+#: app/views/user_functions/index.haml:
 msgid "Go to Functions by Projects --> "
 msgstr "Ir para Recursos do Projeto --> "
 
@@ -2441,6 +2445,30 @@ msgstr "Obrigado por escolher o Cacique!"
 #: app/views/user_functions/_functions.haml:
 msgid "Sure to remove the Function"
 msgstr "Tem certeza que quer apagar a função"
+
+#: app/views/user_functions/show.haml:
+msgid "Hidden code"
+msgstr "Código oculto"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacy"
+msgstr "privacidade"
+
+#: app/views/user_functions/show.haml:
+msgid "Public code"
+msgstr "Código público"
+
+#: app/views/user_functions/show.haml:
+msgid "Public use"
+msgstr "Uso público"
+
+#: app/views/user_functions/show.haml:
+msgid "Private use"
+msgstr "Uso privado"
+
+#: app/views/user_functions/index.haml:
+msgid "Last modified by the user"
+msgstr "Modificada pela última vez pelo usuário"
 
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"

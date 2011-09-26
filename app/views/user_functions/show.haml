@@ -1,0 +1,79 @@
+//
+// @Authors:    
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+%script{ :language => "javascript", :src => "/codepress.js" }
+
+%h1{:style=>"width:80%; float: left;"}
+  =truncate(@user_function.name.capitalize , :ommision => "...", :length => 50)
+  ()
+  =(@user_function.visibility)? image_tag("icons/multiple_user.png", :alt=>"check", :title=> _("Private use"), :style=>"margin-left:5px;"):image_tag("icons/user.png", :alt=>"user.png", :title=> _("Public use"), :style=>"margin-left:5px;")
+  =(@user_function.hide)? image_tag("icons/private.png", :alt=>"private.png", :title=> _("Hidden code"), :style=>"margin-left:5px;"):image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public code"), :style=>"margin-left:5px;")
+
+%h2{:style=>"float:right;width:20%;text-align: right;"}
+  =_('Project')
+  = (@user_function.project_id !=0) ? truncate(@user_function.project.name.capitalize , :ommision => "...", :length => 30) : _('Generals')  
+
+
+.form_tag{:style=>"font: 12px sans-serif;line-height:normal;margin-top:10px;clear:both;"}
+  %b
+    =_('Description')
+  %br
+  =@user_function.description.gsub("\n","<br>")
+  %br
+  %br
+  %b
+    =_('Example')
+  %br
+  =@user_function.example.gsub("\n","<br>") 
+  %br
+  %br
+  %div
+    .form_tag{:style=>"margin-top:10px;font-size:12px; text-align: left;"}
+      %b
+        Def 
+        -if((@user_function.project_id == 0 or @user_function.visibility or @user_function.project_id == @project_id ) and !@user_function.hide)
+          =link_to truncate(@user_function.name.capitalize , :ommision => "...", :length => 50), {:controller=>:user_functions, :action=>:edit, :id=>@user_function.id}, :popup=>true, :style=>"color: #31576F;"
+        -else
+          =truncate(@user_function.name.capitalize , :ommision => "...", :length => 50)
+        //Arguments
+        (
+        =@arguments.join(', ')
+        )
+        %div{:style=>"max-width:200px;float: right;text-align: right;"}
+          =_('By:')
+          =truncate(@user_function.user.name.capitalize , :ommision => "...", :length => 30)
+        %textarea{ :id => "codepress_content_free", :name=>"content_free", :class => "codepress ruby linenumbers-on readonly-on", :style=>"width:100%; height:335px;"}
+          =@source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r") if @source_code
+        End
+        %br
+  %br
+  %br 
+  %b
+    =_('Last modified by the user')
+    \:
+  =truncate(@last_modifier.name, :ommision => "...", :length => 30)
+  %br
+  %br
+
+

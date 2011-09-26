@@ -30,10 +30,11 @@ class UserFunctionsController < ApplicationController
   def index
     @projects   = Project.all
     @project_id = params[:filter] ? params[:filter][:project_id].to_s : ""
-    @can_move = true   
-    @search = UserFunction.get_user_functions_with_filters([ @project_id ],false, params)   
+    params[:visibility] = true if(params[:filter] and params[:filter][:project_id] == "0") #Public functions
+    @search = UserFunction.get_user_functions_with_filters([@project_id], params)   
     @user_functions = @search.paginate :page => params[:page], :per_page => 20
     @param_search = ( !params[:filter].nil? ?  params[:filter][:text] : nil )
+    @can_move = true  
     @has_permission = current_user.has_permission_admin_project?(@project_id)
   end
 
@@ -48,15 +49,12 @@ class UserFunctionsController < ApplicationController
     end
   end
 
-  def find_per_project
-    #search all project functions
-	@methods = UserFunction.find(:all,  :order => 'name ASC', :conditions => ["project_id = ? or project_id = ? or visibility = ?", 0, params[:project_id], true])  
-    render :partial => "/circuits/functions", :locals => {:methods => @methods, :param_search => ""}
-  end
-
   def find
-    @methods = UserFunction.get_user_functions_with_filters([ 0, params[:project_id] ],true,  params)
-    render :partial => "/circuits/functions", :locals => {:methods => @methods, :param_search => params[:filter][:text]}
+    #search all project functions
+    params[:visibility] = true
+    params[:logic]      = "or"
+    @user_functions = UserFunction.get_user_functions_with_filters([0, params[:project_id]],params) 
+    render :partial => "/circuits/functions", :locals => {:user_functions => @user_functions, :param_search => "", :project_id=>@project_id}
   end
 
   def create
@@ -104,14 +102,29 @@ class UserFunctionsController < ApplicationController
         @version_number = params[:version].to_i
       end
       @previous_version = @user_function.find_version('max')
-      @next_version = @user_function.find_version('min')
-      @source_code   = @user_function.show_source_code
-      @arguments     = @user_function.show_arguments 
+      @next_version     = @user_function.find_version('min')
+      @source_code      = @user_function.show_source_code
+      @arguments        = @user_function.show_arguments 
+      last_modifier     = @user_function.versions.last
+      @last_modifier    = (last_modifier)? User.find(last_modifier.user_id) : @user_function.user
     else
       redirect_to "/users/access_denied?source_uri=user_functions"
     end
   end
   
+  def show
+    @user_function  = UserFunction.find params[:id]
+    @project_id     = params[:project_id].to_i
+    if !@user_function.hide? or current_user.has_role?("root")
+      @source_code      = @user_function.show_source_code
+      @arguments        = @user_function.show_arguments 
+      last_modifier     = @user_function.versions.last
+      @last_modifier    = (last_modifier)? User.find(last_modifier.user_id) : @user_function.user
+    else
+      redirect_to "/users/access_denied?source_uri=user_functions"
+    end  
+
+  end
   
   def update
     @user_function = UserFunction.find params[:id]
