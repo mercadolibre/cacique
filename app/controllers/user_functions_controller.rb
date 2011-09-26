@@ -228,6 +228,13 @@ class UserFunctionsController < ApplicationController
       render :inline => "<%= javascript_tag(@js) %>", :layout => true
     end
   end
+
+  #scripts using the function
+  def user_function_uses
+    @user_function = UserFunction.find params[:id]
+    @scripts = Circuit.find(:all, :conditions=>["source_code like ? ", '%' + @user_function.name + '%'])
+    render :partial => "user_function_users", :locals => {:user_function =>@user_function, :scripts => @scripts,}
+  end
   
   
 end
