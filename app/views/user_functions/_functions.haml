@@ -36,50 +36,41 @@
   -else  
     %table.general{:name=>"table_zebra", :cellspacing=>"0",:style=>"border:1px solid grey;"}
       %tr
-        %th{:style=>"width:25%;border-right:1px solid grey;"}
+        %th{:style=>"border-right:1px solid grey;width:20%;"}
           =_('Name')
-        %th{:style=>"border-right:1px solid grey;"}
+          \:
+        %th{:style=>"border-right:1px solid grey;width:30%;"}
           =_('Description:')
-        %th{:style=>"width:10%;border-right:1px solid grey;"}
+        %th{:style=>"width:12%;border-right:1px solid grey;width:10%;"}
+          =_('Created by:')
+        %th{:style=>"border-right:1px solid grey;width:10%;"}
+          =_('Privacidad')
+          \:
+        %th{:style=>"width:12%;border-right:1px solid grey;width:10%;"}
           =_('Actions')
+          \:
       -user_functions.each do |function|
         %tr
-          %td{:title=>function.name, :style=>"width:25%;height:30px;border-right:1px solid #C6C5C4;font-size:12px;font-weight:bold;text-decoration:underline;cursor:pointer;", :onClick => "document.getElementById('code_#{function.id}').style.display='block';"}
-            =truncate(function.name, :ommision => "...", :length => 60)
+          %td{:title=>function.name, :style=>"height:30px;border-right:1px solid #C6C5C4;font-size:12px;font-weight:bold;"}
+            =link_to truncate(function.name, :ommision => "...", :length => 60), url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
           %td{:title=>function.description, :style=>"border-right:1px solid #C6C5C4;"}
-            =truncate(function.description, :ommision => "...", :length => 150)
+            =truncate(function.description, :ommision => "...", :length => 130)
+          %td{:title=>function.user.name, :style=>"border-right:1px solid #C6C5C4;text-align:center;"}
+            =truncate(function.user.name.capitalize , :ommision => "...", :length => 25)
+          %td{ :style=>"border-right:1px solid #C6C5C4;"}
+            %div{:style=>"margin: 0 auto; width: -moz-fit-content;"}
+              =(function.visibility)? image_tag("icons/multiple_user.png", :alt=>"check", :title=> _("Private use"), :style=>"margin-left:5px;"): image_tag("icons/user.png", :alt=>"user.png", :title=> _("Public use"), :style=>"margin-left:5px;")
+              =(function.hide)? image_tag("icons/private.png", :alt=>"private.png", :title=> _("Hidden code"), :style=>"margin-left:5px;") : (link_to image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public code"), :style=>"margin-left:5px;"), url_for(:controller => 'user_functions',:action => 'show', :id => function.id ))
+          //Actions
           %td{:style=>"width:10%;border-right:1px solid #C6C5C4;"}
-            -if @has_permission and !function.hide?
-              =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:15px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
-              -if can_move
-                %img{:src => "/images/icons/move.png", :alt=>"move.png", :title=>_('Move Function'), :style=>"height:15px;margin-left:10px;width:15px;",:onClick => remote_function(:url => {:controller => "user_functions", :action => "show_move", :id => function.id}, :complete =>  "$j('#move').show();" , :update => "move")}
-              -msg = _('Sure to remove the Function')
-              %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
-                %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Delete')}
-          
-        .tag{:id => "code_#{function.id}", :style => "display:none;top:25%;left:15%;width:70%;"}
-          //=render :partial =>"layouts/popup_header", :locals=>{:element =>"otro_#{function.id.to_s}"}
-          %img{:src => "/images/icons/cross_grey.png", :alt=>"cross_grey", :onClick => "document.getElementById('code_#{function.id}').style.display='none';", :style=>"cursor:pointer;float:right;"}
-          %h3
-            =function.name
-          %h2
-            =_('Created by:')
-            =function.user.name
-          -if function.hide?
-            %p{:style=>"min-height: 220px;max-height: 240px; overflow:auto;"}
-              %b{:style=>"float:left;font: 28px sans-serif;color: #9f0100;margin-left:3%;"}
-                =_("Access Denied")
-                %div{:style=>"font: 18px bold arial;color: grey;text-align:left;"}
-                  %br
-                  =_("You do not have View Permissions")
-            %p{:style=>"min-height: 50px;max-height: 160px; overflow:auto;"}
-          -else
-            %p{:style=>"min-height: 220px;max-height: 240px; overflow:auto;"}
-              =function.source_code.gsub("\n","<br>") 
-            %h2
-              =_('Example')
-            %p{:style=>"min-height: 50px;max-height: 160px; overflow:auto;"}
-              =function.example.gsub("\n","<br>") 
-                      
+            %div{:style=>"margin: 0 auto; width: -moz-fit-content;"}
+              -if @has_permission and !function.hide?
+                =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:5px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
+                -if can_move
+                  %img{:src => "/images/icons/move.png", :alt=>"move.png", :title=>_('Move Function'), :style=>"height:15px;margin-left:5px;width:15px;",:onClick => remote_function(:url => {:controller => "user_functions", :action => "show_move", :id => function.id}, :complete =>  "$j('#move').show();" , :update => "move")}
+                -msg = _('Sure to remove the Function')
+                %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
+                  %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:5px;height:14px;",  :title=>_('Delete')}
+                          
 .tag{:id => "move", :style => "display:none;top:25%;left:40%;width:20%;"}
 
