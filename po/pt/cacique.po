@@ -2470,6 +2470,14 @@ msgstr "Uso privado"
 msgid "Last modified by the user"
 msgstr "Modificada pela última vez pelo usuário"
 
+#: app/views/user_functions/index.haml:
+msgid "Scripts containing this function"
+msgstr "Scripts que contêm a função"
+
+#: app/views/user_functions/index.haml:
+msgid "The function is not used in any script"
+msgstr "A função não é usada em qualquer script"
+
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"
 msgstr "Tarefa Fila"
