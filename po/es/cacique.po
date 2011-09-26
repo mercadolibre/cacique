@@ -2122,6 +2122,14 @@ msgstr "Ir a Funciones Por Proyecto --> "
 msgid "Go to General Functions --> "
 msgstr "Ir a Funciones Generales --> "
 
+#: app/views/user_functions/index.haml:
+msgid "Scripts containing this function"
+msgstr "Scripts que contienen la función"
+
+#: app/views/user_functions/index.haml:
+msgid "The function is not used in any script"
+msgstr "La función no se utiliza en ningún script"
+
 #: app/views/users/_permissions.haml:
 msgid "Permissions"
 msgstr "Permisos"
