@@ -409,6 +409,10 @@ msgstr "Reintento worker: "
 msgid "Error!. Several Retries"
 msgstr "Error!. Demasiados Intentos"
 
+#: app/models/script_runner.rb:
+msgid "You are not authorized to use the function"
+msgstr "Você não está autorizado a executar a função"
+
 #: app/models/suite.rb:
 msgid "Enter a Name"
 msgstr "Ingrese un nombre"
