@@ -48,7 +48,8 @@
   =@user_function.example.gsub("\n","<br>") 
   %br
   %br
-  %div
+  //Code hide
+  -if !@user_function.hide or current_user.has_role?("root")
     .form_tag{:style=>"margin-top:10px;font-size:12px; text-align: left;"}
       %b
         Def 
@@ -67,8 +68,13 @@
           =@source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r") if @source_code
         End
         %br
+        %br
+  -else
+    %b
+      =_('Created by:')   
+    =truncate(@user_function.user.name.capitalize , :ommision => "...", :length => 30)
+    %br
   %br
-  %br 
   %b
     =_('Last modified by the user')
     \:
