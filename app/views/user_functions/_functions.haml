@@ -71,8 +71,7 @@
           %td{:style=>"width:10%;border-right:1px solid #C6C5C4;"}
             %div{:style=>"margin: 0 auto; width: -moz-fit-content;"}
               -if @has_permission
-                -if !function.hide?
-                  =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:5px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
+                =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:5px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
                 -if !@public
                   -msg = _('Sure to remove the Function')
                   %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
