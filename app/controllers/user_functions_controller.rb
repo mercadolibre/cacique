@@ -31,9 +31,9 @@ class UserFunctionsController < ApplicationController
     @projects   = Project.all
     @project_id = params[:filter] ? params[:filter][:project_id].to_s : ""
     @public, params[:visibility] = true if(params[:filter] and params[:filter][:project_id] == "0") #Public functions
-    @search         = UserFunction.get_user_functions_with_filters([@project_id], params)   
+    @search = UserFunction.get_user_functions_with_filters([@project_id], params)   
     @user_functions = @search.paginate :page => params[:page], :per_page => 20
-    @param_search   = ( !params[:filter].nil? ?  params[:filter][:text] : nil )
+    @param_search = ( !params[:filter].nil? ?  params[:filter][:text] : nil )
     @has_permission = current_user.has_permission_admin_project?(@project_id)
     @can_move = true  
   end
