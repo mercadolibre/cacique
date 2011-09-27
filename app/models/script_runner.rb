@@ -99,7 +99,7 @@ class ScriptRunner < ActiveRecord::Base
      #If I find it
      if function
          #Verify permissions
-         if !(function.project_id == self.project_id or function.visibility or function.project_id == 0)
+         if !(function.project_id == self.project_id.to_i or function.visibility or function.project_id == 0)
              # follow for nested call to improve the error on stacked functions
              stack_error=[]
              caller.each do|stack|
