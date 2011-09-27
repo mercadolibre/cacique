@@ -115,15 +115,10 @@ class UserFunctionsController < ApplicationController
   def show
     @user_function  = UserFunction.find params[:id]
     @project_id     = params[:project_id].to_i
-    if !@user_function.hide? or current_user.has_role?("root")
-      @source_code      = @user_function.show_source_code
-      @arguments        = @user_function.show_arguments 
-      last_modifier     = @user_function.versions.last
-      @last_modifier    = (last_modifier)? User.find(last_modifier.user_id) : @user_function.user
-    else
-      redirect_to "/users/access_denied?source_uri=user_functions"
-    end  
-
+    @source_code      = @user_function.show_source_code
+    @arguments        = @user_function.show_arguments 
+    last_modifier     = @user_function.versions.last
+    @last_modifier    = (last_modifier)? User.find(last_modifier.user_id) : @user_function.user
   end
   
   def update

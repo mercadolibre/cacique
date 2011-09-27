@@ -59,8 +59,16 @@
             =truncate(function.user.name.capitalize , :ommision => "...", :length => 25)
           %td{ :style=>"border-right:1px solid #C6C5C4;"}
             %div{:style=>"margin: 0 auto; width: -moz-fit-content;"}
-              =(function.visibility)? image_tag("icons/multiple_user.png", :alt=>"check", :title=> _("Private use"), :style=>"margin-left:5px;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) ) : image_tag("icons/user.png", :alt=>"user.png", :title=> _("Public use"), :style=>"margin-left:5px;")
-              =(function.hide)? image_tag("icons/private.png", :alt=>"private.png", :title=> _("Hidden code"), :style=>"margin-left:5px;") : (link_to image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public code"), :style=>"margin-left:5px;"), url_for(:controller => 'user_functions',:action => 'show', :id => function.id ))
+              //Public or private
+              -if function.visibility
+                =image_tag("icons/multiple_user.png", :alt=>"check", :title=> _("Public use"), :style=>"margin-left:5px;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) )
+              -else
+                =image_tag("icons/user.png", :alt=>"user.png", :title=> _("Private use"), :style=>"margin-left:5px;")
+              //Code hide
+              -if function.hide
+                =link_to image_tag("icons/private.png", :alt=>"private.png"), url_for(:controller => 'user_functions',:action => 'show', :id => function.id ), :title=> _("Hidden code"), :style=>"margin-left:5px;"
+              -else
+                =link_to image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public code"), :style=>"margin-left:5px;"), url_for(:controller => 'user_functions',:action => 'show', :id => function.id)
           //Actions
           %td{:style=>"width:10%;border-right:1px solid #C6C5C4;"}
             %div{:style=>"margin: 0 auto; width: -moz-fit-content;"}
