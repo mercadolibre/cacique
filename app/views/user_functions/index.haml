@@ -27,7 +27,7 @@
 
 .main
   %h1
-    -if !params[:visibility] and ( current_user.has_role?("root") or @has_permission)
+    -if !@public and ( current_user.has_role?("root") or @has_permission)
       =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function")
     =_('Functions')
   %form{ :url=>"user_functions",:id=> "form_filter", :style=>"margin-left:2%;"}
