@@ -117,67 +117,33 @@ class UserFunction < ActiveRecord::Base
   
   end
   
-  #generate function names hash
+  #search all functions names
   def self.hash_to_load_cache
     hash_functions = Hash.new
-    
-    #search all functions
-    functions = UserFunction.all
-    functions.each do |function|
-      #save function name in hash, Depending on project_id
-      hash_functions[function.project_id.to_s] = [] if hash_functions[function.project_id.to_s].nil?
-      hash_functions[function.project_id.to_s] << function.name
-    end
-  
-    hash_functions
+    return UserFunction.all.map(&:name)
   end
   
   #add function to functions hash
-
   def add_function_to_hash
     #save functions hash in cache
     Rails.cache.write("functions",UserFunction.hash_to_load_cache)
   end
   
   def delete_from_cache
-    Rails.cache.delete "func_#{self.project_id}_#{self.name}"
+    Rails.cache.delete "function_#{self.name}"
     #save functions hash in cache without deleted functions
     Rails.cache.write("functions",UserFunction.hash_to_load_cache)
   end
   
   def update_cache 
     functions = Rails.cache.read "functions"
+    old_name  = self.name
+    #Change name
     if self.changes.include?('name')
       old_name = self.changes['name'][0]
-      if functions
-        if self.changes.include?('project_id') and !self.changes['project_id'][0].nil?
-          functions[self.changes['project_id'][0].to_s].delete(old_name)
-        else
-          functions[self.project_id.to_s].delete(old_name) if old_name
-        end
-      end
-    else
-      old_name = self.name
+      Rails.cache.delete("functions") if old_name
     end
-    
-    if self.changes.include?('project_id')
-      old_project_id = self.changes['project_id'][0]
-      functions[old_project_id.to_s].delete(old_name) if functions and old_project_id
-    else
-      old_project_id = self.project_id
-    end
-    
-    Rails.cache.delete "func_#{old_project_id}_#{old_name}" if old_name and old_project_id
-  
-    if functions
-      if functions[self.project_id.to_s].nil?
-        functions[self.project_id.to_s] = [self.name]
-      elsif !functions[self.project_id.to_s].include?(self.name)
-        functions[self.project_id.to_s] << self.name
-      end
-      Rails.cache.write("functions",functions) 
-    end
-    
+      Rails.cache.delete "function_#{old_name}"
     true 
   end
   

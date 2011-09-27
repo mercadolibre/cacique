@@ -49,7 +49,7 @@
   %br
   %br
   //Code hide
-  -if !@user_function.hide or current_user.has_role?("root")
+  -if !@user_function.hide 
     .form_tag{:style=>"margin-top:10px;font-size:12px; text-align: left;"}
       %b
         Def 
