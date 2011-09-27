@@ -77,7 +77,6 @@
             =_('Project')
           = (user_function.project_id !=0) ? truncate(user_function.project.name.capitalize , :ommision => "...", :length => 30) : _('Generals')
           %b
-            ,
             =_('By:')
           =truncate(user_function.user.name.capitalize , :ommision => "...", :length => 30)        
           %br
