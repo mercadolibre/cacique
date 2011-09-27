@@ -60,12 +60,18 @@
 
 
     
-%h1
+%h1{:style=>"width:80%; float: left;"}
   =_('Edit Function')
+
+%h2{:style=>"float:right;width:20%;text-align: right;"}
+  =_('Project')
+  = (@user_function.project_id !=0) ? truncate(@user_function.project.name.capitalize , :ommision => "...", :length => 30) : _('Generals')  
+
+
 
 #checker{:style=>"display:none; "}
 
-.form{:style=>" margin-left:30px; margin-top:20px;"}
+.form{:style=>" margin-left:30px; margin-top:20px;clear:both;"}
   -form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html =>{:id=>"form_edit_free"} do |f|
     = error_messages_for :user_function
     
