@@ -1923,8 +1923,8 @@ msgid "Public"
 msgstr "Público"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to Functions by Projects --> "
-msgstr "Ir para Recursos do Projeto --> "
+msgid "Privacity"
+msgstr "Privacidade"
 
 #: app/views/circuits/_functions.haml:
 msgid "This project has no specific functions"
