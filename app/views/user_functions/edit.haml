@@ -47,19 +47,12 @@
   //For save before leave if there are changes in the Function
   window.onbeforeunload = function (evt) {
   var message = "#{_('You have Unsaved Changes, do you want to Save before Exit?')}";
-  if(!add_asterisk){
   if (evt) {
   evt.returnValue = message;
   }
   return message;
-  }
-  }   
-  function is_read_only(){
-  ="return #{@readonly}"
-  }
+  }  
 
-
-    
 %h1{:style=>"width:80%; float: left;"}
   =_('Edit Function')
 
@@ -67,12 +60,10 @@
   =_('Project')
   = (@user_function.project_id !=0) ? truncate(@user_function.project.name.capitalize , :ommision => "...", :length => 30) : _('Generals')  
 
-
-
 #checker{:style=>"display:none; "}
 
 .form{:style=>" margin-left:30px; margin-top:20px;clear:both;"}
-  -form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html =>{:id=>"form_edit_free"} do |f|
+  -remote_form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html=>{:id=>"form_edit_free"} do |f|
     = error_messages_for :user_function
     
     %label{:for => "name" } 
@@ -155,7 +146,7 @@
         -url_cancel = "/user_functions"
       -else
         -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
-      %input{:type=>"button", :value=>_("Cancel"), :onclick => "if(confirm('#{_('Are you sure you want to quit?')}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
+      %input{:type=>"button", :value=>_("Cancel"), :onclick => "location='#{url_cancel}';", :style=>"cursor:pointer;"}
     %br
     %br
     %b
