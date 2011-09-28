@@ -2119,12 +2119,8 @@ msgid "Last modified by the user"
 msgstr "Última modificación realizada por el usuario"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to Functions by Projects --> "
-msgstr "Ir a Funciones Por Proyecto --> "
-
-#: app/views/user_functions/index.haml:
-msgid "Go to General Functions --> "
-msgstr "Ir a Funciones Generales --> "
+msgid "Privacity"
+msgstr "Privacidad"
 
 #: app/views/user_functions/index.haml:
 msgid "Scripts containing this function"
