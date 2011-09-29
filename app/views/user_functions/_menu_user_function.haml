@@ -26,13 +26,18 @@
 //New
 -if !@public and ( current_user.has_role?("root") or @has_permission)
   =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function"), :id=>"new_user_funciton"
+
 //Filter
 =link_to image_tag("/images/icons/filter.png", :alt=>"filter.png", :title=>_('Filter'), :style=>"cursor:pointer;"), "/user_functions/search"
 
+//Info
+=image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoUserFunction').show();", :style=>"padding-right:20px;")
 .buscar 
   - form_for :filter, url_for(:controller=>"user_functions", :action=>"index"), :html => {:method => :get} do |f|
     = f.text_field 'project_id', :value=>@project_id, :style => 'display:none;'
     = f.text_field 'text', :value=>(@param_search.nil? ? _('Search Function') : @param_search), :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
     %input{:type=>"image",:src=>"/images/icons/search.png"}
-
+ 
+//Help 
+=render :partial => "info_user_function"
 
