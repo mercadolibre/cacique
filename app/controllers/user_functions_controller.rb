@@ -161,8 +161,12 @@ class UserFunctionsController < ApplicationController
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
       @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
-      @user_function.save 
-      @success = _('Function was successfuly updated')
+      @message = ""
+      if  @user_function.save
+        @message = _('Function was successfuly updated')
+      else
+        @user_function.errors.full_messages.each {|error|  @message << error}
+      end
       respond_to do |format|
          format.html
          format.js # run the confirm.rjs template
