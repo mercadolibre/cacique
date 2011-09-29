@@ -105,9 +105,9 @@ VERSION_MAX_ENTRIES_FACTOR_FUNCTION = 5
 FUNCTION_MIN_VERSION_ENTRIES = 5
 VERSION_MAX_FOR_FUNCTION = 5
 
-#Functions default creation
-FUNCTION_HIDE_DEFAULT = false
-FUNCTION_VISIBILITY_DEFAULT = false
+#Functions: creation default
+FUNCTION_HIDE_DEFAULT     = false
+FUNCTION_PRIVATED_DEFAULT = true
 
 #Amount of executions that scheduler will create before send an alert to confirm 
 MAX_SUITE_PROGRAM = 300
