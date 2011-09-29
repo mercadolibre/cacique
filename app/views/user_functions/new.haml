@@ -83,18 +83,14 @@
     %br
     %br
     -if(@project_id != 0)
-      %label{:for => "visibility"} 
-        -checked_visibility = FUNCTION_VISIBILITY_DEFAULT ? 'checked' : ''
-        =f.check_box :visibility, {:onClick => "$j('#visibility_message').toggle();", :checked=>checked_visibility}
-        =_('Public visibility')
-        %div{:id => "visibility_message", :style => "display:#{(@user_function.visibility ? 'block' : 'none' )};color:blue;"}
-          =_("The function can be used by all users")
-    %label{:for => "hide"} 
-      -checked_hide = FUNCTION_HIDE_DEFAULT ? 'checked' : ''
-      =f.check_box :hide, {:onClick => "$j('#hide_message').toggle();", :checked=> checked_hide}
+      %label{:for => "visibility",  :title=>_("The function can not be used by all users")}  
+        -value = FUNCTION_PRIVATED_DEFAULT ? 'checked' : ''
+        =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
+        =_('Private use')
+    %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
+      -value = FUNCTION_HIDE_DEFAULT ? 'checked' : ''
+      =f.check_box :hide, { :checked=> value}
       =_('Hide the code of the function')
-      %div{:id => "hide_message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
-        =_("Will hide the code and the example of the function")
     %br
     %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }
       %label{:for => "cant_args"}
