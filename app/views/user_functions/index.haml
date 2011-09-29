@@ -44,7 +44,7 @@
       = will_paginate @user_functions, :params => {:filter => {:text => @param_search, :project_id=> @project_id} }
     %br
     %br
-    =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move}
+    =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move, :show_project=>false}
 
 //Tools menu
 -content_for :tools_menu do
