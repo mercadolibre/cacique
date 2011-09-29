@@ -33,8 +33,8 @@ class UserFunctionsController < ApplicationController
     @project_id   = params[:filter] ?  params[:filter][:project_id].to_s : ( params[:project_id] ? params[:project_id].to_i : "")
     params[:text] = params[:filter][:text]  if( params[:filter] and params[:filter][:text] ) #Search
 
-    #Public functions
-    @public = params[:visibility] = true if( !params[:filter] or @project_id.empty? or (params[:filter] and params[:filter][:project_id] == "")) 
+    #Public functions 
+    @public = params[:visibility] = true if( (params[:filter] and params[:filter][:project_id] == "") or @project_id == "" )
 
     @search = UserFunction.get_user_functions_with_filters([@project_id], params)   
     @user_functions = @search.paginate :page => params[:page], :per_page => 20
