@@ -220,8 +220,6 @@ class UserFunction < ActiveRecord::Base
   end
 
   def self.get_user_functions_with_filters(projects,params)  
-p 'aaaaaaaaa'
-p params 
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
