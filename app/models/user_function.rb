@@ -223,27 +223,34 @@ class UserFunction < ActiveRecord::Base
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
-    conditions_names  = Array.new     
-    if params[:visibility] and  params[:logic]
+    conditions_names  = Array.new    
+ 
+    if !params[:visibility].nil?  and  !params[:logic].nil?
 	    conditions_names  <<  " ( project_id in (?) #{params[:logic]} visibility = ? ) "
 	    conditions_values <<  projects.collect{|x| x.to_i}#Ids string to integer
 	    conditions_values <<  params[:visibility]
-    elsif params[:visibility] 
+    elsif !params[:visibility].nil?
  	    conditions_names  <<  "  visibility = ?  "
-	    conditions_values <<  params[:visibility]      
-    else
+	    conditions_values <<  params[:visibility]  
+    elsif !projects.empty?
 	    conditions_names  <<  " project_id in (?)  "
 	    conditions_values <<  projects.collect{|x| x.to_i}#Ids string to integer
     end
 
-    if params[:filter] && params[:filter][:text]
-        text = params[:filter][:text]
+    if params[:text] and !params[:text].empty?
         conditions_names  <<  " ( name like ? or description like ? ) "
-        conditions_values  <<  '%' + text + '%'
-        conditions_values  <<  '%' + text + '%'
+        conditions_values <<  '%' + params[:text] + '%'
+        conditions_values <<  '%' + params[:text] + '%'
+    end
+
+    if  params[:user_id] and !params[:user_id].empty?
+        conditions_names  <<  " user_id = ?"
+        conditions_values <<  params[:user_id]
     end
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values 
+p 'sssssssssssss'
+p conditions
     search     = UserFunction.find(:all, :conditions=>conditions, :order=> "name ASC")
     return search  
   end
