@@ -110,7 +110,7 @@ class ScriptRunner < ActiveRecord::Base
             stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
             puts stack
             puts "--> " + _(" You are not authorized to perform the function ") + " #{m.to_s} (" + _('Project:') + " #{function.project.name}) <--"
-            raise "#{stack}\n -->" + _(" Method not found: ")+"#{m.to_s}"
+            raise"#{stack}\n --> " + _(" You are not authorized to perform the function ") + " #{m.to_s} (" + _('Project:') + " #{function.project.name}) <--"
          else
 	     args = x.map{|a| "#{a.to_ruby_expr}"}.join(",")
   
