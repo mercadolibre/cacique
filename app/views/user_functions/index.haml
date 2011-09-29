@@ -32,7 +32,7 @@
   //Select Project
   #select_project_div{:style => "display:#{display};"}
     %form{ :url=>"user_functions",:id=> "form_filter"}
-      =select("filter", "project_id", [[_('Public'), 0]]  +  @projects.collect {|p| [ truncate(p.name, :ommision => "...", :length => 60), p.id ] }.sort!,{ :selected => (@project_id != "") ? @project_id.to_i: @project_id,:include_blank => _('Generals')},{ :onchange=>"$j('#form_filter').submit();", :style => "width: 200px;"}) 
+      =select("filter", "project_id", [[_('Generals'), 0]]  +  @projects.collect {|p| [ truncate(p.name, :ommision => "...", :length => 60), p.id ] }.sort!,{ :selected => (@project_id != "") ? @project_id.to_i: @project_id,:include_blank => _('Public')},{ :onchange=>"$j('#form_filter').submit();", :style => "width: 200px;"}) 
   
   //Table
   -if @user_functions.empty?
