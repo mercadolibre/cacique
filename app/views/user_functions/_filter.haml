@@ -65,7 +65,7 @@
           %br
           -@projects.each do |project|
             %div{:title=>project.name.capitalize,:style=>'color:#848484;'}
-              -value = (params[:filter] and params[:filter][:projects_ids] and params[:filter][:projects_ids].include?(project.id.to_s))
+              -value = ( (!params[:filter] and params[:project_id] and project.id == params[:project_id].to_i) or (params[:filter] and params[:filter][:projects_ids] and params[:filter][:projects_ids].include?(project.id.to_s)) )
               = check_box_tag '[filter][projects_ids][]', project.id, value, :class=>'project_ids'
               = truncate(project.name.capitalize, :ommision => '...', :length => 30)
 
