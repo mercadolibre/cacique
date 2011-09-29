@@ -37,7 +37,7 @@
   -else
     %div{ :style=>"float:right;"}
       = will_paginate @user_functions, :params => {:filter => params[:filter] }
-    =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move, :paginate => true}
+    =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move, :paginate => true, :show_project=>true}
 
 //Tools menu
 -content_for :tools_menu do
