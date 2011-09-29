@@ -27,8 +27,8 @@
 %h1{:style=>"width:80%; float: left;"}
   =truncate(@user_function.name.capitalize , :ommision => "...", :length => 50)
   ()
-  =(@user_function.visibility)? image_tag("icons/multiple_user.png", :alt=>"check", :title=> _("Private use"), :style=>"margin-left:5px;"):image_tag("icons/user.png", :alt=>"user.png", :title=> _("Public use"), :style=>"margin-left:5px;")
-  =(@user_function.hide)? image_tag("icons/private.png", :alt=>"private.png", :title=> _("Hidden code"), :style=>"margin-left:5px;"):image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public code"), :style=>"margin-left:5px;")
+  =(@user_function.visibility)? image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public use"), :style=>"margin-left:5px;"):image_tag("icons/private.png", :alt=>"private.png", :title=> _("Private use"), :style=>"margin-left:5px;")
+  =(@user_function.hide)? image_tag("icons/eye_disabled.png", :alt=>"eye_disabled.png", :title=> _("Hidden code"), :style=>"margin-left:5px;"):image_tag("icons/eye.png", :alt=>"eye.png", :title=> _("Public code"), :style=>"margin-left:5px;")
 
 %h2{:style=>"float:right;width:20%;text-align: right;"}
   =_('Project')
