@@ -3534,11 +3534,11 @@ msgstr "Ocultar el código de la función"
 msgid "Will hide the code and the example of the function"
 msgstr "Se ocultará el código y el ejemplo de la función"
 
-msgid "Public visibility"
-msgstr "Visibilidad pública"
+msgid "Private use"
+msgstr "Uso privado"
 
-msgid "The function can be used by all users"
-msgstr "La función podrá ser utilizada por todos los usuarios"
+msgid "The function can not be used by all users"
+msgstr "La función no puede ser utilizada por todos los usuarios"
 
 #: app/controllers/circuits_controller.rb
 msgid "Last Edit"

@@ -156,7 +156,7 @@ class UserFunctionsController < ApplicationController
       @user_function.description = params[:user_function][:description].to_s
       @user_function.cant_args = args.length
       @user_function.example = params[:user_function][:example]
-      @user_function.visibility = (params[:user_function][:visibility] == "1" ? true : false)
+      @user_function.visibility = ( params[:user_function][:visibility] == "1" ) 
       @user_function.hide = (params[:user_function][:hide] == "1" ? true : false)
       #source_code Generate
       code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
