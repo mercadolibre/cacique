@@ -55,7 +55,10 @@ class UserFunctionsController < ApplicationController
           params_filter[:logic] = Hash.new
           params_filter[:logic] = "and" 
        end
-    end
+     else
+        params_filter[:projects_ids] = [params[:project_id].to_i] if params[:project_id]
+     end
+
     @search         = UserFunction.get_user_functions_with_filters(params_filter[:projects_ids],params_filter) if !params_filter.empty?
     @user_functions = @search.paginate :page => params[:page], :per_page => 20 if @search
     @projects       = Project.find(:all, :order => "name")
