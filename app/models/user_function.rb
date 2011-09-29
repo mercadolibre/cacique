@@ -219,7 +219,9 @@ class UserFunction < ActiveRecord::Base
     self.save
   end
 
-  def self.get_user_functions_with_filters(projects,params)   
+  def self.get_user_functions_with_filters(projects,params)  
+p 'aaaaaaaaa'
+p params 
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
@@ -249,8 +251,7 @@ class UserFunction < ActiveRecord::Base
     end
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values 
-p 'sssssssssssss'
-p conditions
+
     search     = UserFunction.find(:all, :conditions=>conditions, :order=> "name ASC")
     return search  
   end
