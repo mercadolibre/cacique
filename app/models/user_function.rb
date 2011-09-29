@@ -249,7 +249,6 @@ class UserFunction < ActiveRecord::Base
     end
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values 
-
     search     = UserFunction.find(:all, :conditions=>conditions, :order=> "name ASC")
     return search  
   end
