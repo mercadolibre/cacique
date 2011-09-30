@@ -82,11 +82,15 @@
       =f.text_area :description, {:rows => 6, :style => "width:750px;"}
     %br
     %br
-    %label{:for => "hide"} 
-      =f.check_box :hide, {:onClick => "show_hide_message();"}
+    -if(@project_id != 0)
+      %label{:for => "visibility",  :title=>_("The function can not be used by all users")}  
+        -value = FUNCTION_PRIVATED_DEFAULT ? 'checked' : ''
+        =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
+        =_('Private use')
+    %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
+      -value = FUNCTION_HIDE_DEFAULT ? 'checked' : ''
+      =f.check_box :hide, { :checked=> value}
       =_('Hide the code of the function')
-      %div{:id => "message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
-        =_("Will hide the code and the example of the function")
     %br
     %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }
       %label{:for => "cant_args"}
@@ -140,7 +144,4 @@
       %input{:type=>"button", :value=> _("Cancel"), :onclick => "if(confirm('#{_("Are you sure you want to quit?")}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
     %br
     %br
-    
-//Tools menu
--content_for :tools_menu do
-  =render :partial=> "admin/menu_admin"
+

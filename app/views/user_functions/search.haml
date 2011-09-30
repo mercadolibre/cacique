@@ -1,6 +1,5 @@
 //
 //  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
 //      Guerra Brenda                   brenda.guerra.7@gmail.com
 //      Crosa Fernando                  fernandocrosa@hotmail.com
 //      Branciforte Horacio             horaciob@gmail.com
@@ -28,26 +27,19 @@
 .main
   %h1
     =_('Functions')
+  =render :partial => "filter"
 
-  //Select Project
-  #select_project_div{:style => "display:#{display};"}
-    %form{ :url=>"user_functions",:id=> "form_filter"}
-      =select("filter", "project_id", [[_('Generals'), 0]]  +  @projects.collect {|p| [ truncate(p.name, :ommision => "...", :length => 60), p.id ] }.sort!,{ :selected => (@project_id != "") ? @project_id.to_i: @project_id,:include_blank => _('Public')},{ :onchange=>"$j('#form_filter').submit();", :style => "width: 200px;"}) 
-  
-  //Table
-  -if @user_functions.empty?
-    %h2
-      %i
-        =_('This project has no specific functions')
+  -if @user_functions.empty? 
+    -if params[:filter]
+      %h2
+        %i
+          =_("No results were found")
   -else
     %div{ :style=>"float:right;"}
-      = will_paginate @user_functions, :params => {:filter => {:text => @param_search, :project_id=> @project_id} }
-    %br
-    %br
-    =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move}
+      = will_paginate @user_functions, :params => {:filter => params[:filter] }
+    =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move, :paginate => true}
 
 //Tools menu
 -content_for :tools_menu do
-  =render :partial =>"menu_user_function"
-
+  =link_to image_tag("/images/icons/filter.png",:alt=>"filter.png",:title=>_('Filter')),  "/user_functions"
 

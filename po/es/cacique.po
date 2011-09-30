@@ -449,6 +449,10 @@ msgstr "Reintento worker: "
 msgid "Error!. Several Retries"
 msgstr "Error!. Demasiados Intentos"
 
+#: app/models/script_runner.rb:
+msgid "You are not authorized to use the function"
+msgstr "No tiene permisos para ejecutar la función"
+
 #: app/models/suite.rb:
 msgid "Enter a Name"
 msgstr "Ingrese un nombre"
@@ -2103,12 +2107,36 @@ msgid "General Functions"
 msgstr "Funciones Generales"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to Functions by Projects --> "
-msgstr "Ir a Funciones Por Proyecto --> "
+msgid "Privacy"
+msgstr "Privacidad"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to General Functions --> "
-msgstr "Ir a Funciones Generales --> "
+msgid "Public"
+msgstr "Públicas"
+
+#: app/views/user_functions/index.haml:
+msgid "Last modified by the user"
+msgstr "Última modificación realizada por el usuario"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacity"
+msgstr "Privacidad"
+
+#: app/views/user_functions/index.haml:
+msgid "Scripts containing this function"
+msgstr "Scripts que contienen la función"
+
+#: app/views/user_functions/index.haml:
+msgid "The function is not used in any script"
+msgstr "La función no se utiliza en ningún script"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "A function is a piece of code that has a specific objective, which is executed when called from another function or script"
+msgstr "Una función es un fragmento de código que tiene un objetivo específico, que se ejecuta cuando es llamada desde otra función o script"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "Create a function in the selected project. At the time of its creation is possible to use the property for public or private use and the option to hide the code of the function or leave visible"
+msgstr "Crea una función en el proyecto seleccionado. Al momento de su creación  es posible utilizar la propiedad de uso público o privado y la opción de ocultar el código de la función o dejarlo visible"
 
 #: app/views/users/_permissions.haml:
 msgid "Permissions"
@@ -2522,6 +2550,14 @@ msgstr "Sin Parámetros Configurables"
 msgid "Actions"
 msgstr "Acciones"
 
+#: app/views/circuits/_functions.haml:
+msgid "Select the function you want to add:"
+msgstr "Seleccione la función que desea agregar:"
+
+#: app/views/circuits/_functions.haml:
+msgid "Show code"
+msgstr "Ver código"
+
 #: app/views/circuits/_script_tutorial.haml:
 msgid "To create a Script, first must we do a right click in our Project Folder"
 msgstr "Para crear un Script, primero debemos hacer un Click-Derecho sobre la Carpeta de nuestro Proyecto"
@@ -2649,6 +2685,22 @@ msgstr "Gracias por elegir Cacique!"
 #: app/views/user_functions/_functions.haml:
 msgid "Sure to remove the Function"
 msgstr "¿Esta seguro que desea eliminar la Función"
+
+#: app/views/user_functions/show.haml:
+msgid "Hidden code"
+msgstr "Código oculto"
+
+#: app/views/user_functions/show.haml:
+msgid "Public code"
+msgstr "Código público"
+
+#: app/views/user_functions/show.haml:
+msgid "Public use"
+msgstr "Uso público"
+
+#: app/views/user_functions/show.haml:
+msgid "Private use"
+msgstr "Uso privado"
 
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"
@@ -3484,11 +3536,17 @@ msgstr "Usted no tiene permisos para Ver"
 
 #: app/views/user_functions/new.haml:
 msgid "Hide the code of the function"
-msgstr "Ocultar el codigo de la función"
+msgstr "Ocultar el código de la función"
 
 #: app/views/user_functions/new.haml:
 msgid "Will hide the code and the example of the function"
 msgstr "Se ocultará el código y el ejemplo de la función"
+
+msgid "Private use"
+msgstr "Uso privado"
+
+msgid "The function can not be used by all users"
+msgstr "La función no puede ser utilizada por todos los usuarios"
 
 #: app/controllers/circuits_controller.rb
 msgid "Last Edit"
