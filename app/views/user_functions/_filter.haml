@@ -1,0 +1,84 @@
+//
+//  @Authors:
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+-javascript 'checkbox_lib'
+
+.filter{:style => "width:55%;float: left;margin-right: 10px;"}
+  -form_for :user_function, :url => url_for(:controller => :user_functions, :action => :search) do
+    .form_tag{:style=>"margin-bottom:10px;height: 120px;"}
+      %div{:style=>"float:left;"}
+        //Name or description
+        %label{:style=>"display:inline-block;"}
+          =_('Name')
+          \/
+          %br
+          =_('Description')
+          \:
+        -value = params[:filter] && params[:filter][:text]  ? params[:filter][:text] : ''
+        =text_field("filter", "text", {:value=>value, :style => "color:black ;width: 150px;margin-left:10px;"})
+        %br
+        %br
+
+        //Created by
+        %label{:style=>"display:inline-block;width:80px;"}
+          =_('Created by:')
+        -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i : ''
+        =select("filter", "user_id", @users.collect {|u| [ truncate(u.name.capitalize, :ommision => "...", :length => 60), u.id ] }.sort!,{ :selected => value, :include_blank => _('All')},{ :style => "width: 132px; margin-right: 10px;"})  
+        %br
+        %br
+        //Public 
+        %label{:style=>"display:inline-block;width:80px;"}
+          =_('Privacity')
+          \:
+        -value = (params[:filter] and !params[:filter][:visibility].nil?) ? params[:filter][:visibility].to_s : ""
+        =select("filter", "visibility", [[_('Public use'), "true" ],[_('Private use'), "false" ]],{ :selected => value, :include_blank => _('All')},{ :style => "width: 132px; "}) 
+
+      %div{:style=>" display: inline-table;margin-left: 20px;"}
+        //Projects
+        %label{:style=>" display:inline;"}
+          =_('Projects:')
+        .form_tag{:style=>'max-height: 80px; width: 95%; overflow: auto; padding: 5px; margin-bottom: 10px;clear:both;float: left;'}
+          = check_box_tag '[filter][projects_ids][]', 0, false, :onClick => "ch_select_all(this, 'projects_ids');disable_all($j(this).is(':checked'), 'project_ids');"
+          %b{:style=>'color:#848484;'}
+            All
+          %br
+          -@projects.each do |project|
+            %div{:title=>project.name.capitalize,:style=>'color:#848484;'}
+              -value = ( (!params[:filter] and params[:project_id] and project.id == params[:project_id].to_i) or (params[:filter] and params[:filter][:projects_ids] and params[:filter][:projects_ids].include?(project.id.to_s)) )
+              = check_box_tag '[filter][projects_ids][]', project.id, value, :class=>'project_ids'
+              = truncate(project.name.capitalize, :ommision => '...', :length => 30)
+
+      //Submit
+      .form_button{:style=>"float: right;  margin: 0 0 0 3%;"}
+        %label
+          =submit_tag _("Apply")
+    
+-if !@params_filter[:projects_ids].empty?
+  .form_tag{:style=>"margin-bottom:10px;float:left;height: 120px; width: 20%; overflow: auto;" }
+    -@params_filter[:projects_ids].each do |project_id|
+      .form_tag{:style=>"height:10px;margin-bottom:5px;"}
+        =truncate(@projects_names[project_id.to_i], :ommision => "...", :length => 30)
+
+
+%div{:style=>"clear:both;"}
