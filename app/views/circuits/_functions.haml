@@ -29,46 +29,60 @@
   =render :partial =>"layouts/popup_header", :locals=>{:element =>"div_functions"}
   %h3
     =_('Functions')
-  .data{:id => "FUNC", :style=>"height:80%;overflow:auto;"}
+  .data{:id => "FUNC", :style=>"height:80%;overflow:none;"}
     %h2{:style=>"width:100%;"}
       =_('Select the function you want to add:')
     %div{:id => "functions_div", :style => "width:35%;float:left;" }
       %select{ :id => "functions", :onChange=>"document.getElementById('botonAgregar').style.display=''; activarDiv(this.value)", :style => "width:90%;" }
         %option{ :label => "none", :selected => "-Seleccione-", :value => "-Seleccione-" } -Seleccione-    
-        -@methods.each do |method|
-          %option{ :label => "none", :value =>  method.name, :title=>method.name.capitalize }
-            =truncate(method.name, :ommision => "...", :length => 30)
+        -user_functions.each do |user_function|
+          %option{ :label => "none", :value =>  user_function.name, :title=>user_function.name.capitalize }
+            =truncate(user_function.name, :ommision => "...", :length => 30)
     -remote_form_for :user_function, :url => { :controller => 'user_functions', :action => 'find'}, :complete => visual_effect(:highlight,'functions_div'), :update => "div_with_functions", :html => {:style => "float:left;width:30%;margin-left:35%;"} do
       .buscar
         =text_field 'filter', 'text', :value=>(param_search.empty? ? _('Search Function') : param_search), :style => 'width: 130px', :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
         %input{:type=>"image",:src=>"/images/icons/search.png"}
     %br
     %br
-    -@methods.each do |method|
-      .div{ :id=>method.name, :name=>"div_function", :style=>'display:none;'}
+    -user_functions.each do |user_function|
+      .div{ :id=>user_function.name, :name=>"div_function", :style=>'display:none;'}
         %br
-        .functionInfo{:style=>"font: 12px sans-serif;line-height:normal;width:60%;"}
-          .title{:title=>method.name.capitalize + ":" + method.description.capitalize}
+        .form_tag{:style=>"font: 12px sans-serif;line-height:normal;"}
+          .title{:title=>user_function.name.capitalize + ":" + user_function.description.capitalize}
             %b
-              =truncate(method.name.capitalize , :ommision => "...", :length => 30)
-          =method.description.gsub("\n","<br>")
-          %br
-          %br
-          %h2
-            =_("Example")
-          %br
-          =method.example.gsub("\n","<br>")               
-        .div{ :style=>'float:left; width:30%;font: 12px sans-serif;'}
+              -if((user_function.project_id == 0 or user_function.visibility or user_function.project_id == params[:project_id].to_i ) and !user_function.hide)
+                =link_to truncate(user_function.name.capitalize , :ommision => "...", :length => 30), {:controller=>:user_functions, :action=>:show, :id=>user_function.id}, :popup=>true
+              -else
+                =truncate(user_function.name.capitalize , :ommision => "...", :length => 30)
+            (
+            -user_function.cant_args.times do  |num|
+              %label{ :title => "argument_#{num}", :style=>"margin-top:5px; display: inline;"}
+                %input{ :id => user_function.name + '_'+ num.to_s, :name=>user_function.name, :type => "text", :style=>'width:80px;'}
+            )
+
+        .form_tag{:style=>"font: 12px sans-serif;line-height:normal;margin-top:10px; max-height:150px;overflow:auto;"}
           %b
-          .title
-            =method.name
-          (
-          -method.cant_args.times do  |num|
-            %label{ :title => "argument_#{num}", :style=>"margin-top:5px;"}
-              %input{ :id => method.name + '_'+ num.to_s, :name=>method.name, :type => "text", :style=>'width:80px;'}
-          )
+            =_('Example')
           %br
-    %br
-    %br
-    .form_button
-      %input{ :id=>"botonAgregar", :onClick =>"buscar_argumentos();", :type => "Button", :value => _("Add"), :style=>'display:none;' }
+          =user_function.example.gsub("\n","<br>")   
+          %br
+          %br
+          %b
+            =_('Description')
+          %br
+          =user_function.description.gsub("\n","<br>")
+          %br
+          %br
+          %b
+            =_('Project')
+          = (user_function.project_id !=0) ? truncate(user_function.project.name.capitalize , :ommision => "...", :length => 30) : _('Generals')
+          %b
+            =_('By:')
+          =truncate(user_function.user.name.capitalize , :ommision => "...", :length => 30)        
+          %br
+          %br
+
+
+    .form_button{:style=>"margin-top:10px;margin-right:0px;"}
+      %input{ :id=>"botonAgregar", :onClick =>"buscar_argumentos();", :type => "Button", :value => _("Add"), :style=>'display:none;' }       
+
