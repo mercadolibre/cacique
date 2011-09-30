@@ -2130,6 +2130,14 @@ msgstr "Scripts que contienen la función"
 msgid "The function is not used in any script"
 msgstr "La función no se utiliza en ningún script"
 
+#: app/views/user_functions/_info_user_function.haml:
+msgid "A function is a piece of code that has a specific objective, which is executed when called from another function or script"
+msgstr "Una función es un fragmento de código que tiene un objetivo específico, que se ejecuta cuando es llamada desde otra función o script"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "Create a function in the selected project. At the time of its creation is possible to use the property for public or private use and the option to hide the code of the function or leave visible"
+msgstr "Crea una función en el proyecto seleccionado. Al momento de su creación  es posible utilizar la propiedad de uso público o privado y la opción de ocultar el código de la función o dejarlo visible"
+
 #: app/views/users/_permissions.haml:
 msgid "Permissions"
 msgstr "Permisos"
