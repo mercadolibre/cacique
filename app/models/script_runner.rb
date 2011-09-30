@@ -45,98 +45,104 @@ class ScriptRunner < ActiveRecord::Base
   require 'timeout'
 
   def initialize
-	@devuelve = Hash.new
-	@output = String.new
-        @ccq_atomic = false
-        Signal.trap("SIGUSR2") do
-              self.stop
-              Timeout::timeout(ATOMIC_TIMEOUT) do
-                 while @ccq_atomic do end 
-              end
-              $execution_thread.kill 
-        end
+      @devuelve = Hash.new
+      @output = String.new
+      @ccq_atomic = false
+      Signal.trap("SIGUSR2") do
+         self.stop
+         Timeout::timeout(ATOMIC_TIMEOUT) do
+            while @ccq_atomic do end 
+         end
+         $execution_thread.kill 
+      end
+  end
+	
 
-   end
-	
-    #only for obtain position_error variable, through an extend
-    module PositionErrorHolder
-      attr_accessor	:position_error
-    end
+  #only for obtain position_error variable, through an extend
+  module PositionErrorHolder
+    attr_accessor	:position_error
+  end
 	
 	
-    def evaluate_data( dat )	
+  def evaluate_data( dat )	
       #Class String
-      return dat if dat.instance_of? String
-		
+      return dat if dat.instance_of? String	
       #Class Symbol
       return self.data[dat] if dat.instance_of? Symbol
-
       #Class Hash
-	  if dat.instance_of? Hash
-	     if dat[:default]
-		    return self.evaluate_data( dat[:default] )
-		 end
-		 raise "No se puede encontrar cadena correspondiente al site para "+"#{dat.inspect}"
-	  end
-		
+      if dat.instance_of? Hash
+	 if dat[:default]
+	    return self.evaluate_data( dat[:default] )
+	 end
+	 raise "No se puede encontrar cadena correspondiente al site para "+"#{dat.inspect}"
+      end	
       #Class Fixnum o Bignum
-	  return dat.to_s if dat.instance_of? Fixnum or dat.instance_of? Bignum
-
+      return dat.to_s if dat.instance_of? Fixnum or dat.instance_of? Bignum
       return dat
-	end
-  #to generate cacique's functions
-	def method_missing(m,*x)
-	  UserFunction
-	   #I search the function in cache
-	   #function = UserFunction.find_by_name(m.to_s)
-	   function = Rails.cache.read "func_0_#{m.to_s}"
-	   if function.nil?
-	     function = Rails.cache.read "func_#{project_id}_#{m.to_s}"
-          if function.nil?
-            #if is an uncached function, looked in function array
-            func_hash = Rails.cache.fetch("functions"){ UserFunction.hash_to_load_cache }
-            func_hash[self.project_id.to_s] = [] if func_hash[self.project_id.to_s].nil?
-            if func_hash[self.project_id.to_s].include?(m.to_s)
-              #if exists, but not cached, I search it in db and caching
-              function = UserFunction.find_by_name(m.to_s)
-              Rails.cache.write("func_#{project_id}_#{m.to_s}", function, :expires_in => CACHE_FUNCTIONS)
-            elsif func_hash["0"].include?(m.to_s)
-              #if exists, but not cached, I search it in db and caching
-              function = UserFunction.find_by_name(m.to_s)
-              Rails.cache.write("func_0_#{m.to_s}", function, :expires_in => CACHE_FUNCTIONS)
-            end
-          end
-        end
+  end
 
-       #If I find it
-       if function
+
+  #to generate cacique's functions
+  def method_missing(m,*x)
+     UserFunction
+     #I search the function in cache
+     function = Rails.cache.read "function_#{m.to_s}"
+     if !function
+          #if is an uncached function, looked in function array
+          user_functions = Rails.cache.fetch("functions"){ UserFunction.hash_to_load_cache }
+          if user_functions.include?(m.to_s)
+             #if exists, but not cached, I search it in db and caching
+             function = UserFunction.find_by_name(m.to_s)
+             Rails.cache.write("function_#{m.to_s}", function, :expires_in => CACHE_FUNCTIONS)
+          end
+     end
+     #If I find it
+     if function
+         #Verify permissions
+         if !(function.project_id == self.project_id.to_i or function.visibility or function.project_id == 0)
+             # follow for nested call to improve the error on stacked functions
+             stack_error=[]
+             caller.each do|stack|
+                if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
+                  stack_error << stack
+                end
+            end
+            stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
+            puts stack
+            puts "--> " + _(" You are not authorized to perform the function ") + " #{m.to_s} (" + _('Project:') + " #{function.project.name}) <--"
+            raise"#{stack}\n --> " + _(" You are not authorized to perform the function ") + " #{m.to_s} (" + _('Project:') + " #{function.project.name}) <--"
+         else
 	     args = x.map{|a| "#{a.to_ruby_expr}"}.join(",")
   
 	     #search the object to add the function
 	     new_object = ObjectSpace._id2ref(self.object_id)
 	   
 	     #define function to finded object
-         eval(function.source_code)
+             eval(function.source_code)
 	   
 	     #function run
 	     eval("new_object." + m.to_s+"("+args+")")
-	   else
-        # follow for nested call to improve the error on stacked functions
-        stack_error=[]
-        caller.each do|stack|
-          if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
-             stack_error << stack
-          end
-        end
-        stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
-        puts stack
-        puts "-->" + _("Method not found: ")+"#{m.to_s} <--"
-        raise "#{stack}\n -->" + _(" Method not found: ")+"#{m.to_s}"
-	   end
-	end
-	
-	#Script Run
-	def run_source_code( file_code )
+         end
+     else
+       # follow for nested call to improve the error on stacked functions
+       stack_error=[]
+       caller.each do|stack|
+         if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
+            stack_error << stack
+         end
+       end
+       stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
+       puts stack
+       puts "-->" + _("Method not found: ")+"#{m.to_s} <--"
+       raise "#{stack}\n -->" + _(" Method not found: ")+"#{m.to_s}"
+     end
+
+  end
+
+
+
+  #Script Run
+  def run_source_code( file_code )
     execution.ip=local_ip
     execution.pid=$$
     execution.save
