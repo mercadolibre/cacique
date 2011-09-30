@@ -24,9 +24,9 @@
 //
 -javascript 'checkbox_lib'
 
-.filter{:style => "width:55%;"}
+.filter{:style => "width:55%;float: left;margin-right: 10px;"}
   -form_for :user_function, :url => url_for(:controller => :user_functions, :action => :search) do
-    .form_tag{:style=>"margin-bottom:10px;"}
+    .form_tag{:style=>"margin-bottom:10px;height: 120px;"}
       %div{:style=>"float:left;"}
         //Name or description
         %label{:style=>"display:inline-block;"}
@@ -73,5 +73,12 @@
       .form_button{:style=>"float: right;  margin: 0 0 0 3%;"}
         %label
           =submit_tag _("Apply")
+    
+-if !@params_filter[:projects_ids].empty?
+  .form_tag{:style=>"margin-bottom:10px;float:left;height: 120px; width: 20%; overflow: auto;" }
+    -@params_filter[:projects_ids].each do |project_id|
+      .form_tag{:style=>"height:10px;margin-bottom:5px;"}
+        =truncate(@projects_names[project_id.to_i], :ommision => "...", :length => 30)
 
-  %div{:style=>"clear:both;"}
+
+%div{:style=>"clear:both;"}
