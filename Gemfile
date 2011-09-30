@@ -62,7 +62,6 @@ gem "commonwatir", '1.6.2'
 gem "daemons"
 gem "eventmachine", '0.12.8'
 gem "hoe", '2.3.2'
-gem "polyglot"
 gem "ruby-graphviz", '0.9.20'
 gem "ruby-ole"
 gem "rubyforge"
@@ -73,7 +72,6 @@ gem "SyslogLogger"
 gem "treetop"
 gem "user-choices"
 gem "annotate-models"
-gem "polyglot"
 gem "calendar_date_select"
 gem "ruby-openid"
 gem "camping"
@@ -88,6 +86,7 @@ gem "newrelic_rpm"
 #...............GETTEXT.............
   gem 'locale'
   gem 'locale_rails', '2.0.6', :git=> "https://github.com/scambra/locale_rails.git"
+#  gem 'locale_rails', '2.0.5', :path=> "extras/locale_rails/"
   gem "gettext"
   gem "gettext_activerecord"
   gem "gettext_rails"
