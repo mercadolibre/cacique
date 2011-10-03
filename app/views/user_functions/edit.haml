@@ -65,7 +65,6 @@
 .form{:style=>" margin-left:30px; margin-top:20px;clear:both;"}
   -remote_form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html=>{:id=>"form_edit_free"} do |f|
     = error_messages_for :user_function
-    
     %label{:for => "name" } 
       =_('Name')
       %br
@@ -112,14 +111,6 @@
         =_('Code')
         %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
         #definition{:style=>"width: 100 px;"}
-          //Sintax check
-          =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
-          //Versions
-          -if @previous_version
-            %img{:src => "/images/icons/backward.png", :alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@previous_version}'", :id => "version_back", :style=>"cursor:pointer;"}
-          -if @next_version
-            %img{:src => "/images/icons/forward.png",  :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@next_version}'", :id => "version_forward", :style=>"cursor:pointer;"}
- 
           %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
           %div{:id => "function_head"}
             Def
@@ -136,21 +127,23 @@
         %br
         =f.text_area :example, {:rows => 6, :style => "width:750px;"}
       %br
-      %br
-    %br  
-    %div{ :style => "float:right;" }
-      = submit_tag _('Save'),:onclick => "sendContent();" ,:style => "margin-right:10px;cursor:pointer;"
-      -if @user_function.project_id == 0
-        -url_cancel = "/user_functions"
-      -else
-        -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
-      %input{:type=>"button", :value=>_("Cancel"), :onclick => "location='#{url_cancel}';", :style=>"cursor:pointer;"}
-    %br
-    %br
+      %br 
     %b
       =_('Last modified by the user')
       \:
     =truncate(@last_modifier.name, :ommision => "...", :length => 30)
     %br
     %br
+
+//Tools menu
+-content_for :tools_menu do
+  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_edit_free').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;")
+
+  //Sintax check
+  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
+  //Versions
+  -if @previous_version
+    %img{:src => "/images/icons/backward.png", :alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@previous_version}'", :id => "version_back", :style=>"cursor:pointer;"}
+  -if @next_version
+    %img{:src => "/images/icons/forward.png",  :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@next_version}'", :id => "version_forward", :style=>"cursor:pointer;"}
     
