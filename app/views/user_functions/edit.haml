@@ -65,6 +65,7 @@
 .form{:style=>" margin-left:30px; margin-top:20px;clear:both;"}
   -remote_form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html=>{:id=>"form_edit_free"} do |f|
     = error_messages_for :user_function
+    #errors
     %label{:for => "name" } 
       =_('Name')
       %br
