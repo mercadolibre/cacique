@@ -121,7 +121,9 @@ class ScriptRunner < ActiveRecord::Base
              eval(function.source_code)
 	   
 	     #function run
+             print " ============================ Calling #{m.to_s}  \n" if (debug_mode and m.to_s != "initialize_run_script" and m.to_s != "finalize_run_script" and m.to_s != "error_run_script")
 	     eval("new_object." + m.to_s+"("+args+")")
+             print " *********************************************** Exit from #{m.to_s}  \n" if (debug_mode and m.to_s != "initialize_run_script" and m.to_s != "finalize_run_script" and m.to_s != "error_run_script")
          end
      else
        # follow for nested call to improve the error on stacked functions
@@ -133,8 +135,8 @@ class ScriptRunner < ActiveRecord::Base
        end
        stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
        puts stack
-       puts "-->" + _("Method not found: ")+"#{m.to_s} <--"
-       raise "#{stack}\n -->" + _(" Method not found: ")+"#{m.to_s}"
+       puts "\n-->" + _("Method not found: ")+"#{m.to_s} <--\n"
+       raise "\n#{stack}\n -->" + _(" Method not found: ")+"#{m.to_s}\n"
      end
 
   end
@@ -223,7 +225,7 @@ class ScriptRunner < ActiveRecord::Base
             e.position_error = _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
         end
         # solo en debug mode imprime el error y el stack del error
-	  	  print "---> Error: #{e.to_s} <---\n" if debug_mode
+	  	  print "\n---> Error: #{e.to_s} <---\n" if debug_mode
 		    raise e.message + '<br><br>'+ '<span style="color : #ff0000;">'+e.position_error+'</span>'
   		ensure
         ######################################################################
