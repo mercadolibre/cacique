@@ -24,54 +24,59 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 -javascript 'tablesort'
+-javascript 'checkbox_lib'
+
 %h1{:title=>"Queue Observer"}
   =_('Queue Observer')
 
 %h2
   =_('Running Tasks')
-  -if @admin
-    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"Refresh workers info", :title=>"Refresca los pids de los workers"), :action => "refresh"
 
-%table.detail
-  %tr
-    %th{:class => "sortable"}
-      Worker
-    %th{:class => "sortable"}
-      =_('User')
-    %th{:class => "sortable"}
-      =_('Script')
-    %th{:class => "sortable"}
-      =_('Project')
-    %th{:class => "sortable"}
-      Suite
-  -@running.each do |name, task|
+-form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:refresh}, :html => {:id => "form"} do 
+  %table.detail{:style=> "margin: 5px auto;width: 95%;"}
     %tr
-      %td
-        =name.gsub("_"," ")
-      -if task.instance_of? Hash
-        %td{:title=>task[:user_name]}
-          =truncate(task[:user_name],:ommision => "...", :length =>25)
-        %td{:title=>task[:circuit]}
-          =truncate(task[:circuit],:ommision => "...", :length =>50)
-        %td{:title=>task[:project]}
-          =truncate(task[:project],:ommision => "...", :length =>30)
-        %td{:title=>task[:suite]}
-          =truncate(task[:suite],:ommision => "...", :length =>60)
-      -else
+      %th{:style=>"width:10px;"}
+        = check_box_tag '[workers][]', 0, false, :onClick => "ch_select_all(this, 'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');"
+      %th{:class => "sortable"}
+        Worker
+      %th{:class => "sortable"}
+        =_('User')
+      %th{:class => "sortable"}
+        =_('Script')
+      %th{:class => "sortable"}
+        =_('Project')
+      %th{:class => "sortable"}
+        Suite
+    -@running.each do |name, task|
+      %tr
         %td
-          \--
+          =check_box_tag "workers[]", name, false, :class=>'workers_ids'
         %td
-          \--
-        %td
-          \--
-        %td
-          \--
+          =name.gsub("_"," ")
+        -if task.instance_of? Hash
+          %td{:title=>task[:user_name]}
+            =truncate(task[:user_name],:ommision => "...", :length =>25)
+          %td{:title=>task[:circuit]}
+            =truncate(task[:circuit],:ommision => "...", :length =>50)
+          %td{:title=>task[:project]}
+            =truncate(task[:project],:ommision => "...", :length =>30)
+          %td{:title=>task[:suite]}
+            =truncate(task[:suite],:ommision => "...", :length =>60)
+        -else
+          %td
+            \--
+          %td
+            \--
+          %td
+            \--
+          %td
+            \--
 
 -@tasks.each do |name, queue|
   -if queue.size>0
     %h2
       =name.to_s.gsub("execution_workers__","").gsub("_"," ")
-    %table.detail
+    %table.detail{:style=> "margin: 5px auto;width: 95%;"}
       %th{ :class => "sortable"}
         =_('User')
       %th{ :class => "sortable"}
@@ -93,3 +98,16 @@
           %td
             =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
         %tr
+
+
+//Tools menu
+-content_for :tools_menu do
+  -if @admin
+    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"refresh.png", :title=>"Refresca los pids de los workers"), :action => "refresh"
+    =image_tag "icons/restart.png", :style=>'border:none;', :alt=>"restart.png", :title=>"Restart", :onclick=>"$j('#form').submit();"
+  //Info
+  =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoQueueObserver').show();", :style=>"padding-right:20px;")
+
+//Help 
+=render :partial => "info_queue_observer"
+

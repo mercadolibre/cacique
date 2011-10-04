@@ -2710,6 +2710,14 @@ msgstr "Cola de Tareas"
 msgid "Conection Error"
 msgstr "Error al conectarse"
 
+#: app/views/queue_observers/index.haml:
+msgid "Restarting the worker"
+msgstr "Reinicio del worker"
+
+#: app/views/queue_observers/index.haml:
+msgid "Update the job queue"
+msgstr "Actualizar la cola de tareas"
+
 #: app/controllers/application_controllers.rb:
 msgid "Invalid Action"
 msgstr "Acción Invalida"
