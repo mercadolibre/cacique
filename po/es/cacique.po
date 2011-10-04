@@ -2123,12 +2123,12 @@ msgid "Privacity"
 msgstr "Privacidad"
 
 #: app/views/user_functions/index.haml:
-msgid "Scripts containing this function"
-msgstr "Scripts que contienen la función"
+msgid "could be being used in"
+msgstr "podría estar siendo utilizada en"
 
 #: app/views/user_functions/index.haml:
-msgid "The function is not used in any script"
-msgstr "La función no se utiliza en ningún script"
+msgid "The function is not used"
+msgstr "La función no se utiliza"
 
 #: app/views/user_functions/_info_user_function.haml:
 msgid "A function is a piece of code that has a specific objective, which is executed when called from another function or script"
