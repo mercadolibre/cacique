@@ -35,7 +35,6 @@
   var key=(event.charCode)?event.charCode:((event.keyCode)?event.keyCode:((event.which)?event.which:0));
   if (add_asterisk){
   if((key == 13) || (key == 8) || ( (key >= 41) && (key <= 255) )){
-  document.getElementById('modified_file').innerHTML = '*';
   add_asterisk = false;
   }
   }
@@ -67,8 +66,9 @@
 #checker{:style=>"display:none; "}
 
 .form{:style=>" margin-left:30px; margin-top:20px;"}
-  -form_for @user_function, :url => { :controller => "user_functions",:action => 'create'} do |f|
+  -remote_form_for @user_function, :url => { :controller => "user_functions",:action => 'create'},  :html=>{:id=>"form_new"} do |f|
     = error_messages_for :user_function
+    #errors
     =f.text_field :project_id, {:style => "display:none;"}
     %label{:for => "name" } 
       =_('Name')
@@ -116,8 +116,6 @@
         =_('Code')
         %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
         #definition{:style=>"width: 100 px;"}
-          =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
-          %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
           %div{:id => "function_head"}
             Def
         %input{ :type => "hidden", :name => "content",         :value => "" }
@@ -132,16 +130,15 @@
         =_('Example')
         %br
         =f.text_area :example, {:rows => 6, :style => "width:750px;"}
-      %br
-      %br
-    %br  
-    %div{ :style => "float:right;" }
-      = submit_tag _('Create'),:onclick => "sendContent();" ,:style => "margin-right:10px;cursor:pointer;"
-      -if @user_function.project_id == 0
-        -url_cancel = "/user_functions"
-      -else
-        -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
-      %input{:type=>"button", :value=> _("Cancel"), :onclick => "if(confirm('#{_("Are you sure you want to quit?")}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
     %br
     %br
+
+
+//Tools menu
+-content_for :tools_menu do
+  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_new').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;")
+
+  //Sintax check
+  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
+
 

@@ -108,18 +108,12 @@ class UserFunctionsController < ApplicationController
       #source_code Generate
       code = params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
       @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
-
-      if @user_function.save
-        @func_mod = _("Function was created Successfuly")
-        # function create confirmation and redirect to function list
-        @js = "top.location='/user_functions/#{@user_function.id}/edit' ; alert('#{@func_mod}')"
-        render :inline => "<%= javascript_tag(@js) %>", :layout => true
-      else
-        @source_code = code
-        @arguments = args
-        render :action => "new"    
+      @message = ""
+      @message = _("Function was created Successfuly") if @user_function.save
+      respond_to do |format|
+         format.html
+         format.js # run the create.rjs template
       end
-    
     else
       redirect_to "/users/access_denied?source_uri=user_functions"
     end
@@ -177,7 +171,7 @@ class UserFunctionsController < ApplicationController
       end
       respond_to do |format|
          format.html
-         format.js # run the confirm.rjs template
+         format.js # run the update.rjs template
       end
     else
       redirect_to "/users/access_denied?source_uri=user_functions"
@@ -258,7 +252,9 @@ class UserFunctionsController < ApplicationController
   #scripts using the function
   def user_function_uses
     @user_function = UserFunction.find params[:id]
-    @scripts = Circuit.find(:all, :conditions=>["source_code like ? ", '%' + @user_function.name + '%'])
+    @scripts   = Circuit.find(:all, :conditions=>["source_code like ? ", '%' + @user_function.name + '%'])
+    @functions = UserFunction.find(:all, :conditions=>["source_code like ? ", '%' + @user_function.name + '%'])
+    @functions = @functions - [@user_function]
     render :partial => "user_function_users", :locals => {:user_function =>@user_function, :scripts => @scripts,}
   end
   
