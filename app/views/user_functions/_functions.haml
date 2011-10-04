@@ -42,7 +42,7 @@
       %th{:style=>"width:12%;border-right:1px solid grey;width:10%;"}
         =_('Actions')
   -user_functions.each do |function|
-    %tr
+    %tr{:style=>"cursor:default;;"}
       %td{:title=>function.name, :style=>"height:30px;border-right:1px solid #C6C5C4;font-size:12px;font-weight:bold;"}
         =link_to truncate(function.name, :ommision => "...", :length => 60), url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
       %td{:title=>function.description, :style=>"border-right:1px solid #C6C5C4;"}
@@ -63,9 +63,9 @@
 
           //Public or private
           -if function.visibility or function.project_id == 0
-            =image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public use"), :style=>"margin-left:5px;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) )
+            =image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public use"), :style=>"margin-left:5px;cursor:pointer;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) )
           -else
-            =image_tag("icons/private.png", :alt=>"user.png", :title=> _("Private use"), :style=>"margin-left:5px;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) )
+            =image_tag("icons/private.png", :alt=>"user.png", :title=> _("Private use"), :style=>"margin-left:5px;cursor:pointer;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) )
 
       -if controller.action_name == "index"
         %td{:style=>"width:10%;border-right:1px solid #C6C5C4;"}
