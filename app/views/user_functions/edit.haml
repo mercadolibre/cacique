@@ -47,11 +47,17 @@
   //For save before leave if there are changes in the Function
   window.onbeforeunload = function (evt) {
   var message = "#{_('You have Unsaved Changes, do you want to Save before Exit?')}";
+  if(!add_asterisk){
   if (evt) {
   evt.returnValue = message;
   }
   return message;
+  }
+  }   
+  function is_read_only(){
+  ="return #{@readonly}"
   }  
+  
 
 %h1{:style=>"width:80%; float: left;"}
   =_('Edit Function')
