@@ -103,8 +103,8 @@
 //Tools menu
 -content_for :tools_menu do
   -if @admin
-    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"refresh.png", :title=>"Refresca los pids de los workers"), :action => "refresh"
-    =image_tag "icons/restart.png", :style=>'border:none;', :alt=>"restart.png", :title=>"Restart", :onclick=>"$j('#form').submit();"
+    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"refresh.png", :title=>_('Update the job queue') ), :action => "refresh"
+    =image_tag "icons/restart.png", :style=>'border:none;', :alt=>"restart.png", :title=>_('Restarting the worker'), :onclick=>"$j('#form').submit();"
   //Info
   =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoQueueObserver').show();", :style=>"padding-right:20px;")
 
