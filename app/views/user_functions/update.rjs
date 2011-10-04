@@ -25,6 +25,7 @@ page.replace_html('errors', error_messages_for(:user_function))
 if @user_function.errors.empty?
   page.alert(@message)
   page <<    "add_asterisk =true;"
+  page.hide('save_button')
 end
 
 
