@@ -21,12 +21,11 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see http://www.gnu.org/licenses/.
 #
-page.replace_html('errors', error_messages_for(:user_function))
 if @user_function.errors.empty?
   page.alert(@message)
   page <<    "add_asterisk =true;"
-  page.hide('save_button')
+  page.redirect_to url_for(:controller=>:user_functions, :action=>:edit, :id=>@user_function.id)
+else
+  page.replace_html('errors', error_messages_for(:user_function))
 end
-
-
 
