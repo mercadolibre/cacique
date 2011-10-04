@@ -35,7 +35,7 @@
   var key=(event.charCode)?event.charCode:((event.keyCode)?event.keyCode:((event.which)?event.which:0));
   if (add_asterisk){
   if((key == 13) || (key == 8) || ( (key >= 41) && (key <= 255) )){
-  document.getElementById('modified_file').innerHTML = '*';
+  $j('#save_button').show();
   add_asterisk = false;
   }
   }
@@ -118,7 +118,6 @@
         =_('Code')
         %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
         #definition{:style=>"width: 100 px;"}
-          %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
           %div{:id => "function_head"}
             Def
         %input{ :type => "hidden", :name => "content",         :value => "" }
@@ -144,7 +143,7 @@
 
 //Tools menu
 -content_for :tools_menu do
-  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_edit_free').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;")
+  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_edit_free').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;", :id=>"save_button")
 
   //Sintax check
   =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
