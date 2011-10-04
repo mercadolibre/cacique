@@ -35,7 +35,6 @@
   var key=(event.charCode)?event.charCode:((event.keyCode)?event.keyCode:((event.which)?event.which:0));
   if (add_asterisk){
   if((key == 13) || (key == 8) || ( (key >= 41) && (key <= 255) )){
-  document.getElementById('modified_file').innerHTML = '*';
   add_asterisk = false;
   }
   }
@@ -117,7 +116,6 @@
         =_('Code')
         %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
         #definition{:style=>"width: 100 px;"}
-          %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
           %div{:id => "function_head"}
             Def
         %input{ :type => "hidden", :name => "content",         :value => "" }
