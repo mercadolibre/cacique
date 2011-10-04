@@ -252,7 +252,9 @@ class UserFunctionsController < ApplicationController
   #scripts using the function
   def user_function_uses
     @user_function = UserFunction.find params[:id]
-    @scripts = Circuit.find(:all, :conditions=>["source_code like ? ", '%' + @user_function.name + '%'])
+    @scripts   = Circuit.find(:all, :conditions=>["source_code like ? ", '%' + @user_function.name + '%'])
+    @functions = UserFunction.find(:all, :conditions=>["source_code like ? ", '%' + @user_function.name + '%'])
+    @functions = @functions - [@user_function]
     render :partial => "user_function_users", :locals => {:user_function =>@user_function, :scripts => @scripts,}
   end
   
