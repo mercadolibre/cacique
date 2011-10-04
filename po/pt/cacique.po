@@ -2483,12 +2483,12 @@ msgid "Last modified by the user"
 msgstr "Modificada pela última vez pelo usuário"
 
 #: app/views/user_functions/index.haml:
-msgid "Scripts containing this function"
-msgstr "Scripts que contêm a função"
+msgid "could be being used in"
+msgstr "poderia estar sendo usado em"
 
 #: app/views/user_functions/index.haml:
-msgid "The function is not used in any script"
-msgstr "A função não é usada em qualquer script"
+msgid "The function is not used"
+msgstr "A função não é usada"
 
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"
