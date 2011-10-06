@@ -32,45 +32,51 @@
 %h2
   =_('Running Tasks')
 
--form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:refresh}, :html => {:id => "form"} do 
-  %table.detail{:style=> "margin: 5px auto;width: 95%;"}
-    %tr
-      %th{:style=>"width:10px;"}
-        = check_box_tag '[workers][]', 0, false, :onClick => "ch_select_all(this, 'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');"
-      %th{:class => "sortable"}
-        Worker
-      %th{:class => "sortable"}
-        =_('User')
-      %th{:class => "sortable"}
-        =_('Script')
-      %th{:class => "sortable"}
-        =_('Project')
-      %th{:class => "sortable"}
-        Suite
-    -@running.each do |name, task|
+-if !@running.empty?
+  -form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:restart}, :html => {:id => "form"} do 
+    %table.detail{:style=> "margin: 5px auto;width: 95%;"}
       %tr
-        %td
-          =check_box_tag "workers[]", name, false, :class=>'workers_ids'
-        %td
-          =name.gsub("_"," ")
-        -if task.instance_of? Hash
-          %td{:title=>task[:user_name]}
-            =truncate(task[:user_name],:ommision => "...", :length =>25)
-          %td{:title=>task[:circuit]}
-            =truncate(task[:circuit],:ommision => "...", :length =>50)
-          %td{:title=>task[:project]}
-            =truncate(task[:project],:ommision => "...", :length =>30)
-          %td{:title=>task[:suite]}
-            =truncate(task[:suite],:ommision => "...", :length =>60)
-        -else
-          %td
-            \--
-          %td
-            \--
-          %td
-            \--
-          %td
-            \--
+        %th{:style=>"width:50px;"}
+          = check_box_tag '[ips][]', 0, false, :onClick => "ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');"
+          PID
+        %th{:class => "sortable"}
+          =_('User')
+        %th{:class => "sortable"}
+          =_('Project')
+        %th{:class => "sortable"}
+          Suite
+        %th{:class => "sortable"}
+          =_('Script')
+      -@running.each do |ip, tasks|
+        %tr
+          %td{:colspan=>5, :style=>"text-align:center;background:#CECEF6;color: #336699;font-weight: bold;"}
+            =check_box_tag "ips[]",ip ,false, :class=>'workers_ids', :style=>"float: left;"
+            =ip
+        -tasks.each do |pid, execution|
+          %tr
+            %td
+              =pid
+            -if execution
+              %td{:title=>execution.name}
+                =truncate(execution.name,:ommision => "...", :length =>25)
+              %td{:title=>execution.project}
+                =truncate(execution.project,:ommision => "...", :length =>30)
+              %td{:title=>execution.suite}
+                =truncate(execution.suite:ommision => "...", :length =>60)
+              %td{:title=>execution.circuit}
+                =truncate(execution.circuit,:ommision => "...", :length =>50)
+            -else
+              %td
+                \--
+              %td
+                \--
+              %td
+                \--
+              %td
+                \--
+-else
+  %h2
+    =_('At this time run instances are not available.')
 
 -@tasks.each do |name, queue|
   -if queue.size>0
@@ -103,8 +109,9 @@
 //Tools menu
 -content_for :tools_menu do
   -if @admin
-    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"refresh.png", :title=>_('Update the job queue') ), :action => "refresh"
     =image_tag "icons/restart.png", :style=>'border:none;', :alt=>"restart.png", :title=>_('Restarting the worker'), :onclick=>"$j('#form').submit();"
+    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"refresh.png", :title=>_('Update the job queue') ), :action => "refresh"
+
   //Info
   =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoQueueObserver').show();", :style=>"padding-right:20px;")
 
