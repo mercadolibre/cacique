@@ -1,11 +1,10 @@
 //
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
+// @Authors:    
 //      Guerra Brenda                   brenda.guerra.7@gmail.com
 //      Crosa Fernando                  fernandocrosa@hotmail.com
 //      Branciforte Horacio             horaciob@gmail.com
 //      Luna Juan                       juancluna@gmail.com
-//
+//      
 //  @copyright (C) 2010 MercadoLibre S.R.L
 //
 //
@@ -23,16 +22,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
-.main
-  %h1
-    =_("User Management")
-  %h2{:style=>"margin-left: 30px;"}
-    =_("Select any User")
-  .result{:id=>"result",:style=>"margin-left: 20px; margin-top: 20px;color:red;"}
-  .admin{:style => "width: 300px; margin-left: 30px; margin-top: 20px"}
-    =select("user", "id", @users.collect {|p| [ truncate(p.login, :ommision => "...", :length => 60) , p.id ] }.sort!, {:include_blank => _("- Select -")},  :onchange => remote_function(:complete => visual_effect(:highlight,'user_setting'),:update => "user_setting",  :method => "get",  :url => { :controllers => :users, :action => :show_user_form },:with => 'Form.Element.serialize(this)') )
-  %br
-  %br
-  .setting{:id => 'user_setting' }
 
+//QUEUE OBSERVERS INFO
+.info{:id=>"infoQueueObserver", :style=>"display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoQueueObserver"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Queue Observer')
+      %p{:style=>"text-align:center;"}
+        =_('Shows the number of waiting Executions in the system')
+
+    %h3
+      %img{:src => "/images/icons/refresh.png", :alt=>"refresh.png"}
+      =_('Refresh')
+    %p
+      =_('Update the job queue')
+      %br
+      %br
+    %h3
+      %img{:src => "/images/icons/restart.png", :alt=>"restart.png"}
+      =_('Restart')
+    %p
+      =_('Restarting the worker')
 

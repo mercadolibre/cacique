@@ -409,6 +409,10 @@ msgstr "Reintento worker: "
 msgid "Error!. Several Retries"
 msgstr "Error!. Demasiados Intentos"
 
+#: app/models/script_runner.rb:
+msgid "You are not authorized to use the function"
+msgstr "Você não está autorizado a executar a função"
+
 #: app/models/suite.rb:
 msgid "Enter a Name"
 msgstr "Ingrese un nombre"
@@ -1915,8 +1919,20 @@ msgid "General Functions"
 msgstr "Recursos Gerais"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to Functions by Projects --> "
-msgstr "Ir para Recursos do Projeto --> "
+msgid "Public"
+msgstr "Público"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacity"
+msgstr "Privacidade"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "A function is a piece of code that has a specific objective, which is executed when called from another function or script"
+msgstr "Uma função é um pedaço de código que tem um objetivo específico, que é executado quando chamado a partir de outra função ou script"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "Create a function in the selected project. At the time of its creation is possible to use the property for public or private use and the option to hide the code of the function or leave visible"
+msgstr "Crie uma função no projeto selecionado. No momento da sua criação é possível usar a propriedade para uso público ou privado e a opção de ocultar o código da função ou deixar visível"
 
 #: app/views/circuits/_functions.haml:
 msgid "This project has no specific functions"
@@ -2306,6 +2322,14 @@ msgstr "Sem parâmetros configuráveis"
 msgid "Actions"
 msgstr "Ações"
 
+#: app/views/circuits/_functions.haml:
+msgid "Select the function you want to add:"
+msgstr "Selecione a função que você deseja adicionar"
+
+#: app/views/circuits/_functions.haml:
+msgid "Show code"
+msgstr "Modo de exibição Source"
+
 #: app/views/circuits/_script_tutorial.haml:
 msgid "To create a Script, first must we do a right click in our Project Folder"
 msgstr "Para criar um Script, devemos em primeiro lugar com o botão direito sobre o Pasta do nosso Projecto"
@@ -2434,6 +2458,38 @@ msgstr "Obrigado por escolher o Cacique!"
 msgid "Sure to remove the Function"
 msgstr "Tem certeza que quer apagar a função"
 
+#: app/views/user_functions/show.haml:
+msgid "Hidden code"
+msgstr "Código oculto"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacy"
+msgstr "privacidade"
+
+#: app/views/user_functions/show.haml:
+msgid "Public code"
+msgstr "Código público"
+
+#: app/views/user_functions/show.haml:
+msgid "Public use"
+msgstr "Uso público"
+
+#: app/views/user_functions/show.haml:
+msgid "Private use"
+msgstr "Uso privado"
+
+#: app/views/user_functions/index.haml:
+msgid "Last modified by the user"
+msgstr "Modificada pela última vez pelo usuário"
+
+#: app/views/user_functions/index.haml:
+msgid "could be being used in"
+msgstr "poderia estar sendo usado em"
+
+#: app/views/user_functions/index.haml:
+msgid "The function is not used"
+msgstr "A função não é usada"
+
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"
 msgstr "Tarefa Fila"
@@ -2441,6 +2497,14 @@ msgstr "Tarefa Fila"
 #: app/views/queue_observers/_show.haml:
 msgid "Conection Error"
 msgstr "Erro de conexão"
+
+#: app/views/queue_observers/index.haml:
+msgid "Restarting the worker"
+msgstr "Reinicie o Worker"
+
+#: app/views/queue_observers/index.haml:
+msgid "Update the job queue"
+msgstr "Atualize a fila de trabalhos"
 
 #: app/controllers/application_controllers.rb:
 msgid "Invalid Action"
@@ -3243,6 +3307,12 @@ msgstr "Esconder o código da função"
 #: app/views/user_functions/new.haml:
 msgid "Will hide the code and the example of the function"
 msgstr "Vai esconder o código eo exemplo da função"
+
+msgid "Private use"
+msgstr "Uso privado"
+
+msgid "The function can not be used by all users"
+msgstr "A função não pode ser usado por todos os usuários"
 
 #: app/controllers/circuits_controller.rb
 msgid "Last Edit"

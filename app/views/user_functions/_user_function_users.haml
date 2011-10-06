@@ -1,0 +1,74 @@
+//
+// @Authors:    
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+.tag{ :id => "user_function_uses", :style=>"left: 30%; height:280px; width:600px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"user_function_uses"}  
+  %h3
+    =truncate(@user_function.name.capitalize, :ommision => "...", :length => 60)
+    =_('could be being used in')
+  -if @scripts.empty? and @functions.empty?
+    %br
+    %br
+    %br         
+    %h2{:style=>"text-align:center;"}
+      %i
+        =_('The function is not used')
+  -else   
+    %div{:style=>"max-height:200px;overflow:auto;margin-left:10px;margin-top:30px;"}
+      -if !@scripts.empty?
+        %table.detail{:style=>" width: auto;min-width:90%;  margin: 0 auto;"}
+          %tr
+            %th{:style=>"width:30%;"}
+              =_('Script')
+            %th{:style=>"width:30%;"}
+              =_('User')
+            %th{:style=>"width:30%;"}
+              =_('Project')
+          -@scripts.each do |script|
+            %tr
+              %td{:title=>script.name.capitalize}
+                =truncate(script.name.capitalize,:ommision => "...", :length =>20)
+              %td{:title=>script.user.name.capitalize}
+                =truncate(script.user.name.capitalize,:ommision => "...", :length =>20)
+              %td{:title=>script.project.name.capitalize}
+                =truncate(script.project.name.capitalize,:ommision => "...", :length =>20)
+      -if !@functions.empty?
+        %table.detail{:style=>" width: auto;min-width:90%; margin: 20px auto 0;"}
+          %tr
+            %th{:style=>"width:30%;"}
+              =_('Function')
+            %th{:style=>"width:30%;"}
+              =_('User')
+            %th{:style=>"width:30%;"}
+              =_('Project')
+          -@functions.each do |function|
+            %tr
+              %td{:title=>function.name.capitalize}
+                =truncate(function.name.capitalize,:ommision => "...", :length =>20)
+              %td{:title=>function.user.name.capitalize}
+                =truncate(function.user.name.capitalize,:ommision => "...", :length =>20)
+              %td{:title=>function.project.name.capitalize}
+                =truncate(function.project.name.capitalize,:ommision => "...", :length =>20)       
+
