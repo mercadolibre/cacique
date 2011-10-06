@@ -88,8 +88,8 @@ class WorkerMannager
          when "stop"
            stop(request[1],request[2])
            register_worker
-         when "C"
-           puts 'You need help!!!'
+         when "restart"
+           restart(request[1])
          else
            s.write("Ops, that is not an available command")
            s.close
@@ -104,8 +104,9 @@ class WorkerMannager
   end
 
 
-  def stop_execution
-  puts "llego la señal"
+  def restart(pid)
+    puts "Marcando #{pid.to_s} para reinicio."
+    Process.kill("SIGUSR1",pid.to_i)
   end
 
 end

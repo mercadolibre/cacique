@@ -41,10 +41,11 @@ class ScriptRunner < ActiveRecord::Base
   attr_accessor :execution 
   attr_accessor :free_values
   attr_accessor :execution_flag
-
+  attr_accessor  :ccq_exec_flag
   require 'timeout'
 
   def initialize
+    @ccq_exec_flag=0
 	@devuelve = Hash.new
 	@output = String.new
         @ccq_atomic = false
@@ -54,6 +55,9 @@ class ScriptRunner < ActiveRecord::Base
                  while @ccq_atomic do end 
               end
               $execution_thread.kill 
+        end
+        Signal.trap("SIGUSR2") do
+          @ccq_exec_flag=1
         end
 
    end
