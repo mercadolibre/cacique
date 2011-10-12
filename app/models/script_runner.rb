@@ -120,10 +120,9 @@ class ScriptRunner < ActiveRecord::Base
 	     #define function to finded object
              eval(function.source_code)
 	   
-	     #function run
-             print " ============================ Calling #{m.to_s}  \n" if (debug_mode and m.to_s != "initialize_run_script" and m.to_s != "finalize_run_script" and m.to_s != "error_run_script")
+	     #function run          
 	     eval("new_object." + m.to_s+"("+args+")")
-             print " *********************************************** Exit from #{m.to_s}  \n" if (debug_mode and m.to_s != "initialize_run_script" and m.to_s != "finalize_run_script" and m.to_s != "error_run_script")
+
          end
      else
        # follow for nested call to improve the error on stacked functions
