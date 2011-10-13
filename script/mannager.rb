@@ -88,11 +88,11 @@ class WorkerMannager
          when "stop"
            stop(request[1],request[2])
            register_worker
-         when "restart"
-           restart(request[1])
+         when "restart_all"
+           restart_all 
          else
            s.write("Ops, that is not an available command")
-           s.close
+           s.close    Process.kill("SIGUSR1",pid.to_i)
           end
        end
     end
@@ -104,9 +104,12 @@ class WorkerMannager
   end
 
 
-  def restart(pid)
-    puts "Marcando #{pid.to_s} para reinicio."
-    Process.kill("SIGUSR1",pid.to_i)
+  def restart_all
+     puts "Restarting executions"
+     pids=`ps aux | grep 'workling' | grep -v grep | awk '{print $2}'`.gsub("\n",",").split(",")
+     pids.each do |pid|
+       Process.kill("SIGUSR1",pid.to_i)
+     end
   end
 
 end

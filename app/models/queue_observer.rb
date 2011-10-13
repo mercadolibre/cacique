@@ -200,15 +200,10 @@ class QueueObserver < ActiveRecord::Base
     end
 
 #Worker restart
- def self.restart_worker(to_restart)
-   #to_restart: {ip_mannager1 => [pid1,pid2...], ip_mannager2 => [pid1,pid2...], ...}
-   to_restart.each do |ip, pids|
+ def self.restart_worker(ip)
      @mannager = TCPSocket.new( ip, MANNAGER_PORT )
-     pids.each do |pid|
-          str = @mannager.send("restart;#{pid}",500)
-     end
+     @mannager.send("restart_all",500)
      @mannager.close
-   end
  end
 
 

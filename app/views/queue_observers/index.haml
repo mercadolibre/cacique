@@ -36,35 +36,40 @@
   -form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:restart}, :html => {:id => "form"} do 
     %table.detail{:style=> "margin: 5px auto;width: 95%;"}
       %tr
-        %th{:style=>"width:50px;"}
-          = check_box_tag '[ips][]', 0, false, :onClick => "ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');"
+        %th{:style=>"width:10%;"}
+          =check_box_tag '[ips][]',0,false,:onClick=>"ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');",:style=>"float:left;"
           PID
-        %th{:class => "sortable"}
+        %th{:class => "sortable",:style=>"width:20%;"}
           =_('User')
-        %th{:class => "sortable"}
+        %th{:class => "sortable",:style=>"width:25%;"}
           =_('Project')
-        %th{:class => "sortable"}
-          Suite
-        %th{:class => "sortable"}
-          =_('Script')
+        %th{:class => "sortable",:style=>"width:5%;"}
+          T
+        %th{:class => "sortable",:style=>"width:40%;"}
+          Task
       -@running.each do |ip, tasks|
         %tr
-          %td{:colspan=>5, :style=>"text-align:center;background:#CECEF6;color: #336699;font-weight: bold;"}
-            =check_box_tag "ips[]",ip ,false, :class=>'workers_ids', :style=>"float: left;"
+          %td{:colspan=>5, :style=>"background:#E6E6E6;color:#585858;font-size: 10px;font-weight: bold;line-height:20px;text-align: left;"}
+            =check_box_tag "ips[]",ip ,false, :class=>'workers_ids', :style=>"float: left; margin-right: 10px;"
             =ip
         -tasks.each do |pid, execution|
           %tr
             %td
               =pid
             -if execution
-              %td{:title=>execution.name}
-                =truncate(execution.name,:ommision => "...", :length =>25)
-              %td{:title=>execution.project}
-                =truncate(execution.project,:ommision => "...", :length =>30)
-              %td{:title=>execution.suite}
-                =truncate(execution.suite:ommision => "...", :length =>60)
-              %td{:title=>execution.circuit}
-                =truncate(execution.circuit,:ommision => "...", :length =>50)
+              %td{:title=>execution.user.name}
+                =truncate(execution.user.name,:ommision => "...", :length =>25)
+              %td{:title=>execution.suite_execution.project.name}
+                =truncate(execution.suite_execution.project.name,:ommision => "...", :length =>30)
+              %td
+                -entity = (execution.suite_execution.suite_id==0)? execution.suite_execution.executions.first.circuit : execution.suite_execution.suite
+                =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
+              %td{:title=>execution.circuit.name}
+                -if entity.instance_of? Suite
+                  %b
+                    =truncate(execution.suite_execution.suite.name, :ommision => "...", :length =>60)
+                    \:
+                =truncate(execution.circuit.name,:ommision => "...", :length =>50)
             -else
               %td
                 \--

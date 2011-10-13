@@ -59,18 +59,12 @@ class QueueObserversController < ApplicationController
   def restart
    if params[:ips]
      workers_hash=Rails.cache.read("registred_workers") #Format: {ip_mannager=>[pid1,pid2,..]}
-     #All
-     if params[:ips].first == "0"
-       to_restart =workers_hash
-     else
-       to_restart = Hash.new
-       params[:ips].each do |ip|
-         to_restart[ip] = workers_hash[ip]
-       end
+     params[:ips] = workers_hash.keys if params[:ips].first == "0" #All managers
+     params[:ips].each do |ip|
+         QueueObserver.restart_worker(ip)
      end
-   QueueObserver.restart_worker(to_restart)
    end
-   redirect_to :action=>:index
+   redirect_to :action => "refresh"
   end
 
 end
