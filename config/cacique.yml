@@ -25,7 +25,7 @@
     :pool: 5
     :username: caciquedb
     :password: mozart
-    :host: 10.4.255.1
+    :host: 10.4.255.2
 
 :workling:
   :production: "10.4.255.19:22122"
