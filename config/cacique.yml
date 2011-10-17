@@ -1,5 +1,5 @@
 :server:
-  :ip: 10.4.0.30
+  :ip: 127.0.0.1
 
 :db:
   :development:
@@ -23,30 +23,30 @@
     :encoding: utf8
     :database: cacique_prod
     :pool: 5
-    :username: caciquedb
-    :password: mozart
-    :host: 10.4.255.2
+    :username: user
+    :password: password
+    :host: localhost
 
 :workling:
-  :production: "10.4.255.19:22122"
-  :development: "10.4.255.19:22122"
-  :test: "10.4.255.19:22122"
+  :production: "127.0.0.1:22122"
+  :development: "127.0.0.1:22122"
+  :test: "127.0.0.1:22122"
 
 :hub:
-  :ip: 10.4.255.97
+  :ip: 127.0.0.1
   :port: 4444
   :rest: "/"
 
 :queue:
-  :ip: 10.4.255.19
+  :ip: 127.0.0.1
   :port: "22122"
 
 :memcached:
-  :ip: 10.4.255.19
+  :ip: 127.0.0.1
 
 :environment:
   :production:
-    :ip: 10.4.255.19
+    :ip: 127.0.0.1
 
 :mannager:
   :port: 33133
