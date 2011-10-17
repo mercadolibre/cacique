@@ -1,20 +1,20 @@
 :server:
-  :ip: localhost
+  :ip: 127.0.0.1
 
 :db:
   :development:
     :adapter: mysql
     :encoding: utf8
-    :database: cacique_prod
-    :pool: 10
-    :username: root
-    :password: bender
+    :database: cacique_dev
+    :pool: 5
+    :username: user
+    :password: passwors
     :host: localhost
   :test:
     :adapter: mysql
     :encoding: utf8
     :database: cacique_test
-    :pool: 10
+    :pool: 5
     :username: user
     :password: password
     :host: localhost
@@ -22,31 +22,31 @@
     :adapter: mysql
     :encoding: utf8
     :database: cacique_prod
-    :pool: 10
-    :username: root
-    :password: bender
+    :pool: 5
+    :username: user
+    :password: password
     :host: localhost
 
 :workling:
-  :production: "localhost:22122"
-  :development: "localhost:22122"
-  :test: "localhost:22122"
+  :production: "127.0.0.1:22122"
+  :development: "127.0.0.1:22122"
+  :test: "127.0.0.1:22122"
 
 :hub:
-  :ip: localhost 
+  :ip: 127.0.0.1
   :port: 4444
   :rest: "/"
 
 :queue:
-  :ip: localhost
+  :ip: 127.0.0.1
   :port: "22122"
 
 :memcached:
-  :ip: localhost
+  :ip: 127.0.0.1
 
 :environment:
   :production:
-    :ip: localhost
+    :ip: 127.0.0.1
 
 :mannager:
   :port: 33133
