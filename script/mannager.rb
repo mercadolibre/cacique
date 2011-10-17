@@ -115,22 +115,20 @@ class WorkerMannager
       pids = workers_hash[@ip]
       pids.each do |pid|
           begin
-            execution= @cache.get("worker_#{@ip.to_s}_#{pid.to_s}")
-          rescue
-               puts $!
+             puts "worker_#{@ip.to_s}_#{pid.to_s}"
+             puts @cache.get("worker_#{@ip.to_s}_#{pid.to_s}")
+             task_not_running << pid if @cache.get("worker_#{@ip.to_s}_#{pid.to_s}").nil?
+          rescue ArgumentError => msg
+               task_running << pid #undefined class/module Execution
           end
-          puts "worker_#{@ip.to_s}_#{pid.to_s}"
-          puts execution
-          puts @cache.get("worker_#{@ip.to_s}_#{pid.to_s}")
-          (execution.nil?)?  task_not_running << pid : task_running << pid
       end
       puts "Restarting executions: \n Running #{task_running.join(',')}\n Not running: #{task_not_running.join(',')}"
 
       task_running.each do |pid|
-          #Process.kill("SIGUSR1",pid.to_i)
+          Process.kill("SIGUSR1",pid.to_i)
       end
       task_not_running.each do |pid|
-          #system("kill -9 #{pid.to_i}")
+          system("kill -9 #{pid.to_i}")
       end
   end
 
