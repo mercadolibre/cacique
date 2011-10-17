@@ -30,18 +30,18 @@ CONFIG = YAML.load(config_file)
 
 ADMIN_EMAIL="cacique@mercadolibre.com"
 #Datos para enviar mail desde Cacique
-EMAIL =  "cacique@mercadolibre.com"
-EMAIL_SERVER = "surgemail.mercadolibre.com"
-EMAIL_USER_NAME='cacique'
-EMAIL_PASS='Cq123456'
+EMAIL =  "adminmail@domain.com"
+EMAIL_SERVER = "surgemail.domain.com"
+EMAIL_USER_NAME='caciqueuser'
+EMAIL_PASS='myprivatepassword'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "mercadolibre.com"
-LOGGING_MAIL="robot@mercadolibre.com"
+EMAIL_DOMAIN = "mydomain.com"
+LOGGING_MAIL="mails@cacique.com"
 
 #Cacique First user 
 FIRST_USER_NAME="cacique"
-FIRST_USER_PASS="schumann"
+FIRST_USER_PASS="admin"
 
 #Default language
 CACIQUE_LANG="en_US"
