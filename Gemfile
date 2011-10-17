@@ -3,7 +3,6 @@ source "http://gems.github.com"
 source "http://gemcutter.org"
 
 gem 'rails', '2.3.9'
-
 group :development do
  gem 'ruby-debug'
  gem 'rak'
@@ -24,8 +23,6 @@ end
   #here you could add your custom gems for your test
   #please read more on http://rubygems.org/
 #end
-    
-gem 'commonwatir', '1.6.2' 
 gem 'erubis', '2.6.6'
 gem 'faker', '0.3.1'
 gem 'mechanize'
@@ -65,7 +62,6 @@ gem "commonwatir", '1.6.2'
 gem "daemons"
 gem "eventmachine", '0.12.8'
 gem "hoe", '2.3.2'
-gem "polyglot"
 gem "ruby-graphviz", '0.9.20'
 gem "ruby-ole"
 gem "rubyforge"
@@ -76,13 +72,11 @@ gem "SyslogLogger"
 gem "treetop"
 gem "user-choices"
 gem "annotate-models"
-gem "polyglot"
 gem "calendar_date_select"
 gem "ruby-openid"
 gem "camping"
 gem "prawn"
 gem "passenger"
-gem "activesupport", "2.3.9"
 gem "hoptoad_notifier"
 gem "newrelic_rpm"
 
@@ -92,9 +86,9 @@ gem "newrelic_rpm"
 #...............GETTEXT.............
   gem 'locale'
   gem 'locale_rails', '2.0.6', :git=> "https://github.com/scambra/locale_rails.git"
+#  gem 'locale_rails', '2.0.5', :path=> "extras/locale_rails/"
   gem "gettext"
   gem "gettext_activerecord"
   gem "gettext_rails"
 #.....................................
-
-
+gem "RbYAML"
