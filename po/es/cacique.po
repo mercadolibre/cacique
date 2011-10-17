@@ -449,6 +449,10 @@ msgstr "Reintento worker: "
 msgid "Error!. Several Retries"
 msgstr "Error!. Demasiados Intentos"
 
+#: app/models/script_runner.rb:
+msgid "You are not authorized to use the function"
+msgstr "No tiene permisos para ejecutar la función"
+
 #: app/models/suite.rb:
 msgid "Enter a Name"
 msgstr "Ingrese un nombre"
@@ -1041,6 +1045,10 @@ msgstr "Ayuda Ruby"
 #: app/views/circuits/edit.haml:
 msgid "Run"
 msgstr "Ejecutar"
+
+#: app/views/circuits/edit.haml:
+msgid "Stop"
+msgstr "Detener"
 
 #: app/views/circuits/edit.haml:
 msgid "By"
@@ -1822,9 +1830,21 @@ msgstr "Recordar mi sesión"
 msgid "Log in"
 msgstr "Ingresar"
 
+
+#: app/views/suite_executions/index.haml:
+msgid "Yes"
+msgstr "Si"
+
+msgid "No"
+msgstr "No"
+
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Complete"
 msgstr "Completa"
+
+#: app/views/suite_executions/_bar_image.haml:
+msgid "Stopped"
+msgstr "Detenida"
 
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Waiting"
@@ -1987,10 +2007,6 @@ msgid "Execution:"
 msgstr "Ejecución:"
 
 #: app/views/suite_executions/get_report.pdf.prawn:
-msgid "Identifier:"
-msgstr "Identificador de corrida:"
-
-#: app/views/suite_executions/get_report.pdf.prawn:
 msgid "Run Start:"
 msgstr "Inicio de corrida:"
 
@@ -2091,12 +2107,36 @@ msgid "General Functions"
 msgstr "Funciones Generales"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to Functions by Projects --> "
-msgstr "Ir a Funciones Por Proyecto --> "
+msgid "Privacy"
+msgstr "Privacidad"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to General Functions --> "
-msgstr "Ir a Funciones Generales --> "
+msgid "Public"
+msgstr "Públicas"
+
+#: app/views/user_functions/index.haml:
+msgid "Last modified by the user"
+msgstr "Última modificación realizada por el usuario"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacity"
+msgstr "Privacidad"
+
+#: app/views/user_functions/index.haml:
+msgid "could be being used in"
+msgstr "podría estar siendo utilizada en"
+
+#: app/views/user_functions/index.haml:
+msgid "The function is not used"
+msgstr "La función no se utiliza"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "A function is a piece of code that has a specific objective, which is executed when called from another function or script"
+msgstr "Una función es un fragmento de código que tiene un objetivo específico, que se ejecuta cuando es llamada desde otra función o script"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "Create a function in the selected project. At the time of its creation is possible to use the property for public or private use and the option to hide the code of the function or leave visible"
+msgstr "Crea una función en el proyecto seleccionado. Al momento de su creación  es posible utilizar la propiedad de uso público o privado y la opción de ocultar el código de la función o dejarlo visible"
 
 #: app/views/users/_permissions.haml:
 msgid "Permissions"
@@ -2510,6 +2550,14 @@ msgstr "Sin Parámetros Configurables"
 msgid "Actions"
 msgstr "Acciones"
 
+#: app/views/circuits/_functions.haml:
+msgid "Select the function you want to add:"
+msgstr "Seleccione la función que desea agregar:"
+
+#: app/views/circuits/_functions.haml:
+msgid "Show code"
+msgstr "Ver código"
+
 #: app/views/circuits/_script_tutorial.haml:
 msgid "To create a Script, first must we do a right click in our Project Folder"
 msgstr "Para crear un Script, primero debemos hacer un Click-Derecho sobre la Carpeta de nuestro Proyecto"
@@ -2637,6 +2685,22 @@ msgstr "Gracias por elegir Cacique!"
 #: app/views/user_functions/_functions.haml:
 msgid "Sure to remove the Function"
 msgstr "¿Esta seguro que desea eliminar la Función"
+
+#: app/views/user_functions/show.haml:
+msgid "Hidden code"
+msgstr "Código oculto"
+
+#: app/views/user_functions/show.haml:
+msgid "Public code"
+msgstr "Código público"
+
+#: app/views/user_functions/show.haml:
+msgid "Public use"
+msgstr "Uso público"
+
+#: app/views/user_functions/show.haml:
+msgid "Private use"
+msgstr "Uso privado"
 
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"
@@ -3191,8 +3255,8 @@ msgid "to project: "
 msgstr "al proyecto: "
 
 #: app/views/user_functions/_move.haml:
-msgid "Move to Generic Functions"
-msgstr "Mover a Funciones Genéricas"
+msgid "Generals"
+msgstr "Generales"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Function properly moved"
@@ -3472,11 +3536,17 @@ msgstr "Usted no tiene permisos para Ver"
 
 #: app/views/user_functions/new.haml:
 msgid "Hide the code of the function"
-msgstr "Ocultar el codigo de la función"
+msgstr "Ocultar el código de la función"
 
 #: app/views/user_functions/new.haml:
 msgid "Will hide the code and the example of the function"
 msgstr "Se ocultará el código y el ejemplo de la función"
+
+msgid "Private use"
+msgstr "Uso privado"
+
+msgid "The function can not be used by all users"
+msgstr "La función no puede ser utilizada por todos los usuarios"
 
 #: app/controllers/circuits_controller.rb
 msgid "Last Edit"
@@ -3514,11 +3584,38 @@ msgstr "Proyecto"
 msgid "Actions"
 msgstr "Acciones"
 
-#: app/views/controllers/users_controller.rb:
+#: app/controllers/users_controller.rb:
 msgid "Your user has been created successfully,<br/> Please contact to "
 msgstr "El usuario ha sido creado con éxito, <br/> Póngase en contacto con "
 
-#: app/views/controllers/users_controller.rb:
+#: app/controllers/users_controller.rb:
 msgid " to activate it."
 msgstr " para activarlo."
+
+#: app/views/data_files/new.rb:
+msgid "There is already a file with that name"
+msgstr "Ya existe una archivo con ese nombre"
+
+#: app/views/data_files/new.rb:
+msgid "Files"
+msgstr "Archivos"
+
+#: app/views/data_files/new.rb:
+msgid "New file"
+msgstr "Nuevo archivo"
+
+#: app/views/data_files/index.rb:
+msgid "Without files"
+msgstr "Sin archivos"
+
+#: app/views/data_files/index.rb:
+msgid "The added file, can be accessed from any script of the project using the File class in Ruby. For more information:"
+msgstr "El archivo que se agregue, podrá ser accedido desde cualquier script del proyecto, utilizando la clase File de ruby. Para mas información:"
+
+
+#: app/views/data_files/index.rb:
+msgid "Example usage:"
+msgstr "Ejemplo de uso:"
+
+
 

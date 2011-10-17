@@ -1,0 +1,53 @@
+//
+// @Authors:    
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+.main
+  %h1{ :style=>"margin-left:40px;"}
+    =_('New file')
+  -form_for :data_files, :method=>:post, :url => project_data_files_path(@project_id), :html => { :enctype => "multipart/form-data"} do 
+    .form_tag{ :style=> 'width30%;float:left;margin-left:40px;padding:20px;'}
+      %p
+        %label{:for => 'name'}
+          =_('Name')
+        %input{ :name => "name", :type => "text", :style=>"width:250pxpx;"}
+      %p
+        %label{:for => 'upload'}
+          =_('File')
+          %br
+          %input{ :id=>"file_upload", :name => "fileUpload", :type => "file" }
+        %br
+        =submit_tag _('Create')
+
+    .form_tag{ :style=>"float:left;margin-left:40px; width:40%;"}
+      %h2{:style=>"font-size:16px;"}
+        =image_tag("icons/files.png", :alt=>"script", :title=>"Script")
+        =_('Files')
+      %p{:style=>"margin:20px;"}
+        %i
+          =_("The added file, can be accessed from any script of the project using the File class in Ruby. For more information:")
+          %b
+            =link_to "File Class", "http://www.ruby-doc.org/core/classes/File.html" , :popup => true
+
+

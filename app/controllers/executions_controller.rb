@@ -1,4 +1,4 @@
- #
+#
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
  #      Guerra Brenda                   brenda.guerra.7@gmail.com
@@ -30,6 +30,18 @@ class ExecutionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   skip_before_filter :context_stuff, :only => :update_execution
+
+  def show
+    Execution
+    Circuit
+    DataRecovery
+    DataRecoveryName
+    #search suite runned in cache
+    @execution  = Rails.cache.fetch("exec_#{params[:id]}"){Execution.find(params[:id])}
+    respond_to do |format|
+        format.js # run the show.rjs template
+    end
+  end
 
   def show_snapshot
     sp = ExecutionSnapshot.find params[:snapshot_id]
@@ -67,6 +79,8 @@ class ExecutionsController < ApplicationController
    SuiteExecution
    ExecutionConfigurationValue
    Circuit
+   DataRecoveryName
+   DataRecovery
       @execution = Rails.cache.fetch("exec_#{params[:id]}",:expires_in => CACHE_EXPIRE_EXEC){ Execution.find(params[:id]) }
 
       @user_configuration = UserConfiguration.find_by_user_id(current_user.id)

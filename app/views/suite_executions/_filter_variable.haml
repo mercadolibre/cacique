@@ -1,0 +1,35 @@
+//
+// @Authors:    
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+-context_configurations.each do |context_configuration|
+  -filter_configuration_value = params[:filter] && params[:filter][:context_configurations] && params[:filter][:context_configurations][context_configuration.id.to_s]? '':'none'
+  %div{:style=>"float:left;max-width: 200px;min-width: 210px;"} 
+    %label{:for => context_configuration.name, :title=>context_configuration.name.capitalize, :style=>"margin: 0 5px 5px;"}
+      =check_box_tag "filter_#{context_configuration.id}", '1', filter_configuration_value=='', {:onclick => "$j('.context_configurations_#{context_configuration.id.to_s}_class').attr('disabled',!$j(this).attr('checked')); $j('#context_configuration_#{context_configuration.id.to_s}_div').toggle();"}
+      =truncate(context_configuration.name.capitalize, :ommision => "...", :length => 15)
+    .form_tag{:id=>"context_configuration_#{context_configuration.id.to_s}_div", :style=>"display:#{filter_configuration_value}; max-height:100px; overflow:auto;padding:5px; margin: 0 10px; clear: both;"}
+      =render :partial => 'filter_variable_type', :locals => {:context_configuration => context_configuration}
+
+
