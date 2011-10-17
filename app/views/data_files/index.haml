@@ -1,0 +1,62 @@
+//
+// @Authors:    
+//      Guerra Brenda                   brenda.guerra.7@gmail.com
+//      Crosa Fernando                  fernandocrosa@hotmail.com
+//      Branciforte Horacio             horaciob@gmail.com
+//      Luna Juan                       juancluna@gmail.com
+//      
+//  @copyright (C) 2010 MercadoLibre S.R.L
+//
+//
+//  @license        GNU/GPL, see license.txt
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see http://www.gnu.org/licenses/.
+//
+
+.main 
+  %h1
+    =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), url_for(:controller => "data_files", :action => "new", :project_id => @project_id), :title=>_("Add File")
+    =_('Files')
+
+  -if @files.empty?
+    %h2{:style=>'width:50%;float:left;margin-left:40px;'}
+      %i
+        =_("Without files")
+  -else
+    %table.detail{:style=>'width:50%;float:left;margin-left:40px;'}
+      %tr
+        %th
+          File Name
+
+      -@files.each do |file|
+        %tr
+          %td{:style=>"text-align:left;padding-left:10px;"}
+            =truncate(file, :ommision => "...", :length => 80) 
+
+  .form_tag{ :style=>"float:left;margin-left:40px; width:35%;"}
+    %h2{:style=>"font-size:16px;"}
+      =image_tag("icons/files.png", :alt=>"script", :title=>"Script")
+      =_('Files')
+    %p{:style=>"margin:20px;"}
+      %i
+        =_("The added file, can be accessed from any script of the project using the File class in Ruby. For more information:")
+        %b
+          =link_to "File Class", "http://www.ruby-doc.org/core/classes/File.html" , :popup => true
+        %br
+        %br
+        %i{:style=>"color:grey;"}
+          =_('Example usage:')
+          %br
+          File.open("\#{SHARED_DIRECTORY}/project_1/myfile", "wb")
+
+

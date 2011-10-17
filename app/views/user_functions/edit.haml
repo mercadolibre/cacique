@@ -35,7 +35,7 @@
   var key=(event.charCode)?event.charCode:((event.keyCode)?event.keyCode:((event.which)?event.which:0));
   if (add_asterisk){
   if((key == 13) || (key == 8) || ( (key >= 41) && (key <= 255) )){
-  document.getElementById('modified_file').innerHTML = '*';
+  $j('#save_button').show();
   add_asterisk = false;
   }
   }
@@ -43,16 +43,35 @@
   function is_read_only(){
   ="return #{@has_permission}"
   }
-    
-%h1
+%script
+  //For save before leave if there are changes in the Function
+  window.onbeforeunload = function (evt) {
+  var message = "#{_('You have Unsaved Changes, do you want to Save before Exit?')}";
+  if(!add_asterisk){
+  if (evt) {
+  evt.returnValue = message;
+  }
+  return message;
+  }
+  }   
+  function is_read_only(){
+  ="return #{@readonly}"
+  }  
+  
+
+%h1{:style=>"width:80%; float: left;"}
   =_('Edit Function')
+
+%h2{:style=>"float:right;width:20%;text-align: right;"}
+  =_('Project')
+  = (@user_function.project_id !=0) ? truncate(@user_function.project.name.capitalize , :ommision => "...", :length => 30) : _('Generals')  
 
 #checker{:style=>"display:none; "}
 
-.form{:style=>" margin-left:30px; margin-top:20px;"}
-  -form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html =>{:id=>"form_edit_free"} do |f|
+.form{:style=>" margin-left:30px; margin-top:20px;clear:both;"}
+  -remote_form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html=>{:id=>"form_edit_free"} do |f|
     = error_messages_for :user_function
-    
+    #errors
     %label{:for => "name" } 
       =_('Name')
       %br
@@ -65,11 +84,15 @@
       =f.text_area :description, {:rows => 6, :style => "width:750px;"}
     %br
     %br
-    %label{:for => "hide"} 
-      =f.check_box :hide, {:onClick => "show_hide_message();"}
+    -if(@user_function.project_id != 0)
+      %label{:for => "visibility",  :title=>_("The function can not be used by all users")} 
+        -value = @user_function.visibility ? "" : "checked"
+        =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
+        =_('Private use')
+    %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
+      -value = @user_function.hide ?  "checked" : "" 
+      =f.check_box :hide, {:checked=>value}
       =_('Hide the code of the function')
-      %div{:id => "message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
-        =_("Will hide the code and the example of the function")
     %br
     %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }  
       %label{:for => "cant_args"}
@@ -95,15 +118,6 @@
         =_('Code')
         %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
         #definition{:style=>"width: 100 px;"}
-          //Sintax check
-          =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
-          //Versions
-          -if @previous_version
-            %img{:src => "/images/icons/backward.png", :alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@previous_version}'", :id => "version_back", :style=>"cursor:pointer;"}
-          -if @next_version
-            %img{:src => "/images/icons/forward.png",  :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@next_version}'", :id => "version_forward", :style=>"cursor:pointer;"}
- 
-          %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
           %div{:id => "function_head"}
             Def
         %input{ :type => "hidden", :name => "content",         :value => "" }
@@ -119,18 +133,23 @@
         %br
         =f.text_area :example, {:rows => 6, :style => "width:750px;"}
       %br
-      %br
-    %br  
-    %div{ :style => "float:right;" }
-      = submit_tag _('Save'),:onclick => "sendContent();" ,:style => "margin-right:10px;cursor:pointer;"
-      -if @user_function.project_id == 0
-        -url_cancel = "/user_functions"
-      -else
-        -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
-      %input{:type=>"button", :value=>_("Cancel"), :onclick => "if(confirm('#{_('Are you sure you want to quit?')}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
+      %br 
+    %b
+      =_('Last modified by the user')
+      \:
+    =truncate(@last_modifier.name, :ommision => "...", :length => 30)
     %br
     %br
-    
+
 //Tools menu
 -content_for :tools_menu do
-  =render :partial=> "admin/menu_admin"
+  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_edit_free').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;", :id=>"save_button")
+
+  //Sintax check
+  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
+  //Versions
+  -if @previous_version
+    %img{:src => "/images/icons/backward.png", :alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@previous_version}'", :id => "version_back", :style=>"cursor:pointer;"}
+  -if @next_version
+    %img{:src => "/images/icons/forward.png",  :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@next_version}'", :id => "version_forward", :style=>"cursor:pointer;"}
+    
