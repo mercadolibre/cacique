@@ -1,10 +1,15 @@
 %div{:style=>" border: 1px solid #D2D2D2;border-top:0px; width:auto;float:right;padding:5px;margin-left:5px;font-size: 10px;font-weight: normal;"}
-  %b{:title=>"#{@rates[:ok][0]} #{_('Success')}",:style=>'color:DarkGreen;border-right: 1px solid #D2D2D2;'}
-    =@rates[:ok][1]
-    \%
-  %b{:title=>"#{@rates[:error][0]}  #{_('Errors')}",:style=>'color:red; margin-left:10px; border-right: 1px solid #D2D2D2;'}
-    =@rates[:error][1]
-    \%
-  %b{:title=>"#{@rates[:others][0]} #{_('Others')}",:style=>'color:#2C4B9B; margin-left:10px;'}
-    =@rates[:others][1]
-    \%
+  %b{:title=>"#{@rates[:ok][1]}% #{_('Success')}",:style=>'color:DarkGreen;border-right: 1px solid #D2D2D2;'}
+    =truncate("#{@rates[:ok][0]}", :ommision => "...", :length => 10) 
+    =_('Success')
+  %b{:title=>"#{@rates[:error][1]}%  #{_('Errors')}",:style=>'color:red; margin-left:10px; border-right: 1px solid #D2D2D2;'}
+    =truncate("#{@rates[:error][0]} ", :ommision => "...", :length => 10)
+    =_('Errors')
+  %b{:title=>"#{@rates[:others][1]}% #{_('Others')}",:style=>'color:#2C4B9B; margin-left:10px; border-right: 1px solid #D2D2D2;'}
+    =truncate("#{@rates[:others][0]} ", :ommision => "...", :length => 10)  
+    =_('Others')
+  %b{:title=>"100% #{_('Total')}",:style=>' margin-left:10px;'}
+    =truncate("#{@total_rate.to_s}", :ommision => "...", :length => 10)  
+    =_('Total')
+
+
