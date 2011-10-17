@@ -3,12 +3,10 @@ case "$1" in
   start)
         cd /home/cacique/cacique/extras/selenium-grid-1.0.8
         exec nohup ant launch-hub > /dev/NULL &
-	pgrep -f launch-hub > /tmp/hub.pid
+        pgrep -f launch-hub > /tmp/hub.pid
   ;;
   stop)
-	rm /tmp/hub.pid
-	kill `pgrep -f launch-hub`
+        rm /tmp/hub.pid
+        kill `pgrep -f launch-hub`
   ;;
 esac
-
-

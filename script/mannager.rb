@@ -3,29 +3,35 @@
 require "rubygems" 
 require "socket"  
 require 'memcache'
+gem "RbYAML"
 
-SERVER_IP="127.0.0.1"
+
+config_file = File.read(Dir.pwd + "/config/cacique.yml")
+CONFIG = YAML.load(config_file)
+
+SERVER_IP=CONFIG[:server][:ip]
+MEMCACHED_IP=CONFIG[:memcached][:ip]
+MANNAGER_PORT=CONFIG[:mannager][:port]
  
-cache = MemCache.new "#{SERVER_IP}:11211"
+cache = MemCache.new "#{MEMCACHED_IP}:11211"
 #srv=TCPServer.open(33133)
 
 class WorkerMannager
 
   def initialize
-    @cache = MemCache.new "#{SERVER_IP}:11211"
-   
+    @cache = MemCache.new "#{MEMCACHED_IP}:11211"
     @ip=self.get_ip 
-    puts @ip
-    begin    
-      @cn=TCPServer.open(33133)
+    begin
+      @cn=TCPServer.open(MANNAGER_PORT)
     rescue  Exception => e
-      puts "Can't open host due: #{e.message}"
+       puts "Can't open host due: #{e.message}"
+       exit(1)
     end
+
+    @ip=self.get_ip 
     Signal.trap("TERM") {finalize}
     Signal.trap("SIGUSR1") {register_worker}
   end
-
-
 
   def finalize
     self.unregister_worker
@@ -69,25 +75,37 @@ class WorkerMannager
     end
   end 
   
+  #this methods handles request
   def listen
-   #sock=@cn.accept_nonblock
-    while true
-      begin
-        sock = @cn.accept_nonblock
-      rescue Errno::EAGAIN, Errno::ECONNABORTED, Errno::EPROTO, Errno::EINTR
-        IO.select([@cn])
-        retry
-      end
-     begin
-     action = case sock.read
-       when "refresh" then self.register_worker 
-       else puts "Invalid Score"
+    require "socket"
+    loop do
+      Thread.start(@cn.accept) do |s|
+        request=s.recv(1000)
+        request=request.split(";")
+         case request.first
+         when "refresh"
+           register_worker
+         when "stop"
+           stop(request[1],request[2])
+           register_worker
+         when "C"
+           puts 'You need help!!!'
+         else
+           s.write("Ops, that is not an available command")
+           s.close
+          end
        end
-    rescue
-      rescue Errno::EAGAIN, Errno::ECONNABORTED, Errno::EPROTO, Errno::EINTR
-      retry
     end
-    end
+  end
+  
+  def stop(pid,exe)
+     puts "Stopping execution #{exe} with pid #{pid}"
+     Process.kill("SIGUSR2", pid.to_i)
+  end
+
+
+  def stop_execution
+  puts "llego la señal"
   end
 
 end

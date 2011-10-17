@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: schematics
+#
+#  id               :integer(4)      not null, primary key
+#  suite_id         :integer(4)
+#  circuit_id       :integer(4)
+#  position         :integer(4)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  case_template_id :integer(4)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,20 +37,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: schematics
-#
-#  id               :integer(4)      not null, primary key
-#  suite_id         :integer(4)
-#  circuit_id       :integer(4)
-#  position         :integer(4)
-#  created_at       :datetime
-#  updated_at       :datetime
-#  case_template_id :integer(4)
-#
-
 class Schematic < ActiveRecord::Base
   belongs_to :suite
   belongs_to :circuit

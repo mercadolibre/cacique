@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: suite_fields_relations
+#
+#  id                     :integer(4)      not null, primary key
+#  suite_id               :integer(4)
+#  circuit_origin_id      :integer(4)
+#  circuit_destination_id :integer(4)
+#  field_origin           :string(255)
+#  field_destination      :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,21 +38,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: suite_fields_relations
-#
-#  id                     :integer(4)      not null, primary key
-#  suite_id               :integer(4)
-#  circuit_origin_id      :integer(4)
-#  circuit_destination_id :integer(4)
-#  field_origin           :string(255)
-#  field_destination      :string(255)
-#  created_at             :datetime
-#  updated_at             :datetime
-#
-
 class SuiteFieldsRelation < ActiveRecord::Base
   belongs_to :suite
   has_many :circuits
