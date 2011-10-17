@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: context_configurations
+#
+#  id            :integer(4)      not null, primary key
+#  name          :string(255)
+#  view_type     :string(255)
+#  values        :text
+#  field_default :boolean(1)
+#  enable        :boolean(1)      default(TRUE)
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,21 +38,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: context_configurations
-#
-#  id            :integer(4)      not null, primary key
-#  name          :string(255)
-#  view_type     :string(255)
-#  values        :text
-#  field_default :boolean(1)
-#  enable        :boolean(1)      default(TRUE)
-#  created_at    :datetime
-#  updated_at    :datetime
-#
-
 class ContextConfiguration < ActiveRecord::Base
   has_many :user_configuration_values, :dependent => :destroy
   has_many :execution_configuration_values

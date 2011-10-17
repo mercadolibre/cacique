@@ -35,9 +35,11 @@
 
     %li
       //By default is redirected to notes admin
-      %a{ :href => "/user_functions" }
+      %a.parent{:id=>"admin_hover", :href => "#" }
         %span
           =_('Admin')
+      %ul{:id=>"div_admin", :style=>"width: 180px;"}
+        =render :partial=> "admin/menu_admin"
 
     //Help  
     %li
