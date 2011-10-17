@@ -56,7 +56,7 @@ class ScriptRunner < ActiveRecord::Base
               end
               $execution_thread.kill 
         end
-        Signal.trap("SIGUSR2") do
+        Signal.trap("SIGUSR1") do
           @ccq_exec_flag=1
         end
 

@@ -89,7 +89,9 @@ class WorkerMannager
            stop(request[1],request[2])
            register_worker
          when "restart_all"
+           register_worker
            restart_all 
+           register_worker
          else
            s.write("Ops, that is not an available command")
            s.close    Process.kill("SIGUSR1",pid.to_i)
@@ -105,11 +107,31 @@ class WorkerMannager
 
 
   def restart_all
-     puts "Restarting executions"
-     pids=`ps aux | grep 'workling' | grep -v grep | awk '{print $2}'`.gsub("\n",",").split(",")
-     pids.each do |pid|
-       Process.kill("SIGUSR1",pid.to_i)
-     end
+     #Get executions running or not
+      task_running=[] 
+      task_not_running=[]
+      workers_hash=@cache.get("registred_workers")
+      workers_hash={} if workers_hash==nil
+      pids = workers_hash[@ip]
+      pids.each do |pid|
+          begin
+            execution= @cache.get("worker_#{@ip.to_s}_#{pid.to_s}")
+          rescue
+               puts $!
+          end
+          puts "worker_#{@ip.to_s}_#{pid.to_s}"
+          puts execution
+          puts @cache.get("worker_#{@ip.to_s}_#{pid.to_s}")
+          (execution.nil?)?  task_not_running << pid : task_running << pid
+      end
+      puts "Restarting executions: \n Running #{task_running.join(',')}\n Not running: #{task_not_running.join(',')}"
+
+      task_running.each do |pid|
+          #Process.kill("SIGUSR1",pid.to_i)
+      end
+      task_not_running.each do |pid|
+          #system("kill -9 #{pid.to_i}")
+      end
   end
 
 end
