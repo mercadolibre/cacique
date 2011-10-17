@@ -1,12 +1,12 @@
 #!/bin/bash
 case "$1" in
   start)
-        cd /home/cacique/cacique/
+        cd 
         exec script/mannager.rb > /dev/null &
-        pgrep -f mann > /home/cacique/cacique/log/task_manager.pid
+        pgrep -f mann > cacique/log/task_manager.pid
   ;;
   stop)
-        rm /home/cacique/cacique/log/task_manager.pid
+        rm cacique/log/task_manager.pid
         kill `pgrep -f mann`
   ;;
 esac
