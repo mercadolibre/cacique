@@ -37,7 +37,7 @@
     //change the version number
     version_back = document.getElementById('version_back')
     version_back.onclick = function(){
-    location.href='/circuits/#{circuit_id}/edit?version=#{previous_version}'
+    location.href= "#{edit_project_circuit_path(circuit.project_id,circuit)}?version=#{previous_version}"
     }
     if(version_back.style.display == 'none')
     version_back.style.display = '';

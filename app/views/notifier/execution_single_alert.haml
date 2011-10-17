@@ -36,7 +36,7 @@
           Without Cases
 
       -color = (@execution.status == 2)? 'DarkGreen' : (@execution.status == 3 ? 'red' :'#336699')
-      %td  
+      %td{:style=>"color:#{color}"}  
         = @execution.s_status
       %td
         -@execution.data_recoveries.each do |data_recovery|

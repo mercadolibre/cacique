@@ -27,58 +27,60 @@
 = calendar_date_select_includes "blue"
 = stylesheet_link_tag 'blue.css'
 
--form_for :task_program, :url => {:controller => 'task_programs', :action => :index}, :html=>{:style=>"margin-bottom:10px;"} do
-  .form_tag{:style=>"float:left;margin-bottom:10px;"}
+
+.form_tag{:style=>"float:left;margin-bottom:10px;"}
   
-    //Project
-    %div{:style=>"float:left; width: 180px;"}
-      %label{:style=>"width:60px; float:left;"}
-        =_("Project")
-      %label{:style=>"width:150px; float:left;"}      
-        =select("program", "project_id", @projects.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60) , p.id ] }.sort!,{ :selected => @project_id, :include_blank => "All"},{:onchange => remote_function(:update => "select_suites",  :method => "get",  :url => { :controllers => :task_programs, :action => :show_suites_of_project},:with => 'Form.Element.serialize(this)'), :style=>"width:160px;" })
+  //Project
+  %div{:style=>"float:left; width: 180px;"}
+    %label{:style=>"width:60px; float:left;"}
+      =_("Project")
+    %label{:style=>"width:150px; float:left;"}  
+      -value =(@project_id !=0) ? @project_id.to_i: ''  
+      =select("filter", "project_id", @projects.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60) , p.id ] }.sort!,{ :selected => value},{:onchange => remote_function(:update => "select_suites",  :method => "get",  :url => { :controllers => :task_programs, :action => :show_suites_of_project},:with => 'Form.Element.serialize(this)'), :style=>"width:160px;" })
         
-    //Suite
-    %div{:style=>"float:left; width: 180px;"} 
-      %label{:style=>"width:40px; float:left;"}  
-        =_("Suite")
-      #select_suites
-        =render :partial =>"select_suites_of_project", :locals=> {:suite_id =>@suite_id, :suites=>@suites}       
+  //Suite
+  %div{:style=>"float:left; width: 180px;"} 
+    %label{:style=>"width:40px; float:left;"}  
+      =_("Suite")
+    #select_suites
+      =render :partial =>"select_suites_of_project", :locals=> {:suite_id =>@suite_id, :suites=>@suites}       
           
-    //User
-    %div{:style=>"float:left; width: 150px;"}     
-      %label{:style=>"width:40px; float:left;"}
-        =_("User")
-      %label{:style=>"width:150px; float:left;"}
-        -value = @user_id
-        =select("program", "user_id", @users.collect {|u| [ truncate(u.login, :ommision => "...", :length => 60) , u.id ] }.sort!,{ :selected => value, :include_blank => "All"}, { :style=>"width:130px;"})
+  //User
+  %div{:style=>"float:left; width: 150px;"}     
+    %label{:style=>"width:40px; float:left;"}
+      =_("User")
+    %label{:style=>"width:150px; float:left;"}
+      -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''  
+      =select("filter", "user_id", @users.collect {|u| [ truncate(u.login, :ommision => "...", :length => 60) , u.id ] }.sort!,{ :selected => value, :include_blank => _('All')}, { :style=>"width:130px;"})
 
-    //Date From
-    %div{:style=>"float:left; width: 150px;"}     
-      %label{:style=>"width:40px; isplay:inline;"}
-        =_('From:')
-      =calendar_date_select_tag "program[init_date]", @init_date.strftime("%d.%m.%Y %H:%M"),:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24)
+  //Date From
+  %div{:style=>"float:left; width: 150px;"}     
+    %label{:style=>"width:40px; isplay:inline;"}
+      =_('From:')
+    =calendar_date_select_tag "filter[init_date]", @init_date.strftime("%d.%m.%Y %H:%M"),:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24)
 
-    //Date Until
-    %div{:style=>"float:left; width: 150px;"}         
-      %label{:style=>"width:40px; margin-left: 10px;display:inline;"}
-        =_('Until:')
-      =calendar_date_select_tag "program[finish_date]", @finish_date.strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24), :after_show => "set_date();",:onchange => "set_hour();"
+  //Date Until
+  %div{:style=>"float:left; width: 150px;"}         
+    %label{:style=>"width:40px; margin-left: 10px;display:inline;"}
+      =_('Until:')
+    =calendar_date_select_tag "filter[finish_date]", @finish_date.strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24), :after_show => "set_date();",:onchange => "set_hour();"
 
-    //Quantity
-    %div{:style=>"float:left; width: 80px;"}
-      %label{:style=>"width:40px; margin-left: 0px;"}
-        =_("Quantity:")
-      =select_tag "program[paginate]", options_for_select([ "15", "50", "80", "100", "150" ])
+  //Quantity
+  %div{:style=>"float:left; width: 80px;"}
+    %label{:style=>"width:40px; margin-left: 0px;"}
+      =_("Quantity:")
+    -value = params[:filter] && params[:filter][:paginate]  ? params[:filter][:paginate]: "15" 
+    =select_tag "filter[paginate]", options_for_select([ "15", "50", "80", "100", "150" ],value)
 
-    //Identifier
-    %div{:style=>"float:left; width: 150px;"}     
-      %label{:style=>" display:inline;"}
-        =_('Identifier:')
-      -value = display== '' && params[:program][:identifier]  ? params[:filter][:identifier]: ''
-      =text_field("program", "identifier", {:value=>value, :style => "color:black ;width: 125px;"})
+  //Identifier
+  %div{:style=>"float:left; width: 150px;"}     
+    %label{:style=>" display:inline;"}
+      =_('Identifier:')
+    -value = params[:filter] && params[:filter][:identifier]  ? params[:filter][:identifier]: ''
+    =text_field("filter", "identifier", {:value=>value, :style => "color:black ;width: 125px;"})
 
-    .form_button{:style=>"margin-right:20px;margin-top:15px;"}
-      =submit_tag _("Apply")          
+  .form_button{:style=>"margin-right:20px;margin-top:15px;"}
+    =submit_tag _("Apply")          
     
 
 

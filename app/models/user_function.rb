@@ -1,3 +1,21 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: user_functions
+#
+#  id          :integer(4)      not null, primary key
+#  user_id     :integer(4)
+#  project_id  :integer(4)
+#  name        :string(255)
+#  description :text
+#  cant_args   :integer(4)      default(0)
+#  source_code :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  example     :text
+#  hide        :boolean(1)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,22 +41,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: user_functions
-#
-#  id          :integer(4)      not null, primary key
-#  user_id     :integer(4)
-#  project_id  :integer(4)
-#  name        :string(255)
-#  description :text
-#  cant_args   :integer(4)      default(0)
-#  source_code :text
-#  created_at  :datetime
-#  updated_at  :datetime
-#
-
 class UserFunction < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
@@ -115,67 +117,33 @@ class UserFunction < ActiveRecord::Base
   
   end
   
-  #generate function names hash
+  #search all functions names
   def self.hash_to_load_cache
     hash_functions = Hash.new
-    
-    #search all functions
-    functions = UserFunction.all
-    functions.each do |function|
-      #save function name in hash, Depending on project_id
-      hash_functions[function.project_id.to_s] = [] if hash_functions[function.project_id.to_s].nil?
-      hash_functions[function.project_id.to_s] << function.name
-    end
-  
-    hash_functions
+    return UserFunction.all.map(&:name)
   end
   
   #add function to functions hash
-
   def add_function_to_hash
     #save functions hash in cache
     Rails.cache.write("functions",UserFunction.hash_to_load_cache)
   end
   
   def delete_from_cache
-    Rails.cache.delete "func_#{self.project_id}_#{self.name}"
+    Rails.cache.delete "function_#{self.name}"
     #save functions hash in cache without deleted functions
     Rails.cache.write("functions",UserFunction.hash_to_load_cache)
   end
   
   def update_cache 
     functions = Rails.cache.read "functions"
+    old_name  = self.name
+    #Change name
     if self.changes.include?('name')
       old_name = self.changes['name'][0]
-      if functions
-        if self.changes.include?('project_id') and !self.changes['project_id'][0].nil?
-          functions[self.changes['project_id'][0].to_s].delete(old_name)
-        else
-          functions[self.project_id.to_s].delete(old_name) if old_name
-        end
-      end
-    else
-      old_name = self.name
+      Rails.cache.delete("functions") if old_name
     end
-    
-    if self.changes.include?('project_id')
-      old_project_id = self.changes['project_id'][0]
-      functions[old_project_id.to_s].delete(old_name) if functions and old_project_id
-    else
-      old_project_id = self.project_id
-    end
-    
-    Rails.cache.delete "func_#{old_project_id}_#{old_name}" if old_name and old_project_id
-  
-    if functions
-      if functions[self.project_id.to_s].nil?
-        functions[self.project_id.to_s] = [self.name]
-      elsif !functions[self.project_id.to_s].include?(self.name)
-        functions[self.project_id.to_s] << self.name
-      end
-      Rails.cache.write("functions",functions) 
-    end
-    
+      Rails.cache.delete "function_#{old_name}"
     true 
   end
   
@@ -251,18 +219,33 @@ class UserFunction < ActiveRecord::Base
     self.save
   end
 
-  def self.get_user_functions_with_filters(project,params)   
+  def self.get_user_functions_with_filters(projects,params)  
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
-    conditions_names  = Array.new     
-    conditions_names  <<  " project_id = ? "
-    conditions_values <<  project.to_i
-    if params[:filter] && params[:filter][:text]
-        text = params[:filter][:text]
+    conditions_names  = Array.new    
+ 
+    if !params[:visibility].nil?  and  !params[:logic].nil?
+	    conditions_names  <<  " ( project_id in (?) #{params[:logic]} visibility = ? ) "
+	    conditions_values <<  projects.collect{|x| x.to_i}#Ids string to integer
+	    conditions_values <<  params[:visibility]
+    elsif !params[:visibility].nil?
+ 	    conditions_names  <<  "  visibility = ?  "
+	    conditions_values <<  params[:visibility]  
+    elsif !projects.empty?
+	    conditions_names  <<  " project_id in (?)  "
+	    conditions_values <<  projects.collect{|x| x.to_i}#Ids string to integer
+    end
+
+    if params[:text] and !params[:text].empty?
         conditions_names  <<  " ( name like ? or description like ? ) "
-        conditions_values  <<  '%' + text + '%'
-        conditions_values  <<  '%' + text + '%'
+        conditions_values <<  '%' + params[:text] + '%'
+        conditions_values <<  '%' + params[:text] + '%'
+    end
+
+    if  params[:user_id] and !params[:user_id].empty?
+        conditions_names  <<  " user_id = ?"
+        conditions_values <<  params[:user_id]
     end
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values 
