@@ -28,16 +28,16 @@ gem "RbYAML"
 config_file = File.read(RAILS_ROOT + "/config/cacique.yml")
 CONFIG = YAML.load(config_file)
 
-#Data to send mail from Cacique
-ADMIN_EMAIL="admin@myCaciqueAdmin.com"
-EMAIL =  "user@domain.com"
-EMAIL_SERVER = "servermail"
-EMAIL_USER_NAME='user'
-EMAIL_PASS='xxxxxx'
+ADMIN_EMAIL="cacique@mercadolibre.com"
+#Datos para enviar mail desde Cacique
+EMAIL =  "adminmail@domain.com"
+EMAIL_SERVER = "surgemail.domain.com"
+EMAIL_USER_NAME='caciqueuser'
+EMAIL_PASS='myprivatepassword'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "domain"
-LOGGING_MAIL="user@domain.com"
+EMAIL_DOMAIN = "mydomain.com"
+LOGGING_MAIL="mails@cacique.com"
 
 #Cacique First user 
 FIRST_USER_NAME="cacique"
@@ -71,7 +71,7 @@ end
 
 
 #Ips config
-SERVER_DOMAIN="cacique.mercadolibre.com"
+SERVER_DOMAIN="cacique.ml.com"
 LOCAL_IP=local_ip
 IP_SERVER=CONFIG[:server][:ip]
 IP_DB=CONFIG[:db][:ip]
@@ -93,7 +93,7 @@ IP_QUEUE=CONFIG[:queue][:ip]
 PORT_QUEUE=CONFIG[:queue][:port]
 
 #Directory for file sharing
-SHARED_DIRECTORY = "<file sharing route>"
+SHARED_DIRECTORY = "/home/cacique/shared/"
 
 #Circuits versions
 VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
