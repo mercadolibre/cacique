@@ -1,12 +1,13 @@
 #   SQLite version 3.x
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
+
 development:
   adapter: mysql
   encoding: utf8
   database: cacique_dev
-  pool: 10
-  username: root
-  password: bender
+  pool: 5
+  username: user
+  password: passwors
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -15,19 +16,17 @@ development:
 test:
   adapter: mysql
   encoding: utf8
-  database: cacique
-  pool: 10
-  username: cacique
-  password: cacique
+  database: cacique_test
+  pool: 5
+  username: user
+  password: password
   host: localhost
 
 production:
   adapter: mysql
   encoding: utf8
-  database: cacique_dev
-  pool: 10
-  username: root
-  password: bender
+  database: cacique_prod
+  pool: 5
+  username: user
+  password: password
   host: localhost
-
-
