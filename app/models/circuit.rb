@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: circuits
+#
+#  id          :integer(4)      not null, primary key
+#  name        :string(255)
+#  description :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  category_id :integer(4)
+#  source_code :text
+#  user_id     :integer(4)
+#  project_id  :integer(4)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,21 +39,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: circuits
-#
-#  id          :integer(4)      not null, primary key
-#  name        :string(255)
-#  description :text
-#  created_at  :datetime
-#  updated_at  :datetime
-#  category_id :integer(4)
-#  source_code :text
-#  user_id     :integer(4)
-#
-
 require "#{RAILS_ROOT}/lib/generator/processor"
 require "#{RAILS_ROOT}/lib/generator/fake_selenium"
 require "#{RAILS_ROOT}/lib/generator/selenium_data_collector"
@@ -378,6 +379,8 @@ class Circuit < ActiveRecord::Base
  #search last script execution
  def last_execution_self
    Execution
+   DataRecovery
+   DataRecoveryName
   #search first in cache
   execution_id = Rails.cache.read("user_#{current_user.id}_circuit_#{self.id}_self")
   if execution_id
@@ -490,16 +493,14 @@ class Circuit < ActiveRecord::Base
      
   end
 
-
-
-
-
-
-
-
-
-
-
+  def stop_execution
+    require 'socket'  
+    #streamSock.send( "Hello\n" ) 
+    str = @mannager.send("stop;#{self.id}")
+    str = streamSock.recv( 100 )  
+    print str  
+    streamSock.close  
+  end
 
 private
   #Delete carriage return to resguard views tree
@@ -513,4 +514,8 @@ private
   end
 
 
+  def create_mannager_connection(ip,pid)
+     require 'socket'
+       @mannager = TCPSocket.new( ip, MANNAGER_PORT )
+  end
 end

@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: case_templates
+#
+#  id         :integer(4)      not null, primary key
+#  circuit_id :integer(4)
+#  user_id    :integer(4)
+#  objective  :string(255)
+#  priority   :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,20 +37,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: case_templates
-#
-#  id         :integer(4)      not null, primary key
-#  circuit_id :integer(4)
-#  user_id    :integer(4)
-#  objective  :string(255)
-#  priority   :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class CaseTemplate < ActiveRecord::Base
   belongs_to :user
   belongs_to :circuit

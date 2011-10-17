@@ -95,7 +95,7 @@ class CircuitsController < ApplicationController
 
            #Script access registry
            CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
-           render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit_id => @circuit.id }
+           render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit=> @circuit }
          else
            render :xml => "<div style='color:red;'>" + _("Could not save the script because it is not updated") + "<br>" + _("Last Edit") + ": #{car.user.name} ( #{car.user.login} )"+"\nIP: "+"#{car.ip_address}</div>";
          end
@@ -255,7 +255,8 @@ class CircuitsController < ApplicationController
    else
    #Edit SOURCE CODE
       Execution
-    
+      DataRecovery
+      DataRecoveryName    
       if !Circuit.exists?(params[:id])
         Circuit.expires_cache_circuit(params[:id], @project_actual)
         redirect_to "/circuits"
@@ -320,7 +321,7 @@ class CircuitsController < ApplicationController
   end
 
   def destroy
-    @circuit = Circuit.find params[:id]
+    @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
        @circuit.destroy
        @js = "window.location.reload()"

@@ -62,7 +62,7 @@ class CaseTemplatesController < ApplicationController
       case_template_id = case_template.id
       execution = case_template.last_execution
     end
-    render :partial => 'status', :locals => {:execution => execution, :case_template_id => case_template_id }
+    render :partial => 'executions/status', :locals => {:execution => execution, :case_template_id => case_template_id }
   end
 
 

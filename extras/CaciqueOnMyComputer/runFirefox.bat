@@ -1,1 +1,1 @@
-java -jar selenium-server-1.0.3/selenium-server.jar -forcedBrowserMode *firefox -singleWindow
+java -jar selenium-2.0rc3/selenium-server-standalone-2.0rc3.jar -forcedBrowserMode *firefox -singleWindow
