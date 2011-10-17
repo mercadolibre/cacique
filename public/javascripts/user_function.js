@@ -62,7 +62,6 @@ var cant_args_add = 0;
 
 //Function to send the modified script
   function sendContent(){
-    form = document.getElementById('form_edit_free');
     content = codepress_content_free.getCode();
     encoded_content = encode_text(content);
     params = "content=" + encodeURI(encoded_content) 
@@ -72,13 +71,3 @@ var cant_args_add = 0;
 function respond(xmlHttpRequest, responseHeader){
 }
 
-//To show or hide the message of "Hide the code of the function" option
- function show_hide_message(){
- 	div = document.getElementById('message');
- 	if(div.style.display == 'block'){
- 		div.style.display = 'none';
- 	}
- 	else{
- 		div.style.display = 'block';
- 	}
- }

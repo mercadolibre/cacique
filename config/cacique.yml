@@ -1,4 +1,3 @@
-:server:
   :ip: 10.4.0.30
 
 :db:
@@ -28,9 +27,9 @@
     :host: localhost
 
 :workling:
-  :production: "localhost:22122"
-  :development: "localhost:22122"
-  :test: "localhost:22122"
+  :production: "127.0.0.1:22122"
+  :development: "127.0.0.1:22122"
+  :test: "127.0.0.1:22122"
 
 :hub:
   :ip: 127.0.0.1

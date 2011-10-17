@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: user_configurations
+#
+#  id                  :integer(4)      not null, primary key
+#  user_id             :integer(4)
+#  send_mail_ok        :boolean(1)
+#  debug_mode          :boolean(1)
+#  remote_control_mode :string(255)
+#  remote_control_addr :string(255)
+#  remote_control_port :string(255)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  send_mail_fail      :boolean(1)      default(TRUE)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,22 +40,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: user_configurations
-#
-#  id                  :integer(4)      not null, primary key
-#  user_id             :integer(4)
-#  send_mail           :boolean(1)
-#  debug_mode          :boolean(1)
-#  remote_control_mode :string(255)
-#  remote_control_addr :string(255)
-#  remote_control_port :string(255)
-#  created_at          :datetime
-#  updated_at          :datetime
-#
-
 class UserConfiguration < ActiveRecord::Base
   belongs_to :user
   has_many :user_configuration_values, :dependent => :destroy

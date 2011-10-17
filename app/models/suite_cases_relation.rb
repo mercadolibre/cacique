@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: suite_cases_relations
+#
+#  id                  :integer(4)      not null, primary key
+#  suite_id            :integer(4)
+#  case_origin         :integer(4)
+#  case_destination    :integer(4)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  circuit_origin      :integer(4)
+#  circuit_destination :integer(4)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,21 +38,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: suite_cases_relations
-#
-#  id                  :integer(4)      not null, primary key
-#  suite_id            :integer(4)
-#  case_origin         :integer(4)
-#  case_destination    :integer(4)
-#  created_at          :datetime
-#  updated_at          :datetime
-#  circuit_origin      :integer(4)
-#  circuit_destination :integer(4)
-#
-
 class SuiteCasesRelation < ActiveRecord::Base
   belongs_to :suite
   has_one :circuits
