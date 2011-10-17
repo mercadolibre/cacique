@@ -69,6 +69,7 @@
                 =truncate(function.name.capitalize,:ommision => "...", :length =>20)
               %td{:title=>function.user.name.capitalize}
                 =truncate(function.user.name.capitalize,:ommision => "...", :length =>20)
-              %td{:title=>function.project.name.capitalize}
-                =truncate(function.project.name.capitalize,:ommision => "...", :length =>20)       
+              -value = (function.project_id == 0 )? _('Generals') : function.project.name.capitalize
+              %td{:title=>value }
+                =truncate(value,:ommision => "...", :length =>20)       
 
