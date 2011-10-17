@@ -1,5 +1,4 @@
-:server:
-  :ip: 127.0.0.1
+  :ip: 10.4.0.30
 
 :db:
   :development:
