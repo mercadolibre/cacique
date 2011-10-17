@@ -1,1 +1,9 @@
-================= Version 0.
+=============== Version 0.1.4-2
+- Centralized configuration file
+- Logging of execution from the script editor
+- Bug fix delete script
+- Uploader files
+- improve queries response
+- Adding Changelogs
+- Adding functions policies (public/private, visible/hidde)
+
