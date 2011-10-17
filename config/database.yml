@@ -4,10 +4,10 @@
 development:
   adapter: mysql
   encoding: utf8
-  database: cacique_prod
-  pool: 10
-  username: root
-  password: mozart
+  database: cacique_dev
+  pool: 5
+  username: user
+  password: passwors
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -16,17 +16,17 @@ development:
 test:
   adapter: mysql
   encoding: utf8
-  database: cacique_prod
-  pool: 10
-  username: root
-  password: mozart
+  database: cacique_test
+  pool: 5
+  username: user
+  password: password
   host: localhost
 
 production:
   adapter: mysql
   encoding: utf8
-  database: cacique_dev
-  pool: 10
-  username: caciquedb
-  password: mozart
-  host: 10.4.0.30
+  database: cacique_prod
+  pool: 5
+  username: user
+  password: password
+  host: localhost
