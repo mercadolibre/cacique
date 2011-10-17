@@ -158,11 +158,11 @@ while (( $# ))
 	shift
 	;;
     -smo)
-	SEND_MAIL_OK=" -d [execution][send_mail_ok]=true -d [execution][emails_to_send_ok][]=$2 "
+	SEND_MAIL_OK="$SEND_MAIL_OK -d [execution][emails_to_send_ok][]=$2 "
 	shift
 	;;
     -smf)
-	SEND_MAIL_FAIL=" -d [execution][send_mail_fail]=true -d [execution][emails_to_send_fail][]=$2 "
+	SEND_MAIL_FAIL="$SEND_MAIL_FAIL -d [execution][emails_to_send_fail][]=$2 "
 	shift
 	;;
     -ip)
@@ -215,6 +215,9 @@ while (( $# ))
   esac
 shift
 done
+
+if [[ ! -z $SEND_MAIL_OK   ]]; then SEND_MAIL_OK=" -d [execution][send_mail_ok]=true  $SEND_MAIL_OK  "; fi
+if [[ ! -z $SEND_MAIL_FAIL ]]; then SEND_MAIL_FAIL=" -d [execution][send_mail_fail]=true $SEND_MAIL_FAIL "; fi
 
 case $ACTION in
 		run)

@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: roles
+#
+#  id                :integer(4)      not null, primary key
+#  name              :string(40)
+#  authorizable_type :string(40)
+#  authorizable_id   :integer(4)
+#  created_at        :datetime
+#  updated_at        :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,19 +36,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: roles
-#
-#  id                :integer(4)      not null, primary key
-#  name              :string(40)
-#  authorizable_type :string(40)
-#  authorizable_id   :integer(4)
-#  created_at        :datetime
-#  updated_at        :datetime
-#
-
 # Defines named roles for users that may be applied to
 # objects in a polymorphic fashion. For example, you could create a role
 # "moderator" for an instance of a model (i.e., an object), a model class,

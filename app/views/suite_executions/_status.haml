@@ -26,20 +26,32 @@
 %script
   ejecucion_completa_#{suite_execution.id}=true
   
+//Stop
+-if suite_execution and !suite_execution.finished?
+  //=link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(suite_execution), :method=>:delete) if current_user.has_role?("root")
+  %script
+    ejecucion_completa_#{suite_execution.id}=false;
+    //$j('#play').hide();
+//-else
+//  %script
+//    $j('#play').show();
+
 -case suite_execution.status
+  -when 0
+    =link_to image_tag("icons/waiting_1.png", :style=>'border:none;', :alt=>"waiting_1", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
+
   -when 1
-    %script
-      ejecucion_completa_#{suite_execution.id}=false
     =link_to image_tag("load/spinner.gif", :alt => "spinner", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
+
   -when 2
     =link_to image_tag("icons/ok_1.png", :style=>'border:none;', :alt => "ok_1", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
+
   -when 3
     =link_to image_tag("icons/fail_1.png", :style=>'border:none;', :alt => "fail_1", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
+
   -when 5
     =link_to image_tag("icons/fail_execution.png", :style=>'border:none;', :alt => "fail_execution", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
+
   -when 6
     =link_to image_tag("icons/cancel.png", :style=>'border:none;', :alt => "cancel_execution", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"    
-  -when 0
-    %script
-      ejecucion_completa_#{suite_execution.id}=false  
-    =link_to image_tag("icons/waiting_1.png", :style=>'border:none;', :alt=>"waiting_1", :title=>suite_execution.s_status), "/suite_executions/#{suite_execution.id.to_s}"
+

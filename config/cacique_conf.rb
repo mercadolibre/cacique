@@ -1,15 +1,45 @@
-ADMIN_EMAIL="admin@myCaciqueAdmin.com"
+#  @Authors:    
+#      Guerra Brenda                   brenda.guerra.7@gmail.com
+#      Crosa Fernando                  fernandocrosa@hotmail.com
+#      Branciforte Horacio             horaciob@gmail.com
+#      Luna Juan                       juancluna@gmail.com
+#      
+#  @copyright (C) 2010 MercadoLibre S.R.L
+#
+#
+#  @license        GNU/GPL, see license.txt
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see http://www.gnu.org/licenses/.
+#
+
+require "rubygems"
+gem "RbYAML"
+
+config_file = File.read(RAILS_ROOT + "/config/cacique.yml")
+CONFIG = YAML.load(config_file)
+
+ADMIN_EMAIL="cacique@mercadolibre.com"
 #Datos para enviar mail desde Cacique
-EMAIL =  "user@domain.com"
-EMAIL_SERVER = "servermail"
-EMAIL_USER_NAME='user'
-EMAIL_PASS='xxxxxx'
+EMAIL =  "adminmail@domain.com"
+EMAIL_SERVER = "surgemail.domain.com"
+EMAIL_USER_NAME='caciqueuser'
+EMAIL_PASS='myprivatepassword'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "domain"
-LOGGING_MAIL="user@domain.com"
+EMAIL_DOMAIN = "mydomain.com"
+LOGGING_MAIL="mails@cacique.com"
 
-#Primer usuario Generico de la herramienta
+#Cacique First user 
 FIRST_USER_NAME="cacique"
 FIRST_USER_PASS="admin"
 
@@ -17,15 +47,16 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.1.13"
+CACIQUE_VERSION = "0.1.4-2"
 
-#funcion que calcula el ip del servidor
-require 'socket'
 
+
+#Function that calculates the server ip
+#------------------------------------------------------------------------
 def local_ip
   begin
-  orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
-
+  # turn off reverse DNS resolution temporarily
+  orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  
   UDPSocket.open do |s|
     s.connect '1.1.1.1', 1
     s.addr.last
@@ -37,21 +68,62 @@ def local_ip
 ensure
   Socket.do_not_reverse_lookup = orig
 end
-LOCAL_IP=local_ip
-IP_SERVER=local_ip
+#------------------------------------------------------------------------
 
-#Workers machines localip, es para mi maquina de desarrollo
+
+#Ips config
+SERVER_DOMAIN="cacique.ml.com"
+LOCAL_IP=local_ip
+IP_SERVER=CONFIG[:server][:ip]
+IP_DB=CONFIG[:db][:ip]
+MANNAGER_PORT=CONFIG[:mannager][:port]
+
+#Workers machines localip
 WORKERS_ADDR=[LOCAL_IP]
 WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"
 
 #Puerto del hub
-HUB_PORT = 4444
+HUB_IP = CONFIG[:hub][:ip]
+HUB_PORT = CONFIG[:hub][:port]
+
 #URL del hub
-HUB_URL = "http://#{IP_SERVER}:#{HUB_PORT}/"
+HUB_URL = "http://"+CONFIG[:hub][:ip]+":"+CONFIG[:hub][:port].to_s+CONFIG[:hub][:rest]
 
-IP_QUEUE=IP_SERVER
-PORT_QUEUE="22122"
+#Queue observer
+IP_QUEUE=CONFIG[:queue][:ip]
+PORT_QUEUE=CONFIG[:queue][:port]
 
+#Directory for file sharing
+SHARED_DIRECTORY = "/home/cacique/shared/"
+
+#Circuits versions
+VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
+CIRCUIT_MIN_VERSION_ENTRIES = 5
+VERSION_MAX_FOR_CIRCUIT = 5
+
+#Functions versions
+VERSION_MAX_ENTRIES_FACTOR_FUNCTION = 5
+FUNCTION_MIN_VERSION_ENTRIES = 5
+VERSION_MAX_FOR_FUNCTION = 5
+
+#Functions: creation default
+FUNCTION_HIDE_DEFAULT     = false
+FUNCTION_PRIVATED_DEFAULT = true
+
+#Amount of executions that scheduler will create before send an alert to confirm 
+MAX_SUITE_PROGRAM = 300
+
+#Timeout that system is going to wait before stop an atomic execution
+ATOMIC_TIMEOUT = 90
+
+#Constants caching time (seconds)
+CACHE_EXPIRE_EXEC = 7200 
+CACHE_EXPIRE_SUITE_EXEC = 7200
+CACHE_FUNCTIONS = 7200
+CACHE_EXPIRE_PROYECT_SUITES = 7200
+CACHE_EXPIRE_SUITES = 7200
+
+#Default context configuration
 module CaciqueConf
   SEND_MAIL = true
   DEBUG_MODE = false
@@ -61,22 +133,6 @@ module CaciqueConf
 end
 
 
-VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
-CIRCUIT_MIN_VERSION_ENTRIES = 5
-VERSION_MAX_FOR_CIRCUIT = 5
 
-VERSION_MAX_ENTRIES_FACTOR_FUNCTION = 5
-FUNCTION_MIN_VERSION_ENTRIES = 5
-VERSION_MAX_FOR_FUNCTION = 5
 
-#this parameter is the amount of executions that scheduler will create before send an alert to confirm 
-
-MAX_SUITE_PROGRAM = 300
-
-#Constantes de tiempos de cacheo en seg.
-CACHE_EXPIRE_EXEC = 7200 
-CACHE_EXPIRE_SUITE_EXEC = 7200
-CACHE_FUNCTIONS = 7200
-CACHE_EXPIRE_PROYECT_SUITES = 7200
-CACHE_EXPIRE_SUITES = 7200
 
