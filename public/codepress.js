@@ -25,7 +25,12 @@ CodePress = function(obj) {
 	self.options = self.textarea.className;
 	self.id = 'iframSourceCode';
   //Set the onclick frame
-  IframeOnClick.track(self, function() { if(add_event && !is_read_only()){ document.getElementById('iframSourceCode').contentWindow.addEventListener('keypress',restrictEnterKey, true); add_event = false;} });
+  IframeOnClick.track(self, function() { 
+              if(add_event && !is_read_only()){ 
+              iframSourceCode = document.getElementById('iframSourceCode').contentWindow; 
+              iframSourceCode.addEventListener('keypress',restrictEnterKey, true);
+              add_event = false;} 
+            });
 
 	self.initialize = function() {
 		self.editor = self.contentWindow.CodePress;
