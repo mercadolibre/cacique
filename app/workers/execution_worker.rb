@@ -171,7 +171,7 @@ new_exe_conf_value = ExecutionConfigurationValue.create(exe.attributes.merge(:su
 @suite_relation = SuiteRelation.new(options[:suite_cases_runner], options[:suite_id])
 #caching suite execution
         cache_suite_execution = Rails.cache.fetch("suite_exec_#{options[:suite_execution_id]}",:expires_in => CACHE_EXPIRE_SUITE_EXEC){ s = SuiteExecution.find options[:suite_execution_id]; [s,s.execution_ids] }            
-
+        ccq_restart_worker = false
         options[:executions].each do |@execution|
         begin
         starting_time = Time.now
@@ -334,10 +334,10 @@ def script_runner.process_snapshot( name, content )
             retry_save do
               @execution.save
             end
-            system("kill -9 #{$$}") if script_runner.ccq_exec_flag == 1
+          ccq_restart_worker = true if  !ccq_restart_worker and (script_runner.ccq_exec_flag == 1) 
        end
    end#End executions
-
+   system("kill -9 #{$$}") if ccq_restart_worker
 end
   
   def retry_execution( options )

@@ -480,7 +480,6 @@ class SuiteExecution < ActiveRecord::Base
       execution.case_template_id = case_template.id
       execution.status = 5
       execution.time_spent = 0
-      execution.output = message
       execution.save 
     end
     
