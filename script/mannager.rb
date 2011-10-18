@@ -115,8 +115,6 @@ class WorkerMannager
       pids = workers_hash[@ip]
       pids.each do |pid|
           begin
-             puts "worker_#{@ip.to_s}_#{pid.to_s}"
-             puts @cache.get("worker_#{@ip.to_s}_#{pid.to_s}")
              task_not_running << pid if @cache.get("worker_#{@ip.to_s}_#{pid.to_s}").nil?
           rescue ArgumentError => msg
                task_running << pid #undefined class/module Execution
