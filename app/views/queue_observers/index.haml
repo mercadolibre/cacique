@@ -23,7 +23,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
--javascript 'tablesort'
 -javascript 'checkbox_lib'
 
 %h1{:title=>"Queue Observer"}
@@ -36,22 +35,25 @@
   -form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:restart}, :html => {:id => "form"} do 
     %table.detail{:style=> "margin: 5px auto;width: 95%;"}
       %tr
-        %th{:style=>"width:10%;"}
+        %th{:colspan=>5, :style=>"width:10%;background:#193055;font-size: 10px;font-weight: bold;line-height:20px;"}
           =check_box_tag '[ips][]',0,false,:onClick=>"ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');",:style=>"float:left;"
-          PID
-        %th{:class => "sortable",:style=>"width:20%;"}
-          =_('User')
-        %th{:class => "sortable",:style=>"width:25%;"}
-          =_('Project')
-        %th{:class => "sortable",:style=>"width:5%;"}
-          T
-        %th{:class => "sortable",:style=>"width:40%;"}
-          Task
+          All Workers
       -@running.each do |ip, tasks|
         %tr
-          %td{:colspan=>5, :style=>"background:#E6E6E6;color:#585858;font-size: 10px;font-weight: bold;line-height:20px;text-align: left;"}
-            =check_box_tag "ips[]",ip ,false, :class=>'workers_ids', :style=>"float: left; margin-right: 10px;"
-            =ip
+          %th{:style=>"width:10%;"}
+            PID
+          %th{:style=>"width:20%;"}
+            =_('User')
+          %th{:style=>"width:25%;"}
+            =_('Project')
+          %th{:style=>"width:5%;"}
+            T
+          %th{:style=>"width:40%;"}
+            Task
+          %tr
+            %td{:colspan=>5, :style=>"background:#E6E6E6;color:#585858;font-size: 10px;font-weight: bold;line-height:20px;text-align: left;"}
+              =check_box_tag "ips[]",ip ,false, :class=>'workers_ids', :style=>"float: left; margin-right: 10px;"
+              =ip
         -tasks.each do |pid, execution|
           %tr
             %td
