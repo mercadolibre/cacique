@@ -33,7 +33,7 @@ def retry_block(max_retries, puts_message, error_text)
         puts "#{puts_message} #{retries} #{e}"
         raise "#{error_text} #{e}"
         end 
-sleep rand(5)
+        sleep rand(5)
         retry
         end
 
@@ -171,7 +171,7 @@ new_exe_conf_value = ExecutionConfigurationValue.create(exe.attributes.merge(:su
 @suite_relation = SuiteRelation.new(options[:suite_cases_runner], options[:suite_id])
 #caching suite execution
         cache_suite_execution = Rails.cache.fetch("suite_exec_#{options[:suite_execution_id]}",:expires_in => CACHE_EXPIRE_SUITE_EXEC){ s = SuiteExecution.find options[:suite_execution_id]; [s,s.execution_ids] }            
-
+        ccq_restart_worker = false
         options[:executions].each do |@execution|
         begin
         starting_time = Time.now
@@ -245,7 +245,7 @@ def script_runner.process_snapshot( name, content )
         end
 #############################################################################        
         print "Running execution #{@execution.id} from suite: #{@execution.suite_execution_id}...  \n" if options[:debug_mode]
-datos_recuperados = script_runner.run_source_code( @execution.circuit.source_code )
+        datos_recuperados = script_runner.run_source_code( @execution.circuit.source_code )
         @execution.output +=  @suite_relation.output + script_runner.output
         cache_execution.output = @suite_relation.output + script_runner.output
         if @execution.case_template_id != 0
@@ -334,10 +334,11 @@ datos_recuperados = script_runner.run_source_code( @execution.circuit.source_cod
             retry_save do
               @execution.save
             end
+          ccq_restart_worker = true if  !ccq_restart_worker and (script_runner.ccq_exec_flag == 1) 
        end
    end#End executions
-   
-  end
+   system("kill -9 #{$$}") if ccq_restart_worker
+end
   
   def retry_execution( options )
 

@@ -88,11 +88,13 @@ class WorkerMannager
          when "stop"
            stop(request[1],request[2])
            register_worker
-         when "C"
-           puts 'You need help!!!'
+         when "restart_all"
+           register_worker
+           restart_all 
+           register_worker
          else
            s.write("Ops, that is not an available command")
-           s.close
+           s.close    Process.kill("SIGUSR1",pid.to_i)
           end
        end
     end
@@ -104,8 +106,28 @@ class WorkerMannager
   end
 
 
-  def stop_execution
-  puts "llego la señal"
+  def restart_all
+     #Get executions running or not
+      task_running=[] 
+      task_not_running=[]
+      workers_hash=@cache.get("registred_workers")
+      workers_hash={} if workers_hash==nil
+      pids = workers_hash[@ip]
+      pids.each do |pid|
+          begin
+             task_not_running << pid if @cache.get("worker_#{@ip.to_s}_#{pid.to_s}").nil?
+          rescue ArgumentError => msg
+               task_running << pid #undefined class/module Execution
+          end
+      end
+      puts "Restarting executions: \n Running #{task_running.join(',')}\n Not running: #{task_not_running.join(',')}"
+
+      task_running.each do |pid|
+          Process.kill("SIGUSR1",pid.to_i)
+      end
+      task_not_running.each do |pid|
+          system("kill -9 #{pid.to_i}")
+      end
   end
 
 end

@@ -2498,6 +2498,14 @@ msgstr "Tarefa Fila"
 msgid "Conection Error"
 msgstr "Erro de conexão"
 
+#: app/views/queue_observers/index.haml:
+msgid "Restarting the worker"
+msgstr "Reinicie o Worker"
+
+#: app/views/queue_observers/index.haml:
+msgid "Update the job queue"
+msgstr "Atualize a fila de trabalhos"
+
 #: app/controllers/application_controllers.rb:
 msgid "Invalid Action"
 msgstr "Ação Inválida"

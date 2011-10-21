@@ -23,55 +23,73 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
--javascript 'tablesort'
+-javascript 'checkbox_lib'
+
 %h1{:title=>"Queue Observer"}
   =_('Queue Observer')
 
 %h2
   =_('Running Tasks')
-  -if @admin
-    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"Refresh workers info", :title=>"Refresca los pids de los workers"), :action => "refresh"
 
-%table.detail
-  %tr
-    %th{:class => "sortable"}
-      Worker
-    %th{:class => "sortable"}
-      =_('User')
-    %th{:class => "sortable"}
-      =_('Script')
-    %th{:class => "sortable"}
-      =_('Project')
-    %th{:class => "sortable"}
-      Suite
-  -@running.each do |name, task|
-    %tr
-      %td
-        =name.gsub("_"," ")
-      -if task.instance_of? Hash
-        %td{:title=>task[:user_name]}
-          =truncate(task[:user_name],:ommision => "...", :length =>25)
-        %td{:title=>task[:circuit]}
-          =truncate(task[:circuit],:ommision => "...", :length =>50)
-        %td{:title=>task[:project]}
-          =truncate(task[:project],:ommision => "...", :length =>30)
-        %td{:title=>task[:suite]}
-          =truncate(task[:suite],:ommision => "...", :length =>60)
-      -else
-        %td
-          \--
-        %td
-          \--
-        %td
-          \--
-        %td
-          \--
+-if !@running.empty?
+  -form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:restart}, :html => {:id => "form"} do 
+    %table.detail{:style=> "margin: 5px auto;width: 95%;"}
+      %tr
+        %th{:colspan=>5, :style=>"width:10%;background:#193055;font-size: 10px;font-weight: bold;line-height:20px;"}
+          =check_box_tag '[ips][]',0,false,:onClick=>"ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');",:style=>"float:left;"
+          All Workers
+      -@running.each do |ip, tasks|
+        %tr
+          %th{:style=>"width:10%;"}
+            PID
+          %th{:style=>"width:20%;"}
+            =_('User')
+          %th{:style=>"width:25%;"}
+            =_('Project')
+          %th{:style=>"width:5%;"}
+            T
+          %th{:style=>"width:40%;"}
+            Task
+          %tr
+            %td{:colspan=>5, :style=>"background:#E6E6E6;color:#585858;font-size: 10px;font-weight: bold;line-height:20px;text-align: left;"}
+              =check_box_tag "ips[]",ip ,false, :class=>'workers_ids', :style=>"float: left; margin-right: 10px;"
+              =ip
+        -tasks.each do |pid, execution|
+          %tr
+            %td
+              =pid
+            -if execution
+              %td{:title=>execution.user.name}
+                =truncate(execution.user.name,:ommision => "...", :length =>25)
+              %td{:title=>execution.suite_execution.project.name}
+                =truncate(execution.suite_execution.project.name,:ommision => "...", :length =>30)
+              %td
+                -entity = (execution.suite_execution.suite_id==0)? execution.suite_execution.executions.first.circuit : execution.suite_execution.suite
+                =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
+              %td{:title=>execution.circuit.name}
+                -if entity.instance_of? Suite
+                  %b
+                    =truncate(execution.suite_execution.suite.name, :ommision => "...", :length =>60)
+                    \:
+                =truncate(execution.circuit.name,:ommision => "...", :length =>50)
+            -else
+              %td
+                \--
+              %td
+                \--
+              %td
+                \--
+              %td
+                \--
+-else
+  %h2
+    =_('At this time run instances are not available.')
 
 -@tasks.each do |name, queue|
   -if queue.size>0
     %h2
       =name.to_s.gsub("execution_workers__","").gsub("_"," ")
-    %table.detail
+    %table.detail{:style=> "margin: 5px auto;width: 95%;"}
       %th{ :class => "sortable"}
         =_('User')
       %th{ :class => "sortable"}
@@ -93,3 +111,17 @@
           %td
             =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
         %tr
+
+
+//Tools menu
+-content_for :tools_menu do
+  -if @admin
+    =image_tag "icons/restart.png", :style=>'border:none;', :alt=>"restart.png", :title=>_('Restarting the worker'), :onclick=>"$j('#form').submit();"
+    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"refresh.png", :title=>_('Update the job queue') ), :action => "refresh"
+
+  //Info
+  =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoQueueObserver').show();", :style=>"padding-right:20px;")
+
+//Help 
+=render :partial => "info_queue_observer"
+

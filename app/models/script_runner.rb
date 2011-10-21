@@ -41,21 +41,26 @@ class ScriptRunner < ActiveRecord::Base
   attr_accessor :execution 
   attr_accessor :free_values
   attr_accessor :execution_flag
-
+  attr_accessor  :ccq_exec_flag
   require 'timeout'
 
   def initialize
-      @devuelve = Hash.new
-      @output = String.new
-      @ccq_atomic = false
-      Signal.trap("SIGUSR2") do
-         self.stop
-         Timeout::timeout(ATOMIC_TIMEOUT) do
-            while @ccq_atomic do end 
-         end
-         $execution_thread.kill 
-      end
-  end
+    @ccq_exec_flag=0
+	@devuelve = Hash.new
+	@output = String.new
+        @ccq_atomic = false
+        Signal.trap("SIGUSR2") do
+              self.stop
+              Timeout::timeout(ATOMIC_TIMEOUT) do
+                 while @ccq_atomic do end 
+              end
+              $execution_thread.kill 
+        end
+        Signal.trap("SIGUSR1") do
+          @ccq_exec_flag=1
+        end
+
+   end
 	
 
   #only for obtain position_error variable, through an extend
