@@ -1,5 +1,5 @@
-  :ip: 10.4.0.30
-
+:server:
+  :ip: 127.0.0.1
 :db:
   :development:
     :adapter: mysql
