@@ -76,7 +76,7 @@ gem "calendar_date_select"
 gem "ruby-openid"
 gem "camping"
 gem "prawn"
-gem "passenger"
+gem "passenger", "3.0.7"
 gem "hoptoad_notifier"
 gem "newrelic_rpm"
 
