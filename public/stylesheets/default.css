@@ -542,7 +542,7 @@ legend {
   position:fixed;
   left: 35%; 
   top:20%;
-  z-index:3;
+  z-index:12;
 }
 
 .tag h3{
