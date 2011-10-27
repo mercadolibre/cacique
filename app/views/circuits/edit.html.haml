@@ -25,29 +25,15 @@
 //
 
 -javascript 'editcircuit'
--javascript 'onclick_iframe'
--javascript 'key_handler'
 -javascript 'checked_default'
 -javascript 'checkbox_lib'
 
-%script{ :language => "javascript", :src => "/codepress.js" }
--permission_denied = "alert(#{_('You do not have Edit Permissions for this script')})"
-%script
-  //For save before leave if there are changes in the script
-  window.onbeforeunload = function (evt) {
-  var message = "#{_('You have Unsaved Changes, do you want to Save before Exit?')}";
-  if(!add_asterisk){
-  if (evt) {
-  evt.returnValue = message;
-  }
-  return message;
-  }
-  }   
-  function is_read_only(){
-  ="return #{@readonly}"
-  }
-   
-  
+-javascript 'editor_changes'
+-javascript '/CodeMirror-2.15/lib/codemirror'
+-javascript '/CodeMirror-2.15/mode/ruby/ruby.js'
+=stylesheet_link_tag '/CodeMirror-2.15/lib/codemirror.css'
+=stylesheet_link_tag '/CodeMirror-2.15/theme/eclipse.css'
+
 .main
   #TabView.TabView
     .Tabs
@@ -55,35 +41,24 @@
         =_('Edit Script')
       .tab_view{:onclick=>"location='#{project_circuit_case_templates_path(@project_id,@circuit)}'"}
         =_('Data Set')        
-      %div{ :style=>"clear: both"}           
+      %div{ :style=>"clear: both"}
   .edit_free_table{:id=>"div_edit_free"}
     %div{ :style=>"width:500px;float:left; margin-bottom:10px;"}
-      %div{ :id => "modified_file", :style => "width:20px;float:left;"}
+      =image_tag "icons/s-edit.png",:id=>"pencil_icon",:alt=>"s-edit.png",:style => "display:none;"
       %b
         =truncate(@circuit.name.capitalize, :ommision => "...", :length => 60)
       %br
       %i{:style=>"font-size:12px;"}
         =@version.message.capitalize  if  @version.message != ""
-
         -if @version_number
           =_("Version ")+"(#{@version_number})"
-          -if !@readonly
-            %script
-              //Adding '*'
-              document.getElementById('modified_file').innerHTML = "<image src='/images/icons/s-edit.png'></img>";
-              document.getElementById('save_button').style.visibility = "visible";
-              document.getElementById('savewc_button').style.visibility = "visible"; 
-              add_asterisk = false;
               
     %div{ :style=>"width:150px;float:right;margin-left:10px;text-align:right;",  :title=>@circuit.user.name}
       =_('By')
       =truncate(@circuit.user.name, :ommision => "...", :length => 20)
-    //Message after save
-    #save_message
-      =render :partial => "original_content", :locals => { :source_code => @last_circuit_version.source_code, :exito => nil, :text => nil }
     
     //SCRIPT
-    %textarea{ :id => "codepress_content_free", :name=>"content_free", :class => "codepress ruby linenumbers-on" + (@readonly ? " readonly-on" : ""), :style=>"width:100%; height:335px;"}
+    %textarea{ :id=>"scriptTextArea", :style=>"width:100%; height:335px;"}
       =@circuit.source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r")
 
 
@@ -95,8 +70,22 @@
 -content_for :tools_menu do
   = render :partial=> "menu_edit"
   
-
-
-
+%script
+  ="var readonly= #{@readonly}";
+  changed_flag = false;
+  //For save before leave if there are changes in the script
+  ="var message = '#{_('You have Unsaved Changes, do you want to Save before Exit?')}'"
+  window.onbeforeunload = function(evt){if(changed_flag){evt.returnValue = message;return message;} }
+  //CodeMirror
+  script_content = CodeMirror.fromTextArea(document.getElementById("scriptTextArea"), {
+  lineNumbers: true,
+  theme: "eclipse",
+  matchBrackets: true,
+  tabMode: "indent",
+  readOnly: readonly,
+  onChange: function() {
+  has_changed();
+  }
+  });
 
 

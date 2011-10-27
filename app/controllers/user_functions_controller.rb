@@ -152,6 +152,7 @@ class UserFunctionsController < ApplicationController
   def update
     @user_function = UserFunction.find params[:id]
     @has_permission = current_user.has_permission_admin_project?(@user_function.project_id)
+    @previous_version = @user_function.versions.last.number
     if @has_permission and !@user_function.hide?
       args = UserFunction.prepare_args(params[:user_function][:args]) 
       @user_function.name = params[:user_function][:name]

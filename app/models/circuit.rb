@@ -464,18 +464,9 @@ class Circuit < ActiveRecord::Base
  end
 
 
-  def save_source_code(originalcontent, content, commit_message)
-    
+  def save_source_code(content, commit_message)
      actual_version = self.versions.last
-
-     #changes verify
-     original_source_code =  Digest::SHA1.hexdigest(self.source_code)
-
-     if original_source_code != originalcontent
-       return self.circuit_access_registry.last
-     end
-
-	 self.source_code = CGI.unescapeHTML( content )
+	   self.source_code = CGI.unescapeHTML( content )
      self.save
 
      last_version = self.versions.last

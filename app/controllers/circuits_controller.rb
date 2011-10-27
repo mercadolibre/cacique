@@ -85,21 +85,18 @@ class CircuitsController < ApplicationController
    #Update SOURCE CODE 
    if params[:name].nil?
       content = params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join   
-      actual_version = @circuit.versions.last
-      @previous_version = actual_version.number
-   
+      #Version
+      @previous_version = @circuit.versions.last.number
       permit 'editor of :circuit' do
-         if (car = @circuit.save_source_code(params[:originalcontent], params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message])) == true
-           #Version
-           @previous_version = last_version.number if @previous_version.nil? 
-
+         if (car = @circuit.save_source_code(params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message]))
            #Script access registry
            CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
-           render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit=> @circuit }
-         else
-           render :xml => "<div style='color:red;'>" + _("Could not save the script because it is not updated") + "<br>" + _("Last Edit") + ": #{car.user.name} ( #{car.user.login} )"+"\nIP: "+"#{car.ip_address}</div>";
          end
-       end
+         respond_to do |format|
+          format.js # run the update.rjs template
+         end
+     end
+
    else
       #Update NAME and DESCRIPTION 
       if  current_user.has_role?( "editor", @circuit)  
@@ -116,7 +113,7 @@ class CircuitsController < ApplicationController
       else
         text_error = [_("Impossible to edit ")+"- "+_("You do not have Edit Permissions")]
       end
-        render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @circuit.project, :text_error => text_error}   
+      render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @circuit.project, :text_error => text_error}   
    end
 
   end
@@ -240,13 +237,6 @@ class CircuitsController < ApplicationController
      end 
   end
 
-  def versions
-    @circuit = Circuit.find params[:id]
-    @versions = @circuit.versions.paginate :page => params[:page], :order => 'id DESC', :per_page => 10
-  end
-
-
-
   def edit
    if params[:rename]
    #Edit NAME and DESCRIPTION
@@ -286,8 +276,7 @@ class CircuitsController < ApplicationController
       @next_version = @circuit.versions.map{|v| v.number}.select{|n| n>@circuit.version}.min
 
       #Edit permission
-      @readonly = false
-      @readonly = true unless current_user.has_role?("editor", @circuit)
+      @readonly = !current_user.has_role?("editor", @circuit)
 
       permit "viewer of :circuit" do
         @lines = Array.new
@@ -366,7 +355,7 @@ class CircuitsController < ApplicationController
  end
 
  def checkit
-   code=params[:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+   code= params[:code].empty? ? "" : params[:code].split("_")[1..-1].map{|x| decode_char(x) }.join
    check_data = Circuit.syntax_checker(code)
    render :partial => "circuits/check_data", :locals => { :status=>check_data[:status], :errors=>check_data[:errors], :warnings=>check_data[:warnings]}
  end

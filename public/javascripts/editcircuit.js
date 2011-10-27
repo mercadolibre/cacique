@@ -70,16 +70,9 @@ function buscar_argumentos(){
 
 //-------------------------- ADD FUNCTIONS -----------------------//
 
-  function insertarTexto(text) {
-    codepress_content_free.editor.insertCode(text);
-    //Add *
-    if(add_asterisk){
-    	document.getElementById('modified_file').innerHTML = "<image src='/images/icons/s-edit.png'></img>";
-    	document.getElementById('save_button').style.visibility = "visible"; 
-	    document.getElementById('savewc_button').style.visibility = "visible"; 
-	    add_asterisk = false;
-
-    }
+  function insertarTexto(text) { 
+    actual_pos= script_content.getCursor();
+    script_content.replaceRange(text, actual_pos);
   }
 
 //Function to activate the hidden div selected in the SELECT

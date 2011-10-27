@@ -62,7 +62,7 @@ var cant_args_add = 0;
 
 //Function to send the modified script
   function sendContent(){
-    content = codepress_content_free.getCode();
+    content = script_content.getValue();
     encoded_content = encode_text(content);
     params = "content=" + encodeURI(encoded_content) 
     document.getElementById('user_function_code').value=encoded_content

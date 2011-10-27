@@ -24,40 +24,11 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 -javascript 'user_function'
--javascript 'onclick_iframe'
-
-%script{ :language => "javascript", :src => "/codepress.js" }
-%script
-  //used in codepress
-  var add_event = true;
-  var add_asterisk = true;
-  function restrictEnterKey(event) {
-  var key=(event.charCode)?event.charCode:((event.keyCode)?event.keyCode:((event.which)?event.which:0));
-  if (add_asterisk){
-  if((key == 13) || (key == 8) || ( (key >= 41) && (key <= 255) )){
-  $j('#save_button').show();
-  add_asterisk = false;
-  }
-  }
-  }
-  function is_read_only(){
-  ="return #{@has_permission}"
-  }
-%script
-  //For save before leave if there are changes in the Function
-  window.onbeforeunload = function (evt) {
-  var message = "#{_('You have Unsaved Changes, do you want to Save before Exit?')}";
-  if(!add_asterisk){
-  if (evt) {
-  evt.returnValue = message;
-  }
-  return message;
-  }
-  }   
-  function is_read_only(){
-  ="return #{@readonly}"
-  }  
-  
+-javascript 'editor_changes'
+-javascript '/CodeMirror-2.15/lib/codemirror'
+-javascript '/CodeMirror-2.15/mode/ruby/ruby.js'
+=stylesheet_link_tag '/CodeMirror-2.15/lib/codemirror.css'
+=stylesheet_link_tag '/CodeMirror-2.15/theme/eclipse.css'
 
 %h1{:style=>"width:80%; float: left;"}
   =_('Edit Function')
@@ -116,12 +87,13 @@
       %br
       %label{:for => "source_code"}
         =_('Code')
+        =image_tag "icons/s-edit.png",:id=>"pencil_icon",:alt=>"s-edit.png",:style => "display:none;"
         %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
         #definition{:style=>"width: 100 px;"}
           %div{:id => "function_head"}
             Def
         %input{ :type => "hidden", :name => "content",         :value => "" }
-        %textarea{ :id => "codepress_content_free", :name=>"content_free", :class => "codepress ruby linenumbers-on", :style=>"width:100%; height:335px;"}
+        %textarea{ :id=>"scriptTextArea", :style=>"width:100%; height:335px;"}
           =@source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r") if @source_code
         =f.hidden_field :code, :value => ""
         %div{:style=>"margin-top:0px; font-size:12px; color: #375DC0;"}
@@ -146,10 +118,29 @@
   =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_edit_free').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;", :id=>"save_button")
 
   //Sintax check
-  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
+  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text( script_content.getValue() ))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
+
   //Versions
-  -if @previous_version
-    %img{:src => "/images/icons/backward.png", :alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})", 	:onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@previous_version}'", :id => "version_back", :style=>"cursor:pointer;"}
-  -if @next_version
-    %img{:src => "/images/icons/forward.png",  :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})",    :onClick => "location.href='/user_functions/edit/#{@user_function.id}?version=#{@next_version}'", :id => "version_forward", :style=>"cursor:pointer;"}
-    
+  #versions{:style=>'display:inline;'}
+    =render :partial =>'versions'
+
+
+%script
+  ="var readonly= #{@readonly}";
+  changed_flag = false;
+  //For save before leave if there are changes in the script
+  ="var message = '#{_('You have Unsaved Changes, do you want to Save before Exit?')}'"
+  window.onbeforeunload = function(evt){if(changed_flag){evt.returnValue = message;return message;} }
+  //CodeMirror
+  script_content = CodeMirror.fromTextArea(document.getElementById("scriptTextArea"), {
+  lineNumbers: true,
+  theme: "eclipse",
+  matchBrackets: true,
+  tabMode: "indent",
+  readOnly: readonly,
+  onChange: function() {
+  has_changed();
+  }
+  });
+
+
