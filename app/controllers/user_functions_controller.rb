@@ -106,7 +106,7 @@ class UserFunctionsController < ApplicationController
                                         :hide => (params[:user_function][:hide] == "1" ? true : false) )
                                      
       #source_code Generate
-      code = params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+      code = params[:user_function][:code].empty? ? "" : params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
       @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
       @message = ""
       @message = _("Function was created Successfuly") if @user_function.save
@@ -162,7 +162,7 @@ class UserFunctionsController < ApplicationController
       @user_function.visibility = ( params[:user_function][:visibility] == "1" ) 
       @user_function.hide = (params[:user_function][:hide] == "1" ? true : false)
       #source_code Generate
-      code=params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+      code=params[:user_function][:code].empty? ? "" : params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
       @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
       @message = ""
       if  @user_function.save

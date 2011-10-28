@@ -43,33 +43,36 @@
   -remote_form_for @user_function, :url => { :controller => "user_functions",:action => 'update', :id => @user_function.id}, :html=>{:id=>"form_edit_free"} do |f|
     = error_messages_for :user_function
     #errors
-    %label{:for => "name" } 
-      =_('Name')
+
+    %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:15px 20px;" }    
+      //Name
+      %label{:for => "name" } 
+        =_('Name')
+        %br
+        =f.text_field :name, {:size => 28, :maxlength => 50 ,:onblur=>"document.getElementById('function_head').innerHTML='Def ' + this.value"}
       %br
-      =f.text_field :name, {:size => 28, :maxlength => 50 ,:onblur=>"document.getElementById('function_head').innerHTML='Def ' + this.value"}
-    %br
-    %br
-    %label{:for => "description"} 
-      =_('Description')
+      //Description
+      %label{:for => "description"} 
+        =_('Description')
+        %br
+        =f.text_area :description, {:rows => 6, :style => "width:60%"}
       %br
-      =f.text_area :description, {:rows => 6, :style => "width:750px;"}
-    %br
-    %br
-    -if(@user_function.project_id != 0)
-      %label{:for => "visibility",  :title=>_("The function can not be used by all users")} 
-        -value = @user_function.visibility ? "" : "checked"
-        =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
-        =_('Private use')
-    %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
-      -value = @user_function.hide ?  "checked" : "" 
-      =f.check_box :hide, {:checked=>value}
-      =_('Hide the code of the function')
-    %br
-    %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }  
+      //Chekcs
+      -if(@user_function.project_id != 0)
+        %label{:for => "visibility",  :title=>_("The function can not be used by all users")} 
+          -value = @user_function.visibility ? "" : "checked"
+          =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
+          =_('Private use')
+      %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
+        -value = @user_function.hide ?  "checked" : "" 
+        =f.check_box :hide, {:checked=>value}
+        =_('Hide the code of the function')
+      %br
+      //Arguments 
       %label{:for => "cant_args"}
+        =image_tag 'icons/add_blue.gif', :alt=>'add_blue.gif', :title=>_('New'), :onClick => "add_argument();", :style=>"cursor:pointer; width:15px; height:15px;"
         =_('Arguments')
         %br
-        %img{:src => "/images/icons/add_blue.gif", :alt=>"add_blue.gif", :title=>_('New'), :onClick => "add_argument();", :style=>"cursor:pointer; width:15px; height:15px;"}
         #div_arguments_table
           %table{:id => 'arguments_table'}
             - n = 0
@@ -84,26 +87,25 @@
             %script
               cant_args_add = #{n};
       %br
-      %br
+      //Code
       %label{:for => "source_code"}
         =_('Code')
         =image_tag "icons/s-edit.png",:id=>"pencil_icon",:alt=>"s-edit.png",:style => "display:none;"
-        %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
-        #definition{:style=>"width: 100 px;"}
-          %div{:id => "function_head"}
-            Def
+      .edit_free_table{:style=>"width:95%; height:400px;"}
+        %div{:id => "function_head"}
+          Def
+          =@user_function.name
         %input{ :type => "hidden", :name => "content",         :value => "" }
         %textarea{ :id=>"scriptTextArea", :style=>"width:100%; height:335px;"}
           =@source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r") if @source_code
         =f.hidden_field :code, :value => ""
-        %div{:style=>"margin-top:0px; font-size:12px; color: #375DC0;"}
-          End
+        End
       %br
       %br
       %label{:for => "example"} 
         =_('Example')
         %br
-        =f.text_area :example, {:rows => 6, :style => "width:750px;"}
+        =f.text_area :example, {:rows => 4, :style => "width:60%;"}
       %br
       %br 
     %b

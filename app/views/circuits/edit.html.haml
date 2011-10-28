@@ -58,7 +58,7 @@
       =truncate(@circuit.user.name, :ommision => "...", :length => 20)
     
     //SCRIPT
-    %textarea{ :id=>"scriptTextArea", :style=>"width:100%; height:335px;"}
+    %textarea{ :id=>"scriptTextArea", :style=>"width:100%;"}
       =@circuit.source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r")
 
 
