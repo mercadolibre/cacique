@@ -84,11 +84,11 @@ class CircuitsController < ApplicationController
    @circuit = Circuit.find( params[:id] )
    #Update SOURCE CODE 
    if params[:name].nil?
-      content = params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join   
+      content = params[:content].empty? ? "" : params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join   
       #Version
       @previous_version = @circuit.versions.last.number
       permit 'editor of :circuit' do
-         if (car = @circuit.save_source_code(params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message]))
+         if @circuit.save_source_code(content,params[:commit_message])
            #Script access registry
            CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
          end
