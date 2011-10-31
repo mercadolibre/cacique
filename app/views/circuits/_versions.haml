@@ -2,4 +2,4 @@
   =link_to image_tag("icons/backward.png",:alt=>"backward",:title=>_('Previous Version ')+"(#{@previous_version})"), "#{edit_project_circuit_path(@circuit.project_id,@circuit)}?version=#{@previous_version}"
 
 -if @next_version
-  =link_to image_tag("icons/forward.png", :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})"), "location.href='#{edit_project_circuit_path(@circuit.project_id,@circuit)}?version=#{@next_version}"
+  =link_to image_tag("icons/forward.png", :alt=>"forward", :title=>_('Next Version ')+"(#{@next_version})"), "#{edit_project_circuit_path(@circuit.project_id,@circuit)}?version=#{@next_version}"
