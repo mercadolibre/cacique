@@ -1,0 +1,1 @@
+This folder is used to store the logs of the different processes
