@@ -117,7 +117,7 @@
 
 //Tools menu
 -content_for :tools_menu do
-  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_edit_free').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;", :id=>"save_button")
+  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "sendContent();$j('#form_edit_free').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;display:none;", :id=>"save_button")
 
   //Sintax check
   =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text( script_content.getValue() ))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post

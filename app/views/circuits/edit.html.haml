@@ -53,7 +53,7 @@
         -if @version_number
           =_("Version ")+"(#{@version_number})"
               
-    %div{ :style=>"width:150px;float:right;margin-left:10px;text-align:right;",  :title=>@circuit.user.name}
+    %div{ :style=>"width:180px;float:right;margin-left:10px;text-align:right;",  :title=>@circuit.user.name}
       =_('By')
       =truncate(@circuit.user.name, :ommision => "...", :length => 20)
     
