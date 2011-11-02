@@ -24,20 +24,7 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 = calendar_date_select_includes "blue"
-= stylesheet_link_tag 'blue.css'
--javascript 'tabla_suiteExe_editable'
--javascript 'tablesort'
 
-%script
-  //Tabla editable
-  function onload(){
-  iniciarTabla();
-  }
-  //marked file
-  var marcado  = ""; 
-  var anterior = "";
-  var color_anterior = "";
-  
 -if suite_executions.empty? && params[:filter].nil?
   %h2{:style=>"text-align:center;margin-top:10%;"}
     %i
@@ -91,4 +78,12 @@
               ="Error  (Please, delete Suite execution #{suite_execution.id})"
  
 
-
+%script
+  //Tabla editable
+  function onload(){
+  iniciarTabla();
+  }
+  //marked file
+  var marcado  = ""; 
+  var anterior = "";
+  var color_anterior = "";
