@@ -23,6 +23,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
+
+-javascript 'tablesort'
+-javascript 'case_template'
+-javascript 'tabla_editable'
+-javascript 'select_all'
+-javascript 'checked_default'
+-javascript 'checkbox_lib'
+
+%script
+  function onload(){
+  iniciarTabla();  //Edit Table cells
+  $j('#div_edit_free').height($j(window).height() -200);
+  }
+  = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
+
 .main
   #TabView.TabView
     .Tabs
@@ -64,12 +79,4 @@
 -content_for :tools_menu do
   =render :partial=>"menu_case_template"
 
-= javascript_include_merged 'tablesort', 'case_template', 'tabla_editable', 'select_all', 'checked_default', 'checkbox_lib'
-
-%script
-  function onload(){
-  iniciarTabla(); 
-  $j('#div_edit_free').height($j(window).height() -200);
-  }
-  = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
 

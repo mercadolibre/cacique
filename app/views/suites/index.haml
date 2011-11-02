@@ -23,7 +23,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
+-javascript 'tablesort'
+-javascript 'suite_show'
 
+%script
+  //marked file
+  var marcado  = ""; 
+  var anterior = "";
+  var color_anterior = "";
+  var anysuite = "#{_('any suite')}";
+  var msgalert = "#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}";
 .main
   -if @suites.empty? && params[:search].nil?
     %h1{:title=>"Suites of " + @project.name.capitalize}
@@ -85,12 +94,3 @@
 //Tools menu
 -content_for :tools_menu do
   =render :partial=>"menu_suite"  
-
-= javascript_include_merged 'tablesort', 'suite_show'
-%script
-  //marked file
-  var marcado  = ""; 
-  var anterior = "";
-  var color_anterior = "";
-  var anysuite = "#{_('any suite')}";
-  var msgalert = "#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}";

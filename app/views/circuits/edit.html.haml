@@ -24,6 +24,13 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
+-javascript 'editcircuit'
+-javascript 'checked_default'
+-javascript 'checkbox_lib'
+
+-javascript 'editor_changes'
+-javascript '/CodeMirror-2.15/lib/codemirror'
+-javascript '/CodeMirror-2.15/mode/ruby/ruby.js'
 =stylesheet_link_tag '/CodeMirror-2.15/lib/codemirror.css'
 =stylesheet_link_tag '/CodeMirror-2.15/theme/eclipse.css'
 
@@ -62,10 +69,7 @@
 //Tools menu
 -content_for :tools_menu do
   = render :partial=> "menu_edit"
-
-= javascript_include_merged 'editcircuit','checked_default','checkbox_lib', 'editor_changes'
--javascript '/CodeMirror-2.15/lib/codemirror'
--javascript '/CodeMirror-2.15/mode/ruby/ruby.js'
+  
 %script
   ="var readonly= #{@readonly}";
   changed_flag = false;
