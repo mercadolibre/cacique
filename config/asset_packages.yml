@@ -1,8 +1,13 @@
 --- 
 javascripts: 
 - base:
-  - contextmenu
   - dtree
+  - side-bar
+- editor:
+  - editcircuit
+  - checked_default
+  - checkbox_lib
+  - editor_changes
 - secondary:
   - select_all
   - tablesort

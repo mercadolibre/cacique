@@ -13,8 +13,7 @@
     - javascript 'jquery-1.3.2.min.js'#Jquery (example: User for Left slider menu )
     =render :partial => "layouts/click_right_menu" #Right click menu for category tree
     - javascript 'contextmenu.js'#Js for right click
-    - javascript 'dtree'#Category tree
-    - javascript 'side-bar.js' #Left slider menu
+    = javascript_include_merged :base
     - javascript 'jquery.cookie.js'#Jquery cookies (example: User for Left slider menu)
     - javascript 'jquery.hoverIntent.minified' #For onhover menu_projects with sensitivity    
     = yield(:head)
@@ -35,6 +34,4 @@
 
       %div{ :style=>"clear: both"}   
       =yield
-
-  
 =render :partial => "layouts/js_translate"

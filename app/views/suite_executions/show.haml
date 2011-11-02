@@ -23,7 +23,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
--javascript 'suite_show'
+
 %script
   var suite_execution_finish = true;
 
@@ -77,4 +77,5 @@
     %img{:src => "/images/icons/info.png",      :alt=>"info",      :title=>_('Information'), :onClick => "document.getElementById('infoScriptExecutionShow').toggle();"}
 //Help 
 =render :partial => "info_suite_execution_show"    
-    
+//JS
+-javascript 'suite_show'
