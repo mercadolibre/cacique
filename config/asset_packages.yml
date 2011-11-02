@@ -1,0 +1,50 @@
+--- 
+javascripts: 
+- base:
+  - contextmenu
+  - dtree
+- secondary:
+  - select_all
+  - tablesort
+  - case_template
+  - import_suite
+  - tabla_editable
+  - home
+  - user_function
+  - suite_program
+  - relation2
+  - relation3
+  - jquery
+  - jQuery_noConflict
+  - move_circuit
+  - prototype
+  - context_configuration
+  - suite_show
+  - richtext
+  - jquery.easing
+  - checked_default
+  - history
+  - import_circuit
+  - controls
+  - styler
+  - relation1
+  - editcircuit
+  - dragdrop
+  - suite_comment
+  - jquery-1.3.2.min
+  - suite_edit
+  - mootools
+  - all
+  - editor_changes
+  - checkbox_lib
+  - swfobject
+  - effects
+  - datetime
+  - tabla_suiteExe_editable
+  - application
+stylesheets: 
+- base:
+  - default
+- secondary:
+  - highlight
+  - editor
