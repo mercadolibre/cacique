@@ -8,8 +8,7 @@
       -if @view.has_key?(@action_controller)
         \:
         =@view[@action_controller]
-    =stylesheet_link_tag 'default.css', :cache => false
-    =stylesheet_link_tag 'menu.css', :cache => false
+    = stylesheet_link_merged :base, :cache => false
     =javascript_include_tag :defaults, :cache => false
     - javascript 'jquery-1.3.2.min.js'#Jquery (example: User for Left slider menu )
     =render :partial => "layouts/click_right_menu" #Right click menu for category tree
