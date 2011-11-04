@@ -283,19 +283,18 @@ private
   end
 
 
-  def ccq_generate_function(function, *arguments)
+  def ccq_generate_function(function, arguments)
     #Verify permissions
     if ccq_verify_function_permissions(function)
-	    args = arguments.map{|a| "#{a.to_ruby_expr}"}.join(",")
 	    #search the object to add the function
 	    new_object = ObjectSpace._id2ref(self.object_id)
 	    #define function to finded object
       eval(function.source_code)
 	    #function run
-	     eval("new_object.#{function.name}(#{arguments})")
+      args = arguments.map{|a| "#{a.to_ruby_expr}"}.join(",")
+	    eval("new_object." + function.name.to_s+ "("+args+")")
     end
   end
-
 
   def ccq_verify_function_permissions(function)
     if !(function.project_id == self.project_id.to_i or function.visibility or function.project_id == 0)
