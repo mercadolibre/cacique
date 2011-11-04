@@ -98,54 +98,10 @@ class ScriptRunner < ActiveRecord::Base
   #To generate cacique's functions
   def method_missing(m,*x)
      UserFunction
-     #I search the function in cache
-     function = Rails.cache.read "function_#{m.to_s}"
-     if !function
-          #if is an uncached function, looked in function array
-          user_functions = Rails.cache.fetch("functions"){ UserFunction.hash_to_load_cache }
-          if user_functions.include?(m.to_s)
-             #if exists, but not cached, I search it in db and caching
-             function = UserFunction.find_by_name(m.to_s)
-             Rails.cache.write("function_#{m.to_s}", function, :expires_in => CACHE_FUNCTIONS)
-          end
-     end
-     #If I find it
-     if function
-         #Verify permissions
-         if !(function.project_id == self.project_id.to_i or function.visibility or function.project_id == 0)
-             # follow for nested call to improve the error on stacked functions
-             stack_error=[]
-             caller.each do|stack|
-                if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
-                  stack_error << stack
-                end
-            end
-            stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
-            puts stack
-            puts "--> " + _(" You are not authorized to perform the function ") + " #{m.to_s} (" + _('Project:') + " #{function.project.name}) <--"
-            raise"#{stack}\n --> " + _(" You are not authorized to perform the function ") + " #{m.to_s} (" + _('Project:') + " #{function.project.name}) <--"
-         else
-	         args = x.map{|a| "#{a.to_ruby_expr}"}.join(",")
-	         #search the object to add the function
-	         new_object = ObjectSpace._id2ref(self.object_id)
-	         #define function to finded object
-           eval(function.source_code)
-	         #function run          
-	         eval("new_object." + m.to_s+"("+args+")")
-         end#Verify permissions
-     else
-       # follow for nested call to improve the error on stacked functions
-       stack_error=[]
-       caller.each do|stack|
-         if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
-            stack_error << stack
-         end
-       end
-       stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
-       puts stack
-       puts "\n-->" + _("Method not found: ")+"#{m.to_s} <--\n"
-       raise "\n#{stack}\n -->" + _(" Method not found: ")+"#{m.to_s}\n"
-     end
+     #Function is sought
+     ccq_function = ccq_find_function(m) 
+     #If found, is generated
+     ccq_generate_function(ccq_function,x) if ccq_function 
   end
 
   # puts script manager. Adds to output log
@@ -294,6 +250,70 @@ private
       end
     end
 		return return_aux
+  end
+
+
+  ####################################### User Functions ######################################
+  def ccq_find_function(function_name)
+     #I search the function in cache
+     function = Rails.cache.read "function_#{function_name.to_s}"
+     if !function
+        #if is an uncached function, looked in function array
+        functions = Rails.cache.fetch("functions"){ UserFunction.hash_to_load_cache }
+        if functions.include?(function_name.to_s)
+          #if exists, but not cached, I search it in db and caching
+          function = UserFunction.find_by_name(function_name.to_s)
+          Rails.cache.write("function_#{function_name.to_s}", function, :expires_in => CACHE_FUNCTIONS)
+        end
+     end
+     if !function
+       # Follow for nested call to improve the error on stacked functions
+       stack_error=[]
+       caller.each do |stack|
+         if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
+            stack_error << stack
+         end
+       end
+       stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
+       puts stack
+       puts "\n-->" + _("Method not found: ")+"#{function_name.to_s} <--\n"
+       raise "\n#{stack}\n -->" + _(" Method not found: ")+"#{function_name.to_s}\n"
+    end
+    return function
+  end
+
+
+  def ccq_generate_function(function, *arguments)
+    #Verify permissions
+    if ccq_verify_function_permissions(function)
+	    args = arguments.map{|a| "#{a.to_ruby_expr}"}.join(",")
+	    #search the object to add the function
+	    new_object = ObjectSpace._id2ref(self.object_id)
+	    #define function to finded object
+      eval(function.source_code)
+	    #function run
+	     eval("new_object.#{function.name}(#{arguments})")
+    end
+  end
+
+
+  def ccq_verify_function_permissions(function)
+    if !(function.project_id == self.project_id.to_i or function.visibility or function.project_id == 0)
+      # follow for nested call to improve the error on stacked functions
+      stack_error=[]
+      caller.each do|stack|
+        if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
+            stack_error << stack
+        end
+      end
+      stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
+      puts stack
+      puts "--> " + _(" You are not authorized to perform the function ") + " #{function.name.to_s} (" + _('Project:') + " #{function.project.name}) <--"
+      raise"#{stack}\n --> " + _(" You are not authorized to perform the function ") + " #{function.name.to_s} (" + _('Project:') + " #{function.project.name}) <--"
+      return false
+    else
+      return true
+    end
   end
 
 end
