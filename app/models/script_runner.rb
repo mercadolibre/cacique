@@ -78,7 +78,7 @@ class ScriptRunner < ActiveRecord::Base
 		self.ccq_return = Hash.new
     $ccq_execution_thread=Thread.new do
       begin
-	  	  #Run script header 
+	  	  #Run script header (Cacique user function)
 		    initialize_run_script
 	  	  #Run script
 		    ccq_run_script_return =  ccq_run_script
@@ -86,7 +86,7 @@ class ScriptRunner < ActiveRecord::Base
 		  rescue Exception => ccq_error
   		  ccq_error_handling(ccq_error,ccq_file_code)
   		ensure
-        #Run script footer
+        #Run script footer (#Cacique user function)
   			finalize_run_script
 	    end
     end# Thread.new end
@@ -263,7 +263,7 @@ private
 
   def ccq_error_handling(error, file_code)
     Rails.cache.delete WORKER_CACHE_KEY
-	  #NO SE ENTIENDE Q HACE CON ESTO: error_run_script
+	  error_run_script#Cacique user function
 		error.extend PositionErrorHolder
     eval_line = error.backtrace.select{ |str| str =~ /^\(eval\)/ }.first
 	  line_number = eval_line.split(":")[1].to_i - 3
