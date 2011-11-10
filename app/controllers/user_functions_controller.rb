@@ -101,6 +101,7 @@ class UserFunctionsController < ApplicationController
                                         :description => params[:user_function][:description],
                                         :project_id => params[:user_function][:project_id],
                                         :cant_args => args.length,
+                                        :native_params => true,
                                         :example => params[:user_function][:example],
                                         :visibility => (params[:user_function][:visibility] == "1" ? true : false),
                                         :hide => (params[:user_function][:hide] == "1" ? true : false) )
