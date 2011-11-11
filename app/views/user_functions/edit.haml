@@ -64,9 +64,13 @@
           =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
           =_('Private use')
       %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
-        -value = @user_function.hide ?  "checked" : "" 
+        -value = @user_function.hide ?  ""  : "checked"
         =f.check_box :hide, {:checked=>value}
         =_('Hide the code of the function')
+      %label{:for => "native_params", :title=>_('Using arguments as strings')} 
+        -value = @user_function.native_params ?  "" : "checked" 
+        =f.check_box :native_params, {:checked=>value}
+        =_('Using arguments as strings')
       %br
       //Arguments 
       %label{:for => "cant_args"}
