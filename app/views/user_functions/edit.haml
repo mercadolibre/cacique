@@ -49,32 +49,32 @@
       %label{:for => "name" } 
         =_('Name')
         %br
-        =f.text_field :name, {:size => 28, :maxlength => 50 ,:onblur=>"document.getElementById('function_head').innerHTML='Def ' + this.value"}
+        =f.text_field :name, {:size => 28, :maxlength => 50 ,:onblur=>"document.getElementById('function_head').innerHTML='Def ' + this.value;has_changed();"}
       %br
       //Description
       %label{:for => "description"} 
         =_('Description')
         %br
-        =f.text_area :description, {:rows => 6, :style => "width:60%"}
+        =f.text_area :description, {:rows => 6, :style => "width:60%", :onchange=>"has_changed();"}
       %br
       //Chekcs
       -if(@user_function.project_id != 0)
         %label{:for => "visibility",  :title=>_("The function can not be used by all users")} 
           -value = @user_function.visibility ? "" : "checked"
-          =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
+          =f.check_box :visibility, {:checked=>value,:onchange=>"has_changed();"}, checked_value = "0", unchecked_value = "1"
           =_('Private use')
       %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
-        -value = @user_function.hide ?  ""  : "checked"
-        =f.check_box :hide, {:checked=>value}
+        -value = @user_function.hide ?  "checked" :  ""
+        =f.check_box :hide,  {:checked=>value,:onchange=>"has_changed();"}
         =_('Hide the code of the function')
       %label{:for => "native_params", :title=>_('Using arguments as strings')} 
         -value = @user_function.native_params ?  "" : "checked" 
-        =f.check_box :native_params, {:checked=>value}
+        =f.check_box :native_params, {:checked=>value,:onchange=>"has_changed();"}
         =_('Using arguments as strings')
       %br
       //Arguments 
       %label{:for => "cant_args"}
-        =image_tag 'icons/add_blue.gif', :alt=>'add_blue.gif', :title=>_('New'), :onClick => "add_argument();", :style=>"cursor:pointer; width:15px; height:15px;"
+        =image_tag 'icons/add_blue.gif', :alt=>'add_blue.gif', :title=>_('New'), :onClick => "add_argument();has_changed();", :style=>"cursor:pointer; width:15px; height:15px;"
         =_('Arguments')
         %br
         #div_arguments_table
@@ -83,7 +83,7 @@
             -@arguments.each do |argument|
               %tr{ :id => "row_"+ n.to_s}
                 %td
-                  %input{ :id => "user_function_args_" + n.to_s, :name => "user_function[args][#{n}]", :value => argument}
+                  %input{ :id => "user_function_args_" + n.to_s, :name => "user_function[args][#{n}]", :value => argument,:onchange=>"has_changed();"}
                 %td
                   %img{:name => "row_" + n.to_s, :src => "/images/icons/cross.png", :alt => "cross.png", :style => "cursor:pointer; height:12px; width:12px; margin-left:10px;", :onClick => "eliminarArgument(this.name);"}
               -n += 1
