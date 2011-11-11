@@ -85,7 +85,7 @@
                 %td
                   %input{ :id => "user_function_args_" + n.to_s, :name => "user_function[args][#{n}]", :value => argument,:onchange=>"has_changed();"}
                 %td
-                  %img{:name => "row_" + n.to_s, :src => "/images/icons/cross.png", :alt => "cross.png", :style => "cursor:pointer; height:12px; width:12px; margin-left:10px;", :onClick => "eliminarArgument(this.name);"}
+                  %img{:name => "row_" + n.to_s, :src => "/images/icons/cross.png", :alt => "cross.png", :style => "cursor:pointer; height:12px; width:12px; margin-left:10px;", :onClick => "eliminarArgument(this.name);has_changed();"}
               -n += 1
             //Add the number of arguments it has the function
             %script
