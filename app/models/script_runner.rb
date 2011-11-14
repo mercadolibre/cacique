@@ -233,9 +233,12 @@ private
       print _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
       error.position_error = _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
     end
-    # solo en debug mode imprime el error y el stack del error
-	  print "\n---> Error: #{error.to_s} <---\n" if debug_mode
-		raise error.message + '<br><br>'+ '<span style="color : #ff0000;">'+error.position_error+'</span>'
+    # solo en debug mode imprime el error y el stack del error (output)
+    error_text = !error.to_s.match(/(eval)/) ? error.backtrace.first : error.to_s
+    error_text = "" if error_text.to_s.match(/script_runner.rb/) 
+
+	  print "\n---> Error: #{error_text} <---\n" if debug_mode
+		raise error.message + '<br><br>'+ '<span style="color : #ff0000;"> '+error.position_error+'</span>'
   end
 
   def ccq_get_return_data
