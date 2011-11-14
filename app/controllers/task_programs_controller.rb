@@ -108,7 +108,7 @@ DateTime.now.in_time_zone
       @command = params[:command]
 
     #Data for program
-      @suites       = Suite.find_all_by_project_id params[:project_id]
+      @suites       = Suite.find :all, :conditions=>["project_id = ?", params[:project_id]], :order => "name"
       @weekly       = Date::DAYNAMES 
       @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
       @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
