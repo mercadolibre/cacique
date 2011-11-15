@@ -267,7 +267,7 @@ def script_runner.process_snapshot( name, content )
          cache_execution.output +=  @suite_relation.output + script_runner.output
          @suite_relation.executions_error << @execution.case_template_id
 
-         text_error = e.to_s.to_s.match(/script_runner.rb/) ? e.to_s.split(":")[0] : e.to_s 
+         text_error = e.to_s.to_s.match(/script_runner.rb/) ? e.to_s.split(":")[1] : e.to_s 
          @execution.error = text_error 
          @execution.position_error = self.parse_position_error(e,@execution.circuit.name)
          cache_execution.error = text_error 
