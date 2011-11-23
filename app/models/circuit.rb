@@ -39,9 +39,7 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-require "#{RAILS_ROOT}/lib/generator/processor"
 require "#{RAILS_ROOT}/lib/generator/fake_selenium"
-require "#{RAILS_ROOT}/lib/generator/selenium_data_collector"
 require "#{RAILS_ROOT}/lib/generator/selenium_generate_circuit"
 require 'spreadsheet/excel'
 include Spreadsheet
@@ -171,14 +169,6 @@ class Circuit < ActiveRecord::Base
      #add col
      @case_template.add_case_data(new_data)
      @case_template.save
-  end
-
-  #data from selenium recorder
-  def self.selenium_data_collector( content )
-  	dc = SeleniumDataCollector.new
-	  processor = Processor.new( dc )
-	  processor.process_test_case( content )
-	  return dc.data.to_a
   end
 
   #data script generator
