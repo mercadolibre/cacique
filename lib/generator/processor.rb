@@ -32,24 +32,16 @@ class Processor
 		@data_collector = dc
 	end
 	
-	def process_test_case( path )
+	def process_test_case( content = nil )
 		# instantiate a data collector
 		FakeSelenium::SeleniumDriver.init_callback =
 			proc do |x|
 				x.call_obj = @data_collector
 			end
-		
-		# process the script requires defining the fake (test/unit y selenium)
-		content = nil
-		File.open( path ) do |file|
-			content = file.read
-		end
-		
 		generated_class_name = "GeneratedClassName_#{rand(1000000000)}"
 		content_fake = "require \"lib/generator/fake_selenium\"\nrequire \"lib/generator/fake_test_unit\"\n\nclass #{generated_class_name} < Test::Unit::FakeTestCase \n" + content.split("\n")[4..-1].select{|line| not line =~ /class / }.join("\n")+"\n"
 		# load the modified script
 		eval(content_fake)
-
 
 		# engage the times of Fixnum
 		test = eval(generated_class_name).new

@@ -132,13 +132,12 @@ class CircuitsController < ApplicationController
     @description = params[:description]
     @errors      = params[:errors]
     begin
-      @fields = Circuit.selenium_data_collector( {:name => "#{RAILS_ROOT}/lib/temp/#{@name}"} )
+      @fields = Parser.parser_data( "#{RAILS_ROOT}/lib/temp/#{@name}" )
       #Fields codify
       @fields.each do |t|
         t.id = CGI.escape(t.id)
         t.args = t.args.map{ |a| CGI.escape(a) }
       end
-
     rescue Exception => @error
       redirect_to url_for(:controller=>:circuits, :action=>:error, :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id)
     end

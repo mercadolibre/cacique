@@ -174,11 +174,10 @@ class Circuit < ActiveRecord::Base
   end
 
   #data from selenium recorder
-  def self.selenium_data_collector( params )
+  def self.selenium_data_collector( content )
   	dc = SeleniumDataCollector.new
-	  file = params[:name]
 	  processor = Processor.new( dc )
-	  processor.process_test_case( file )
+	  processor.process_test_case( content )
 	  return dc.data.to_a
   end
 
