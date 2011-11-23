@@ -85,8 +85,8 @@ gem "newrelic_rpm"
 
 #...............GETTEXT.............
   gem 'locale'
-  gem 'locale_rails', '2.0.6', :git=> "https://github.com/scambra/locale_rails.git"
-#  gem 'locale_rails', '2.0.5', :path=> "extras/locale_rails/"
+#  gem 'locale_rails', '2.0.6', :git=> "https://github.com/scambra/locale_rails.git"
+  gem 'locale_rails', '2.0.5', :path=> "extras/mutoh-locale_rails-13a096f"
   gem "gettext"
   gem "gettext_activerecord"
   gem "gettext_rails"
