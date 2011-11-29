@@ -43,13 +43,14 @@ class SeleniumParser
     
     # Header: Get "setup" method to get the url
     content_setup = content.split(/def setup/)[1].split("end")[0]
-    header = add_selenium_driver_init(content_setup)
+    header = add_selenium_init(content_setup)
     
     # Body: Get "test_" method
     content_test = content.split(/def test_/)[1]
     content_test.split("def")[0] if content.split("def")
     lines = content_test.split("\n")
     selenium_lines = lines.select{|line| line.match(/@selenium/)}
+    body = selenium_lines.join("\n")
 
     # Data: Variable values ​​are replaced by their respective column of the data set
     body = set_data(selenium_lines,data) if !data.empty?
@@ -127,7 +128,7 @@ private
   end	  
 
   #Get url from content
-  def add_selenium_driver_init(content)
+  def add_selenium_init(content)
     begin
 		  url = content.split(":url => ")[1].split(',')[0].delete "\""
     rescue

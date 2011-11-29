@@ -54,15 +54,14 @@ private
       when /require "selenium-webdriver"/
         require "#{RAILS_ROOT}/lib/parsers/web_driver_parser"
       	 data_collector = WebDriverParser.new 
-      	 fields  = selenium_parser.data_collector(content)
       #Selenium
       when /require "selenium\/client"/
         require "#{RAILS_ROOT}/lib/parsers/selenium_parser"
-        selenium_parser  = SeleniumParser.new
-        fields  = selenium_parser.data_collector(content)
+        data_collector  = SeleniumParser.new
       else
-          raise "Parser not found"
+        raise "Parser not found"
     end
+    fields  = data_collector.data_collector(content)
     return fields
   end
 
@@ -73,17 +72,15 @@ private
       #WebDriver
       when /require "selenium-webdriver"/
         require "#{RAILS_ROOT}/lib/parsers/web_driver_parser"
-      	 data_collector = WebDriverParser.new 
-      	 source_code    = selenium_parser.generate_script(content,data)
+        script_generator = WebDriverParser.new 
       #Selenium
       when  /require "selenium\/client"/
         require "#{RAILS_ROOT}/lib/parsers/selenium_parser"
-        selenium_parser  = SeleniumParser.new
-      	 source_code      = selenium_parser.generate_script(content,data)
+        script_generator  = SeleniumParser.new
       else
         raise "Parser not found"
     end
-    circuit.source_code = source_code
+    circuit.source_code = script_generator.generate_script(content,data)
     circuit.save
   end
 
