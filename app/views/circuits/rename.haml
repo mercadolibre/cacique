@@ -1,29 +1,3 @@
-//
-// @Authors:    
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//      
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-
 .main
   -remote_form_for :circuit, :url => { :controller => "circuits",:action => 'rename_save'}, :update => "errors" do |t|
     =text_field 'circuit', 'category_id', :value=>  @category.id, :style => 'display:none;'
@@ -44,23 +18,13 @@
           =_('Input Value')
         %th.d
           =_('Field Name')
-      -i = 0
-      -for field in @fields do
-        -i= i + 1
-        -if field.obj_type == "open"
-          %tr
-            %td
-              OPEN
-            %td
-              =t.text_field field.obj_type+"&&"+field.id, :value => field.id, :disabled=>'disabled'
-        -else
-          %tr
-            //if @fields have checks or radio, must show values or name
-            -text = valueForView(cambiarSignos(CGI.unescape( field.args[1] ).split(":")[1..-1].join(":") ))
-            %td{:title=>text}
-              =truncate(text, :ommision => "...", :length => 30)
-            %td
-              =text_field 'save', field.obj_type+"&&"+field.args[1], :class=>"input_value"
+      -@fields.each do |field|
+        %tr
+          //if @fields have checks or radio, must show values or name
+          %td{:title=>field}
+            =truncate(field, :ommision => "...", :length => 40)
+          %td
+            =text_field 'save',CGI.escape(field), :class=>"input_value"
 
     %div{:style=>"width:70%;margin:auto;"}
       %i

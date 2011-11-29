@@ -39,8 +39,7 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-require "#{RAILS_ROOT}/lib/generator/fake_selenium"
-require "#{RAILS_ROOT}/lib/generator/selenium_generate_circuit"
+
 require 'spreadsheet/excel'
 include Spreadsheet
 
@@ -86,7 +85,7 @@ class Circuit < ActiveRecord::Base
 
   include SaveModelAccess
 
-  #Calumn name Verify
+  #Column name Verify
   def case_column_names_valid?(column_names)
     valid = true
      #model CircuitCaseColumn Validation
@@ -169,19 +168,6 @@ class Circuit < ActiveRecord::Base
      #add col
      @case_template.add_case_data(new_data)
      @case_template.save
-  end
-
-  #data script generator
-  def self.selenium_generate_circuit( params )
-    circuit = params[:circuit]
-    path_name = params[:name]
-	  circuit.source_code = SeleniumGenerateCircuit.generate do |dc|
-		  dc.subs_data.add_selenium_driver_init( path_name )
-		  dc.subs_data.subs_hash = params[:data]
-	  	processor = Processor.new( dc )
-		  processor.process_test_case( path_name )
-	  end
-	circuit.save
   end
 
   #find scrip by name
@@ -431,7 +417,7 @@ class Circuit < ActiveRecord::Base
         circuits
   end
   
-  def update_user_last_edited_scripts      
+  def update_user_last_edited_scripts
       #Update the last script edited of project
       if current_user
         user_scrips_edit = Rails.cache.read("circuit_edit_#{current_user.id}")
