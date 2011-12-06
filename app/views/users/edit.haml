@@ -43,6 +43,14 @@
           .field
             = f.text_field  :email
           %br
+          Password:
+          .field
+            = f.password_field :password
+          %br
+          Password confirmation:
+          .field
+            = f.password_field :password_confirmation
+          %br
           =_('Languange:')
           .select
             = select("user[language]",@translate,[[_("English"),"en_US"],[_("Spanish"),"es"],[_("Portuguese"),"pt"]], {:selected =>@user.language})
