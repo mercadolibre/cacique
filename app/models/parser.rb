@@ -22,74 +22,57 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
+require "#{RAILS_ROOT}/lib/parsers/web_driver_parser"
+require "#{RAILS_ROOT}/lib/parsers/selenium_parser"
 
 class Parser
+  #Parsers available
+  @parsers = { WebDriverParser => 'require "selenium-webdriver"',
+               SeleniumParser  => 'require "selenium/client"'}
 
   #Parser data 
   def self.parser_data(path)
-    
     #Get file content
-    content = nil
-    File.open( path ) do |file|
-      content = file.read
-    end
-
+    content = self.get_file_content(path)
     #Syntax check
     syntax = Circuit.syntax_checker(content)
-    raise syntax[:errors].join("\n") if !syntax[:status]
-
-    #Parser data
-    select_parser(content)
+    errors = syntax[:errors].select{|line| !line.match(/class\/module name/)}#Selenium class name error 
+    raise errors.join("\n") if !errors.empty?
+    #Get parser
+    parser = select_parser(content)
+    #Get variable data
+    return  parser.data_collector(content)
 
   end
 
   #Generate script 
   def self.generate_script(data,circuit)
-    content = nil
-    File.open( "#{RAILS_ROOT}/lib/temp/#{circuit.name}" ) do |file|
-			content = file.read
-		end
+    #Get file content
+    content = self.get_file_content("#{RAILS_ROOT}/lib/temp/#{circuit.name}")
     File.delete( "#{RAILS_ROOT}/lib/temp/#{circuit.name}" )
-    select_generator(content,data,circuit)
+    #Get parser
+    parser = select_parser(content)
+    #Generate script
+    circuit.source_code = parser.generate_script(content,data)
+    circuit.save
   end
 
 private
 
   def self.select_parser(content)
-    fields = Array.new
-    #Select data collector
-    case content
-      #WebDriver
-      when /require "selenium-webdriver"/
-        require "#{RAILS_ROOT}/lib/parsers/web_driver_parser"
-      	 data_collector = WebDriverParser.new 
-      #Selenium
-      when /require "selenium\/client"/
-        require "#{RAILS_ROOT}/lib/parsers/selenium_parser"
-        data_collector  = SeleniumParser.new
-      else
-        raise "Parser not found"
-    end
-    fields  = data_collector.data_collector(content)
-    return fields
+    #Select parser
+    parser = @parsers.select{ |k, regex| content.include?(regex) }.first
+    raise "Parser not found" if parser.empty?
+    #Intance parser
+    parser.first.new
   end
 
-
-  def self.select_generator(content,data,circuit)
-    #Select script generator
-    case content
-      #WebDriver
-      when /require "selenium-webdriver"/
-        script_generator = WebDriverParser.new 
-      #Selenium
-      when  /require "selenium\/client"/
-        script_generator  = SeleniumParser.new
-      else
-        raise "Parser not found"
-    end
-    circuit.source_code = script_generator.generate_script(content,data)
-    circuit.save
+  def self.get_file_content(path)
+    content = nil
+    File.open(path) do |file|
+			content = file.read
+		end
+    content
   end
-
 
 end

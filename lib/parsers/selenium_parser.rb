@@ -51,7 +51,7 @@ class SeleniumParser
     content_test = content.split(/def test_/)[1]
     content_test.split("def")[0] if content.split("def")
     lines = content_test.split("\n")
-    selenium_lines = lines.select{|line| line.match(/@selenium/)}
+    selenium_lines = lines.select{|line| line.match(/@selenium/) and !line.match(/assert @selenium/) }
     body = selenium_lines.join("\n")
 
     # Data: Variable values ​​are replaced by their respective column of the data set
@@ -72,12 +72,12 @@ private
     input_data = Array.new
     lines.each do |line|
       case line
-        when /.click/
-          data = click(line)
         when /.type/
+          #Ej:  @selenium.type "name=as_first_name", "jaja"
           data = line.split(".type")[1].split(", ")[1]
         when /.select/
-          data = nil
+          # Ej: @selenium.select "name=as_state", "label=Entre Ríos"
+          data = line.split("label=")[1]
         else
           data = nil
       end
@@ -85,49 +85,6 @@ private
     end
     return input_data
   end
-
-	def click(line)
-    line = line.split(".click")[1]
-		#is found to be a radiobutton o checkbox,
-		#  that meets any of these formats:
-
-		#Not appear the following:
-	  sub1   = line  =~ /submit/ 
-	  sub2   = line  =~ /Submit/
-	  menu   = line  =~ /MENU:/
-	  button = line  =~ /Button/	
-	  boton  = line  =~ /boton/
-	  img    = line 	=~ /\/\/img\[/   
-    link   = line  =~ /link/
-
-	  if (!sub1 and !sub2 and !menu and !button and !boton and !img and !link)
-	    #In capitals, x ej: NEW o USA
-	    up   = line.upcase
-	    #returns 0 if equal
-	    mayus = ( (line <=> up) == 0)
-	    
-	    #Format, xej: //input[@id='payMethod' and @name='payMethod' and @value='MS'] 
-	    id   = line.match(/\/\/input\[\@id\=\'(\w+)\' and \@name\=\'\w+\' and \@value\=\'\w+\'\]/)
-
-	    #Format, xej: //input[@name='aviso' and @value='PLB']
-	    id2 = line.match(/\/\/input\[@name\=\'\w+\' and \@value\=\'\w+\'\]/)
-	    
-	    #Format, xej: //input[@name='aviso']
-	    id3 = line.match(/\/\/input\[@name\=\'\w+\'\]/)	  
-	    
-	    #Format, xej: auctSN
-	    var =  line.match(/((\d*)[a-z](\d*))+((\d*)[A-Z](\d*))+/)
-	    
-	    #Format, xej: item_zone
-	    var1 =  line.match(/((\d*)[a-z](\d*))+_((\d*)[a-z](\d*))+/)
-	    
-	    #Format, xej: an_calif_id o as_calif_text
-	    var2 =  line.match(/((\d*)[a-z](\d*))+_((\d*)[a-z](\d*))+_((\d*)[a-z](\d*))+/)
-
-	    return line if (id or id2 or id3 or var1 or var2 or mayus) 
-    end
-    return nil
-  end	  
 
   #Get url from content
   def add_selenium_init(content)
@@ -146,7 +103,10 @@ private
     data.each{|column,value| values_to_reemplace[value] = column } #Format k=>v to v=>k
     values = values_to_reemplace.keys
     lines.each do |line|
-      values.each{ |value| line.gsub!(/\"#{value}\"/, "data[:#{values_to_reemplace[value]}]")}
+      values.each do |value| 
+        line.gsub!(/\"#{value}\"/, "data[:#{values_to_reemplace[value]}]")
+        line.gsub!(/\"label=#{value}\"/, "\"label=\#\{data[:#{values_to_reemplace[value]}]\}\"" )
+      end
     end
     return lines.join("\n")
   end
