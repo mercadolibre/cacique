@@ -27,11 +27,20 @@ class Parser
 
   #Parser data 
   def self.parser_data(path)
+    
+    #Get file content
     content = nil
     File.open( path ) do |file|
-			content = file.read
-		end
+      content = file.read
+    end
+
+    #Syntax check
+    syntax = Circuit.syntax_checker(content)
+    raise syntax[:errors].join("\n") if !syntax[:status]
+
+    #Parser data
     select_parser(content)
+
   end
 
   #Generate script 

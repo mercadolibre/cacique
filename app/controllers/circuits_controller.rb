@@ -42,6 +42,8 @@ class CircuitsController < ApplicationController
   end
   
   def new
+    p 'aaaaaaaaaaaaaaaaaaaaaaa'
+p params
     @category = Category.find params[:category_id]
     permit 'editor of :category' do
     end
@@ -131,8 +133,9 @@ class CircuitsController < ApplicationController
     @errors      = params[:errors]
     begin
       @fields = Parser.parser_data( "#{RAILS_ROOT}/lib/temp/#{@name}" )
-    rescue Exception => @error
-      redirect_to url_for(:controller=>:circuits, :action=>:error, :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id)
+    rescue Exception => errors
+      @errors = errors
+      render :action => 'new'
     end
   end
 
