@@ -19,13 +19,13 @@
 #
 
  #
- #  @Authors:    
+ #  @Authors:
  #      Brizuela Lucia                  lula.brizuela@gmail.com
  #      Guerra Brenda                   brenda.guerra.7@gmail.com
  #      Crosa Fernando                  fernandocrosa@hotmail.com
  #      Branciforte Horacio             horaciob@gmail.com
  #      Luna Juan                       juancluna@gmail.com
- #      
+ #
  #  @copyright (C) 2010 MercadoLibre S.R.L
  #
  #
@@ -80,17 +80,17 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..50
   validates_uniqueness_of   :login, :email, :case_sensitive => false, :message => _("Existing User")
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :message => _("Invalid Mail format")
-  
-  before_save    :encrypt_password 
+
+  before_save    :encrypt_password
   after_save     :expires_cached_user
   before_destroy :expires_cached_user, :expires_cached_user_circuits_edit
   after_create   :user_stuff, :send_mail
-  
+
 
   class AccessDenied < Exception
-	  def initialize( str )
-		  @str = str
-	  end
+    def initialize( str )
+      @str = str
+    end
 
     def to_s
       @str
@@ -98,20 +98,20 @@ class User < ActiveRecord::Base
   end
 
   def user_stuff
-     self.user_configuration=UserConfiguration.create( 
-                                          :debug_mode => CaciqueConf::DEBUG_MODE,
-                                          :remote_control_addr => CaciqueConf::REMOTE_CONTROL_ADDR,
-                                          :remote_control_port => CaciqueConf::REMOTE_CONTROL_PORT,
-                                          :remote_control_mode => CaciqueConf::REMOTE_CONTROL_MODE
-      )
-      
-      self.user_configuration.add_first_user_configuration_values
+    self.user_configuration=UserConfiguration.create(
+      :debug_mode => CaciqueConf::DEBUG_MODE,
+      :remote_control_addr => CaciqueConf::REMOTE_CONTROL_ADDR,
+      :remote_control_port => CaciqueConf::REMOTE_CONTROL_PORT,
+      :remote_control_mode => CaciqueConf::REMOTE_CONTROL_MODE
+    )
 
-       #Note CACIQUE
-       self.notes.create
-       
-       #Links
-       self.user_links.create(:name => "Cacique",:link => 'http://cacique.mercadolibre.com/')
+    self.user_configuration.add_first_user_configuration_values
+
+    #Note CACIQUE
+    self.notes.create
+
+    #Links
+    self.user_links.create(:name => "Cacique",:link => 'http://cacique.mercadolibre.com/')
   end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -164,221 +164,220 @@ class User < ActiveRecord::Base
     @activated
   end
 
-   def has_role( role_name, obj = nil, option = nil )
-	 # to allocate roles, the current user must have "security" permissions
-	 check_security_permissions(obj) unless option == :nocheck
-	 super(role_name, obj)
-   end
+  def has_role( role_name, obj = nil, option = nil )
+    # to allocate roles, the current user must have "security" permissions
+    check_security_permissions(obj) unless option == :nocheck
+    super(role_name, obj)
+  end
 
-   def has_no_role( role_name, obj = nil, option = nil )
-	 	# to allocate roles, the current user must have "security" permissions
-	 check_security_permissions(obj) unless option == :nocheck
-	 super(role_name, obj)
-   end
+  def has_no_role( role_name, obj = nil, option = nil )
+    # to allocate roles, the current user must have "security" permissions
+    check_security_permissions(obj) unless option == :nocheck
+    super(role_name, obj)
+  end
 
-    def check_security_permissions(obj)
+  def check_security_permissions(obj)
 
-	    if current_user then
-		return true if current_user.has_role?("root")
-	    end
-
-	    if obj then
-		if current_user then
-			unless current_user.has_role?("security", obj)
-				raise AccessDenied.new("Access denied to #{self.inspect}")
-			end
-		end
-	    else
-		 #	to allocate roles to users, the current user must have "administrator" permissions
-		if current_user then
-			unless current_user.has_role?("root")
-				raise AccessDenied.new("Access denied to #{self.inspect}")
-			end
-		end
-	   end
+    if current_user then
+      return true if current_user.has_role?("root")
     end
 
-
-   def has_role? ( role_name, obj = nil)
-	#admin user have total acces
-	if role_name != "root" then
-
-		#root user have any rol
-		return true if self.has_role?("root")
-	end
-
-	if role_name == "viewer" or role_name == "enumerator_of_suites" then
-		#any user have "viewer" rol
-		return true
-	end
-
-  if role_name == "creator_of_case_templates" then
-
-    if obj.instance_of? Circuit
-
-      if obj.category
-
-        proj = obj.category.indirect_project
-        if proj
-          if has_role?("editor", proj) then
-            return true
-          end
+    if obj then
+      if current_user then
+        unless current_user.has_role?("security", obj)
+          raise AccessDenied.new("Access denied to #{self.inspect}")
+        end
+      end
+    else
+      # to allocate roles to users, the current user must have "administrator" permissions
+      if current_user then
+        unless current_user.has_role?("root")
+          raise AccessDenied.new("Access denied to #{self.inspect}")
         end
       end
     end
   end
 
 
-	if obj.instance_of? Suite
-		proj = obj.project
-		if proj
-			return super(role_name, obj ) || super( role_name + " of suites", proj ) || super(role_name, proj)
-		end
-	end
+  def has_role? ( role_name, obj = nil)
+    #admin user have total acces
+    if role_name != "root" then
 
-	if obj.instance_of? Category
-		proj = obj.indirect_project
-		if proj
-			return super(role_name, obj ) || super( role_name + " of categories", proj )  || super(role_name, proj)
-		end
-	end
+      #root user have any rol
+      return true if self.has_role?("root")
+    end
 
-	if obj.instance_of? CaseTemplate
-		if obj.circuit
-			if obj.circuit.category
-				proj = obj.circuit.category.indirect_project
-				if proj
-					return super(role_name, obj ) || super( role_name + " of case_templates", proj ) || super(role_name, proj)
-				end
-			end
-		end
-	end
+    if role_name == "viewer" or role_name == "enumerator_of_suites" then
+      #any user have "viewer" rol
+      return true
+    end
 
-	if obj.instance_of? Circuit
-		if obj.category
-			proj = obj.category.indirect_project
-			if proj
-				return super(role_name, obj ) || super( role_name + " of circuits", proj ) || super(role_name, proj)
-			end
-		end
-	end
-
-	if obj.instance_of? Project
-		if role_name == "creator_of_suites" then
-			return true if super("editor", obj)
-		end
-	end
-
-	super(role_name, obj )
-   end
-   def has_no_role? ( role_name, obj = nil)
-	   not has_role?(role_name,obj)
-   end
+    if role_name == "creator_of_case_templates" then
+      if obj.instance_of? Circuit
+        if obj.category
+          proj = obj.category.indirect_project
+          if proj
+            if has_role?("editor", proj) then
+              return true
+            end
+          end
+        end
+      end
+    end
 
 
-   #user password recovery
-   def email_password_recovery(server_port)
-     Notifier.deliver_password_recovery(self, server_port)
-   end
+    if obj.instance_of? Suite
+      proj = obj.project
+      if proj
+        return super(role_name, obj ) || super( role_name + " of suites", proj ) || super(role_name, proj)
+      end
+    end
 
-   def active?
-     self.active
-   end
+    if obj.instance_of? Category
+      proj = obj.indirect_project
+      if proj
+        return super(role_name, obj ) || super( role_name + " of categories", proj )  || super(role_name, proj)
+      end
+    end
 
-   #user password change
-   def email_password_changed
-     Notifier.deliver_password_changed(self)
-   end
-  
-   def self.deactivate(login)
-     u= User.find_by_login(login)
-     unless u.nil?
-      u.active=false 
+    if obj.instance_of? CaseTemplate
+      if obj.circuit
+        if obj.circuit.category
+          proj = obj.circuit.category.indirect_project
+          if proj
+            return super(role_name, obj ) || super( role_name + " of case_templates", proj ) || super(role_name, proj)
+          end
+        end
+      end
+    end
+
+    if obj.instance_of? Circuit
+      if obj.category
+        proj = obj.category.indirect_project
+        if proj
+          return super(role_name, obj ) || super( role_name + " of circuits", proj ) || super(role_name, proj)
+        end
+      end
+    end
+
+    if obj.instance_of? Project
+      if role_name == "creator_of_suites" then
+        return true if super("editor", obj)
+      end
+    end
+
+    super(role_name, obj )
+  end
+
+  def has_no_role? ( role_name, obj = nil)
+    not has_role?(role_name,obj)
+  end
+
+
+  #user password recovery
+  def email_password_recovery(server_port)
+    Notifier.deliver_password_recovery(self, server_port)
+  end
+
+  def active?
+    self.active
+  end
+
+  #user password change
+  def email_password_changed
+    Notifier.deliver_password_changed(self)
+  end
+
+  def self.deactivate(login)
+    u= User.find_by_login(login)
+    unless u.nil?
+      u.active=false
       u.save
-     end
-   end
+    end
+  end
 
-   def self.activate(login)
-     u= User.find_by_login(login)
-     unless u.nil?
-       u.active=true
-       u.save
-     end
-   end
-   #is FALSE when user was deleted
-   def self.active?(login) 
-     u=User.find_by_login(login)
-     return true if u==nil #must be true if user not exist
-     return u.active
-   end
+  def self.activate(login)
+    u= User.find_by_login(login)
+    unless u.nil?
+      u.active=true
+      u.save
+    end
+  end
+
+  #is FALSE when user was deleted
+  def self.active?(login)
+    u=User.find_by_login(login)
+    return true if u==nil #must be true if user not exist
+    return u.active
+  end
 
   def expires_cached_user
-    Rails.cache.delete "user_#{self.id}" 
+    Rails.cache.delete "user_#{self.id}"
   end
- 
+
   def expires_cached_user_circuits_edit
-     Rails.cache.delete("circuit_edit_#{self.id}")
+    Rails.cache.delete("circuit_edit_#{self.id}")
   end
 
-   #return the projects asigned to user
-   def my_projects
-      user_projects=Array.new
-      values= Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
+  #return the projects asigned to user
+  def my_projects
+    user_projects=Array.new
+    values= Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
 
-      values.each do |prj| 
-        user_projects << Project.find(prj.to_i) 
-      end
-      user_projects.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
-   end
+    values.each do |prj|
+      user_projects << Project.find(prj.to_i)
+    end
+    user_projects.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
+  end
 
-   #Returns true if the user has permissions to manage the project.
-   def has_permission_admin_project?(project_id)
+  #Returns true if the user has permissions to manage the project.
+  def has_permission_admin_project?(project_id)
     return true if self.has_role?("root")
 
     project_ids = Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
     return project_ids.include?(project_id.to_i)
-   end
-   
-   # load user projects in cache, asigned or unassigned to him
-   # and return unassigned projects
-   # create an vector with ALL ids
-   def other_projects
-      other_prj=[]
-      all_ids= Rails.cache.fetch("projects_ids"){Project.all.map(&:id)}
-      #calculate id for the other projects
-      #if user id is not cached,  does here
-      other_ids= all_ids - self.my_projects.map(&:id)
+  end
 
-      other_ids.each do |identifier|
-        other_prj << Project.find(identifier.to_i)
-      end
-      other_prj.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }     
-   end
-   
-   #user projects refresh
-   #vector id refresh
-   def reload_cached_projects
-      Rails.cache.write("projects_ids" , Project.all.map(&:id))
-      Rails.cache.delete("user_projects_#{self.id}")
-   end
+  # load user projects in cache, asigned or unassigned to him
+  # and return unassigned projects
+  # create an vector with ALL ids
+  def other_projects
+    other_prj=[]
+    all_ids= Rails.cache.fetch("projects_ids"){Project.all.map(&:id)}
+    #calculate id for the other projects
+    #if user id is not cached,  does here
+    other_ids= all_ids - self.my_projects.map(&:id)
 
-   def enable_api!
-     self.generate_api_key!
-   end
-       
-   def disable_api!
-     #should be ....
-     #self.update_attribute(:api_key, "")
+    other_ids.each do |identifier|
+      other_prj << Project.find(identifier.to_i)
+    end
+    other_prj.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
+  end
 
-     usr=User.find_by_login(current_user.login)
-     usr.update_attribute(:api_key, "")
-     expires_cached_user
-     current_user=usr
-   end
-               
-   def api_is_enabled?
-     !self.api_key.empty?
-   end
+  #user projects refresh
+  #vector id refresh
+  def reload_cached_projects
+    Rails.cache.write("projects_ids" , Project.all.map(&:id))
+    Rails.cache.delete("user_projects_#{self.id}")
+  end
+
+  def enable_api!
+    self.generate_api_key!
+  end
+
+  def disable_api!
+    #should be ....
+    #self.update_attribute(:api_key, "")
+
+    usr=User.find_by_login(current_user.login)
+    usr.update_attribute(:api_key, "")
+    expires_cached_user
+    current_user=usr
+  end
+
+  def api_is_enabled?
+    !self.api_key.empty?
+  end
 
 
   protected
@@ -390,22 +389,22 @@ class User < ActiveRecord::Base
     end
 
     def password_required?
-      crypted_password.blank? || !password.blank? || !password_confirmation.blank? 
+      crypted_password.blank? || !password.blank? || !password_confirmation.blank?
     end
 
 
-   def send_mail
-     begin
+  def send_mail
+    begin
       Notifier.deliver_signup_mail(self)
-     rescue
+    rescue
       #You should confing your mailserver to send mail when creating accounts.
-     end
-   end
-  
+    end
+  end
+
   def secure_digest(*args)
     Digest::SHA1.hexdigest(args.flatten.join('--'))
   end
-               
+
   def generate_api_key!
     # Note: This is a dirty code, it should be something like:
     #       self.update_attribute(:api_key, secure_digest(Time.now, (1..10).map{ rand.to_s }))
@@ -419,14 +418,14 @@ class User < ActiveRecord::Base
   end
 
 
-
-   def self.find(*args)
+  def self.find(*args)
     if args.first.instance_of?(Fixnum) and args.length == 1
       Rails.cache.fetch "user_#{args.first}" do
         super(*args)
-      end 
+      end
     else
       super(*args)
     end
-   end
+  end
+
 end
