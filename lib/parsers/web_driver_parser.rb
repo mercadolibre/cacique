@@ -42,24 +42,25 @@ class WebDriverParser
   # GENERATE SCRIPT: The script is generated from the recording
   def generate_script(content,data)
     
-    # Header: Get "setup" method to get the url
-    content_setup = content.split(/def setup/)[1].split("end")[0]
-    header = add_driver_init(content_setup)
-    
-    # Body: Get "test_" method
-    content_test = content.split(/def test_/)[1]
-    content_test.split("def")[0] if content.split("def")
+    # Get method test_
+    content_test = content.split(/def test_\w*\n/)[1]
+    raise " test_ method not found" if !content_test
+    content_test = content_test.split("def")[0] if content.split("def") 
+
+    # Change [driver.get "url"] for [web_driver_init "url"]
+    content_test.gsub!(/(\s)*@driver.get/, "webdriver_init")
+
+    # Get @driver lines without asserts
     lines = content_test.split("\n")
-    driver_lines = lines.select{|line| line.match(/@driver/)}
-    body = driver_lines.join("\n")
+    driver_lines = lines.select{|line| line.match(/@driver|webdriver_init/) and !line.match(/assert_equal/)}
+    source_code = driver_lines.join("\n")
 
     # Data: Variable values ​​are replaced by their respective column of the data set
-    body = set_data(driver_lines,data) if !data.empty?
-    # @driver to driver
-    body.gsub!(/    @driver/, "driver")
+    source_code = set_data(driver_lines,data) if !data.empty?
+    # Delete spaces before @driver
+    source_code.gsub!(/^(\s)*@driver/, "@driver")
 
-    #Source code
-    source_code = header + body
+    # Source code
     source_code
 
   end
@@ -80,16 +81,6 @@ private
     end
     return input_data
   end
-
-  #Get url from content
-  def add_driver_init(content)
-    begin
-		  url = content.split(":url => ")[1].split(',')[0].delete "\""
-    rescue
-      url = "url not found"
-    end
-		return "web_driver_init(\"" + url + "\")\n"
-  end		
 
   # "data" format: {column=> value} 
   # Replaces "data" values for columns in "lines"

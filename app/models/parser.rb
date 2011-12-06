@@ -80,11 +80,9 @@ private
     case content
       #WebDriver
       when /require "selenium-webdriver"/
-        require "#{RAILS_ROOT}/lib/parsers/web_driver_parser"
         script_generator = WebDriverParser.new 
       #Selenium
       when  /require "selenium\/client"/
-        require "#{RAILS_ROOT}/lib/parsers/selenium_parser"
         script_generator  = SeleniumParser.new
       else
         raise "Parser not found"

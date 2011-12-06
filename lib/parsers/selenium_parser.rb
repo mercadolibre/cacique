@@ -27,13 +27,15 @@ class SeleniumParser
   
   # DATA COLLECTOR: Input data is obtained from "content" that could be variable
   def data_collector(content)
+    
     #Get method test_
-    content = content.split(/test_/)[1]
-    raise " test_ method not found" if !content
-    #if another method is defined after the "test_"
-    content.split("def")[0] if content.split("def")
+    content_test = content.split(/def test_\w*\n/)[1]
+    raise " test_ method not found" if !content_test
+    content_test = content_test.split("def")[0] if content.split("def") 
+
     #Get @selenium lines
     selenium_lines = content.split("\n").select{|line| line.match(/@selenium/)}
+
     # Get input data from recording
     get_input_data(selenium_lines)
   end
@@ -55,7 +57,7 @@ class SeleniumParser
     # Data: Variable values ​​are replaced by their respective column of the data set
     body = set_data(selenium_lines,data) if !data.empty?
     # @selenium to selenium
-    body.gsub!(/    @selenium/, "selenium")
+    body.gsub!(/^(\s)*@selenium/, "selenium")
 
     #Source code
     source_code = header + body

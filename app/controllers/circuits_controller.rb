@@ -42,8 +42,6 @@ class CircuitsController < ApplicationController
   end
   
   def new
-    p 'aaaaaaaaaaaaaaaaaaaaaaa'
-p params
     @category = Category.find params[:category_id]
     permit 'editor of :category' do
     end
