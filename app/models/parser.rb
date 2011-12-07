@@ -34,10 +34,10 @@ class Parser
   def self.parser_data(path)
     #Get file content
     content = self.get_file_content(path)
+
     #Syntax check
     syntax = Circuit.syntax_checker(content)
-    errors = syntax[:errors].select{|line| !line.match(/class\/module name/)}#Selenium class name error 
-    raise errors.join("\n") if !errors.empty?
+    raise syntax[:errors].join("\n") if !syntax[:status]
     #Get parser
     parser = select_parser(content)
     #Get variable data

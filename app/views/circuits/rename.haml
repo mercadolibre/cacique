@@ -12,25 +12,30 @@
       %div{:id => "errors"}
         =render :partial => "errors", :locals => {:errors => nil, :circuit_id => nil}
 
-    %table.detail{ :style=>"width:70%;margin: 20px auto;"}
-      %tr
-        %th.d
-          =_('Input Value')
-        %th.d
-          =_('Field Name')
-      -@fields.each do |field|
+    -if @fields.empty?
+      %div{:style=>"width:70%;margin:30px; auto;"}
+        %i
+          %b
+            =_("We found no candidate values ​​as variables in the file")
+    -else
+      %table.detail{ :style=>"width:70%;margin: 20px auto;"}
         %tr
-          //if @fields have checks or radio, must show values or name
-          %td{:title=>field}
-            =truncate(field, :ommision => "...", :length => 40)
-          %td
-            =text_field 'save',CGI.escape(field), :class=>"input_value"
-
-    %div{:style=>"width:70%;margin:auto;"}
-      %i
-        %b
-          =_('Note:')
-          =_('Incomplete Fields will not be considered')
+          %th.d
+            =_('Input Value')
+          %th.d
+            =_('Field Name')
+          -@fields.each do |field|
+            %tr
+              //if @fields have checks or radio, must show values or name
+              %td{:title=>field}
+                =truncate(field, :ommision => "...", :length => 40)
+              %td
+                =text_field 'save',CGI.escape(field), :class=>"input_value"
+      %div{:style=>"width:70%;margin:auto;"}
+        %i
+          %b
+            =_('Note:')
+            =_('Incomplete Fields will not be considered')
 
 
 

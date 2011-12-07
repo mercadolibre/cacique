@@ -1107,6 +1107,10 @@ msgid "Data Set"
 msgstr "Set de Datos"
 
 #: app/views/circuits/rename.haml:
+msgid "We found no candidate values ​​as variables in the file"
+msgstr "No se encontraron valores candidatos como variables en el archivo"
+
+#: app/views/circuits/rename.haml:
 msgid "Define Names for"
 msgstr "Defina los nombres de"
 
