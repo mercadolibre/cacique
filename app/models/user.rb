@@ -80,12 +80,12 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..50
   validates_uniqueness_of   :login, :email, :case_sensitive => false, :message => _("Existing User")
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :message => _("Invalid Mail format")
+  validate                  :manager_cannot_be_deactivated
 
   before_save    :encrypt_password
   after_save     :expires_cached_user
   before_destroy :expires_cached_user, :expires_cached_user_circuits_edit
   after_create   :user_stuff, :send_mail
-
 
   class AccessDenied < Exception
     def initialize( str )
@@ -281,6 +281,17 @@ class User < ActiveRecord::Base
 
   def active?
     self.active
+  end
+
+  def manager?
+    Project.count(:conditions => {:user_id => self.id}) > 0
+  end
+
+  def manager_cannot_be_deactivated
+    if !active? and manager?
+      self.active = true
+      errors.add(:active, "can't be unset for project managers")
+    end
   end
 
   #user password change
