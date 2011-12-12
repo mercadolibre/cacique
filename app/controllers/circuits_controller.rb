@@ -56,7 +56,7 @@ class CircuitsController < ApplicationController
 	       upload = Hash.new
 	       upload[:fileUpload] = params['fileUpload'].read
 	       upload[:name] = @name
-               upload[:file_name] = params['fileUpload'].original_filename
+         upload[:file_name] = params['fileUpload'].original_filename
 	       DataFile.save( upload )
 	       redirect_to url_for(:controller=>:circuits, :action=>:rename, 
                                    :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id, 
@@ -118,13 +118,11 @@ class CircuitsController < ApplicationController
 
   end
 
-
   def get_suites_of_script 
        circuit  = Circuit.find params[:id].to_i
        suites   = circuit.suites
        render :partial => "suites_of_script", :locals => {:circuit_name=>circuit.name, :suites => suites}
   end
-
 
   def rename
     @category    = Category.find params[:category_id]
@@ -132,15 +130,10 @@ class CircuitsController < ApplicationController
     @description = params[:description]
     @errors      = params[:errors]
     begin
-      @fields = Circuit.selenium_data_collector( {:name => "#{RAILS_ROOT}/lib/temp/#{@name}"} )
-      #Fields codify
-      @fields.each do |t|
-        t.id = CGI.escape(t.id)
-        t.args = t.args.map{ |a| CGI.escape(a) }
-      end
-
-    rescue Exception => @error
-      redirect_to url_for(:controller=>:circuits, :action=>:error, :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id)
+      @fields = Parser.parser_data( "#{RAILS_ROOT}/lib/temp/#{@name}" )
+    rescue Exception => errors
+      @errors = errors
+      render :action => 'new'
     end
   end
 
@@ -154,28 +147,15 @@ class CircuitsController < ApplicationController
     @circuit.user_id     = current_user.id
     @circuit.project_id  = @category.project_id
 
+    #New columns
     new_columns = []
-    
-    if !params[:save].nil?
-      #If is not first Scrip
-      params[:save].each_pair do |k_,v_|
-        k = CGI.unescape(k_)
-        if !v_.empty?
-          v = CGI.unescape(v_)
-          v.gsub!(" ","_")
-          v.downcase!
-          if v == _("-Select-") or v == _("-select-")
-            @complete_fields[k.split("&&")[1]] = nil
-          else
-            @complete_fields[k.split("&&")[1]] = v.to_s.split("(")[0]
-          end
-        else
-          @complete_fields[k.split("&&")[1]] = nil
-        end
-      end
-      new_columns = @complete_fields.map{|k,v| v.to_s.downcase }.select{|col_name| col_name.to_s != "updated_at" and col_name.to_s != "created_at" and col_name.to_s != "id" and col_name.to_s != "case_template_id" and col_name.to_s != ""}
-      new_columns = new_columns.select{|x| x!=""}
-      new_columns.collect!{|col| col.downcase.gsub(" ","_")}
+    if params[:save]
+      fields = params[:save].each{|value, field_name| field_name.downcase.gsub(" ","_")}
+      columns_default  = ["updated_at" , "created_at", "id", "case_template_id"]
+      fields.each do |value, field_name|
+         @complete_fields[field_name]=CGI.unescape(value)  if !columns_default.include?(field_name) and !field_name.empty? and !value.empty?
+      end 
+      new_columns = @complete_fields.keys
 
       #Add the columns of context_configuration.field_default
       context_configurations =  ContextConfiguration.find(:all, :conditions => "enable = '1' AND field_default = 1")
@@ -185,37 +165,19 @@ class CircuitsController < ApplicationController
     end
 
     #Add columns to script
-	if !@circuit.case_column_names_valid?(new_columns)
+	  if !@circuit.case_column_names_valid?(new_columns)
 	   render :partial => "errors", :locals => {:errors => @circuit.errors, :circuit_id => nil} 
-	else
-	  @circuit.save
-	  @circuit.add_case_columns(new_columns)
+	  else
+	   @circuit.save
+	   @circuit.add_case_columns(new_columns)
 
-      if Circuit.selenium_generate_circuit({
-        :name => "#{RAILS_ROOT}/lib/temp/#{params[:circuit][:name]}",
-        :data => @complete_fields,
-        :circuit => @circuit,
-        :project_id => params[:project_id],
-        })
-
+      if Parser.generate_script(@complete_fields, @circuit)
           #Add Maker
           last_version = @circuit.versions.last
           last_version.user_id = current_user.id
           last_version.save
 
-          #First script create:
-          #set field and values in hash
-          #Format: [field1=>value1, field2=>value2]
-          #Complete_fiels format:{"3:date_5"=>"hello2", "2:TESTDATO_CUATRO"=>"hello1", "5:button"=>"hello4", "4:1912496"=>"hello3"}
-          #must flipped to value=>field
-          @new_data_set = Hash.new
-          @complete_fields.each_pair do |k,v|
-          new_value = k.split(':')[1]
-            if v != nil
-              @new_data_set[v]= new_value
-            end
-          end
-          @circuit.add_first_data_set( @new_data_set )
+          @circuit.add_first_data_set( @complete_fields )
           #Se tiene que hacer un render al partial de errores porque en la vista las validaciones del
           #formulario se realizan por ajax. Luego en el partial se hace un redirect a circuits edit.
           render :partial => "errors", :locals => {:errors => nil, :circuit_id => @circuit.id} 
