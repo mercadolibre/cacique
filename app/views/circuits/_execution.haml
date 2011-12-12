@@ -28,6 +28,6 @@
 //Log
 -if (!execution.output.nil? and !execution.output.empty?) || (!execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?)
   =image_tag'/images/icons/output.png',:style=>'border:none;cursor:pointer;', :alt=>'output', :title=>_("Output"), :onclick=> "$j('#output_#{execution.id.to_s}').show();"
-  .tag{ :id => "output_#{execution.id.to_s}",:style=>" display:none; left: 320px; top: 120px;width:600px; height:390px;"}
+  .tag{ :id => "output_#{execution.id.to_s}",:style=>" display:none; left: 25%; top: 20%;min-width: 45%; max-width:70%; max-height:80%; min-height:50%;  padding: 1%;"}
     =render :partial=>'executions/output', :locals=> {:execution=>execution}
 
