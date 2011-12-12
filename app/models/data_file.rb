@@ -45,21 +45,13 @@ class DataFile
  def self.save(upload)
 
    text = upload[:fileUpload]
-   #Verify class name (without spaces)
-   if upload[:file_name].match(" ")
-     #Se quita la extensión
-       file_name_with_extension  = upload[:file_name].split(".")
-       file_name = file_name_with_extension[0..file_name_with_extension.length-2]
-     #Class
-       class_name =  "class #{file_name} < Test::Unit::TestCase"
-       valid_name =  "class test_cacique < Test::Unit::TestCase"
-     #Method
-       method_name  =  "def test_#{file_name}"
-       valid_method =  "def test_cacique"
-     #Reemplace
-     text = upload[:fileUpload].gsub( class_name, valid_name).gsub( method_name , valid_method)
-   end
-   
+   #Se quita la extensión
+   file_name_with_extension  = upload[:file_name].split(".")
+   file_name = file_name_with_extension[0..file_name_with_extension.length-2]
+
+   #Change class name
+   text.gsub!(/class.*< Test::Unit::TestCase/, "class Ccq_test < Test::Unit::TestCase")
+ 
    name = upload[:name]
    directory = "#{RAILS_ROOT}/lib/temp"
    # create the file path

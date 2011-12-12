@@ -37,11 +37,19 @@
           %br
           =_('User Name')
           .field
-            = f.text_field :name 
+            = f.text_field :name
           %br
           Email:
           .field
             = f.text_field  :email
+          %br
+          Password:
+          .field
+            = f.password_field :password
+          %br
+          Password confirmation:
+          .field
+            = f.password_field :password_confirmation
           %br
           =_('Languange:')
           .select
@@ -53,20 +61,18 @@
         = error_messages_for :user
         %div{:style => "margin-left: 50px; width:97%;float:left;border: 1px solid #C3C3C3;"}
           %div{:style => "margin-left: 10px; margin-right: 10px;"}
-            -if @user.api_is_enabled? 
+            -if @user.api_is_enabled?
               %p
                 Your API Key:
-                =link_to "re-generate", api_key_path, :method => :post  
-                | 
-                = link_to "disable", api_key_path, :method => :delete 
+                =link_to "re-generate", api_key_path, :method => :post
+                |
+                = link_to "disable", api_key_path, :method => :delete
               %p
                 %strong
-                  =@user.api_key 
+                  =@user.api_key
             -else
               %p
                 You'll need a unique key to make calls to the API.  Remember to keep this key a secret as it can be used to access your account.
               %p
-                =link_to("Get a key", api_key_path, :method => :post) 
+                =link_to("Get a key", api_key_path, :method => :post)
       %div{ :style=>"clear: both"}
-
-
