@@ -82,7 +82,7 @@ def index
   def edit
      @project    = Project.find params[:id]
      @assigments = ProjectUser.find_all_by_project_id @project.id
-     @users      = User.all.sort_by { |x| x.name.downcase }
+     @users      = User.all.select{|u| u.active?}.sort_by { |x| x.name.downcase }
   end
 
   def update

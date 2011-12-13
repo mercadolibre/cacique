@@ -59,18 +59,23 @@ class Project < ActiveRecord::Base
   
   #assing user to project
   def assign(user_id)
-      user = User.find user_id
-      if self.users.include?(user)
-         self.errors.add(:relation, _('User is already assigned to the project'))
-         return false
-       end
-      ProjectUser.create(:user_id=>user_id, :project_id=>self.id)
-      user.reload_cached_projects
+    user = User.find user_id
+    if self.users.include?(user)
+      self.errors.add(:relation, _('User is already assigned to the project'))
+      return false
+    end
+    unless user.active?
+      self.errors.add(:relation, _('User is inactive'))
+      return false
+    end
+    ProjectUser.create(:user_id=>user_id, :project_id=>self.id)
+    user.reload_cached_projects
   end
   
   #Assing manager for the proyect
   def assign_manager(user_id)
     user = User.find user_id   
+    return unless user.active?
     self.assign(user_id) if !self.users.include?(user) #if user is not assig
     self.user_id = user.id
     user.reload_cached_projects
