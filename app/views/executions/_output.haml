@@ -23,24 +23,26 @@
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-=render :partial =>"layouts/popup_header", :locals=>{:element =>"output_#{execution.id.to_s}"}        
-%h1{:style=>"color:#045FB4;text-align:center;"}
-  =_('Output')
-%h3
-  =truncate(execution.circuit.name,:ommision => "...", :length => 90)
-%div{:style=>"height:auto;width:100%;max-height:75%;overflow:auto;"}
-  //Snapshot
-  -if !execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?
-    %h3{:style=>"text-align:left;color:#31576F"}
-      Snapshots
-    %ul{:style=>"max-height:100px;overflow:auto;margin-left:20px; border:1px solid #C6C5C4;-moz-border-radius:10px;width:250px;padding:5px;"}
-      -execution.execution_snapshots.each do |snapshot|
-        %li{:style=>"color:#31576F;"}
-          =link_to truncate(snapshot.name.capitalize, :ommision => "...", :length => 30), "/executions/show_snapshot/0?snapshot_id=" + snapshot.id.to_s, :popup=> true, :style=>"font-size:12px; color:#31576F; font-weight:normal;"                  
-  -if (!execution.output.nil? and !execution.output.empty?)
-    %h3{:style=>"text-align:left;color:#31576F"}
-      =_('Output')
-    %div{:style=>"margin-left:20px;"}                
-      =CGI.escapeHTML(execution.output.to_s).gsub("\n","<br/>")  
-%div{ :style=>"clear: both"}        
+=render :partial =>"layouts/popup_header", :locals=>{:element =>"output_#{execution.id.to_s}"}
+
+//Output
+-if (!execution.output.nil? and !execution.output.empty?)
+  %h3{:style=>"color:#31576F;margin-top: 0;"}
+    =truncate(execution.circuit.name,:ommision => "...", :length => 80)
+
+  .form_tag{:style=>"overflow: auto; min-height: 200px; max-height: 330px;"}
+    //Snapshot
+    -if !execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?
+      %b{:style=>"color:#31576F"}
+        Snapshots
+      %ul
+        -execution.execution_snapshots.each do |snapshot|
+          %li{:style=>"color:#31576F;"}
+            =link_to truncate(snapshot.name.capitalize, :ommision => "...", :length => 30), "/executions/show_snapshot/0?snapshot_id=" + snapshot.id.to_s, :popup=> true, :style=>"font-size:12px; color:#31576F; font-weight:normal;"
+      %br
+
+    -execution.output.split("\n").each do |line|
+      =h line
+      %br 
+%div{ :style=>"clear: both"}
 
