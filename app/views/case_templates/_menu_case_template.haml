@@ -60,7 +60,7 @@
 //Serch
 .buscar
   - form_for :case_templates, :url=> project_circuit_case_templates_path(@circuit.project_id,@circuit), :html=>{:method=>:get} do  |f|
-    =f.text_field :objective, :style => 'width: 130px; ', :style => 'width: 130px',:value=>_("Search case") , :onblur=>"if (this.value == '') {this.value = '#{_('Search case')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search case')}') {this.value = '';this.style.color='black'}"
+    =f.text_field :objective, :value=>@search_case, :style => 'width: 130px;', :placeholder=>_("Search case")
     =image_submit_tag('/images/icons/search.png')
   
 //ABM Column
