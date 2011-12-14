@@ -43,7 +43,7 @@
       %br
       %label{:for => "user_id"}
         =_('Manager')
-        =select("project", "user_id", @project.users.collect {|u| [ u.login, u.id ]}, :selected=>@project.user_id )
+        =select("project", "user_id", manager_candidates(@project), :selected=>@project.user_id)
       %br
       =submit_tag _('Modify'), :style=>"cursor:pointer;float:right;"
 

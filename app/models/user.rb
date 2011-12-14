@@ -287,10 +287,15 @@ class User < ActiveRecord::Base
     Project.count(:conditions => {:user_id => self.id}) > 0
   end
 
+  def managed_projects
+    Project.find(:all, :conditions => {:user_id => self.id})
+  end
+
   def manager_cannot_be_deactivated
     if !active? and manager?
       self.active = true
-      errors.add(:active, "can't be unset for project managers")
+      projects = managed_projects.collect(&:name).join(', ')
+      errors.add(:active, "can't be unset for project managers (#{projects})")
     end
   end
 
