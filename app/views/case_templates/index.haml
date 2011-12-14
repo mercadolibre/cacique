@@ -52,7 +52,7 @@
       %b
         =truncate(@circuit.name.capitalize, :ommision => "...", :length => 60)
     %div{ :style=>"float:right;",  :title=>@circuit.user.name}
-      = will_paginate @cases_pag, :params => {:circuit_id => @circuit.id}
+      = will_paginate @cases_pag, :params => params.merge({:circuit_id => @circuit.id})
     //Errors 
     = error_messages_for :circuit
     %div{ :style=>"clear: both"}
