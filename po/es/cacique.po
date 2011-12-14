@@ -758,6 +758,10 @@ msgstr "Error"
 msgid "Post Error"
 msgstr "Post Error"
 
+#: app/views/case_templates/show.haml:
+msgid "Show"
+msgstr "Mostrar"
+
 #: app/views/categories/_case_confirm.haml:
 msgid "Import Scripts"
 msgstr "Importar Scripts"

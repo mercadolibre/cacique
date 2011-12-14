@@ -920,7 +920,13 @@ a.qp_disabled {
 .pagination_buttons a{
 	text-decoration: none;
 }
-
+.pagination_links {
+  float: right;
+}
+.pagination_links .pagination {
+  float: none;
+  text-align: right;
+}
 /********************************* Search **************************/
 .buscar{
   float:right;
