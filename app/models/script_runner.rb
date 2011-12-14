@@ -322,7 +322,7 @@ private
           #Call fucntion with script params
           eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments)" )
         else
-          args = arguments.map{|a| "#{a.to_ruby_expr}"}.join(",")
+          args = arguments.map{|argument| "#{ccq_to_ruby_expr(argument)}"}.join(",")
   	      eval_return  = eval("new_object." + function.name.to_s+ "("+args+")")
         end
         @ccq_functions.pop
@@ -343,6 +343,11 @@ private
       return true
     end
   end
+
+	def ccq_to_ruby_expr(value)
+	  return "#{value}" if(value.class == Fixnum)
+		return "\"#{value.to_s.gsub("\\","\\\\\\\\").gsub("\"","\\\"").gsub("\#","\\\#") }\""
+	end
 
 end
 

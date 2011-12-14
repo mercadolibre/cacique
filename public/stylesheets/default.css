@@ -937,6 +937,9 @@ a.qp_disabled {
   border:medium none;
   color:grey;
 }
+.buscar input:focus{
+  color:black;
+}
 /*********************Sortable List***************************/
 
 #circuits{
