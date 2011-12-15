@@ -690,6 +690,10 @@ msgstr "Erro"
 msgid "Post Error"
 msgstr "Post Error"
 
+#: app/views/case_templates/show.haml:
+msgid "Show"
+msgstr "Mostrar"
+
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Export Script"
 msgstr "Script Exportação"

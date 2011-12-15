@@ -8,7 +8,7 @@
     :database: cacique_dev
     :pool: 5
     :username: user
-    :password: passwors
+    :password: password
     :host: localhost
   :test:
     :adapter: mysql
