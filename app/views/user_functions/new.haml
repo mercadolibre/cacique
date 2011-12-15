@@ -87,7 +87,7 @@
       //Code
       %label{:for => "source_code"}
         =_('Code')
-      .edit_free_table{:style=>"width:95%; height:400px;"}
+      .edit_free_table{:style=>"width:95%; height:600px;padding-bottom:0;"}
         %div{:id => "function_head"}
           Def
         %input{ :type => "hidden", :name => "content",:value => "" }
@@ -123,7 +123,7 @@
   lineNumbers: true,
   theme: "eclipse",
   matchBrackets: true,
-  tabMode: "indent",
+  indentWithTabs: true,
   readOnly: readonly,
   onChange: function() {
   has_changed();

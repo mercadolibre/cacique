@@ -3,6 +3,7 @@
   font-family: monospace;
   height: 90%;
   font-size: 13px;
+  padding-bottom: 10px;
 }
 
 .CodeMirror-scroll {
