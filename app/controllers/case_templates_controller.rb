@@ -38,7 +38,8 @@ class CaseTemplatesController < ApplicationController
     #Case Templates 
     conditions      = CaseTemplate.build_conditions(params) 
     cases_pag       = CaseTemplate.find :all, :conditions=> conditions
-    @case_templates = cases_pag.paginate :page => params[:page], :per_page => 10 
+    params[:per_page] ||= "10"
+    @case_templates = cases_pag.paginate :page => params[:page], :per_page => params[:per_page]
 
     #Variables
     @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
