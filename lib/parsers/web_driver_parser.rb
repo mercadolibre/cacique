@@ -41,14 +41,20 @@ class WebDriverParser
 
   # GENERATE SCRIPT: The script is generated from the recording
   def generate_script(content,data)
-    
-    # Get method test_
+
+
+    # Body: Get "test_" method
     content_test = content.split(/def test_\w*\n/)[1]
     raise " test_ method not found" if !content_test
     content_test = content_test.split("def")[0] if content.split("def") 
+    
+    # Get URL: Get "setup" method to get the url
+    content_setup = content.split(/def setup/)[1].split("end")[0].split("\n")
+    url = add_webdriver_init(content_setup)
 
+    #Set url
     # Change [driver.get "url"] for [web_driver_init "url"]
-    content_test.gsub!(/(\s)*@driver.get/, "webdriver_init")
+    content_test.gsub!(/^(\s)*@driver.get\(@base_url \+ \"\/\"\)/, "webdriver_init(#{url})")
 
     # Get @driver lines without asserts
     lines = content_test.split("\n")
@@ -60,12 +66,13 @@ class WebDriverParser
     # Delete spaces before @driver
     source_code.gsub!(/^(\s)*@driver/, "@driver")
 
-    # Source code
+    #Source code
     source_code
 
   end
 
 private
+
 
   #Web driver sentences are parsed
   def get_input_data(lines)
@@ -81,6 +88,18 @@ private
     end
     return input_data
   end
+
+
+  #Get url from content
+  def add_webdriver_init(setup_lines)
+    begin
+      url_line = setup_lines.select{|line| line.match(/@base_url/)}.first 
+      url = url_line.split("@base_url = ")[1]
+    rescue
+      url = "url not found"
+    end
+    return url
+  end   
 
   # "data" format: {column=> value} 
   # Replaces "data" values for columns in "lines"
