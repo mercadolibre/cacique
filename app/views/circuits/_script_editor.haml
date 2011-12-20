@@ -1,0 +1,20 @@
+= javascript_include_merged :editor
+= stylesheet_link_merged :editor
+ 
+%script
+  /Ask user for confirmation before leave the page if there are unsaved changes in the script
+  changed_flag = false;
+  ="var message = '#{_('You\\\'ve made changes that are not currently saved')}'"
+  window.onbeforeunload = function(evt){if(changed_flag){evt.returnValue = message;return message;} }
+
+  /CodeMirror
+  script_content = CodeMirror.fromTextArea(document.getElementById("#{id}"), {
+  lineNumbers: true,
+  theme: "eclipse",
+  matchBrackets: true,
+  indentWithTabs: true,
+  readOnly: #{readonly || false},
+  onChange: function() {
+  has_changed();
+  }
+  });
