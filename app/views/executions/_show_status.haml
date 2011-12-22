@@ -13,20 +13,17 @@
     %br
     //POS ERROR
     -if execution.position_error and !execution.position_error.empty?
-      %div{:style=>'color:#ff0000;margin-top:5px;text-decoration:underline;'}
+      %div{:style=>'color:red;'}
         -execution.position_error.split("\n").each do |line|
           =h line
-          %br 
-      %br 
+          %br     
+        %br           
     -if execution.error and !execution.error.empty?
-      -execution.error.split("\n").each do |line|
-        =h line
-        %br 
-    -else
-      %i
-        Widthout errors
-    %br
-
+      %div{:style=>'color: grey;'}
+        -execution.error.split("\n").each do |line|
+          =h line
+          %br 
+        
   //Data recoveries
   -if !execution.filtered_data_recoveries.empty? && !execution.filtered_data_recoveries.nil? 
     %b{:style=>'color:#2C4B9B;font-size:13px;text-decoration:underline;'}
