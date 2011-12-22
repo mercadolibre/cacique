@@ -1363,10 +1363,6 @@ msgid "Clicking on them can get more information such as: Position Error or Reco
 msgstr "Haciendo click en ellos podremos obtener más información como: Posición de Errores o Datos Recuperados."
 
 #: app/views/layouts/_view_menu_info.haml:
-msgid "Show, line by line, the Execution Progress."
-msgstr "Muestra, linea por linea, el Avance de la Ejecución."
-
-#: app/views/layouts/_view_menu_info.haml:
 msgid "In this section you can select a script and analyze its relationship with others. View of those who receives and sends data."
 msgstr "En esta sección se puede selecciona un script y analizar su relación con otros. Ver de quienes recibe y a quién le envía datos."
 
