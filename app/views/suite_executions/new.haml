@@ -60,7 +60,15 @@
         =render :partial => 'context_configurations/suite_config',    :locals => {:suite_id => @suite.id, :command=>@command}
   
 
+%script
+  function submit_and_hide(img) {
+  $j(img).hide();
+  $j(img).next().show();
+  $j('#form_to_run_suite').submit();
+  }
+
 //Tools menu
 -content_for :tools_menu do
-  =image_tag("/images/icons/play.png", :alt=>"run", :title=>_('Run'), :onClick => "$j('#form_to_run_suite').submit();")
+  =image_tag("/images/icons/play.png", :alt=>"run", :title=>_('Run'), :onClick => "submit_and_hide(this);")
+  =image_tag("/images/load/spinner.gif", :alt=>"running", :title=>_('Running ...'), :style => 'display:none; cursor:default;')
   =render :partial => "queue_observers/queue_icon"
