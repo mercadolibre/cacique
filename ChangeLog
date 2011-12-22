@@ -10,7 +10,7 @@ Users can't be deactivated if they are mannaging a project
 Prevents inactive users to be assigned to projects
 Existing projects assigned to inactive users are assigned to Cacique admin
 Data set: pagination works with filtered search
-tabs are allowed in the editor
+Editor: Tab key support for indentation
 
 ===================================
 Version 0.2.4.6
