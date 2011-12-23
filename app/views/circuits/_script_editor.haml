@@ -1,3 +1,7 @@
+%script
+  //@user_functions_names = Rails.cache.read("functions") || [] 
+  =@user_functions_names.to_javascript_function("get_user_functions")
+
 = javascript_include_merged :editor
 = stylesheet_link_merged :editor
  

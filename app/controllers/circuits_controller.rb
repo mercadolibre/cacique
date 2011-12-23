@@ -214,7 +214,7 @@ class CircuitsController < ApplicationController
         redirect_to "/circuits"
         return true
       end
-    
+      @user_functions_names = Rails.cache.read("functions") || []
       @circuit = Circuit.find params[:id]
       @last_circuit_version = Circuit.find params[:id]
       @project_id = params[:project_id]

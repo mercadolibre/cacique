@@ -77,6 +77,7 @@ class UserFunctionsController < ApplicationController
       @user_function = UserFunction.new
       @user_function.project_id = params[:project_id]
       @arguments = []
+      @user_functions_names = Rails.cache.read("functions") || [] 
     else
       redirect_to "/users/access_denied?source_uri=user_functions"
     end
@@ -130,6 +131,7 @@ class UserFunctionsController < ApplicationController
         @user_function.revert_to( params[:version].to_i )
         @version_number = params[:version].to_i
       end
+      @user_functions_names = Rails.cache.read("functions") || []
       @previous_version = @user_function.find_version('max')
       @next_version     = @user_function.find_version('min')
       @source_code      = @user_function.show_source_code
