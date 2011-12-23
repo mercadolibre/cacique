@@ -31,7 +31,7 @@
 = stylesheet_link_tag 'blue.css'
 
 .main{:style=>"width:90%;padding:1.5% 0;margin:0 auto;"}
-  -remote_form_for @suite_execution, :url =>{:controller=>:task_programs, :action=> :confirm}, :html => {:id => "form_to_run_suite"} do
+  -remote_form_for @suite_execution, :before => "$j('form .form_button input').attr('disabled',true);", :url =>{:controller=>:task_programs, :action=> :confirm}, :html => {:id => "form_to_run_suite"} do
     =text_field "execution", "where_did_i_come", :value => "new_program", :style => "display:none;"
     %h1
       =image_tag("icons/calendar-and-tasks.png", :alt=>"calendar-and-tasks.png")
