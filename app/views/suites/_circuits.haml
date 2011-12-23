@@ -28,7 +28,7 @@
 %ul{:style=>"overflow:auto; height: 300px;padding:0px 20px;"}
   -circuits.each do |circuit|
     %h3{:title=>circuit.name}
-      =truncate(circuit.name.capitalize,:ommision => "...", :length =>30)
+      =link_to truncate(circuit.name.capitalize,:ommision => "...", :length =>30), edit_project_circuit_path(circuit.project_id,circuit), :style=>"color:#4F5DD5;"
     //Cases
     .form_tag{:style=>"padding:0px; 10px; min-height:50px;"}
       .div_hover{:title=>_("Add/Remove cases"),:onclick=>remote_function(:url => {:controller => "suites", :action => "edit_cases", :id => suite_id}, :complete => "$j('#div_circuit_cases').toggle(); iniciarTabla();", :with => "'circuit_id=#{circuit.id}'", :update => 'div_circuit_cases'), :style=>"float:right; height:25px;padding:0;width:25px;padding:0;border-top:0px; border-right:0px; -moz-border-radius:0px 5px 0px 5px;"}
