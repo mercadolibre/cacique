@@ -926,6 +926,19 @@ msgstr "Salvar alterações"
 msgid "Without Edit Permissions "
 msgstr "Sem permissões de edição "
 
+#: app/views/circuits/edit.haml:
+msgid "Unable to save! "
+msgstr "Não foi possível salvar!"
+
+#: app/views/circuits/edit.haml:
+msgid "It was edited by the user "
+msgstr "Foi editado pelo usuário "
+
+#: app/views/circuits/edit.haml:
+msgid "Save your changes in another medium, refresh the page and try again"
+msgstr "Salve as alterações em outro meio, atualize a página e tente novamente"
+
+
 #: app/views/layouts/_view_menu_info.haml:
 msgid "If you do not make any changes, or not have edit permissions for the script,"
 msgstr "Se você não fizer alguma alteração, ou não têm permissões para editar o script,"

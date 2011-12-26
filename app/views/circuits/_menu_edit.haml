@@ -32,7 +32,7 @@
     =image_tag("/images/icons/d_save.png",:alt=>"save",:title=>_("Without Edit Permissions "), :onclick=>"alert('#{_("You do not have Edit Permissions")}')",:style=>" height: 23px; width: 23px;margin-left:35px;")
 
   -else
-    =link_to_remote image_tag('icons/save.png', :alt=>'save', :title =>_("Save"), :id =>'save_button', :style=>'display:none;'), :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI( encode_text( script_content.getValue()) )"
+    =link_to_remote image_tag('icons/save.png', :alt=>'save', :title =>_("Save"), :id =>'save_button', :style=>'display:none;'), :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI( encode_text( script_content.getValue()) ) + '&last_updated_at=' + encodeURI('#{@circuit.updated_at.to_s}')"
     
   //Sintax check  
   =link_to_remote image_tag("/images/icons/bug.png", :alt=>"sintax check", :title=>_('Sintax Check')), :url => {:controller => "circuits", :circuit_id=>@circuit.id, :project_id=>@circuit.project_id, :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text( script_content.getValue() ))", :update => "checker", :complete => "document.getElementById('checker').show();", :method => :post

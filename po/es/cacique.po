@@ -1074,6 +1074,18 @@ msgstr "Este Script no pertenece a ninguna Suite"
 msgid "You have Unsaved Changes, do you want to Save before Exit?"
 msgstr "Tiene Cambios sin guardar, ¿desea guardarlos antes de salir?"
 
+#: app/views/circuits/edit.haml:
+msgid "Unable to save! "
+msgstr "No es posible guardar! "
+
+#: app/views/circuits/edit.haml:
+msgid "It was edited by the user "
+msgstr "Fue editado por el usuario "
+
+#: app/views/circuits/edit.haml:
+msgid "Save your changes in another medium, refresh the page and try again"
+msgstr "Guarde sus cambios en otro medio, refresque la página y intentelo nuevamente"
+
 #: app/views/circuits/error.haml:
 msgid "The loaded Script Contains Errors:"
 msgstr "El Script cargado contiene un error:"

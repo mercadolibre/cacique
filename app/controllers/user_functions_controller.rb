@@ -168,11 +168,16 @@ class UserFunctionsController < ApplicationController
       #source_code Generate
       code=params[:user_function][:code].empty? ? "" : params[:user_function][:code].split("_")[1..-1].map{|x| decode_char(x) }.join
       @user_function.source_code = @user_function.generate_source_code(code, params[:user_function][:name], args)
-      @message = ""
-      if  @user_function.save
-        @message = _('Function was successfuly updated')
+      # Verified if another user has edited the user function
+      if (@user_function.updated_at.to_s != params[:user_function][:last_updated_at])
+          @errors =  _("Unable to save! ") + ". "
+          @errors += _("It was edited by the user ") + User.find(@user_function.versions.last.user_id).name + ". "
+          @errors += _("Save your changes in another medium, refresh the page and try again")
       else
-        @user_function.errors.full_messages.each {|error|  @message << error}
+        if  !@user_function.save
+          @message = ""
+          @user_function.errors.full_messages.each {|error|  @message << error }
+        end
       end
       respond_to do |format|
          format.html

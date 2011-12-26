@@ -88,15 +88,21 @@ class CircuitsController < ApplicationController
       #Version
       @previous_version = @circuit.versions.last.number
       permit 'editor of :circuit' do
-         if @circuit.save_source_code(content,params[:commit_message])
-           #Script access registry
-           CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
+         # Verified if another user has edited the script
+         if (@circuit.updated_at.to_s != params[:last_updated_at])
+          @text_error =  _("Unable to save! ") + ". "
+          @text_error += _("It was edited by the user ") + User.find(@circuit.versions.last.user_id).name + ". "
+          @text_error += _("Save your changes in another medium, refresh the page and try again")
+         else
+           if @circuit.save_source_code(content,params[:commit_message])
+             #Script access registry
+             CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
+           end
          end
          respond_to do |format|
           format.js # run the update.rjs template
          end
      end
-
    else
       #Update NAME and DESCRIPTION 
       if  current_user.has_role?( "editor", @circuit)  

@@ -21,13 +21,17 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see http://www.gnu.org/licenses/.
 #
-    #Set changes saved
-    page <<  "changed_flag =false;"
-    # Hide save icons
-     page.hide :save_button
-     page.hide :pencil_icon
-    #versions
-     page.replace_html 'versions', :partial => 'versions'
-
+#If Error
+if @text_error
+	page.alert(@text_error)
+else
+  #Set changes saved
+  page <<  "changed_flag =false;"
+  # Hide save icons
+  page.hide :save_button
+  page.hide :pencil_icon
+  #versions
+  page.replace_html 'versions', :partial => 'versions'
+end
 
 

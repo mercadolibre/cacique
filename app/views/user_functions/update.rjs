@@ -22,7 +22,9 @@
 #  along with this program.  If not, see http://www.gnu.org/licenses/.
 #
 page.replace_html('errors', error_messages_for(:user_function))
-if @user_function.errors.empty?
+if @errors
+	page.alert(@errors)
+else
     #Set changes saved
     page <<  "changed_flag =false;"
     # Hide save icons
@@ -30,6 +32,7 @@ if @user_function.errors.empty?
      page.hide :pencil_icon
     #versions
      page.replace_html 'versions', :partial => 'versions'
+     page[:last_updated_at].value = @user_function.updated_at.to_s
 end
 
 
