@@ -1,4 +1,18 @@
 ===================================
+Version 0.2.4.12
+===================================
+• Editor: User functions predictive search
+• Editor: User functions highlighting 
+• Editor: New search/replace  
+ 
+• Bug fixes:
+Avoid scheduling multiple executions
+
+• Minor features: 
+History: Check all executions
+Suite editor: New link to script editor
+
+===================================
 Version 0.2.4.11
 ===================================
 • Webdriver parser

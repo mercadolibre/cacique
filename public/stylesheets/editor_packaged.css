@@ -11,8 +11,11 @@ span.CodeMirror-selected {background: #ccc !important; color: HighlightText !imp
 .CodeMirror-focused span.CodeMirror-selected {background: Highlight !important}
 .CodeMirror-matchingbracket {color: #0f0 !important;}
 .CodeMirror-nonmatchingbracket {color: #f22 !important;}
+.CodeMirror-completions {position: absolute; z-index: 10; overflow: hidden; -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2); -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2); box-shadow: 2px 3px 5px rgba(0,0,0,.2)}
+.CodeMirror-completions select {background: #fafafa; outline: none; border: none; padding: 0; margin: 0; font-family: monospace}
 .cm-s-eclipse span.cm-meta {color: #FF1717;}
 .cm-s-eclipse span.cm-keyword {font-weight: bold; color: #7F0055}
+.cm-s-eclipse span.cm-keyword-ccq {font-weight: bold; color:Indigo}
 .cm-s-eclipse span.cm-atom {color: #219;}
 .cm-s-eclipse span.cm-number {color: #164;}
 .cm-s-eclipse span.cm-def {color: #00f;}
@@ -21,7 +24,7 @@ span.CodeMirror-selected {background: #ccc !important; color: HighlightText !imp
 .cm-s-eclipse span.cm-variable-3 {color: #0000C0;}
 .cm-s-eclipse span.cm-property {color: black;}
 .cm-s-eclipse span.cm-operator {color: black;}
-.cm-s-eclipse span.cm-comment {color: #3F7F5F;}
+.cm-s-eclipse span.cm-comment {color: grey;}
 .cm-s-eclipse span.cm-string {color: #2A00FF;}
 .cm-s-eclipse span.cm-string-2 {color: #f50;}
 .cm-s-eclipse span.cm-error {color: #f00;}

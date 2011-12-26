@@ -1,6 +1,7 @@
 %script
   //@user_functions_names = Rails.cache.read("functions") || [] 
   =@user_functions_names.to_javascript_function("get_user_functions")
+  =String.instance_methods.to_javascript_function("get_string_methods")
 
 = javascript_include_merged :editor
 = stylesheet_link_merged :editor
@@ -18,7 +19,7 @@
   matchBrackets: true,
   indentWithTabs: true,
   readOnly: #{readonly || false},
-  onChange: function() {
-  has_changed();
-  }
+  onChange: function() { has_changed();},
+  extraKeys: {"Ctrl-Space": function(cm) {CodeMirror.simpleHint(cm, CodeMirror.javascriptHint);}}
   });
+

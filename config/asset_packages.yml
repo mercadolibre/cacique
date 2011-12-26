@@ -13,6 +13,8 @@ javascripts:
   - user_function
   - editor_changes
   - ../CodeMirror-2.15/lib/codemirror
+  - ../CodeMirror-2.15/lib/simple-hint
+  - ../CodeMirror-2.15/lib/javascript-hint
   - ../CodeMirror-2.15/mode/ruby/ruby
   - ../CodeMirror-2.15/util/dialog
   - ../CodeMirror-2.15/util/searchcursor
