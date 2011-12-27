@@ -47,7 +47,8 @@
     %div{ :style=>"width:180px;float:right;margin-left:10px;text-align:right;",  :title=>@circuit.user.name}
       =_('By')
       =truncate(@circuit.user.name, :ommision => "...", :length => 20)
-    
+      //Last update:  Verified if another user has edited the function
+      =text_field_tag 'last_updated_at', @circuit.updated_at.to_s, :id => "last_updated_at", :style=>"display:none;"
     //SCRIPT
     %textarea{ :id=>"scriptTextArea", :style=>"width:100%;"}
       =@circuit.source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r")

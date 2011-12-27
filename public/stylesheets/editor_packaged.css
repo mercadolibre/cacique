@@ -15,7 +15,7 @@ span.CodeMirror-selected {background: #ccc !important; color: HighlightText !imp
 .CodeMirror-completions select {background: #fafafa; outline: none; border: none; padding: 0; margin: 0; font-family: monospace}
 .cm-s-eclipse span.cm-meta {color: #FF1717;}
 .cm-s-eclipse span.cm-keyword {font-weight: bold; color: #7F0055}
-.cm-s-eclipse span.cm-keyword-ccq {font-weight: bold; color:Indigo}
+.cm-s-eclipse span.cm-keyword-ccq {font-weight: bold; color:MidnightBlue}
 .cm-s-eclipse span.cm-atom {color: #219;}
 .cm-s-eclipse span.cm-number {color: #164;}
 .cm-s-eclipse span.cm-def {color: #00f;}

@@ -99,6 +99,7 @@ class CircuitsController < ApplicationController
              CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
            end
          end
+         @play = true if params[:and_play]
          respond_to do |format|
           format.js # run the update.rjs template
          end

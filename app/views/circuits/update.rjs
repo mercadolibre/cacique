@@ -32,6 +32,13 @@ else
   page.hide :pencil_icon
   #versions
   page.replace_html 'versions', :partial => 'versions'
+  page[:last_updated_at].value = @circuit.updated_at.to_s
+  if @play
+    page << "case_template_value = $j('#cases_id').val()"
+    page << "window.location = '/suite_executions/create?case_template_id=' + case_template_value + '&where_did_i_come=circuits_edit&project_id=' + #{@project_id.to_s} + '&circuit_id=' + #{@circuit.id.to_s}" 
+  end
+
+
 end
 
 
