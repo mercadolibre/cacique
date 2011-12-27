@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   #get values about projects and users that will be showed on projects selects
   def box_values
        @projects = (Project.find :all).sort_by { |x| x.name.downcase }
-       @users    = (User.find :all).sort_by { |x| x.name.downcase }
+       @users    = (User.find :all).sort
   end
 
 

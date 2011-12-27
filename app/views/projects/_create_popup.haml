@@ -39,7 +39,7 @@
         %label
           =_('Manager')
         %select{:id => "project_user_id", :name=>"project[user_id]"}      
-          -@users.each do |user|
+          -@users.sort.each do |user|
             %option{ :value => user.id}
               =user.login
         %br

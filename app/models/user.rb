@@ -97,6 +97,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def <=> other
+    self.login.downcase <=> other.login.downcase
+  end
+
   def user_stuff
     self.user_configuration=UserConfiguration.create(
       :debug_mode => CaciqueConf::DEBUG_MODE,

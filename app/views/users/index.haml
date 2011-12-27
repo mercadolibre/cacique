@@ -30,7 +30,7 @@
     =_("Select any User")
   .result{:id=>"result",:style=>"margin-left: 20px; margin-top: 20px;color:red;"}
   .admin{:style => "width: 300px; margin-left: 30px; margin-top: 20px"}
-    =select("user", "id", @users.collect {|p| [ truncate(p.login, :ommision => "...", :length => 60) , p.id ] }.sort!, {:include_blank => _("- Select -")},  :onchange => remote_function(:complete => visual_effect(:highlight,'user_setting'),:update => "user_setting",  :method => "get",  :url => { :controllers => :users, :action => :show_user_form },:with => 'Form.Element.serialize(this)') )
+    =select("user", "id", user_list(@users), {:include_blank => _("- Select -")},  :onchange => remote_function(:complete => visual_effect(:highlight,'user_setting'),:update => "user_setting",  :method => "get",  :url => { :controllers => :users, :action => :show_user_form },:with => 'Form.Element.serialize(this)') )
   %br
   %br
   .setting{:id => 'user_setting' }

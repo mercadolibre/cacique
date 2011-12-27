@@ -58,7 +58,7 @@
           %td{:title=>project.user.login.downcase}
             =truncate(project.user.login.downcase, :ommision => "...", :length => 20)
           %td
-            -project.users.sort_by { |x| x.login.downcase }.each do |user|
+            -project.users.each do |user|
               =user.login
           %td
             =link_to image_tag('/images/icons/edit.png', :alt=>"edit.png",:style=>"border:none;margin-left:10px;height:14px;",  :title=>_('Edit')), edit_project_path(project.id)
