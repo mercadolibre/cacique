@@ -1,4 +1,39 @@
 ===================================
+Version 0.2.4.13
+===================================
+• Editor & User functions: 
+Check if another user has edited 
+at the same time the script or function
+
+===================================
+Version 0.2.4.12
+===================================
+• Editor: User functions predictive search
+• Editor: User functions highlighting 
+• Editor: New search/replace  
+ 
+• Bug fixes:
+Avoid scheduling multiple executions
+
+• Minor features: 
+History: Check all executions
+Suite editor: New link to script editor
+
+===================================
+Version 0.2.4.11
+===================================
+• Webdriver parser
+• Executions logs error and output are improved
+• Change password from my account
+
+• Bug fixes:
+Users can't be deactivated if they are mannaging a project
+Prevents inactive users to be assigned to projects
+Existing projects assigned to inactive users are assigned to Cacique admin
+Data set: pagination works with filtered search
+Editor: Tab key support for indentation
+
+===================================
 Version 0.2.4.6
 ===================================
 • Functions generation allow native

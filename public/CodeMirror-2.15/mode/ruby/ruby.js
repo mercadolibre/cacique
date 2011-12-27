@@ -12,6 +12,8 @@ CodeMirror.defineMode("ruby", function(config, parserConfig) {
     "caller", "lambda", "proc", "public", "protected", "private", "require", "load",
     "require_relative", "extend", "autoload"
   ]);
+
+  var keywords_ccq = wordObj(get_user_functions());
   var indentWords = wordObj(["def", "class", "case", "for", "while", "do", "module", "then",
                              "unless", "catch", "loop", "proc"]);
   var dedentWords = wordObj(["end", "until"]);
@@ -162,6 +164,7 @@ CodeMirror.defineMode("ruby", function(config, parserConfig) {
         style = keywords.propertyIsEnumerable(stream.current()) ? "keyword"
           : /^[A-Z]/.test(word) ? "tag"
           : (state.lastTok == "def" || state.lastTok == "class" || state.varList) ? "def"
+          : keywords_ccq.propertyIsEnumerable(stream.current()) ? "keyword-ccq"
           : "variable";
         if (indentWords.propertyIsEnumerable(word)) kwtype = "indent";
         else if (dedentWords.propertyIsEnumerable(word)) kwtype = "dedent";

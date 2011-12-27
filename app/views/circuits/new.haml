@@ -53,8 +53,6 @@
     =_('New Script for: ')
     =truncate(@category.name, :ommision => "...", :length => 30)
 
-
-
   -form_for :circuit, :method=>:post, :url => project_circuits_path(@category.project_id), :html => { :enctype => "multipart/form-data", :onSubmit => "return checkrequired()", :id => "form1" } do 
     .form_tag{ :style=> 'width30%;float:left;margin-left:40px;padding:20px;'}
       %p
@@ -85,21 +83,31 @@
       .form_button{:style=>"margin-right:0px;"}
         =submit_tag _('Create')
 
-    .form_tag{ :style=>"float:left;margin-left:40px; width:40%;"}
-      %h2{:style=>"font-size:16px;"}
-        =image_tag("icons/script.png", :alt=>"script", :title=>"Script", :style=>"width:20px; height:20px;")
-        Script
-      %p{:style=>"margin:20px;"}
-        %i
-          =_("An")
-          %b
+    -if @errors
+      %div{:class=>"form_show_errors", :style=>"float:left;margin-left:40px;width:40%;"}
+        #errorExplanation{:class=>"errorExplanation", :style=>" width:70%;"}
+          %h2{:style=>"text-align: center;"}
+            Error
+          %p
+            -@errors.to_s.split("\n").each do |line|
+              =h line
+              %br
+    -else
+      .form_tag{ :style=>"float:left;margin-left:40px; width:40%;"}
+        %h2{:style=>"font-size:16px;"}
+          =image_tag("icons/script.png", :alt=>"script", :title=>"Script", :style=>"width:20px; height:20px;")
+          Script
+        %p{:style=>"margin:20px;"}
+          %i
+            =_("An")
+            %b
             Script
-          =_("is an Automated Test.")
-          %br
-          =_("To use data variables to make repeated test, may accompany with a")
-          %b
-          =_("Data Set")
-          =image_tag("icons/case.png", :alt=>"case", :title=>"Case")
+            =_("is an Automated Test.")
+            %br
+            =_("To use data variables to make repeated test, may accompany with a")
+            %b
+            =_("Data Set")
+            =image_tag("icons/case.png", :alt=>"case", :title=>"Case")
 
 
 

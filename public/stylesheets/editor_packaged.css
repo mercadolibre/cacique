@@ -1,0 +1,39 @@
+.CodeMirror {line-height: 16px; font-family: monospace; height: 90%; font-size: 13px; padding-bottom: 10px}
+.CodeMirror-scroll {overflow: auto; height: 100%;  position: relative; background: white; width: 100%; border: 1px solid #848484}
+.CodeMirror-gutter {position: absolute; left: 0; top: 0; background-color: #f7f7f7; border-right: 1px solid #eee; min-width: 2em; height: 100%}
+.CodeMirror-gutter-text {color: #aaa; text-align: right; padding: .4em .2em .4em .4em}
+.CodeMirror-lines {padding: .4em}
+.CodeMirror pre {-moz-border-radius: 0; -webkit-border-radius: 0; -o-border-radius: 0; border-radius: 0; border-width: 0; margin: 0; padding: 0; background: transparent; font-family: inherit; font-size: inherit; padding: 0; margin: 0; white-space: pre; word-wrap: normal; color:#848484}
+.CodeMirror textarea {font-family: inherit !important; font-size: inherit !important}
+.CodeMirror-cursor {z-index: 10; position: absolute; visibility: hidden; border-left: 1px solid black !important}
+.CodeMirror-focused .CodeMirror-cursor {visibility: visible}
+span.CodeMirror-selected {background: #ccc !important; color: HighlightText !important}
+.CodeMirror-focused span.CodeMirror-selected {background: Highlight !important}
+.CodeMirror-matchingbracket {color: #0f0 !important;}
+.CodeMirror-nonmatchingbracket {color: #f22 !important;}
+.CodeMirror-completions {position: absolute; z-index: 10; overflow: hidden; -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2); -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2); box-shadow: 2px 3px 5px rgba(0,0,0,.2)}
+.CodeMirror-completions select {background: #fafafa; outline: none; border: none; padding: 0; margin: 0; font-family: monospace}
+.cm-s-eclipse span.cm-meta {color: #FF1717;}
+.cm-s-eclipse span.cm-keyword {font-weight: bold; color: #7F0055}
+.cm-s-eclipse span.cm-keyword-ccq {font-weight: bold; color:MidnightBlue}
+.cm-s-eclipse span.cm-atom {color: #219;}
+.cm-s-eclipse span.cm-number {color: #164;}
+.cm-s-eclipse span.cm-def {color: #00f;}
+.cm-s-eclipse span.cm-variable {color: black;}
+.cm-s-eclipse span.cm-variable-2 {color: #0000C0;}
+.cm-s-eclipse span.cm-variable-3 {color: #0000C0;}
+.cm-s-eclipse span.cm-property {color: black;}
+.cm-s-eclipse span.cm-operator {color: black;}
+.cm-s-eclipse span.cm-comment {color: grey;}
+.cm-s-eclipse span.cm-string {color: #2A00FF;}
+.cm-s-eclipse span.cm-string-2 {color: #f50;}
+.cm-s-eclipse span.cm-error {color: #f00;}
+.cm-s-eclipse span.cm-qualifier {color: #555;}
+.cm-s-eclipse span.cm-builtin {color: #30a;}
+.cm-s-eclipse span.cm-bracket {color: #cc7;}
+.cm-s-eclipse span.cm-tag {color: #170;}
+.cm-s-eclipse span.cm-attribute {color: #00c;}
+.CodeMirror-matchingbracket{ border:1px solid grey; color:black !important;}
+.CodeMirror-dialog {position: relative}
+.CodeMirror-dialog > div {position: absolute; top: 0; left: 0; right: 0; background: white; border-bottom: 1px solid #eee; z-index: 15; padding: .1em .8em; overflow: hidden; color: #333}
+.CodeMirror-dialog input {border: none; outline: none; background: transparent; width: 20em; color: inherit; font-family: monospace}

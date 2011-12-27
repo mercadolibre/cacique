@@ -40,29 +40,29 @@
 
 -case execution.status
   -when 0
-    =link_to image_tag("/images/icons/waiting_1.png", :style=>'border:none;', :alt=>"waiting_1.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+    =image_tag 'icons/waiting_1.png', :style=>'border:none;', :alt=>'waiting_1.png', :title=>execution.s_status
 
   -when 1 
-    =link_to image_tag("/images/load/spinner.gif", :style=>'border:none;', :alt => "spinner"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+    =image_tag '/images/load/spinner.gif', :style=>'border:none;', :alt => 'spinner', :title=>execution.s_status
 
   -when 2
-    =image_tag '/images/icons/ok_1.png', :style=>'border:none;cursor:pointer;', :alt=>'ok_1.png', :title=>execution.s_status, :onclick=> "$j('#data_#{execution.id.to_s}').show();"
-    .tag{ :id => "data_#{execution.id.to_s}", :style=>" display:none; border:1ps solid #D1E1E7; width: 270px;height: 200px;left: 480px; top: 120px;"}
-      =render :partial=>'executions/data', :locals=> {:execution=>execution}
+    =image_tag 'icons/ok_1.png', :style=>'border:none;cursor:pointer;', :alt=>'ok_1.png', :title=>execution.s_status, :onclick=> "$j('#show_status_#{execution.id.to_s}').show();"
+    .tag{ :id => "show_status_#{execution.id.to_s}", :style=>' display:none; left: 25%; top: 20%;width:50%;  max-height:90%; min-height:70%;  position:absolute; padding: 1%;'}
+      =render :partial=>'executions/show_status', :locals=> {:execution=>execution}
 
   -when 3
-    =image_tag "/images/icons/fail_1.png", :style=>'border:none;', :alt => "fail_1.png", :title=>execution.s_status, :onclick=> "$j('#error_#{execution.id.to_s}').show();"
-    .tag{ :id => "error_#{execution.id.to_s}", :style=>"display:none;border:1ps solid #D1E1E7; width: 600px;max-height: 425px;left: 320px; top: 120px;"}
-      =render :partial=>'executions/error', :locals=> {:execution=>execution}
+    =image_tag 'icons/fail_1.png', :style=>'border:none;cursor:pointer;', :alt =>'fail_1.png', :title=>execution.s_status, :onclick=> "$j('#show_status_#{execution.id.to_s}').show();"
+    .tag{ :id => "show_status_#{execution.id.to_s}", :style=>'display:none; left: 25%; top: 20%;width:50%; max-height:90%; min-height:70%;  position:absolute; padding: 1%;'}
+      =render :partial=>'executions/show_status', :locals=> {:execution=>execution}
 
   -when 4
-    =link_to image_tag("/images/icons/not_execution.png", :style=>'border:none;', :alt => "not_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+    =image_tag 'icons/not_execution.png', :style=>'border:none;', :alt => 'not_execution.png', :title=>execution.s_status
 
   -when 5
-    =link_to image_tag("/images/icons/fail_execution.png", :style=>'border:none;', :alt => "fail_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status
+    =image_tag 'icons/fail_execution.png', :style=>'border:none;', :alt => 'fail_execution.png', :title=>execution.s_status
 
   -when 6
-    =link_to image_tag("/images/icons/cancel.png", :style=>'border:none;', :alt => "cancel_execution.png"), "/suite_executions/#{execution.suite_execution.id}", :title=>execution.s_status    
+    =image_tag 'icons/cancel.png', :style=>'border:none;', :alt => 'cancel_execution.png',:title=>execution.s_status    
 
   -else
     =execution.s_status   

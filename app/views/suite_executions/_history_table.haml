@@ -45,7 +45,7 @@
   -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do
     %table.detail{:id=>"executions",:name=>"table_zebra", :cellspacing=>0, :style=>"float:left;width:96%; margin-top:0px;"}
       %tr
-        %th{:style=>"width:30px;", :class => "sortable"}
+        %th{:style=>"width:30px;"}
           %input{ :type => "checkbox", :id=>"seleccion",:name => 'todos',:value => "checkbox", :onChange => "ModificarTodos(this);", :style=>"margin:0px;"}
         %th{:style=>"width:30px;", :class => "sortable"}
           T

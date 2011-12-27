@@ -1,8 +1,10 @@
 if !@text_error.empty?
    page.alert(@text_error)
+   page << "$j('form .form_button input').attr('disabled', false);"
 elsif !@text_confirm.empty?
      page << "var response = prompt('#{@text_confirm}');" 
      page << "if(response != null){ if(response == #{@suite_program_cant}){location='#{@create_path}';}else{alert('Error');} }"
+     page << "$j('form .form_button input').attr('disabled', false);"
 else
    page.redirect_to params.merge!(:action => :create)
 end

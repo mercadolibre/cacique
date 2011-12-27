@@ -25,7 +25,6 @@
  */
 //Only generated global variable to keep count of the new arguments are added
 //So do not repeat ids of the inputs of arguments.
-var cant_args_add = 0;
 
 //Used to add parameters in the new, add an input to the table
   function add_argument(){

@@ -23,12 +23,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses/.
 
--javascript 'user_function'
--javascript 'editor_changes'
--javascript '/CodeMirror-2.15/lib/codemirror'
--javascript '/CodeMirror-2.15/mode/ruby/ruby.js'
-=stylesheet_link_tag '/CodeMirror-2.15/lib/codemirror.css'
-=stylesheet_link_tag '/CodeMirror-2.15/theme/eclipse.css'
+%script
+  ="var cant_args_add = #{@arguments.count};"
 
 %h1
   =_('New Function')
@@ -87,7 +83,7 @@
       //Code
       %label{:for => "source_code"}
         =_('Code')
-      .edit_free_table{:style=>"width:95%; height:400px;"}
+      .edit_free_table{:style=>"width:95%; height:600px;padding-bottom:0;"}
         %div{:id => "function_head"}
           Def
         %input{ :type => "hidden", :name => "content",:value => "" }
@@ -112,23 +108,4 @@
   //Sintax check
   =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text( script_content.getValue() ))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
 
-%script
-  ="var readonly= #{@readonly}";
-  changed_flag = false;
-  //For save before leave if there are changes in the script
-  ="var message = '#{_('You have Unsaved Changes, do you want to Save before Exit?')}'"
-  window.onbeforeunload = function(evt){if(changed_flag){evt.returnValue = message;return message;} }
-  //CodeMirror
-  script_content = CodeMirror.fromTextArea(document.getElementById("scriptTextArea"), {
-  lineNumbers: true,
-  theme: "eclipse",
-  matchBrackets: true,
-  tabMode: "indent",
-  readOnly: readonly,
-  onChange: function() {
-  has_changed();
-  }
-  });
-
-
-
+= render :partial=> "circuits/script_editor", :locals => { :id=>"scriptTextArea", :readonly=>@readonly }

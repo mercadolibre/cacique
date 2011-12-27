@@ -45,6 +45,7 @@ class ScriptRunner < ActiveRecord::Base
   require 'timeout'
 
   def initialize
+    @ccq_functions = Array.new #Called functions list
     #This flag will be set if worker need to be rebooted
     @ccq_exec_flag=0 
     @ccq_return = Hash.new
@@ -84,7 +85,7 @@ class ScriptRunner < ActiveRecord::Base
 		    ccq_run_script_return =  ccq_run_script
 			  ccq_return.merge! ccq_run_script_return if ccq_run_script_return.instance_of? Hash
 		  rescue Exception => ccq_error
-  		  ccq_error_handling(ccq_error,ccq_file_code)
+  		  ccq_error_handling(ccq_error, ccq_file_code)
   		ensure
         #Run script footer (#Cacique user function)
   			finalize_run_script
@@ -119,7 +120,7 @@ class ScriptRunner < ActiveRecord::Base
 
   def puts(*args)
     args.each do |x|
-		 self.print x,"\n"
+		 self.print x,"\n" 
 		end	
 		nil
   end
@@ -217,29 +218,57 @@ private
     Rails.cache.write "exec_#{self.execution.id}", self.execution
   end
 
-  def ccq_error_handling(error, file_code)
+  def ccq_error_handling(stack, code)
     Rails.cache.delete WORKER_CACHE_KEY
 	  error_run_script#Cacique user function
-		error.extend PositionErrorHolder
-    eval_line = error.backtrace.select{ |str| str =~ /^\(eval\)/ }.first
-	  line_number = eval_line.split(":")[1].to_i - 3
-		piso = line_number - 4
-		piso = piso < 0 ? 0 : piso
-    lnum = piso
-    fragmento = file_code.split("\n")[piso..piso+7]
-    if fragmento
-      error.position_error=fragmento.map{|x| "#{lnum==line_number-1 ? "*" : ""}#{ (lnum+=1) }: #{x}" }.join("\n") + "..."
-    else
-      print _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
-      error.position_error = _("Failure to obtain code fragment: Line number ")+"#{line_number}\n"
-    end
-    # solo en debug mode imprime el error y el stack del error (output)
-    error_text = !error.to_s.match(/(eval)/) ? error.backtrace.first : error.to_s
-    error_text = "" if error_text.to_s.match(/script_runner.rb/) 
-
-	  print "\n---> Error: #{error_text} <---\n" if debug_mode
-		raise error.message + '<br><br>'+ '<span style="color : #ff0000;"> '+error.position_error+'</span>'
+		stack.extend PositionErrorHolder
+    error = ccq_parser_error(stack, code)
+    #Error
+		raise error
   end
+
+  def ccq_parser_error(stack, code)
+    error = ""
+    called_functions = ""
+    called_functions = "\n Called functions:\n" + @ccq_functions.join("\n")  if !@ccq_functions.empty?
+
+    #ERROR: Delete "ccq_" errors
+    error = stack.message.split("\n").select{ |str| str =~ /(eval)/ and  !str.match(/ccq_/) } if error.empty?
+    error = stack if error.empty? #Function Raise 
+
+    #Detele Cacique paths
+    error.to_s.gsub!(/(\/\w+)*.\w+:\d+:in `ccq_\w+':/, "")
+    #Delete multiple \n
+    error.to_s.gsub!(/\n(\s)*\n/,"\n")
+
+    #LINE
+      #Get all "(eval)" lines
+      trace = stack.backtrace.select{ |str| str =~ /^\(eval\)/ }
+      trace.each do |line|
+        #If Script error: error line -3
+        if line.match(/ccq_run_script/)
+          line_number = line.split("(eval):")[1].split(":")[0].to_i - 3 
+          line.sub!(/\(eval\):(\d)*:/, "(eval):#{line_number.to_s}:")
+          line.gsub!("ccq_run_script", self.execution.circuit.name) 
+
+          #Trace script code, range lines:[error line -2 , error line + 2]
+  		    begin_trace = line_number - 2 #Line error - 2 lines
+  		    begin_trace = begin_trace < 0 ? 0 : begin_trace
+    		  lnum = begin_trace
+          range_lines = code.split("\n")[begin_trace..begin_trace+5]
+    		  trace << "\n\n" + range_lines.map{|x| "#{lnum == (line_number - 1) ? " * " : ""}#{ (lnum+=1) }: #{x}" }.join("\n") + "..." if range_lines
+        end
+
+        #Function error 
+        line.gsub!("ccq_generate_function", @ccq_functions.first) if !@ccq_functions.empty?
+        #Detele Cacique paths
+        line.gsub!(/(\/\w+)*.\w+:\d+:in `ccq_\w+':/, "")
+      end
+
+    error  = " #{trace} \n #{ called_functions } ---> Error: <--- #{error} "
+    error
+  end
+
 
   def ccq_get_return_data
 		return_aux = Hash.new
@@ -270,17 +299,8 @@ private
         end
      end
      if !function
-       # Follow for nested call to improve the error on stacked functions
-       stack_error=[]
-       caller.each do |stack|
-         if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
-            stack_error << stack
-         end
-       end
-       stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
-       puts stack
-       puts "\n-->" + _("Method not found: ")+"#{function_name.to_s} <--\n"
-       raise "\n#{stack}\n -->" + _(" Method not found: ")+"#{function_name.to_s}\n"
+       stack = _(" Method not found: ")+ "#{function_name.to_s}\n "
+       raise stack
     end
     return function
   end
@@ -291,37 +311,43 @@ private
     if ccq_verify_function_permissions(function)
       #Search the object to add the function
 	    new_object = ObjectSpace._id2ref(self.object_id)
-	    #Define function to finded object
-      eval(function.source_code)
-	     #Call fucntion with script params
-      if function.native_params
-        #Call fucntion with script params
-        new_object.method(function.name.to_sym).call(*arguments) 
-      else
-        args = arguments.map{|a| "#{a.to_ruby_expr}"}.join(",")
-	      eval("new_object." + function.name.to_s+ "("+args+")")
+      #Add function to the called functions list
+      @ccq_functions.push(function.name)
+      #Eval function
+      begin 
+  	    #Define function to finded object
+        eval(function.source_code)
+  	     #Call fucntion with script params
+        if function.native_params
+          #Call fucntion with script params
+          eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments)" )
+        else
+          args = arguments.map{|argument| "#{ccq_to_ruby_expr(argument)}"}.join(",")
+  	      eval_return  = eval("new_object." + function.name.to_s+ "("+args+")")
+        end
+        @ccq_functions.pop
+        eval_return 
+      rescue => error
+        stack = " \n  #{error}  \n"
+        raise stack
       end
     end
   end
 
   def ccq_verify_function_permissions(function)
     if !(function.project_id == self.project_id.to_i or function.visibility or function.project_id == 0)
-      # follow for nested call to improve the error on stacked functions
-      stack_error=[]
-      caller.each do|stack|
-        if stack.include?("eval") && !stack.include?("method_missing") && !stack.include?("run_script") && !stack.include?('in `eval')
-            stack_error << stack
-        end
-      end
-      stack=stack_error.reverse.join(" => ").gsub(/\(eval\)\:\d*\:in\s`/,"'")
-      puts stack
-      puts "--> " + _(" You are not authorized to perform the function ") + " #{function.name.to_s} (" + _('Project:') + " #{function.project.name}) <--"
-      raise"#{stack}\n --> " + _(" You are not authorized to perform the function ") + " #{function.name.to_s} (" + _('Project:') + " #{function.project.name}) <--"
-      return false
+      stack = _(" You are not authorized to perform the function ") + " #{function.name.to_s} (" + _('Project:') + " #{function.project.name})"
+      #Error
+      raise stack
     else
       return true
     end
   end
+
+	def ccq_to_ruby_expr(value)
+	  return "#{value}" if(value.class == Fixnum)
+		return "\"#{value.to_s.gsub("\\","\\\\\\\\").gsub("\"","\\\"").gsub("\#","\\\#") }\""
+	end
 
 end
 

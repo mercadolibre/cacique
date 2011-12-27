@@ -758,6 +758,10 @@ msgstr "Error"
 msgid "Post Error"
 msgstr "Post Error"
 
+#: app/views/case_templates/show.haml:
+msgid "Show"
+msgstr "Mostrar"
+
 #: app/views/categories/_case_confirm.haml:
 msgid "Import Scripts"
 msgstr "Importar Scripts"
@@ -1070,6 +1074,18 @@ msgstr "Este Script no pertenece a ninguna Suite"
 msgid "You have Unsaved Changes, do you want to Save before Exit?"
 msgstr "Tiene Cambios sin guardar, ¿desea guardarlos antes de salir?"
 
+#: app/views/circuits/edit.haml:
+msgid "Unable to save! "
+msgstr "No es posible guardar! "
+
+#: app/views/circuits/edit.haml:
+msgid "It was edited by the user "
+msgstr "Fue editado por el usuario "
+
+#: app/views/circuits/edit.haml:
+msgid "Save your changes in another medium, refresh the page and try again"
+msgstr "Guarde sus cambios en otro medio, refresque la página y intentelo nuevamente"
+
 #: app/views/circuits/error.haml:
 msgid "The loaded Script Contains Errors:"
 msgstr "El Script cargado contiene un error:"
@@ -1105,6 +1121,10 @@ msgstr "Para utilizar datos variables al realizar repetidas pruebas, es posible 
 #: app/views/circuits/new.haml:
 msgid "Data Set"
 msgstr "Set de Datos"
+
+#: app/views/circuits/rename.haml:
+msgid "We found no candidate values ​​as variables in the file"
+msgstr "No se encontraron valores candidatos como variables en el archivo"
 
 #: app/views/circuits/rename.haml:
 msgid "Define Names for"
@@ -1353,10 +1373,6 @@ msgstr "Estos iconos muestran el resultado de la Ejecución."
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Clicking on them can get more information such as: Position Error or Recovery Data."
 msgstr "Haciendo click en ellos podremos obtener más información como: Posición de Errores o Datos Recuperados."
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "Show, line by line, the Execution Progress."
-msgstr "Muestra, linea por linea, el Avance de la Ejecución."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "In this section you can select a script and analyze its relationship with others. View of those who receives and sends data."

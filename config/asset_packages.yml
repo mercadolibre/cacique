@@ -1,4 +1,7 @@
 --- 
+# After modifing this file...
+#   development: reload the server
+#   production: rake asset:packager:build_all
 javascripts: 
 - base:
   - dtree
@@ -7,7 +10,15 @@ javascripts:
   - editcircuit
   - checked_default
   - checkbox_lib
+  - user_function
   - editor_changes
+  - ../CodeMirror-2.15/lib/codemirror
+  - ../CodeMirror-2.15/lib/simple-hint
+  - ../CodeMirror-2.15/lib/javascript-hint
+  - ../CodeMirror-2.15/mode/ruby/ruby
+  - ../CodeMirror-2.15/util/dialog
+  - ../CodeMirror-2.15/util/searchcursor
+  - ../CodeMirror-2.15/util/search
 - secondary:
   - select_all
   - tablesort
@@ -53,3 +64,7 @@ stylesheets:
 - secondary:
   - highlight
   - editor
+- editor:
+  - ../CodeMirror-2.15/lib/codemirror
+  - ../CodeMirror-2.15/theme/eclipse
+  - ../CodeMirror-2.15/util/dialog

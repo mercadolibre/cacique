@@ -32,7 +32,7 @@
     =image_tag("/images/icons/d_save.png",:alt=>"save",:title=>_("Without Edit Permissions "), :onclick=>"alert('#{_("You do not have Edit Permissions")}')",:style=>" height: 23px; width: 23px;margin-left:35px;")
 
   -else
-    =link_to_remote image_tag('icons/save.png', :alt=>'save', :title =>_("Save"), :id =>'save_button', :style=>'display:none;'), :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI( encode_text( script_content.getValue()) )"
+    =link_to_remote image_tag('icons/save.png', :alt=>'save', :title =>_("Save"), :id =>'save_button', :style=>'display:none;'), :method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI( encode_text( script_content.getValue()) ) + '&last_updated_at=' + encodeURI($j(\'#last_updated_at\').val())"
     
   //Sintax check  
   =link_to_remote image_tag("/images/icons/bug.png", :alt=>"sintax check", :title=>_('Sintax Check')), :url => {:controller => "circuits", :circuit_id=>@circuit.id, :project_id=>@circuit.project_id, :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text( script_content.getValue() ))", :update => "checker", :complete => "document.getElementById('checker').show();", :method => :post
@@ -77,7 +77,7 @@
     //Play
     -if @execution_running
       //If there are changes, it is saved and executed, if not, just run
-      =image_tag( "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :id=>"play_#{@execution_running.id}",  :style=>"margin-bottom:3px;", :onClick => "if(!changed_flag){location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'}else{" + remote_function(:method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI( encode_text( script_content.getValue()) )" , :success=> "changed_flag=false;location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'" ) + "}")
+      =image_tag "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :id=>"play_#{@execution_running.id}",  :style=>"margin-bottom:3px;", :onClick => "if(!changed_flag){location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'}else{" + remote_function(:method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI( encode_text( script_content.getValue()) ) + '&last_updated_at=' + encodeURI($j(\'#last_updated_at\').val()) + '&and_play=true'") + "}"
       //stop
       //=link_to(image_tag("/images/icons/stop.png",:alt=>"stop",:title=>_('Stop'),:id=>"stop_#{@execution_running.id}",:style=>"margin-bottom:2px;"), suite_execution_path(@execution_running.suite_execution_id), :method=>:delete) 
       //Status

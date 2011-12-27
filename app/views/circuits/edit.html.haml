@@ -47,7 +47,8 @@
     %div{ :style=>"width:180px;float:right;margin-left:10px;text-align:right;",  :title=>@circuit.user.name}
       =_('By')
       =truncate(@circuit.user.name, :ommision => "...", :length => 20)
-    
+      //Last update:  Verified if another user has edited the function
+      =text_field_tag 'last_updated_at', @circuit.updated_at.to_s, :id => "last_updated_at", :style=>"display:none;"
     //SCRIPT
     %textarea{ :id=>"scriptTextArea", :style=>"width:100%;"}
       =@circuit.source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r")
@@ -62,28 +63,6 @@
   = render :partial=> "menu_edit"
  
 //JS
-=javascript_include_merged :editor
--javascript '/CodeMirror-2.15/lib/codemirror'
--javascript '/CodeMirror-2.15/mode/ruby/ruby.js'
-=stylesheet_link_tag '/CodeMirror-2.15/lib/codemirror.css'
-=stylesheet_link_tag '/CodeMirror-2.15/theme/eclipse.css'
- 
-%script
-  ="var readonly= #{@readonly}";
-  changed_flag = false;
-  //For save before leave if there are changes in the script
-  ="var message = '#{_('You have Unsaved Changes, do you want to Save before Exit?')}'"
-  window.onbeforeunload = function(evt){if(changed_flag){evt.returnValue = message;return message;} }
-  //CodeMirror
-  script_content = CodeMirror.fromTextArea(document.getElementById("scriptTextArea"), {
-  lineNumbers: true,
-  theme: "eclipse",
-  matchBrackets: true,
-  tabMode: "indent",
-  readOnly: readonly,
-  onChange: function() {
-  has_changed();
-  }
-  });
+= render :partial=> "circuits/script_editor", :locals => { :id=>"scriptTextArea", :readonly=>@readonly }
 
 
