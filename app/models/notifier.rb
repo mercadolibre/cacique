@@ -53,6 +53,16 @@ class Notifier < ActionMailer::Base
    @content_type = "text/html"
   end
 
+  def user_inactive(manager, user, tasks)
+   @recipients = manager.email
+   @from = EMAIL
+   @subject = _("[Cacique] user #{user.login} is no longer active")
+   @body['user'] = user
+   @body['tasks'] = tasks
+   @body['total_tasks'] = tasks.sum {|t| t.executions.to_i}
+   @content_type = "text/html"
+  end
+
   def suite_execution_alert(suite_execution,emails_to_send)
     @recipients = emails_to_send
     @from = EMAIL

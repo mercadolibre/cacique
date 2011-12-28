@@ -292,6 +292,9 @@ class TaskProgram < ActiveRecord::Base
 
   end
 
+  def self.sumarize_by_user_and_projects user, projects
+    find(:all, :select => "*, count(suite_id) as executions",
+         :conditions => ['user_id=? AND project_id IN (?)', user.id, projects], :group => 'suite_id')
+  end
 
-   
 end

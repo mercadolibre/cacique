@@ -82,6 +82,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :message => _("Invalid Mail format")
   validate                  :manager_cannot_be_deactivated
 
+  after_save     :notify_project_managers_if_user_becomes_inactive
   before_save    :encrypt_password
   after_save     :expires_cached_user
   before_destroy :expires_cached_user, :expires_cached_user_circuits_edit
@@ -163,9 +164,14 @@ class User < ActiveRecord::Base
     save(false)
   end
 
-  # Returns true if the user has just been activated.
+  # Returns true if the user has just been activated. (restful_authentication)
   def recently_activated?
     @activated
+  end
+
+  # Returns true if the user has became deactivated. (user.active)
+  def recently_deactivated?
+    self.active_changed? and !self.active
   end
 
   def has_role( role_name, obj = nil, option = nil )
@@ -329,6 +335,36 @@ class User < ActiveRecord::Base
     u=User.find_by_login(login)
     return true if u==nil #must be true if user not exist
     return u.active
+  end
+
+  # Return: { user => [project, project, ...],
+  #           user => [project, project, ...] }
+  def projects_by_manager
+    hash = Hash.new([])
+    projects.each do |project|
+      if hash.has_key? project.user
+        hash[project.user] << project
+      else
+        hash[project.user] = [project]
+      end
+    end
+    hash
+  end
+
+  def task_by_projects projects
+    TaskProgram.sumarize_by_user_and_projects self, projects
+  end
+
+  def notify_project_managers_if_user_becomes_inactive
+    return unless recently_deactivated?
+
+    projects_by_manager.each_pair do |manager, projects|
+      tasks = task_by_projects projects
+      Notifier.deliver_user_inactive(manager, self, tasks)
+    end
+    task_programs.each do |task|
+      task.destroy
+    end
   end
 
   def expires_cached_user
