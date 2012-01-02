@@ -436,7 +436,7 @@ class SuiteExecution < ActiveRecord::Base
     end
     
     #server's ip
-    command += " -server_ip " + IP_SERVER
+    command += " -server_ip " + SERVER_DOMAIN
     
     #server's port
     command += " -server_port " + execution_params[:server_port].to_s if execution_params.include?(:server_port)
