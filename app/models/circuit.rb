@@ -61,6 +61,9 @@ class Circuit < ActiveRecord::Base
   has_many :circuit_case_columns,    :dependent => :destroy
   accepts_nested_attributes_for :circuit_case_columns
   has_many :executions, :dependent => :destroy
+
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
   
   validates_presence_of :user_id, :message => _("Must complete an Owner")
   validates_presence_of :name, :message => _("Must complete Name field")
@@ -83,6 +86,10 @@ class Circuit < ActiveRecord::Base
   acts_as_authorizable
 
   include SaveModelAccess
+
+  def active?
+    !deleted
+  end
 
   #Column name Verify
   def case_column_names_valid?(column_names)

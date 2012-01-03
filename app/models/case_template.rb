@@ -45,6 +45,8 @@ class CaseTemplate < ActiveRecord::Base
   has_many :schematics,  :dependent => :destroy
   has_many :suite_cases_relations_origin,      :foreign_key => :case_origin     , :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
   has_many :suite_cases_relations_destination, :foreign_key => :case_destination, :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
 
   acts_as_authorizable
 
@@ -53,6 +55,10 @@ class CaseTemplate < ActiveRecord::Base
   validates_presence_of :user_id, :message => _("Must complete User Field")
   validates_presence_of :circuit_id, :message => _("Must complete Script Field")
   
+  def active?
+    !deleted
+  end
+
   class SymbolAccessHash < Hash
 	def [] (index)
 		super(index.to_sym)

@@ -48,6 +48,8 @@ class Suite < ActiveRecord::Base
   has_many :suite_containers, :dependent => :destroy
   has_many :task_programs, :dependent => :destroy 
   belongs_to :project
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
 
   validates_presence_of :name, :message => _("Enter a Name")
   validates_presence_of :description, :message => _("Enter a Description")
@@ -60,6 +62,9 @@ class Suite < ActiveRecord::Base
 
   include SaveModelAccess
 
+  def active?
+    !deleted
+  end
 
   def self.new_suite(suite_params, suite_circuits)
 	    @suite = Suite.new(suite_params)
