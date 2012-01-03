@@ -50,11 +50,13 @@ class WebDriverParser
     
     # Get URL: Get "setup" method to get the url
     content_setup = content.split(/def setup/)[1].split("end")[0].split("\n")
-    url = add_webdriver_init(content_setup)
+    url_base = get_url_base(content_setup)
 
     #Set url
     # Change [driver.get "url"] for [web_driver_init "url"]
-    content_test.gsub!(/^(\s)*@driver.get\(@base_url \+ \"\/\"\)/, "webdriver_init(#{url})")
+    # @driver.get(@base_url + "/test") =>  webdriver_init("url_base/test")
+    # url[0..-3] : \"http://sso.dev.saucelabs.com/\" => "http://sso.dev.saucelabs.com
+    content_test.gsub!(/^(\s)*@driver.get\(@base_url \+ \"/, "webdriver_init(#{url_base[0..-3]}")
 
     # Get @driver lines without asserts
     lines = content_test.split("\n")
@@ -91,7 +93,7 @@ private
 
 
   #Get url from content
-  def add_webdriver_init(setup_lines)
+  def get_url_base(setup_lines)
     begin
       url_line = setup_lines.select{|line| line.match(/@base_url/)}.first 
       url = url_line.split("@base_url = ")[1]
