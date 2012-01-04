@@ -1,6 +1,11 @@
 ===================================
 Version 0.2.5.1
 ===================================
+Installation manual : 
++ Selenium RC explanation 
++ Several improvements
+We appreciate the contribution of RMYA 
+
 • Bug fixes:
 Webdriver parser: url builder
 
@@ -14,9 +19,10 @@ at the same time the script or function
 ===================================
 Version 0.2.4.12
 ===================================
-• Editor: User functions predictive search
-• Editor: User functions highlighting 
-• Editor: New search/replace  
+• Editor: 
++ User functions predictive search
++ User functions highlighting 
++ New search/replace  
  
 • Bug fixes:
 Avoid scheduling multiple executions
