@@ -6,7 +6,7 @@
       #sideBarTab{:onclick=>remote_function(:complete =>"extendContract();", :update => "sideBarContentsInner",  :method => "get",  :url => "/categories/show_categories/0" ), :style=>"left:290px;background:url('/images/menu/slide-button.png')"}
         #vertical_text{:title=>_("Project")}
           #vertical_img{:style=>"background: url('/images/menu/slide-arrow-active.png'); width:18px; height:18px;margin-left:8px;"}
-          %div{:style=>"-moz-transform:rotate(270deg);margin-top:60px;"}
+          %div{:style=>"-moz-transform:rotate(270deg);-webkit-transform:rotate(270deg);margin-top:60px;"}
             =_('Project')
       #sideBarContents{ :style => "width:270px;float:left;left:300px;" }
         #sideBarContentsInner       
@@ -24,7 +24,7 @@
       #sideBarTab{:onclick=>remote_function(:complete =>"extendContract();", :update => "sideBarContentsInner",  :method => "get",  :url => "/categories/show_categories/0" )}
         #vertical_text{:title=>_("Project")}
           #vertical_img{:style=>"background: url('/images/menu/slide-arrow.png'); width:18px; height:18px;margin-left:8px;"}
-          %div{:style=>"-moz-transform:rotate(270deg);margin-top:60px;"}
+          %div{:style=>"-moz-transform:rotate(270deg);-webkit-transform:rotate(270deg);margin-top:60px;"}
             =_('Project')
       #sideBarContents{ :style => "width:0px;float:left;" }
         #sideBarContentsInner

@@ -32,6 +32,5 @@
         %span.handle [move]
         %b{:title=>circuit.name.capitalize}
           =truncate(circuit.name.capitalize,:ommision => "...", :length =>30)
-      %br
 
 =sortable_element("circuits", :url => sort_suites_path, :handle => "handle")

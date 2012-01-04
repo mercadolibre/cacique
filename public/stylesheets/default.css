@@ -951,10 +951,6 @@ a.qp_disabled {
 #circuits{
 }
 
-#circuits .cases{
-  float:left;
-}
-
 #circuits li{
   margin-bottom:5px;
 
