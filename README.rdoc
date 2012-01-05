@@ -16,6 +16,10 @@ cases, Data Set, Suites executions and Script editing.
 create a collaborative tool with a library of scripts and suites to
 share with other users.
 
+== Overview
+* {Cacique in 3 Steps: Record, Create and Run Scripts on Cacique!}[http://prezi.com/yixolaj62kcn/cacique-en-3-pasos/]
+* {Cacique uses examples}[http://prezi.com/5pb4ml8q2sg8/cacique-uses/] 
+
 
 == Getting Started
 
