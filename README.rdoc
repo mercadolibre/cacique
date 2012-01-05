@@ -23,8 +23,8 @@ Follow the steps in the Installation Guide which can be found in doc/instalation
 
 == More documentation
 
-{Web Page}[http://cacique.mercadolibre.com].
-{Forum}[http://cacique.mercadolibre.com/forum/].
+* {Web Page}[http://cacique.mercadolibre.com].
+* {Forum}[http://cacique.mercadolibre.com/forum/].
 
 == Contacts
 
