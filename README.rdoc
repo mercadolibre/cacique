@@ -1,0 +1,35 @@
+
+== Cacique, Do it once
+
+Cacique was born with the need of MercadoLibre to expedite the testing process for 
+your application. Based in Selenium to record the tests script, Cacique manage all 
+cases, Data Set, Suites executions and Script editing.
+
+* Easy to automate testing without knowing about develop language
+* Ability to develop and maintain tests (scripts).
+* Run tests on different platforms with different input data and external to the script
+* Configurable for different work environments
+* Easy to concatenate multiple scripts.
+
+
+“Do it Once” speaks of re-using tests. Our main objective was to
+create a collaborative tool with a library of scripts and suites to
+share with other users.
+
+== Overview
+* {Cacique in 3 Steps: Record, Create and Run Scripts on Cacique!}[http://prezi.com/yixolaj62kcn/cacique-en-3-pasos/]
+* {Cacique uses examples}[http://prezi.com/5pb4ml8q2sg8/cacique-uses/] 
+
+
+== Getting Started
+
+Follow the steps in the Installation Guide which can be found in doc/instalation_manual.doc
+
+== More documentation
+
+* {Home Page}[http://cacique.mercadolibre.com].
+* If you have any questions, please visit to the {Forum}[http://cacique.mercadolibre.com/forum/].
+
+== Contacts
+
+cacique@mercadolibre.com
