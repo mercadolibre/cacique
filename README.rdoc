@@ -1,6 +1,5 @@
 
-			Cacique, Do it once
-			-------------------
+== Cacique, Do it once
 
 Cacique was born with the need of MercadoLibre to expedite the testing process for 
 your application. Based in Selenium to record the tests script, Cacique manage all 
@@ -18,18 +17,18 @@ create a collaborative tool with a library of scripts and suites to
 share with other users.
 
 
-Getting Started
----------------
+== Getting Started
 
-Follow the steps in the Installation Guide which can be found in doc/instalation_manual.doc or download in http://cacique.mercadolibre.com/download/instalation_manual.doc
+Follow the steps in the Installation Guide which can be found in doc/instalation_manual.doc
 
+== More documentation
 
-More documentation
-------------------
 http://cacique.mercadolibre.com
 
+== Forum
 
-Contacts
---------
+http://cacique.mercadolibre.com/forum/
+
+== Contacts
+
 cacique@mercadolibre.com
-
