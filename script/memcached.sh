@@ -1,7 +1,7 @@
 #!/bin/bash
 case "$1" in
   start)
-        /usr/bin/memcached -P /tmp/memcached.pid -u cacique  -d -l 127.0.0.1
+        /usr/bin/memcached -P /tmp/memcached.pid -u cacique  -d -l 10.10.35.34
         sleep 1
   ;;
   stop)

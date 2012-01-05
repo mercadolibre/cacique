@@ -30,24 +30,24 @@ CONFIG = YAML.load(config_file)
 
 ADMIN_EMAIL="cacique@mercadolibre.com"
 #Datos para enviar mail desde Cacique
-EMAIL =  "adminmail@domain.com"
-EMAIL_SERVER = "surgemail.domain.com"
-EMAIL_USER_NAME='caciqueuser'
-EMAIL_PASS='myprivatepassword'
+EMAIL =  "cacique@mercadolibre.com"
+EMAIL_SERVER = "surgemail.mercadolibre.com"
+EMAIL_USER_NAME='cacique'
+EMAIL_PASS='Cq123456'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "mydomain.com"
-LOGGING_MAIL="mails@cacique.com"
+EMAIL_DOMAIN = "mercadolibre.com"
+LOGGING_MAIL="robot@mercadolibre.com"
 
-#Cacique First user 
+#Cacique First user
 FIRST_USER_NAME="cacique"
-FIRST_USER_PASS="admin"
+FIRST_USER_PASS="schumann"
 
 #Default language
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.2.5.1"
+CACIQUE_VERSION = "0.2.4.13"
 
 
 #Function that calculates the server ip
@@ -71,7 +71,7 @@ end
 
 
 #Ips config
-SERVER_DOMAIN="ccq.ml.com"
+SERVER_DOMAIN=CONFIG[:server][:domain]
 LOCAL_IP=local_ip
 IP_SERVER=CONFIG[:server][:ip]
 IP_DB=CONFIG[:db][:ip]
@@ -86,11 +86,11 @@ HUB_IP = CONFIG[:hub][:ip]
 HUB_PORT = CONFIG[:hub][:port]
 
 #URL del hub
-HUB_URL = "http://"+CONFIG[:hub][:ip]+":"+CONFIG[:hub][:port].to_s+CONFIG[:hub][:rest]
+HUB_URL = "http://"+CONFIG[:hub][:ip]+":"+CONFIG[:hub][:port].to_s+CONFIG[:hub][:end]
 
 #Queue observer
-IP_QUEUE=CONFIG[:queue][:ip]
-PORT_QUEUE=CONFIG[:queue][:port]
+IP_QUEUE=CONFIG[:starling][:ip]
+PORT_QUEUE=CONFIG[:starling][:port]
 
 #Directory for file sharing
 SHARED_DIRECTORY = "/home/cacique/shared/"
@@ -130,8 +130,4 @@ module CaciqueConf
   REMOTE_CONTROL_PORT = "4444"
   REMOTE_CONTROL_MODE = "hub"
 end
-
-
-
-
 
