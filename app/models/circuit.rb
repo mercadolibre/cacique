@@ -87,6 +87,10 @@ class Circuit < ActiveRecord::Base
 
   include SaveModelAccess
 
+  def <=> other
+    self.name.downcase <=> other.name.downcase
+  end
+
   def active?
     !deleted
   end
