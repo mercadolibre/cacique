@@ -60,7 +60,6 @@ class Circuit < ActiveRecord::Base
 
   has_many :circuit_case_columns,    :dependent => :destroy
   accepts_nested_attributes_for :circuit_case_columns
-  has_many :circuit_access_registry, :dependent => :destroy
   has_many :executions, :dependent => :destroy
   
   validates_presence_of :user_id, :message => _("Must complete an Owner")

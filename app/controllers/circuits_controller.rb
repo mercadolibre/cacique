@@ -94,10 +94,7 @@ class CircuitsController < ApplicationController
           @text_error += _("It was edited by the user ") + User.find(@circuit.versions.last.user_id).name + ". "
           @text_error += _("Save your changes in another medium, refresh the page and try again")
          else
-           if @circuit.save_source_code(content,params[:commit_message])
-             #Script access registry
-             CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
-           end
+           @circuit.save_source_code(content,params[:commit_message])
          end
          @play = true if params[:and_play]
          respond_to do |format|
