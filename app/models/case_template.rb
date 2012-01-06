@@ -42,7 +42,7 @@ class CaseTemplate < ActiveRecord::Base
   belongs_to :circuit
   has_many :executions, :dependent => :destroy
   has_many :case_data, :dependent => :destroy
-  has_many :schematics,  :dependent => :destroy
+  has_many :schematics
   has_many :suite_cases_relations_origin,      :foreign_key => :case_origin     , :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
   has_many :suite_cases_relations_destination, :foreign_key => :case_destination, :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
   named_scope :active, :conditions => { :deleted => false }
@@ -214,5 +214,13 @@ class CaseTemplate < ActiveRecord::Base
       conditions
    end
 
+  def self.delete_by_circuit circuit_id
+    self.update_all "deleted = true", ["circuit_id = ?", circuit_id]
+  end
+
+  def soft_delete
+    self.deleted = true
+    self.save
+  end
 
 end

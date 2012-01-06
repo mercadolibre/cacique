@@ -48,7 +48,7 @@ class Circuit < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :case_templates, :dependent => :destroy
-  has_many :schematics, :dependent => :destroy
+  has_many :schematics
   has_many :data_recovery_names, :dependent => :destroy
   has_many :suites, :through => :schematics
 
@@ -133,6 +133,15 @@ class Circuit < ActiveRecord::Base
   def save
 	  check_access
 	  return super
+  end
+
+  def soft_delete
+    self.deleted = true
+    self.save
+
+    suites.clear
+    CaseTemplate.delete_from_circuit self.id
+    # TODO: suite.suite_fields_relations & suite_cases_relations
   end
 
   #Add col to script

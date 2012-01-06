@@ -278,7 +278,7 @@ class CircuitsController < ApplicationController
   def destroy
     @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
-       @circuit.destroy
+       @circuit.soft_delete
        @js = "window.location.reload()"
        render :inline => "<%= javascript_tag(@js) %>"
       else
