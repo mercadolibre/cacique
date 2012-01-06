@@ -31,8 +31,8 @@ share with other users.
 
 === Manual Guide
 
-Follow the steps in the {Installation Guide}[ https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true].
-* {English Version}[ https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true]
+Follow the steps in the {Installation Guide}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true].
+* {English Version}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true]
 * {Spanish Version}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_manual_instalacion.pdf?raw=true]
 
 == More documentation
