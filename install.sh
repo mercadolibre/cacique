@@ -24,9 +24,9 @@ SYS=`uname -m`
 
 if [ "$SYS" == "x86_64" ]
 then
- sudo dpkg -i dialog_64.deb 2>>installer.log
+ sudo dpkg -i ./extras/dialog_64.deb 2>>installer.log
 else
- sudo dpkg -i dialog_i386.deb 2>>installer.log  
+ sudo dpkg -i ./extras/dialog_i386.deb 2>>installer.log  
 fi
 
  sudo apt-get update 2>>installer.log

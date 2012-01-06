@@ -1,6 +1,7 @@
 require "rubygems"
 gem "RbYAML"
 require "yaml"
+
 config_file = File.read(Dir.pwd + "/config/cacique.yml")
 CONFIG = YAML.load(config_file)
 #puts Dir.pwd
