@@ -17,6 +17,8 @@ create a collaborative tool with a library of scripts and suites to
 share with other users.
 
 == Overview
+* {Cacique Presentation}[http://cacique.mercadolibre.com/sites/default/files/CCQ_presentation.pdf]
+{  Spanish version}[http://cacique.mercadolibre.com/sites/default/files/CCQ_presentacion.pdf]
 * {Cacique in 3 Steps: Record, Create and Run Scripts on Cacique!}[http://prezi.com/yixolaj62kcn/cacique-en-3-pasos/]
 * {Cacique uses examples}[http://prezi.com/5pb4ml8q2sg8/cacique-uses/] 
 
