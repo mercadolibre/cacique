@@ -28,7 +28,7 @@ Follow the steps in the Installation Guide which can be found in doc/instalation
 == More documentation
 
 * {Home Page}[http://cacique.mercadolibre.com].
-* If you have any questions, please visit to the {Forum}[http://cacique.mercadolibre.com/forum/].
+* If you have any questions, please visit the {Forum}[http://cacique.mercadolibre.com/forum/].
 
 == Contacts
 
