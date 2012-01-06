@@ -30,6 +30,24 @@ Follow the steps in the Installation Guide which can be found in doc/instalation
 * {Home Page}[http://cacique.mercadolibre.com].
 * If you have any questions, please visit the {Forum}[http://cacique.mercadolibre.com/forum/].
 
+== Next on Cacique..
+
+=== Usability
+* Improve browsing of functions
+* Add stop for executions that are running
+* Edition and refactor of execution's scheduler
+* Debbuger online
+* Auto re-execution on failure
+* Group executions by run configuration  
+* Extend suite's scheduled to scripts
+ 
+=== Rails 3 + ruby 1.9 + HTML5
+* Analysis and Research
+* Make plan for implementración
+
+== Contributing
+If you want get involved, please contact us!
+
 == Contacts
 
 cacique@mercadolibre.com
