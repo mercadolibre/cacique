@@ -25,11 +25,19 @@ share with other users.
 
 == Getting Started
 
-Follow the steps in the Installation Guide which can be found in doc/instalation_manual.doc
+=== Install
+
+  git clone https://github.com/mercadolibre/cacique.git
+
+=== Manual Guide
+
+Follow the steps in the {Installation Guide}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true].
+* {English Version}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true]
+* {Spanish Version}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_manual_instalacion.pdf?raw=true]
 
 == More documentation
 
-* {Home Page}[http://cacique.mercadolibre.com].
+* {Home Page}[http://cacique.mercadolibre.com]
 * If you have any questions, please visit the {Forum}[http://cacique.mercadolibre.com/forum/].
 
 == Next on Cacique..
