@@ -72,6 +72,11 @@ class Suite < ActiveRecord::Base
       @suite
   end
 
+  def soft_delete
+    self.deleted = true
+    self.save
+  end
+
   #obtain col from every suite's script
   def circuits_data
       # hash format: [circuit_id =>{circuit_case_column1, circuit_case_column2, etc..}]
@@ -287,7 +292,7 @@ class Suite < ActiveRecord::Base
   def expire_cache
     Rails.cache.delete "suite_#{self.id}"
     #update project suites in cache
-    Rails.cache.write("project_suites_#{self.project_id}",self.project.suites.map(&:id),:expires_in => CACHE_EXPIRE_PROYECT_SUITES)
+    Rails.cache.write("project_suites_#{self.project_id}", self.project.suites.active.map(&:id), :expires_in => CACHE_EXPIRE_PROYECT_SUITES)
     true
   end
 
@@ -408,29 +413,28 @@ class Suite < ActiveRecord::Base
    end
  end
 
- #Search suite with pattern
- def self.get_all(pattern, project)
-   pattern.lstrip! unless pattern.nil?
-   pattern.rstrip! unless pattern.nil?
-   result=Array.new
-   if pattern.empty?
-     #obtain project suites from cache
+  #Search suite with pattern
+  def self.get_all(pattern, project)
+    pattern.strip! unless pattern.nil?
+    if pattern.empty?
+      #obtain project suites from cache
       suites=[]
       project.suites_cache.each do |identifier|
         suites << Suite.find(identifier)
       end
-     result=  suites
-   else
-     result= Suite.project_id_equals(project.id).name_like(pattern).to_a | Suite.project_id_equals(project.id).description_like(pattern).to_a
-   end
-   result.sort_by { |x| x.name.downcase }
- end
+      result = suites
+    else
+      suites = Suite.active.project_id_equals(project.id)
+      result = suites.name_like(pattern).to_a | suites.description_like(pattern).to_a
+    end
+    result.sort_by { |x| x.name.downcase }
+  end
 #--------------------------------------------------------------------------------------------#
 
   protected
    def self.find(*args)
       if args.first.instance_of?(Fixnum) and args.length == 1
-        Rails.cache.fetch("suite_#{args.first}",:expires_in => CACHE_EXPIRE_PROYECT_SUITES){super(*args)}
+        Rails.cache.fetch("suite_#{args.first}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(*args) }
       else
         super(*args)
       end

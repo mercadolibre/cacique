@@ -61,13 +61,16 @@ class SuitesController < ApplicationController
 
   #May or not receive update errors
   def edit(suite_update =nil)
-
      #May or not receive update errors
      if suite_update.nil?
 	   @suite = Suite.find(params[:id], :include => {:schematics => [:circuit, :case_template]})
     else
        @suite = suite_update
      end
+    if @suite.deleted?
+      redirect_to suites_url
+      return true
+    end
 
     permit "editor of :suite" do
 	    session[:suite_id] = params[:id] # Saves the suite id, in the session, for updating the schematic relation in the sort action.
@@ -104,7 +107,7 @@ class SuitesController < ApplicationController
   def delete
     @suite = Suite.find params[:id]
     permit "editor of :suite" do
-      @suite.destroy
+      @suite.soft_delete
       redirect_to '/suites/'
     end
   end
