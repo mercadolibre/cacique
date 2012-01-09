@@ -213,7 +213,7 @@ class CircuitsController < ApplicationController
       Execution
       DataRecovery
       DataRecoveryName    
-      if !Circuit.exists?(params[:id])
+      if !Circuit.active.exists?(params[:id])
         Circuit.expires_cache_circuit(params[:id], @project_actual)
         redirect_to "/circuits"
         return true
