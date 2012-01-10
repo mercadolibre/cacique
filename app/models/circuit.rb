@@ -144,7 +144,7 @@ class Circuit < ActiveRecord::Base
     self.save
 
     suites.clear
-    CaseTemplate.delete_from_circuit self.id
+    CaseTemplate.delete_by_circuit self.id
   end
 
   #Add col to script
