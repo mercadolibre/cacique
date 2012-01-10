@@ -127,7 +127,6 @@ a.qp_disabled {color: #888; text-decoration: none}
 .buscar input{ border:medium none; color:grey}
 .buscar input:focus{ color:black}
  #circuits{ }
-#circuits .cases{ float:left}
 #circuits li{ margin-bottom:5px}
 #circuits .cases b{ font-size: 14px; color:#31576F; font-family:sans-serif; font-weight:normal}
 .suite_cases_edit{ width:700px; height:300px}
