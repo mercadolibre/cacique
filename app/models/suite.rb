@@ -43,8 +43,8 @@ class Suite < ActiveRecord::Base
   has_many :circuits, :through => :schematics, :order => :position
   has_many :case_templates, :through => :schematics
   has_many :suite_executions,  :dependent => :destroy
-  has_many :suite_fields_relations, :dependent => :destroy
-  has_many :suite_cases_relations,  :dependent => :destroy
+  has_many :suite_fields_relations, :dependent => :delete_all
+  has_many :suite_cases_relations,  :dependent => :delete_all
   has_many :suite_containers, :dependent => :destroy
   has_many :task_programs, :dependent => :destroy 
   belongs_to :project
@@ -73,6 +73,8 @@ class Suite < ActiveRecord::Base
   end
 
   def soft_delete
+    self.suite_fields_relations.clear
+    self.suite_cases_relations.clear
     self.deleted = true
     self.save
   end

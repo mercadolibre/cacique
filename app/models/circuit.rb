@@ -52,11 +52,11 @@ class Circuit < ActiveRecord::Base
   has_many :data_recovery_names, :dependent => :destroy
   has_many :suites, :through => :schematics
 
-  has_many :suite_cases_relations_origin,      :foreign_key => :circuit_origin     , :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
-  has_many :suite_cases_relations_destination, :foreign_key => :circuit_destination, :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_origin,      :foreign_key => :circuit_origin     , :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_destination, :foreign_key => :circuit_destination, :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
 
-  has_many :suite_fields_relations_origin,      :foreign_key => :circuit_origin_id     , :dependent => :destroy,  :class_name=>"SuiteFieldsRelation"
-  has_many :suite_fields_relations_destination, :foreign_key => :circuit_destination_id, :dependent => :destroy,  :class_name=>"SuiteFieldsRelation"
+  has_many :suite_fields_relations_origin,      :foreign_key => :circuit_origin_id     , :dependent => :delete_all,  :class_name=>"SuiteFieldsRelation"
+  has_many :suite_fields_relations_destination, :foreign_key => :circuit_destination_id, :dependent => :delete_all,  :class_name=>"SuiteFieldsRelation"
 
   has_many :circuit_case_columns,    :dependent => :destroy
   accepts_nested_attributes_for :circuit_case_columns
@@ -136,6 +136,10 @@ class Circuit < ActiveRecord::Base
   end
 
   def soft_delete
+    self.suite_cases_relations_origin.clear
+    self.suite_cases_relations_destination.clear
+    self.suite_fields_relations_origin.clear
+    self.suite_fields_relations_destination.clear
     self.deleted = true
     self.save
 

@@ -43,8 +43,8 @@ class CaseTemplate < ActiveRecord::Base
   has_many :executions, :dependent => :destroy
   has_many :case_data, :dependent => :destroy
   has_many :schematics
-  has_many :suite_cases_relations_origin,      :foreign_key => :case_origin     , :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
-  has_many :suite_cases_relations_destination, :foreign_key => :case_destination, :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_origin,      :foreign_key => :case_origin     , :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_destination, :foreign_key => :case_destination, :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
   named_scope :active, :conditions => { :deleted => false }
   named_scope :deleted, :conditions => { :deleted => true }
 
@@ -219,6 +219,8 @@ class CaseTemplate < ActiveRecord::Base
   end
 
   def soft_delete
+    self.suite_cases_relations_origin.clear
+    self.suite_cases_relations_destination.clear
     self.deleted = true
     self.save
   end
