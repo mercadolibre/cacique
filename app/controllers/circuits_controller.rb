@@ -256,8 +256,8 @@ class CircuitsController < ApplicationController
         @my_projects = current_user.my_projects
         if params.has_key?(:execution_running)
           #Caching case_template
-          Rails.cache.write("last_exec_circuit_#{@circuit.id}",params[:execution_running])
           @execution_running = Rails.cache.fetch("exec_#{params[:execution_running]}"){ Execution.find(params[:execution_running])}
+          Rails.cache.write("last_exec_circuit_#{@circuit.id}",params[:execution_running]) if @execution_running
         else
           #search in cache last executed script
           execution_id = Rails.cache.read "last_exec_circuit_#{@circuit.id}"
