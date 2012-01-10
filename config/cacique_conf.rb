@@ -24,6 +24,7 @@
 
 require "rubygems"
 gem "RbYAML"
+require "yaml"
 
 config_file = File.read(RAILS_ROOT + "/config/cacique.yml")
 CONFIG = YAML.load(config_file)

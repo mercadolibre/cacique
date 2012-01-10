@@ -4,6 +4,7 @@ require "rubygems"
 require "socket"  
 require 'memcache'
 gem "RbYAML"
+require "yaml"
 
 
 config_file = File.read(Dir.pwd + "/config/cacique.yml")
