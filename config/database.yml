@@ -2,7 +2,7 @@
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 
 
-production:
+development:
   adapter: mysql
   encoding: utf8
   database: cacique_dev
@@ -12,7 +12,7 @@ production:
   host: localhost
   port: 3306
 
-production:
+test:
   adapter: mysql
   encoding: utf8
   database: cacique_test
