@@ -12,13 +12,13 @@ javascripts:
   - checkbox_lib
   - user_function
   - editor_changes
-  - ../CodeMirror-2.15/lib/codemirror
-  - ../CodeMirror-2.15/lib/simple-hint
-  - ../CodeMirror-2.15/lib/javascript-hint
-  - ../CodeMirror-2.15/mode/ruby/ruby
-  - ../CodeMirror-2.15/util/dialog
-  - ../CodeMirror-2.15/util/searchcursor
-  - ../CodeMirror-2.15/util/search
+  - ../CodeMirror/lib/codemirror
+  - ../CodeMirror/lib/simple-hint
+  - ../CodeMirror/lib/javascript-hint
+  - ../CodeMirror/mode/ruby/ruby
+  - ../CodeMirror/util/dialog
+  - ../CodeMirror/util/searchcursor
+  - ../CodeMirror/util/search
 - secondary:
   - select_all
   - tablesort
@@ -65,6 +65,6 @@ stylesheets:
   - highlight
   - editor
 - editor:
-  - ../CodeMirror-2.15/lib/codemirror
-  - ../CodeMirror-2.15/theme/eclipse
-  - ../CodeMirror-2.15/util/dialog
+  - ../CodeMirror/lib/codemirror
+  - ../CodeMirror/theme/eclipse
+  - ../CodeMirror/util/dialog
