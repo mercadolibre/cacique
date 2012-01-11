@@ -48,6 +48,24 @@ production:
   password: '+CONFIG[:db][:production][:password]+'
   host: '+CONFIG[:db][:production][:host].to_s+'
   port: '+(CONFIG[:db][:production][:port]).to_s+'
+development:
+  adapter: mysql
+  encoding: utf8
+  name: cacique_dev
+  pool: 5
+  username: cacique
+  password: cacique
+  host: localhost
+  port: 3306
+test:
+  adapter: mysql
+  encoding: utf8
+  name: cacique_test
+  pool: 5
+  username: cacique
+  password: cacique
+  host: localhost
+  port: 3306
 '
 
 

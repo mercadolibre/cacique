@@ -58,8 +58,25 @@ dialog 	  --backtitle "CACIQUE" \
     echo "    :password: $DBPASS" >> ./config/cacique.yml  
     echo "    :host: $DBHOST" >> ./config/cacique.yml
     echo "    :port: $DBPORT" >> ./config/cacique.yml
+    echo "  :development:" >> ./config/cacique.yml
+    echo "    :adapter: mysql" >> ./config/cacique.yml
+    echo "    :encoding: utf8" >> ./config/cacique.yml
+    echo "    :name: cacique_dev" >> ./config/cacique.yml
+    echo "    :pool: 5" >> ./config/cacique.yml
+    echo "    :username: cacique" >> ./config/cacique.yml
+    echo "    :password: cacique" >> ./config/cacique.yml  
+    echo "    :host: localhost" >> ./config/cacique.yml
+    echo "    :port: 3306" >> ./config/cacique.yml
+    echo "  :test:" >> ./config/cacique.yml
+    echo "    :adapter: mysql" >> ./config/cacique.yml
+    echo "    :encoding: utf8" >> ./config/cacique.yml
+    echo "    :name: cacique_test" >> ./config/cacique.yml
+    echo "    :pool: 5" >> ./config/cacique.yml
+    echo "    :username: cacique" >> ./config/cacique.yml
+    echo "    :password: cacique" >> ./config/cacique.yml  
+    echo "    :host: localhost" >> ./config/cacique.yml
+    echo "    :port: 3306" >> ./config/cacique.yml
     echo "    " >> ./config/cacique.yml
-
 
 dialog 	  --backtitle "CACIQUE" \
 	  --title "CACIQUE CONFIG" \
@@ -115,8 +132,6 @@ dialog 	  --backtitle "CACIQUE" \
     echo "  :port: $HUBPORT" >> ./config/cacique.yml
     echo "  :end: '$HUBEND'" >> ./config/cacique.yml
     echo "    " >> ./config/cacique.yml
-
-
 
     rm dialog.ans
     rm tempfile
