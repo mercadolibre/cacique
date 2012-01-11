@@ -1,5 +1,6 @@
 class AddWebdriverUserFunctions < ActiveRecord::Migration
   def self.up
+    UserFunction.reset_column_information
     @user = User.find_by_login("cacique")
 	  @user = User.first if @user.nil?
 	  raise "Error: No se encontro 'cacique' ni ningun otro usuario para asociarle las funciones" if @user.nil?
