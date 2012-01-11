@@ -1,5 +1,5 @@
 :server:
-  :ip: 10.10.35.34
+  :ip: localhost
   :domain: cacique.mercadolibre.com
     
 :db:
@@ -10,21 +10,21 @@
     :pool: 5
     :username: cacique
     :password: cacique
-    :host: 10.10.35.34
+    :host: localhost
     :port: 3306
     
 :memcached:
-  :ip: 10.10.35.34
+  :ip: localhost
     
 :starling:
-  :ip: 10.10.35.34
+  :ip: localhost
   :port: 22122
     
 :mannager:
-  :ip: 10.10.35.34
+  :ip: localhost
   :port: 33133
     
 :hub:
-  :ip: 10.10.35.34
+  :ip: localhost
   :port: 4444
   :end: "/"
