@@ -10,7 +10,7 @@ class UpdateProjectsWithInactiveManagers < ActiveRecord::Migration
         raise "'root' not found"
       end
     end
-    Project.update_all("user_id=#{admin.id}", "user_id IN (#{inactive_users.collect(&:id).join(',')})")
+    Project.update_all("user_id=#{admin.id}", "user_id IN (#{inactive_users.collect(&:id).join(',')})") unless inactive_users
   end
 
   def self.down
