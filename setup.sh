@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
+IP=`ifconfig  | grep -E 'inet addr:|Direc. inet:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
 RUTA=`pwd`
 
 dialog --backtitle "CACIQUE" --title "CACIQUE CONFIGURATION"\
@@ -143,7 +143,7 @@ EOSQL
     sudo /etc/init.d/pache2 restart
     ;;
   2)
-   IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
+   IP=`ifconfig  | grep -E 'inet addr:|Direc. inet:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
    echo $IP
    sed "s/LOCALIP/$IP/g" ./config/default.cfg > ./config/cacique.yml
    dialog --backtitle "CACIQUE" --title "CACIQUE INSTALLATION" --infobox \
