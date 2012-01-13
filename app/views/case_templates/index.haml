@@ -6,10 +6,10 @@
 -javascript 'checkbox_lib'
 
 %script
-  function onload(){
+  jQuery(window).bind("load", function(){
   iniciarTabla();  //Edit Table cells
   $j('#div_edit_free').height($j(window).height() -200);
-  }
+  })
   = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
 
 .main

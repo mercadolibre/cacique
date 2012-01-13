@@ -5,7 +5,7 @@
   function get_circuit_id_marcado(){
   = "return " + @circuito_marcado.to_s + ";"
   }
-  function onload(){
+  jQuery(window).bind("load", function(){
   checkbox = document.getElementsByName('circuits_ids[]');
   for(i=0;i<=checkbox.length;i++){
   if (checkbox[i].value == get_circuit_id_marcado()){
@@ -13,7 +13,7 @@
   break;
   }
   }
-  }
+  })
   
 .main
   %h1{:title=>_("Move Scripts on") + @project.name,:style=>"text-align:left;margin-top:30px;"}

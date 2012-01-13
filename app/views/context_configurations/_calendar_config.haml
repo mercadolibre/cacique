@@ -1,11 +1,11 @@
 -javascript 'suite_program.js'
 %script
-  function onload(){
+  jQuery(window).bind("load", function(){
   $j('.calendar_options').change(function(){
   $j('.program_calendar').hide();
   $j( '#' + $j('.calendar_options:checked').val()).show();
   });
-  }
+  })
 
 %div{:style=>"width:95%; float:left;"}
   %h2{:style=>"color:#373737;"}

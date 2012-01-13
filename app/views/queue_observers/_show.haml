@@ -1,10 +1,9 @@
 %script
   function align_queue(){
-  alert('lala');
   document.getElementById('queue_observers').style.left=document.getElementById('queue_image').offsetLeft + "px";
   }
 
-#queue_observers{:onload=>"alert('');"}
+#queue_observers
   -unless @queues_value.include? :error
     %table
       %tr

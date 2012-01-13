@@ -48,7 +48,7 @@ FIRST_USER_PASS="schumann"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.2.4.13"
+CACIQUE_VERSION = "0.2.5.2"
 
 
 #Function that calculates the server ip

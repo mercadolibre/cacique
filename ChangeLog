@@ -1,13 +1,24 @@
 ===================================
-Version 0.2.5.1
+Version 0.2.5.2
 ===================================
+• Scheduled task: When a user became inactive, his scheduled task are deleted and the project manager is notified
+
 Installation manual : 
 + Selenium RC explanation 
 + Several improvements
 We appreciate the contribution of RMYA 
 
+• Minor features: 
+User list: lists are sorted correctly (case insensitive)
+
 • Bug fixes:
-Webdriver parser: url builder
+* Several js fixes for FF 9 and chrome compatibility
+* Webdriver parser: url builder
+* update_projects_with_inactive_managers migration got failed when database hasn't inactive users
+* webdriver_user_functions migration must refresh UserFunction model in order to create that function with hide and native params column
+* "config.time_zone" was changed from 'Buenos Aires' to 'Georgetown', because time was 1 hour out of date.
+* When generating the url from the script editor, in some cases got a 404 error when entering the editor again, making it impossible to access.
+
 
 ===================================
 Version 0.2.4.13

@@ -57,12 +57,11 @@
 
 %script
   //Tabla editable
-  function onload(){
+  jQuery(window).bind("load", function(){
   iniciarTabla();
-  }
+  })
   //marked file
   var marcado  = ""; 
   var anterior = "";
   var color_anterior = "";
-  
 

@@ -178,7 +178,7 @@ dialog --backtitle "CACIQUE" --title "CACIQUE CONFIG" --gauge "  Generating Data
 (
 c=0
  echo $c; ((c+=11)); sleep 2
-   IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
+   IP=`ifconfig  | grep -E 'inet addr:|Direc. inet:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
  echo $c; ((c+=34)); sleep 2
    sudo sed -e s/acavalaip/$IP/g ./conf/apache2.conf > /etc/apache2/apache2.conf 2>>installer.log
  echo $c; ((c+=55)); sleep 2

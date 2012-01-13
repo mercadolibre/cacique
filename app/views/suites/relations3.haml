@@ -9,11 +9,11 @@
   return retorno;
   }
 
-  function onload(){
+  jQuery(window).bind("load", function(){
   count = 0;
   ="relation_pairs.splice(0,relation_pairs.length);\n" if @suite_cases_relations.empty?
   =@suite_cases_relations.map{|c| "relation_pairs[count] = [#{c.case_origin},#{c.case_destination}];\n count+=1 " }.join(";\n")
-  }
+  })
 
 .main
   %h1{:title=>@suite_name, :style=>"margin-bottom:5px;"}
