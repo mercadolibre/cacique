@@ -85,6 +85,8 @@ WORKER_CACHE_KEY= "worker_#{LOCAL_IP}_#{$$}"
 #Puerto del hub
 HUB_IP = CONFIG[:hub][:ip]
 HUB_PORT = CONFIG[:hub][:port]
+WEBDRIVER_HUB_IP=CONFIG[:webdriverdhub][:ip]
+WEBDRIVER_HUB_PORT=CONFIG[:webdriverdhub][:port]
 
 #URL del hub
 HUB_URL = "http://"+CONFIG[:hub][:ip]+":"+CONFIG[:hub][:port].to_s+CONFIG[:hub][:end]
