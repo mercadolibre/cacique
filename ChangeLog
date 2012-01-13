@@ -12,6 +12,7 @@ We appreciate the contribution of RMYA
 User list: lists are sorted correctly (case insensitive)
 
 • Bug fixes:
+* Several js fixes for FF 9 and chrome compatibility
 * Webdriver parser: url builder
 * update_projects_with_inactive_managers migration got failed when database hasn't inactive users
 * webdriver_user_functions migration must refresh UserFunction model in order to create that function with hide and native params column
