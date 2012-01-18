@@ -23,42 +23,33 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-class WrapperSelenium
+class SeleniumLogger
 
 	class Inner
 		def self.process_url_bot_y(url)
-
 			b = url.split("?")
-
 			new_url = ""
 			if b.size == 2 then
 				parameters = b[1]
 				uri = b[0]
-
 				array = parameters.split("&")
 				new_url = uri + "?" + array.select{ |x| x != "_PA" }.join("&") + "&bot=Y" + ( array.include?("_PA") ? "&_PA":"" )
-
 			else
 				uri = b[0]
-
 				new_url = uri + "?bot=Y"
 			end
-
-
 			print "converting url #{url} to #{new_url}\n"
-
 			return new_url
 		end
 	end
 
-	def initialize( real_selenium, context )
-		@context = context
+	def initialize( real_selenium, script_runner )
+		@script_runner = script_runner
 		@real_selenium = real_selenium
 	end
 
 	def open(*args)
-		args_ = args.dup
-		method_proc("open",*args_)
+		method_proc("open",*args)
 	end
 
 	def type(*args)
@@ -75,17 +66,24 @@ class WrapperSelenium
 
 	def method_proc(m, *args)
 
-		args_ = args
 		begin
-			args_ = args.map{|x| @context.evaluate_data(x) }
+			@script_runner.print "selenium.#{m.to_s}( #{args.map{|x| x.inspect }.join(", ") } )" if @script_runner.debug_mode
+			args_ = args.map{|x| @script_runner.evaluate_data(x) }
+			aux = @real_selenium.send(m,*args_)
 		rescue Exception => e
-			print "exception at wrapper_selenium #{e.to_s}\n"
-			print e.backtrace.join("\n"),"\n"
+			@script_runner.print " => Exception: #{e.to_s}\n" if @script_runner.debug_mode
+			raise e
 		end
 
-		aux = @real_selenium.send(m,*args_)
+        if @script_runner.debug_mode
+	        #To not print the entire html into the workling.output
+	        if m.to_s != "get_html_source"        
+			  @script_runner.print " => #{aux.inspect}\n"
+			else
+			  @script_runner.print " => ... \n"
+			end  
+        end
 
-    return aux
-
+		return aux
 	end
 end

@@ -66,7 +66,7 @@ class WebDriverParser
     # Data: Variable values ​​are replaced by their respective column of the data set
     source_code = set_data(driver_lines,data) if !data.empty?
     # Delete spaces before @driver
-    source_code.gsub!(/^(\s)*@driver/, "@driver")
+    source_code.gsub!(/^(\s)*@driver/, "driver")
 
     #Source code
     source_code

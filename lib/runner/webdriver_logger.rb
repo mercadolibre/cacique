@@ -1,6 +1,5 @@
  #
  #  @Authors:    
- #      Brizuela Lucia                  lula.brizuela@gmail.com
  #      Guerra Brenda                   brenda.guerra.7@gmail.com
  #      Crosa Fernando                  fernandocrosa@hotmail.com
  #      Branciforte Horacio             horaciob@gmail.com
@@ -23,45 +22,36 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-class FakeSeleniumLogger
+class WebdriverLogger
 
-	def initialize( real_selenium, output )
-		@output = output
-		@real_selenium = real_selenium
-	end
-
-	def open(*args)
-		method_proc("open",*args)
-	end
-
-	def type(*args)
-		method_proc("type",*args)
-	end
-
-	def select(*args)
-		method_proc("select",*args)
+	def initialize( real_webdriver, script_runner )
+		@script_runner = script_runner
+		@real_webdriver = real_webdriver
 	end
 
 	def method_missing(m,*args)
 		method_proc(m,*args)
 	end
-	def method_proc(m, *args)
 
+	def method_proc(m, *args)
 		begin
-			@output.print "selenium.#{m.to_s}( #{args.map{|x| x.inspect }.join(", ") } )"
-			aux = @real_selenium.send(m,*args)
+			@script_runner.print "webdriver.#{m.to_s}( #{args.map{|x| x.inspect }.join(", ") } )" if @script_runner.debug_mode
+			args_ = args.map{|x| @script_runner.evaluate_data(x) }
+			aux = @real_webdriver.send(m,*args_)
 		rescue Exception => e
-			@output.print " => Exception: #{e.to_s}\n"
-			raise e
+			error = e.to_s.split("For documentation")[0]
+			@script_runner.print " => Exception: #{error.to_s}\n" if @script_runner.debug_mode
+			raise error
 		end
 
         #To not print the entire html into the workling.output
-        if m.to_s != "get_html_source"        
-		  @output.print " => #{aux.inspect}\n"
-		else
-		  @output.print " => ... \n"
-		end  
-
+        if @script_runner.debug_mode
+	        if m.to_s != "get_html_source"      
+			  @script_runner.print " => OK #{aux.to_json}\n"
+			else
+			  @script_runner.print " => ... \n"
+			end  
+        end
 		return aux
 	end
 end
