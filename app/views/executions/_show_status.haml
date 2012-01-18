@@ -52,7 +52,7 @@
     %br
     %br
     -execution.output.split("\n").each do |line|
-      =h line
+      =RedCloth.new(h line).to_html
       %br 
     %br
   %div{ :style=>'clear: both'}
