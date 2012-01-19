@@ -467,6 +467,14 @@ class Circuit < ActiveRecord::Base
     streamSock.close  
   end
 
+  def caching_last_execution(execution)
+     Rails.cache.write("last_exec_circuit_#{self.id}",execution)
+  end
+
+  def get_last_execution
+      Rails.cache.fetch("last_exec_circuit_#{self.id}"){self.executions.last}
+  end
+
 private
   #Delete carriage return to resguard views tree
   def delete_carriage_return
@@ -483,4 +491,5 @@ private
      require 'socket'
        @mannager = TCPSocket.new( ip, MANNAGER_PORT )
   end
+
 end

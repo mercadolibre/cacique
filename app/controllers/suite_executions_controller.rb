@@ -315,7 +315,9 @@ class SuiteExecutionsController < ApplicationController
           params[:project_id] = Circuit.find(params[:circuit_id]).project_id if params[:project_id].nil?
           url = project_circuit_case_templates_path(params[:project_id],params[:circuit_id])
       elsif params[:where_did_i_come] == "circuits_edit"
-        url = edit_project_circuit_path(params[:project_id],params[:circuit_id]) + "?execution_running=#{suite_executions.last.executions.first.id}"
+        execution = suite_executions.last.executions.first
+        execution.circuit.caching_last_execution(execution)
+        url = edit_project_circuit_path(params[:project_id],params[:circuit_id])
       elsif params[:where_did_i_come] == "suite_executions_new"
         if params[:execution][:cant_corridas] != "1"
           #Run Suite N Times
