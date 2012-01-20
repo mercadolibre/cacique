@@ -8,8 +8,8 @@
     :encoding: utf8
     :name: cacique
     :pool: 5
-    :username: cacique
-    :password: cacique
+    :username: root
+    :password: mozart
     :host: localhost
     :port: 3306
   :development:
@@ -46,3 +46,7 @@
   :ip: localhost
   :port: 4444
   :end: "/"
+
+:webdriverdhub:
+  :ip: localhost
+  :port: 5555

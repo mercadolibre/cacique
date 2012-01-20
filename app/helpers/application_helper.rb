@@ -74,8 +74,7 @@ end
                 aux_html = "<c id =#{category.id}   name='category' title=#{h(category.description) } >#{truncate(h(category.name), :length =>25)}</c>"
                 ret += "d.add( "+ category.id.to_s + "," + category.parent_id.to_s + ", #{aux_html.to_javascript_expr} ,'', '', '', '/images/dtree/folder.gif');"
                 #Scripts
-                circuits = category.circuits.sort_by { |x| x.name.downcase }
-                 circuits.each do |circuit|
+                category.active_circuits.each do |circuit|
                    aux_html = "<c id= #{circuit.id}  name='script' title='#{h(circuit.description)}' >#{truncate(h(circuit.name), :length =>25)} </c>"
                    aux_url  = edit_project_circuit_path(circuit.project_id,circuit)
                    ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_s + ", #{aux_html.to_javascript_expr},'" + aux_url + "');"
@@ -85,8 +84,7 @@ end
               aux_html = "<c id =#{category.id}   name='category' title=#{h(category.description)} >#{truncate(h(category.name), :length =>25)}</c>"
               ret += "d.add(" + category.id.to_s + ",0,#{aux_html.to_javascript_expr} ,'', '', '', '/images/dtree/folder.gif');"
                #Scripts
-               circuits = category.circuits.sort_by { |x| x.name.downcase }
-               circuits.to_a.each do |circuit|
+              category.active_circuits.each do |circuit|
                    aux_html = "<c id= #{circuit.id} name='script' title='#{h(circuit.description)}' >#{truncate(h(circuit.name), :length =>25)} </c>"
                    aux_url = edit_project_circuit_path(circuit.project_id,circuit)
                    ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}',#{category.id.to_s},#{aux_html.to_javascript_expr},'" + aux_url + "');"
@@ -109,8 +107,7 @@ end
                 aux_html = "<c title=#{escape_html_attribute(category.description)}>#{truncate(h(category.name), :length =>60)}</c>"
                 ret += "d.add( "+ category.id.to_javascript_expr + "," + category.parent_id.to_javascript_expr + ",#{aux_html.to_javascript_expr},'', '', '', '/images/dtree/folder.gif');"
                 #Scripts
-                 circuits = category.circuits.sort_by { |x| x.name.downcase }
-                 circuits.each do |circuit|
+                category.active_circuits.each do |circuit|
                    aux_html = "<c title=#{escape_html_attribute(circuit.description)}>#{truncate(h(circuit.name), :length =>60)}</c><input type='checkbox' name=circuits_ids[] value=#{circuit.id}> "
                    ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_javascript_expr + ",#{aux_html.to_javascript_expr});"
                  end
@@ -119,8 +116,7 @@ end
                aux_html = "<c  title=#{escape_html_attribute(category.description)}>#{truncate(h(category.name), :length =>60)}</c>"
               ret += "d.add(" + category.id.to_javascript_expr + ",0,#{aux_html.to_javascript_expr} ,'', '', '', '/images/dtree/folder.gif');"
               #Scripts
-               circuits = category.circuits.sort_by { |x| x.name.downcase }
-               circuits.to_a.each do |circuit|
+              category.active_circuits.each do |circuit|
                  aux_html = "<c title=#{escape_html_attribute(circuit.description)}>#{truncate(h(circuit.name), :length =>60)}</c><input type='checkbox' name=circuits_ids[] value=#{circuit.id}> "
                  ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_javascript_expr + ",#{aux_html.to_javascript_expr});"
                end
@@ -142,8 +138,7 @@ end
                 aux_html = "<c title=#{escape_html_attribute(category.description)}>#{truncate(h(category.name), :length =>60)}</c>"
                 ret += "d.add( '#{category.project_id.to_s}.#{category.id.to_s}', '#{category.project_id.to_s}.#{category.parent_id.to_s}',#{aux_html.to_javascript_expr},'', '', '', '/images/dtree/folder.gif');"
                 #Scripts
-                circuits = category.circuits.sort_by { |x| x.name.downcase }
-                circuits.each do |circuit|
+                category.active_circuits.each do |circuit|
                   aux_html = "<c title=#{escape_html_attribute(circuit.description)}>#{truncate(h(circuit.name), :length =>60)}</c><input type='checkbox' name=circuits_ids[] value=#{circuit.id}> "
                   ret += "d.add( '#{category.project_id.to_s}.#{category.id.to_s}.#{circuit.id.to_s}','#{category.project_id.to_s}.#{category.id.to_s}',#{aux_html.to_javascript_expr});"
                 end
@@ -152,8 +147,7 @@ end
               aux_html = "<c  title=#{escape_html_attribute(category.description)}>#{truncate(h(category.name), :length =>60)}</c>"
               ret += "d.add('#{category.project_id.to_s}.#{category.id.to_s}','#{category.project_id.to_s}',#{aux_html.to_javascript_expr} ,'', '', '', '/images/dtree/folder.gif');"
               #Scripts
-              circuits = category.circuits.sort_by { |x| x.name.downcase }
-              circuits.each do |circuit|
+              category.active_circuits.each do |circuit|
                 aux_html = "<c title=#{escape_html_attribute(circuit.description)}>#{truncate(h(circuit.name), :length =>60)}</c><input type='checkbox' name=circuits_ids[] value=#{circuit.id}> "
                 ret += "d.add( '#{category.project_id.to_s}.#{category.id.to_s}.#{circuit.id.to_s}','#{category.project_id.to_s}.#{category.id.to_s}',#{aux_html.to_javascript_expr});"
               end
@@ -199,8 +193,7 @@ end
                 aux_html = "<c title=#{escape_html_attribute(category.description)}>#{truncate(h(category.name), :length =>60)}</c>"
                 ret += "d.add( "+ category.id.to_javascript_expr + "," + category.parent_id.to_javascript_expr + ",#{aux_html.to_javascript_expr},'', '', '', '/images/dtree/folder.gif');"
                 #Scripts
-                circuits = category.circuits.sort_by { |x| x.name.downcase }
-                circuits.each do |circuit|
+                category.active_circuits.each do |circuit|
                   #In method "onclick" call is made by ajax to add to the suite scrpt. Also in the parameter "onComplete" method calls another "remote_function" to refresh the suite editor divs: order the scripts and the addition of cases.
                   aux_html = "<c title=#{escape_html_attribute(circuit.description)}>#{truncate(h(circuit.name), :length =>60)}</c><input type='checkbox' name=circuits_ids[] value=#{circuit.id} #{'checked' if script_checked(circuit, @suite) } onclick=\"if(tree_with_ajax){new Ajax.Updater('suite_circuits', '/suites/update_circuit/#{@suite.id}', {asynchronous:true, evalScripts:true, method:'get', parameters:'circuit_id=#{circuit.id}', onComplete: function(request){new Ajax.Updater('suite_circuits_order', '/suites/update_circuits_order/#{@suite.id}', {asynchronous:true, evalScripts:true, method:'get' })} })}\"> "
                   ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_javascript_expr + ",#{aux_html.to_javascript_expr});"
@@ -210,8 +203,7 @@ end
                aux_html = "<c  title=#{escape_html_attribute(category.description)}>#{truncate(h(category.name), :length =>60)}</c>"
               ret += "d.add(" + category.id.to_javascript_expr + ",0,#{aux_html.to_javascript_expr} ,'', '', '', '/images/dtree/folder.gif');"
               #Scripts
-              circuits = category.circuits.sort_by { |x| x.name.downcase }
-              circuits.each do |circuit|
+              category.active_circuits.each do |circuit|
                 #In method "onclick" call is made by ajax to add to the suite scrpt. Also in the parameter "onComplete" method calls another "remote_function" to refresh the suite editor divs: order the scripts and the addition of cases.
                 aux_html = "<c title=#{escape_html_attribute(circuit.description)}>#{truncate(h(circuit.name), :length =>60)}</c><input type='checkbox' name=circuits_ids[] value=#{circuit.id} #{'checked' if script_checked(circuit, @suite) } onclick=\"if(tree_with_ajax){new Ajax.Updater('suite_circuits', '/suites/update_circuit/#{@suite.id}', {asynchronous:true, evalScripts:true, method:'get', parameters:'circuit_id=#{circuit.id}', onComplete: function(request){new Ajax.Updater('suite_circuits_order', '/suites/update_circuits_order/#{@suite.id}', {asynchronous:true, evalScripts:true, method:'get' })} })}\"> "
                 ret += "d.add('#{category.id.to_s}.#{circuit.id.to_s}'," + category.id.to_javascript_expr + ",#{aux_html.to_javascript_expr});"

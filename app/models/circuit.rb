@@ -48,19 +48,22 @@ class Circuit < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :case_templates, :dependent => :destroy
-  has_many :schematics, :dependent => :destroy
+  has_many :schematics
   has_many :data_recovery_names, :dependent => :destroy
   has_many :suites, :through => :schematics
 
-  has_many :suite_cases_relations_origin,      :foreign_key => :circuit_origin     , :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
-  has_many :suite_cases_relations_destination, :foreign_key => :circuit_destination, :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_origin,      :foreign_key => :circuit_origin     , :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_destination, :foreign_key => :circuit_destination, :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
 
-  has_many :suite_fields_relations_origin,      :foreign_key => :circuit_origin_id     , :dependent => :destroy,  :class_name=>"SuiteFieldsRelation"
-  has_many :suite_fields_relations_destination, :foreign_key => :circuit_destination_id, :dependent => :destroy,  :class_name=>"SuiteFieldsRelation"
+  has_many :suite_fields_relations_origin,      :foreign_key => :circuit_origin_id     , :dependent => :delete_all,  :class_name=>"SuiteFieldsRelation"
+  has_many :suite_fields_relations_destination, :foreign_key => :circuit_destination_id, :dependent => :delete_all,  :class_name=>"SuiteFieldsRelation"
 
   has_many :circuit_case_columns,    :dependent => :destroy
   accepts_nested_attributes_for :circuit_case_columns
   has_many :executions, :dependent => :destroy
+
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
   
   validates_presence_of :user_id, :message => _("Must complete an Owner")
   validates_presence_of :name, :message => _("Must complete Name field")
@@ -83,6 +86,14 @@ class Circuit < ActiveRecord::Base
   acts_as_authorizable
 
   include SaveModelAccess
+
+  def <=> other
+    self.name.downcase <=> other.name.downcase
+  end
+
+  def active?
+    !deleted
+  end
 
   #Column name Verify
   def case_column_names_valid?(column_names)
@@ -122,6 +133,18 @@ class Circuit < ActiveRecord::Base
   def save
 	  check_access
 	  return super
+  end
+
+  def soft_delete
+    self.suite_cases_relations_origin.clear
+    self.suite_cases_relations_destination.clear
+    self.suite_fields_relations_origin.clear
+    self.suite_fields_relations_destination.clear
+    self.deleted = true
+    self.save
+
+    suites.clear
+    CaseTemplate.delete_by_circuit self.id
   end
 
   #Add col to script
@@ -467,6 +490,14 @@ class Circuit < ActiveRecord::Base
     streamSock.close  
   end
 
+  def caching_last_execution(execution)
+     Rails.cache.write("last_exec_circuit_#{self.id}",execution)
+  end
+
+  def get_last_execution
+      Rails.cache.fetch("last_exec_circuit_#{self.id}"){self.executions.last}
+  end
+
 private
   #Delete carriage return to resguard views tree
   def delete_carriage_return
@@ -483,4 +514,5 @@ private
      require 'socket'
        @mannager = TCPSocket.new( ip, MANNAGER_PORT )
   end
+
 end

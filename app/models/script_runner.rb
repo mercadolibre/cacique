@@ -23,9 +23,9 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-require "#{RAILS_ROOT}/lib/runner/wrapper_selenium.rb"
-require "#{RAILS_ROOT}/lib/runner/fake_selenium_logger.rb"
 require "#{RAILS_ROOT}/lib/runner/fake_oracle_logger.rb"
+require "#{RAILS_ROOT}/lib/runner/selenium_logger.rb"
+require "#{RAILS_ROOT}/lib/runner/webdriver_logger.rb"
 
 class ScriptRunner < ActiveRecord::Base
 
@@ -136,7 +136,10 @@ class ScriptRunner < ActiveRecord::Base
 
   def evaluate_data( dat )
     return dat if dat.instance_of? String #Class String
-    return self.data[dat] if dat.instance_of? Symbol #Class Symbol
+    if dat.instance_of? Symbol #Class Symbol
+      return self.data[dat] if self.data[dat] #Data set
+      return dat #Symbol
+    end
     if dat.instance_of? Hash #Class Hash
      return self.evaluate_data( dat[:default] ) if dat[:default]
      raise "No se puede encontrar cadena correspondiente al site para "+"#{dat.inspect}"

@@ -12,6 +12,7 @@
   var marcado  = "";
   var anterior = "";
   var color_anterior = "";
+  var msgalert = "#{_('This action will remove Data Set, History and Suite associations. Are You sure?')}";
   
 %script
   = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
@@ -58,6 +59,7 @@
   =render :partial => "queue_observers/queue_icon"
   %img{:src => "/images/icons/relations.png",:alt=>"relations", :title=>_('Relation'),    :onClick => "location.href='/suites/relations1/#{@suite.id}';"}
   %img{:src => "/images/icons/show.png", :alt=>"suite_show",:title=>_('Detail'), :onClick => remote_function(:complete => "document.getElementById('div_suite_show').toggle();showDiv('show_graph');",:update => "div_suite_show",  :method => "get",  :url =>  "/suites/show/#{ @suite.id.to_s}"  ) }
+  %img{:src => "/images/icons/trash.png", :alt=>"trash", :title=>_('Delete'), :onClick => "if(confirm(msgalert))location='/suites/delete/#{@suite.id}';"}
   %img{:src => "/images/icons/info.png",    :alt=>"info.png",    :title=>_('Information'),    :onClick => "document.getElementById('infoSuiteEdit').toggle();"}
 
 //Help 

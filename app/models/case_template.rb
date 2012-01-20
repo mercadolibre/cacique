@@ -42,9 +42,11 @@ class CaseTemplate < ActiveRecord::Base
   belongs_to :circuit
   has_many :executions, :dependent => :destroy
   has_many :case_data, :dependent => :destroy
-  has_many :schematics,  :dependent => :destroy
-  has_many :suite_cases_relations_origin,      :foreign_key => :case_origin     , :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
-  has_many :suite_cases_relations_destination, :foreign_key => :case_destination, :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
+  has_many :schematics
+  has_many :suite_cases_relations_origin,      :foreign_key => :case_origin     , :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_destination, :foreign_key => :case_destination, :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
 
   acts_as_authorizable
 
@@ -53,6 +55,10 @@ class CaseTemplate < ActiveRecord::Base
   validates_presence_of :user_id, :message => _("Must complete User Field")
   validates_presence_of :circuit_id, :message => _("Must complete Script Field")
   
+  def active?
+    !deleted
+  end
+
   class SymbolAccessHash < Hash
 	def [] (index)
 		super(index.to_sym)
@@ -208,5 +214,15 @@ class CaseTemplate < ActiveRecord::Base
       conditions
    end
 
+  def self.delete_by_circuit circuit_id
+    self.update_all "deleted = true", ["circuit_id = ?", circuit_id]
+  end
+
+  def soft_delete
+    self.suite_cases_relations_origin.clear
+    self.suite_cases_relations_destination.clear
+    self.deleted = true
+    self.save
+  end
 
 end

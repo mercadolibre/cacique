@@ -37,7 +37,7 @@ class CaseTemplatesController < ApplicationController
 
     #Case Templates 
     conditions      = CaseTemplate.build_conditions(params) 
-    cases_pag       = CaseTemplate.find :all, :conditions=> conditions
+    cases_pag       = CaseTemplate.active.find :all, :conditions=> conditions
     params[:per_page] ||= "10"
     @case_templates = cases_pag.paginate :page => params[:page], :per_page => params[:per_page]
 
@@ -158,7 +158,7 @@ class CaseTemplatesController < ApplicationController
       params[:execution_run].each do |case_template_id|
         @case_template = CaseTemplate.find case_template_id
         permit "editor of :case_template" do
-          @case_template.destroy
+          @case_template.soft_delete
         end
       end
       redirect_to project_circuit_case_templates_path(@case_template.circuit.project_id, @case_template.circuit_id)
@@ -167,7 +167,7 @@ class CaseTemplatesController < ApplicationController
   def destroy
      @case_template = CaseTemplate.find params[:id]
      permit "editor of :case_template" do
-       @case_template.destroy
+       @case_template.soft_delete
        redirect_to project_circuit_case_templates_path(@case_template.circuit.project_id, @case_template.circuit_id)
      end
 

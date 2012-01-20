@@ -213,7 +213,7 @@ class CircuitsController < ApplicationController
       Execution
       DataRecovery
       DataRecoveryName    
-      if !Circuit.exists?(params[:id])
+      if !Circuit.active.exists?(params[:id])
         Circuit.expires_cache_circuit(params[:id], @project_actual)
         redirect_to "/circuits"
         return true
@@ -254,20 +254,11 @@ class CircuitsController < ApplicationController
         #send DIV to AJAX
         @all_projects = current_user.other_projects
         @my_projects = current_user.my_projects
-        if params.has_key?(:execution_running)
-          #Caching case_template
-          @execution_running = Rails.cache.fetch("exec_#{params[:execution_running]}"){ Execution.find(params[:execution_running])}
-          Rails.cache.write("last_exec_circuit_#{@circuit.id}",params[:execution_running]) if @execution_running
-        else
-          #search in cache last executed script
-          execution_id = Rails.cache.read "last_exec_circuit_#{@circuit.id}"
-          if execution_id
-            @execution_running = Rails.cache.fetch("exec_#{execution_id}"){ Execution.find( execution_id )}
-          else
-            @execution_running = nil
-          end 
-        end
-      end
+
+        #Search in cache last executed script
+        @execution_running = @circuit.get_last_execution
+
+     end
      respond_to do |format|
        format.html
        format.xml{ render :edit, :layout=> false }
@@ -278,7 +269,7 @@ class CircuitsController < ApplicationController
   def destroy
     @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
-       @circuit.destroy
+       @circuit.soft_delete
        @js = "window.location.reload()"
        render :inline => "<%= javascript_tag(@js) %>"
       else

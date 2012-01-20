@@ -77,7 +77,6 @@ gem "ruby-openid"
 gem "camping"
 gem "prawn"
 gem "passenger", "3.0.7"
-gem "hoptoad_notifier"
 gem "newrelic_rpm"
 
 #Cache

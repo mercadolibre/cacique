@@ -80,6 +80,9 @@ class Category < ActiveRecord::Base
 
   end
 
+  def active_circuits
+    circuits.active.sort
+  end
 
   def search_circuit(name_)
 
