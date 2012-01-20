@@ -1,4 +1,4 @@
-class AddDeletedToSuite < ActiveRecord::Migration
+class AddDeletedColumn < ActiveRecord::Migration
   def self.up
     add_column :suites, :deleted, :boolean, { :default => false }
     add_column :circuits, :deleted, :boolean, { :default => false }
