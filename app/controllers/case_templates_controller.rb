@@ -42,7 +42,7 @@ class CaseTemplatesController < ApplicationController
     @case_templates = cases_pag.paginate :page => params[:page], :per_page => params[:per_page]
 
     #Variables
-    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
+    @case_template_columns = CaseTemplate.get_default_columns
     @circuit_case_columns  = @circuit.circuit_case_columns  #Columns variables 
     @columns_data_show     = CircuitCaseColumn.find_all_by_circuit_id(@circuit.id).select{|x| !x.default?} #Columns case template variables without default
     @cell_selects          = ContextConfiguration.build_select_data #Build the selects for edit cell

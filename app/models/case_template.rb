@@ -225,4 +225,10 @@ class CaseTemplate < ActiveRecord::Base
     self.save
   end
 
+
+  def self.get_default_columns
+    #Default  Columns (id, objective,etc..)
+    CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id", "deleted"] 
+  end
+
 end

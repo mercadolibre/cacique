@@ -421,16 +421,13 @@ class SuiteExecutionsController < ApplicationController
       @suite.case_templates.each do |c|
 	 @circuit_case[c.id] = c.circuit.name
       end
-
-    #case template table
-    @columns_template  = CaseTemplate.column_names
  
     #Script column obtain
        #hash Format: [circuit_id =>{data sets column}]
        @suite_circuits_data = Hash.new
        @suite_circuits_data = @suite.circuits_data()
     #Case template columns
-    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
+    @case_template_columns = CaseTemplate.get_default_columns
 
     #Broken relations
     @circuits  = @suite.circuits
