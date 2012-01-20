@@ -132,6 +132,10 @@ dialog 	  --backtitle "CACIQUE" \
     echo "  :port: $HUBPORT" >> ./config/cacique.yml
     echo "  :end: '$HUBEND'" >> ./config/cacique.yml
     echo "    " >> ./config/cacique.yml
+    echo ":webdriverdhub:" >> ./config/cacique.yml
+    echo "  :ip: $HUBIP" >> ./config/cacique.yml
+    echo "  :port: $HUBPORT" >> ./config/cacique.yml
+    echo "    " >> ./config/cacique.yml
 
     rm dialog.ans
     rm tempfile
