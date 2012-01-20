@@ -495,7 +495,7 @@ class Circuit < ActiveRecord::Base
   end
 
   def get_last_execution
-      Rails.cache.fetch("last_exec_circuit_#{self.id}"){self.executions.last}
+      Rails.cache.read("last_exec_circuit_#{self.id}")
   end
 
 private
