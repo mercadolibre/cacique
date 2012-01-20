@@ -29,20 +29,20 @@ require "yaml"
 config_file = File.read(RAILS_ROOT + "/config/cacique.yml")
 CONFIG = YAML.load(config_file)
 
-ADMIN_EMAIL="cacique@mercadolibre.com"
+ADMIN_EMAIL="admin@mysourcemail.com"
 #Datos para enviar mail desde Cacique
-EMAIL =  "cacique@mercadolibre.com"
-EMAIL_SERVER = "surgemail.mercadolibre.com"
-EMAIL_USER_NAME='cacique'
-EMAIL_PASS='Cq123456'
+EMAIL =  "caciquemail@mysourcemail.com"
+EMAIL_SERVER = "sourcemail.mymail.com"
+EMAIL_USER_NAME='myusername'
+EMAIL_PASS='mypass'
 EMAIL_AUTH = :login
 EMAIL_PORT = 25
-EMAIL_DOMAIN = "mercadolibre.com"
-LOGGING_MAIL="robot@mercadolibre.com"
+EMAIL_DOMAIN = "mydomain.com"
+LOGGING_MAIL="mysuser@mydomain.com"
 
 #Cacique First user
 FIRST_USER_NAME="cacique"
-FIRST_USER_PASS="schumann"
+FIRST_USER_PASS="admin"
 
 #Default language
 CACIQUE_LANG="en_US"
@@ -96,7 +96,7 @@ IP_QUEUE=CONFIG[:starling][:ip]
 PORT_QUEUE=CONFIG[:starling][:port]
 
 #Directory for file sharing
-SHARED_DIRECTORY = "/home/cacique/shared/"
+SHARED_DIRECTORY = "<shared_directory>"
 
 #Circuits versions
 VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
