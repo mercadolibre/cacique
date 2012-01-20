@@ -48,24 +48,26 @@ production:
   password: '+CONFIG[:db][:production][:password]+'
   host: '+CONFIG[:db][:production][:host].to_s+'
   port: '+(CONFIG[:db][:production][:port]).to_s+'
+
 development:
-  adapter: mysql
-  encoding: utf8
-  name: cacique_dev
-  pool: 5
-  username: cacique
-  password: cacique
-  host: localhost
-  port: 3306
+  adapter: '+CONFIG[:db][:development][:adapter]+'
+  encoding: '+CONFIG[:db][:development][:encoding]+'
+  database: '+CONFIG[:db][:development][:name]+'
+  pool: '+(CONFIG[:db][:development][:pool]).to_s+'
+  username: '+CONFIG[:db][:development][:username]+'
+  password: '+CONFIG[:db][:development][:password]+'
+  host: '+CONFIG[:db][:development][:host].to_s+'
+  port: '+(CONFIG[:db][:development][:port]).to_s+'
+
 test:
-  adapter: mysql
-  encoding: utf8
-  name: cacique_test
-  pool: 5
-  username: cacique
-  password: cacique
-  host: localhost
-  port: 3306
+  adapter: '+CONFIG[:db][:test][:adapter]+'
+  encoding: '+CONFIG[:db][:test][:encoding]+'
+  database: '+CONFIG[:db][:test][:name]+'
+  pool: '+(CONFIG[:db][:test][:pool]).to_s+'
+  username: '+CONFIG[:db][:test][:username]+'
+  password: '+CONFIG[:db][:test][:password]+'
+  host: '+CONFIG[:db][:test][:host].to_s+'
+  port: '+(CONFIG[:db][:test][:port]).to_s+'
 '
 
 
