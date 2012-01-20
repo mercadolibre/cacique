@@ -1,4 +1,26 @@
 ===================================
+Version 0.2.5.3
+===================================
+• Suites, scripts and data set:
+  + Deletion implemented with "soft delete"
+  + Execution history is preserved
+
+• Logging when running WebDriver:
+  + Adding driver user function
+  + Refactoring selenium user function
+  + Adding webdriver_stop user function
+
+• Bug fixes:
+* Javascript error when trying to save a function when it's created
+* Removed parameter "execution_running" from the url of the script editor
+* Migrations:
+  Refactoring of the user function "finalize_run_script": 
+    closed instances of Selenim or WebDriver that are open.
+  Refactoring of the user function "webdriver_init": 
+    Hub ip was changed by the constant HUB_IP
+    Modified the url parameter name
+
+===================================
 Version 0.2.5.2
 ===================================
 • Scheduled task: When a user became inactive, his scheduled task are deleted and the project manager is notified
