@@ -204,7 +204,6 @@ class Circuit < ActiveRecord::Base
   #data pool xls generator
   def export_cases
         
-    @exclude_columns_template = ["user_id","circuit_id", "updated_at"]
     @exclude_columns_data = ["case_template_id","updated_at","created_at", "id"]
      
     workbook = Excel.new("#{RAILS_ROOT}/public/excels/casos_de_#{self.id}.xls")
@@ -212,12 +211,10 @@ class Circuit < ActiveRecord::Base
     columna = 0
 
     #TITLES
-    case_template_columns = CaseTemplate.column_names
+    case_template_columns = CaseTemplate.get_default_columns
     case_template_columns.each do |column_name|
-      if !@exclude_columns_template.include?(column_name)
-        hoja_cases.write(0,columna,column_name)
-        columna += 1
-      end
+      hoja_cases.write(0,columna,column_name)
+      columna += 1
     end
 
     case_data_columns = CaseTemplate.data_column_names(self)
@@ -236,14 +233,12 @@ class Circuit < ActiveRecord::Base
     @cases_templates.each do |case_template|
       columna_aux = 0
       case_template_columns.each do |column_template|
-        if !@exclude_columns_template.include?(column_template)
-          if column_template == "created_at"
-            hoja_cases.write(fila,columna_aux,case_template.send(column_template).to_s(:short).split("-")[1])
-          else
-            hoja_cases.write(fila,columna_aux,case_template.send(column_template))
-          end
-          columna_aux += 1
+        if column_template == "created_at"
+          hoja_cases.write(fila,columna_aux,case_template.send(column_template).to_s(:short).split("-")[1])
+        else
+          hoja_cases.write(fila,columna_aux,case_template.send(column_template))
         end
+        columna_aux += 1
       end
 
       case_data_columns.each do |column_data|
@@ -339,6 +334,7 @@ class Circuit < ActiveRecord::Base
               attributes_template["circuit_id"] = self.id
               attributes_template["user_id"]  = user_id
               attributes_template["created_at"] = nil
+              attributes_template["deleted"] = false
               case_template = CaseTemplate.create(attributes_template)
               case_template.save
  
