@@ -51,8 +51,9 @@
       =_('Output')
     %br
     %br
+    %br
     -execution.output.split("\n").each do |line|
-      =RedCloth.new(h line).to_html
+      =h line
       %br 
     %br
   %div{ :style=>'clear: both'}
