@@ -17,6 +17,9 @@ $LOAD_PATH << RAILS_ROOT
 
 #STARLING_PORT = 22122
 
+#TO FIX RMAGIC VERSIONS PROBLEM
+RMAGICK_BYPASS_VERSION_TEST = true
+
 # configuracion de rails-authorization-plugin
 AUTHORIZATION_MIXIN = "object roles"
 PERMISSION_DENIED_REDIRECTION = "/users/access_denied"
