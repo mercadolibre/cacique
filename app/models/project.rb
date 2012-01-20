@@ -187,7 +187,7 @@ class Project < ActiveRecord::Base
 
   #get project suite id
   def suites_cache
-     return Rails.cache.fetch("project_suites_#{self.id}",:expires_in => CACHE_EXPIRE_PROYECT_SUITES){self.suites.map(&:id)}
+     return Rails.cache.fetch("project_suites_#{self.id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { self.suites.active.map(&:id) }
   end
 
 

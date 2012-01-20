@@ -43,11 +43,13 @@ class Suite < ActiveRecord::Base
   has_many :circuits, :through => :schematics, :order => :position
   has_many :case_templates, :through => :schematics
   has_many :suite_executions,  :dependent => :destroy
-  has_many :suite_fields_relations, :dependent => :destroy
-  has_many :suite_cases_relations,  :dependent => :destroy
+  has_many :suite_fields_relations, :dependent => :delete_all
+  has_many :suite_cases_relations,  :dependent => :delete_all
   has_many :suite_containers, :dependent => :destroy
   has_many :task_programs, :dependent => :destroy 
   belongs_to :project
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
 
   validates_presence_of :name, :message => _("Enter a Name")
   validates_presence_of :description, :message => _("Enter a Description")
@@ -60,11 +62,21 @@ class Suite < ActiveRecord::Base
 
   include SaveModelAccess
 
+  def active?
+    !deleted
+  end
 
   def self.new_suite(suite_params, suite_circuits)
 	    @suite = Suite.new(suite_params)
 	    @suite.circuits = Circuit.find(suite_circuits) if suite_circuits
       @suite
+  end
+
+  def soft_delete
+    self.suite_fields_relations.clear
+    self.suite_cases_relations.clear
+    self.deleted = true
+    self.save
   end
 
   #obtain col from every suite's script
@@ -282,7 +294,7 @@ class Suite < ActiveRecord::Base
   def expire_cache
     Rails.cache.delete "suite_#{self.id}"
     #update project suites in cache
-    Rails.cache.write("project_suites_#{self.project_id}",self.project.suites.map(&:id),:expires_in => CACHE_EXPIRE_PROYECT_SUITES)
+    Rails.cache.write("project_suites_#{self.project_id}", self.project.suites.active.map(&:id), :expires_in => CACHE_EXPIRE_PROYECT_SUITES)
     true
   end
 
@@ -403,29 +415,28 @@ class Suite < ActiveRecord::Base
    end
  end
 
- #Search suite with pattern
- def self.get_all(pattern, project)
-   pattern.lstrip! unless pattern.nil?
-   pattern.rstrip! unless pattern.nil?
-   result=Array.new
-   if pattern.empty?
-     #obtain project suites from cache
+  #Search suite with pattern
+  def self.get_all(pattern, project)
+    pattern.strip! unless pattern.nil?
+    if pattern.empty?
+      #obtain project suites from cache
       suites=[]
       project.suites_cache.each do |identifier|
         suites << Suite.find(identifier)
       end
-     result=  suites
-   else
-     result= Suite.project_id_equals(project.id).name_like(pattern).to_a | Suite.project_id_equals(project.id).description_like(pattern).to_a
-   end
-   result.sort_by { |x| x.name.downcase }
- end
+      result = suites
+    else
+      suites = Suite.active.project_id_equals(project.id)
+      result = suites.name_like(pattern).to_a | suites.description_like(pattern).to_a
+    end
+    result.sort_by { |x| x.name.downcase }
+  end
 #--------------------------------------------------------------------------------------------#
 
   protected
    def self.find(*args)
       if args.first.instance_of?(Fixnum) and args.length == 1
-        Rails.cache.fetch("suite_#{args.first}",:expires_in => CACHE_EXPIRE_PROYECT_SUITES){super(*args)}
+        Rails.cache.fetch("suite_#{args.first}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(*args) }
       else
         super(*args)
       end

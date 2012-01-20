@@ -213,7 +213,7 @@ class CircuitsController < ApplicationController
       Execution
       DataRecovery
       DataRecoveryName    
-      if !Circuit.exists?(params[:id])
+      if !Circuit.active.exists?(params[:id])
         Circuit.expires_cache_circuit(params[:id], @project_actual)
         redirect_to "/circuits"
         return true
@@ -269,7 +269,7 @@ class CircuitsController < ApplicationController
   def destroy
     @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
-       @circuit.destroy
+       @circuit.soft_delete
        @js = "window.location.reload()"
        render :inline => "<%= javascript_tag(@js) %>"
       else
