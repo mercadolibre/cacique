@@ -487,11 +487,12 @@ class Circuit < ActiveRecord::Base
   end
 
   def caching_last_execution(execution)
-     Rails.cache.write("last_exec_circuit_#{self.id}",execution)
+     Rails.cache.write("last_exec_circuit_#{self.id}",execution.id)
   end
 
   def get_last_execution
-      Rails.cache.read("last_exec_circuit_#{self.id}")
+      execution_id = Rails.cache.read("last_exec_circuit_#{self.id}")
+      Rails.cache.read("exec_#{execution_id}") #Updated execution
   end
 
 private
