@@ -47,7 +47,7 @@ class WebdriverLogger
         #To not print the entire html into the workling.output
         if @script_runner.debug_mode
 	        if m.to_s != "get_html_source"      
-			  @script_runner.print " => OK #{aux.to_json}\n"
+			  @script_runner.print " => OK\n"
 			else
 			  @script_runner.print " => ... \n"
 			end  
