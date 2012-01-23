@@ -847,8 +847,8 @@ msgid "This action will remove this Folder. Are You sure?"
 msgstr "¿Está seguro que desea eliminar la carpeta?"
 
 #: app/views/categories/_tree_menu.haml:
-msgid "This action will remove Data Set, History and Suite associations. Are You sure?"
-msgstr "Será eliminado el set de datos asociado al script, junto con el historial de ejecuciones y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
+msgid "This action will remove Data Set and Suite associations. Are You sure?"
+msgstr "Será eliminado el set de datos asociado al script y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
 
 #: app/views/categories/admin.haml:
 msgid "Edit"
