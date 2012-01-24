@@ -43,6 +43,7 @@ cant=parseInt($j('#repeat').val())
 div.html("");for(var nro=0;nro<cant;nro++){div.append('<div>'+msgjs40+nro+' <input name=program[specific_hour_'+nro+'] value = 12:00 style= width:50px;text-align:center></input> Hs.<br></div>')}}
 function change_repeat(value){if(parseInt(value)>1){$j('#range_repeat').show();if($j('#specific').css('display')!='none')specific_hours();}else{$j('#range_repeat').hide()};}
 function change_select_range_each(value){$j('.range_each').hide();$j('#'+value).show();if(value=="specific")specific_hours();}
+function show_and_hide(show){$j('#extended').hide();$j('#frecuency').hide();$j('#repetitions_and_init_date').hide();$j('#one').hide();for(var i=0;i<show.length;i++){$j('#'+show[i]).show();}}
 var cantidad_flechas=0;window.onload=initDragDropScript;function inicializar_cant_flechas(){for(n=0;document.getElementById('flecha_'+n)!=null;n++){cantidad_flechas++;}}
 function submitCircuits2(){enviar_relaciones=false;form=document.getElementById('formRelation2');div_box2=document.getElementById('box2');elements_box2=div_box2.getElementsByTagName('LI');div_box3=document.getElementById('box3');elements_box3=div_box3.getElementsByTagName('LI');if((elements_box3.length!=0)&&(elements_box2.length!=0)){if(elements_box3.length==elements_box2.length){for(n=0;n<elements_box2.length;n++){elemento=document.createElement('input');elemento.name='relations['+n+'][origin]';elemento.type='text';elemento.value=elements_box2[n].id;elemento.setAttribute('style','display:none');form.appendChild(elemento);elemento=document.createElement('input');elemento.name='relations['+n+'][destination]';elemento.type='text';elemento.value=elements_box3[n].id;elemento.setAttribute('style','display:none');form.appendChild(elemento);}
 enviar_relaciones=true;}else{alert(msgjs30)
@@ -1190,3 +1191,4 @@ color_anterior=obj.style.backgroundColor;anterior=obj;marcado=obj.id;obj.style.b
 function is_marked(marcado,entidad){if(marcado)return true;else{alert(msgjs13+entidad);return false;}}
 function encode_text(value){var encoded_value="";for(i=0;i<value.length;i++){var chrcode=value.charCodeAt(i);if(chrcode!=0){if(chrcode<127&&chrcode>=0){encoded_value=encoded_value+"_x"+value.charCodeAt(i).toString(16);}else{encoded_value=encoded_value+"_"+value.charAt(i);}}}
 return encoded_value}
+var CCQUI={};CCQUI.toggle_text=function(element,text1,text2){var new_text=(element.text().search(text1)==-1)?text1:text2;element.text(new_text);};

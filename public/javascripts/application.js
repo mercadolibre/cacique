@@ -147,3 +147,11 @@ function zebra(table) {
 	  return encoded_value 
   }
     
+//Cacique Ui
+var CCQUI = {};
+
+//Toggle text
+CCQUI.toggle_text = function(element, text1, text2) {
+  var new_text =  ( element.text().search(text1) == -1 )? text1 : text2;
+  element.text(new_text); 
+};

@@ -1,3 +1,6 @@
+//JS
+-javascript 'execution_show'
+
 =render :partial =>"layouts/popup_header", :locals=>{:element =>"show_status_#{execution.id.to_s}"}
 
 %h3{:style=>'margin: 0 0 20px;'}
@@ -49,12 +52,15 @@
   -if (!execution.output.nil? and !execution.output.empty?)
     %b{:style=>'color:#2C4B9B;font-size:13px;text-decoration:underline;'}
       =_('Output')
+      %label{:onclick=>"show_output($j(this),'#{execution.id.to_s}')", :style=>"color: grey;font-weight: normal;float: right;text-decoration: underline;cursor: pointer;"}
+        Format    
     %br
     %br
     %br
-    -execution.output.split("\n").each do |line|
-      =h line
+    %div{:id=>"formated_output_#{execution.id.to_s}"}
+      =RedCloth.new(h execution.output).to_html
+    %div{:id=>"raw_output_#{execution.id.to_s}", :style=>"display:none;"}
+      -execution.output.split("\n").each do |line|
+        =h line
       %br 
-    %br
   %div{ :style=>'clear: both'}
-
