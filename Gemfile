@@ -78,6 +78,9 @@ gem "camping"
 gem "prawn"
 gem "passenger", "3.0.7"
 gem "newrelic_rpm"
+gem "RbYAML"
+gem "RedCloth"
+gem "cronedit"
 
 #Cache
   gem "memcache-client"
@@ -90,4 +93,4 @@ gem "newrelic_rpm"
   gem "gettext_activerecord"
   gem "gettext_rails"
 #.....................................
-gem "RbYAML"
+

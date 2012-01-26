@@ -48,19 +48,42 @@ class TaskProgram < ActiveRecord::Base
   
   validates_presence_of :user_id,    :message => _("Must complete User Field")
   validates_presence_of :suite_id,   :message => _("Must complete suite")
-  
-
-
 
   def self.create_all(params)
+
+    #CronEdit
+    if params[:program][:range] == "forever"
+       text_dates = params[:program][:cron]
+
+      ####TODO: Lo que esta a comtinuación debería estar en un modelo Cron
+      include CronEdit
+
+      params[:execution][:user_mail]       = current_user.email
+      params[:execution][:user_id]         = current_user.id
+
+      #Suites
+      suite_ids = params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]
+      suite_ids.each do |suite_id|
+          params[:execution][:suite_id]        = suite_id
+          command = SuiteExecution.generate_command(params[:execution]) 
+          command.gsub!("\<user_name\>",FIRST_USER_NAME)#UserName
+          command.gsub!("\<user_pass\>",FIRST_USER_PASS)#UserPass
+          text_command = "#{RAILS_ROOT}/lib/#{command}"
+        #Se agrega al cron
+        Crontab.Add  :DESDECACIQUE, text_dates + " " + text_command
+      end
+      #####################################################
+
+    #DelayedJob
+    else
       params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
       times_to_run = TaskProgram.generate_times_to_run(params[:program])
       #Returns in the format [[time, status],[time, status]]
       #Por ex. [[Time0,0],[Time1,1],[Time2,0]]
 
-     #Suites
-     suite_ids = params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]
-     suite_ids.each do |suite_id|
+      #Suites
+      suite_ids = params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]
+      suite_ids.each do |suite_id|
          run = TaskProgram.calculate_status(times_to_run)
          params[:execution][:delayed_job_status] = 1
          task_program = TaskProgram.create({:user_id => current_user.id,:suite_execution_ids => "", :identifier=> params[:execution][:identifier],
@@ -75,6 +98,7 @@ class TaskProgram < ActiveRecord::Base
             DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
          end
       end
+    end
   end
 
   
@@ -109,6 +133,8 @@ class TaskProgram < ActiveRecord::Base
                weekly_date  = weekly_date +  60*60*24 #Add one day
              end        
          end
+      when "forever"
+         times_to_run << params[:cron]
       else
         raise "Indefined range"
     end#End case params[range]

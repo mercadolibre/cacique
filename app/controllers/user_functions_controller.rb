@@ -44,6 +44,8 @@ class UserFunctionsController < ApplicationController
   end
 
   def search
+    p 'aaaaaaaaaaaaaaaaaaaaaa'
+    p params
      @params_filter     = {}
      @user_functions   = []
      if params[:filter] 

@@ -1,0 +1,13 @@
+#frecuency{:style=>"display:none;margin-top:10px;border-top:1px solid #C3C3C3;padding-top:10px;color:#848484;"}
+  =_('Frequency:')
+  %br
+    =radio_button_tag "program[frecuency]", "daily", true, {:class=>"calendar_options"} 
+    =_('Daily')
+    =radio_button_tag "program[frecuency]", "weekly", false, {:class=>"calendar_options"} 
+    =_('Weekly')
+  %div{ :style=>"clear: both"}   
+  .form_tag#weekly{:class=>"program_calendar",:style=>"display:none;margin-top:10px;padding:5px;"}   
+    -@weekly.each do |value|
+      =check_box_tag "program[week_days][]", value, false
+      =@weekly_trans[value]
+      %br     

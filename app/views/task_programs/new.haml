@@ -5,7 +5,7 @@
 = calendar_date_select_includes "blue"
 = stylesheet_link_tag 'blue.css'
 
-.main{:style=>"width:90%;padding:1.5% 0;margin:0 auto;"}
+.main{:style=>"width:95%;padding:1.5% 0;margin:0 auto;"}
   -remote_form_for @suite_execution, :before => "$j('form .form_button input').attr('disabled',true);", :url =>{:controller=>:task_programs, :action=> :confirm}, :html => {:id => "form_to_run_suite"} do
     =text_field "execution", "where_did_i_come", :value => "new_program", :style => "display:none;"
     %h1
@@ -14,7 +14,7 @@
       .form_button
         =submit_tag _('Schedule')
   
-    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:25%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:49%;float:left;margin-left:1%;")   
+    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:27%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:47%;float:left;margin-left:1%;")   
     %div{:style=>style_1}
       =render :partial => 'select_suites'
       =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
