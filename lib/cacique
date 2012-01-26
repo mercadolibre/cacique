@@ -84,13 +84,19 @@ done
 
 
 #realiza una nueva corrida unitaria, recive como parametro el ID del caso luego pregunta el status hasta que termine la ejecucion
+
+function script_execution(){
+         
+	 SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$id" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" $SEND_MAIL_OK $SEND_MAIL_FAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION`
+}
 function suite_execution() {
     #la siguiente linea muestra el comando que se va a lanzar con las opciones pasadas, descomentar para ver el comando 
    
-    #echo "curl -X POST -u $USER_NAME:$USER_PASS -s -H \"Accept: text/plain\"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d \"[execution][suite_id]=$id\" -d \"[execution][identifier]=$IDENTIFIER\" -d \"[execution][cant_corridas]=$N_TIMES\" $SEND_MAIL_OK $SEND_MAIL_FAIL -d \"[execution][remote_control_mode]=$RC_MODE\" -d \"[execution][remote_control_addr]=$IP_CLIENT\" -d \"[execution][cases_comment]=$CASE_COMMENT\" -d \"[execution][remote_control_port]=$PORT_CLIENT\" $CONFIGURATION"
+for i in $(echo "$id"  | nawk '{gsub(/,/," \n",$0);print}')
+do
 
-
-    SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$id" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" $SEND_MAIL_OK $SEND_MAIL_FAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION`
+    SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$i" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" $SEND_MAIL_OK $SEND_MAIL_FAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION`
+done
 }
 
 
