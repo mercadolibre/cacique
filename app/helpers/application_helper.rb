@@ -12,6 +12,18 @@ module ApplicationHelper
     content_for(:head) { stylesheet_link_tag(*files) }
   end
 
+  # Renders a text field with a default placeholder
+  def placeholder form, text, default, extras = {}
+    # TODO: This should be an ActionView::Helpers::FormBuilder extension
+    default_color = text.blank? ? "" : "color:'black'"
+    params = {
+      :value => (text.blank? ? default : text),
+      :style => "width: 130px;#{default_color}",
+      :onblur => "if (this.value == '') {this.value = '#{default}';this.style.color='grey';}",
+      :onfocus => "this.style.color='black'; if (this.value == '#{default}') {this.value = ''}"
+    }.merge!(extras)
+    form.text_field('text', params)
+  end
 end
 
   def escape_html_attribute( str_ )
