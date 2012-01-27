@@ -420,12 +420,9 @@ class Suite < ActiveRecord::Base
   def self.get_all(pattern, project)
     pattern.strip! unless pattern.nil?
     if pattern.empty?
-      #obtain project suites from cache
-      suites=[]
-      project.suites_cache.each do |identifier|
-        suites << Suite.find(identifier)
-      end
-      result = suites
+      #Obtain project suites from cache
+      #project.suites_cache are active suites
+      result = Suite.find(project.suites_cache)
     else
       suites = Suite.active.project_id_equals(project.id)
       result = suites.name_like(pattern).to_a | suites.description_like(pattern).to_a
@@ -436,7 +433,6 @@ class Suite < ActiveRecord::Base
 
   protected
    def self.find(*args)
-
       #One suite "1"
       if args.first.instance_of?(Fixnum) and args.length == 1
         Rails.cache.fetch("suite_#{args.first}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(*args) }
@@ -448,7 +444,6 @@ class Suite < ActiveRecord::Base
             suites << Rails.cache.fetch("suite_#{suite_id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(*args) }
          end
          suites
-
       #Super
       else
         super(*args)

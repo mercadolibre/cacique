@@ -354,8 +354,8 @@ class SuiteExecution < ActiveRecord::Base
  
     #Suite_id
     execution_params[:suite_ids] = execution_params[:suite_id] if execution_params[:suite_id]
-    command += execution_params[:suite_ids].to_s
-    
+    command += execution_params[:suite_ids].join(',')
+
     #UserName
     command += " -u \<user_name\>"
     #UserPass
@@ -444,7 +444,7 @@ class SuiteExecution < ActiveRecord::Base
     
     #log format
     command += " -format xml "
-    
+
     command
     
   end

@@ -54,24 +54,28 @@ class TaskProgram < ActiveRecord::Base
     #CronEdit
     if params[:program][:range] == "forever"
 
-       #TaskProgram new
-       task_program = TaskProgram.create({ :user_id => current_user.id,
+      #Build execution params
+      params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
+
+      #TaskProgram new
+      task_program = TaskProgram.create({ :user_id => current_user.id,
                                             :suite_execution_ids => "", 
                                             :project_id => params[:project_id],
                                             :identifier=> params[:execution][:identifier],
                                             :execution_params=> RunSuiteProgram.new(params[:execution]) 
                                           })
-       task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
+      #Suites                                           
+      params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
+      task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
 
-       #Cron new
-       cron = Cron.create( {:task_program_id=>task_program.id}.merge(params[:cron]) )
+      #Cron new
+      cron = Cron.create( {:task_program_id=>task_program.id}.merge(params[:cron]) )
 
-       #Update cron machine
-       cron.update_file(task_program.execution_params)
+      #Update cron machine
+      cron.add(task_program.execution_params.params)
 
     #DelayedJob
     else
-      params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
       times_to_run = TaskProgram.generate_times_to_run(params[:program])
       #Returns in the format [[time, status],[time, status]]
       #Por ex. [[Time0,0],[Time1,1],[Time2,0]]
@@ -90,6 +94,7 @@ class TaskProgram < ActiveRecord::Base
       task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
 
       #Build execution params
+      params[:execution][:identifier]      = _('Schedule') if params[:execution][:identifier].empty?
       params[:execution][:task_program_id] = task_program.id
       params[:execution][:user_mail]       = current_user.email
       params[:execution][:user_id]         = current_user.id

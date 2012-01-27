@@ -40,20 +40,51 @@
  
  class Cron < ActiveRecord::Base
 
-  #belongs_to :task_program
-  #validates_presence_of :task_program_id,   :message => _("Must complete task program")
+  belongs_to :task_program
+  validates_presence_of :task_program_id, :message => _("Must complete task program")
  
-   def update_file(execution_params)
-	   self.build_command(execution_params)
-	   #TODO: Ssh a la maquina que ejecutará en cron
-   end
+  def add(execution_params)
+    #Generate command
+    command = build_command(execution_params)
+    
+    #Generate file code 
+    code = add_line(command)
+
+    #Update and execute file (SSH)
+    update_file(code)
+  end
+
 
  	def build_command(execution_params)
     	command = SuiteExecution.generate_command(execution_params) 
     	command.gsub!("\<user_name\>",FIRST_USER_NAME)#UserName
-        command.gsub!("\<user_pass\>",FIRST_USER_PASS)#UserPass
-        text_command = "#{RAILS_ROOT}/lib/#{command}"
-        #TODO: 
-        #Crontab.Add  :DESDECACIQUE, text_dates + " " + self.frecuency
+      command.gsub!("\<user_pass\>",FIRST_USER_PASS)#UserPass
+      "#{RAILS_ROOT}/lib/#{command}"
   end
+
+  def add_line(command)
+      code      = "require 'rubygems'\n require 'cronedit'\n include CronEdit\n\n"
+      frecuency = "#{self.min} #{self.hour} #{self.day_of_month} #{self.month} #{self.day_of_week}"
+      code      + "Crontab.Add  :#{self.id}, '#{frecuency}  #{command}'" 
+  end
+
+  def remove_line
+      code = "require 'rubygems'\n require 'cronedit'\n include CronEdit\n\n"
+      code + "Crontab.Remove  :#{self.id}"     
+  end
+
+  def update_file(code)
+
+    #Generate File
+    file_name="#{RAILS_ROOT}/tmp/program_#{self.id}.rb"
+    File.delete(file_name) if File.exists?(file_name)
+    File.open(file_name, 'w') {|f| f.write(code) }
+
+    #TODO:
+    #SSH copy
+    #SSH run
+    #Delete file
+    #File.delete(file_name)
+  end
+
 end
