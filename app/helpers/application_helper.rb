@@ -15,7 +15,7 @@ module ApplicationHelper
   # Renders a text field with a default placeholder
   def placeholder form, text, default, extras = {}
     # TODO: This should be an ActionView::Helpers::FormBuilder extension
-    default_color = text.blank? ? "" : "color:'black'"
+    default_color = text.blank? ? "" : "color:black"
     params = {
       :value => (text.blank? ? default : text),
       :style => "width: 130px;#{default_color}",

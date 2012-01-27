@@ -1,6 +1,6 @@
 //New
 -if !@public and ( current_user.has_role?("root") or @has_permission)
-  =link_to image_tag('icons/new.png'), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function"), :id=>"new_user_funciton"
+  =link_to image_tag('icons/new.png'), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function")
 
 //Filter
 =link_to image_tag("/images/icons/filter.png", :title=>_('Filter')), "/user_functions/search"
@@ -9,10 +9,14 @@
 =image_tag( "/images/icons/info.png", :title=>_('Information'), :onClick => "$j('#infoUserFunction').show();")
 .buscar 
   - form_for :filter, url_for(:controller=>"user_functions", :action=>"index"), :html => {:method => :get} do |f|
-    = f.text_field 'project_id', :value=>@project_id, :style => 'display:none;'
-    = placeholder f, @param_search, _('Search Function')
-    %input{:type=>"image",:src=>"/images/icons/search.png"}
- 
+    - if @project_actual
+      = f.hidden_field 'project_id', :value => @project_id
+      = f.label 'only_selected_project', _('Only in this project')# + @project_actual.name.capitalize
+      = hidden_field_tag 'filter[only_selected_project]', false, {:id => nil}
+      = check_box_tag 'filter[only_selected_project]', true, @only_selected_project
+    .searchbox
+      = placeholder f, @param_search, _('Search Function')
+      %input{:type=>"image",:src=>"/images/icons/search.png", :class => "lupa"}
+
 //Help 
 =render :partial => "info_user_function"
-
