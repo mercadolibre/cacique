@@ -235,11 +235,11 @@ class CircuitsController < ApplicationController
         @version=@circuit.versions.last if @version.nil?
         @version_number=@version.number
       else
-        begin
+        begin 
           @version = @circuit.versions.last
         rescue
-	  @circuit.save
-	  @version = @circuit.version.last
+          @circuit.save
+          @version=@circuit.versions.last
         end
       end
       #Version
