@@ -88,15 +88,19 @@ class CircuitsController < ApplicationController
       #Version
       @previous_version = @circuit.versions.last.number
       permit 'editor of :circuit' do
-         if @circuit.save_source_code(content,params[:commit_message])
-           #Script access registry
-           CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
+         # Verified if another user has edited the script
+         if (@circuit.updated_at.to_s != params[:last_updated_at])
+          @text_error =  _("Unable to save! ") + ". "
+          @text_error += _("It was edited by the user ") + User.find(@circuit.versions.last.user_id).name + ". "
+          @text_error += _("Save your changes in another medium, refresh the page and try again")
+         else
+           @circuit.save_source_code(content,params[:commit_message])
          end
+         @play = true if params[:and_play]
          respond_to do |format|
           format.js # run the update.rjs template
          end
      end
-
    else
       #Update NAME and DESCRIPTION 
       if  current_user.has_role?( "editor", @circuit)  
@@ -209,12 +213,12 @@ class CircuitsController < ApplicationController
       Execution
       DataRecovery
       DataRecoveryName    
-      if !Circuit.exists?(params[:id])
+      if !Circuit.active.exists?(params[:id])
         Circuit.expires_cache_circuit(params[:id], @project_actual)
         redirect_to "/circuits"
         return true
       end
-    
+      @user_functions_names = Rails.cache.read("functions") || []
       @circuit = Circuit.find params[:id]
       @last_circuit_version = Circuit.find params[:id]
       @project_id = params[:project_id]
@@ -231,7 +235,12 @@ class CircuitsController < ApplicationController
         @version=@circuit.versions.last if @version.nil?
         @version_number=@version.number
       else
-        @version = @circuit.versions.last
+        begin
+          @version = @circuit.versions.last
+        rescue
+	  @circuit.save
+	  @version = @circuit.version.last
+        end
       end
       #Version
       @previous_version = @circuit.versions.map{|v| v.number}.select{|n| n<@circuit.version}.max
@@ -250,20 +259,11 @@ class CircuitsController < ApplicationController
         #send DIV to AJAX
         @all_projects = current_user.other_projects
         @my_projects = current_user.my_projects
-        if params.has_key?(:execution_running)
-          #Caching case_template
-          Rails.cache.write("last_exec_circuit_#{@circuit.id}",params[:execution_running])
-          @execution_running = Rails.cache.fetch("exec_#{params[:execution_running]}"){ Execution.find(params[:execution_running])}
-        else
-          #search in cache last executed script
-          execution_id = Rails.cache.read "last_exec_circuit_#{@circuit.id}"
-          if execution_id
-            @execution_running = Rails.cache.fetch("exec_#{execution_id}"){ Execution.find( execution_id )}
-          else
-            @execution_running = nil
-          end 
-        end
-      end
+
+        #Search in cache last executed script
+        @execution_running = @circuit.get_last_execution
+
+     end
      respond_to do |format|
        format.html
        format.xml{ render :edit, :layout=> false }
@@ -274,7 +274,7 @@ class CircuitsController < ApplicationController
   def destroy
     @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
-       @circuit.destroy
+       @circuit.soft_delete
        @js = "window.location.reload()"
        render :inline => "<%= javascript_tag(@js) %>"
       else
