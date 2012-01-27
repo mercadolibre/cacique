@@ -26,8 +26,8 @@
           =check_box_tag "delayed_jobs_action[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"delayed_jobs_action"
         %td{:title=>task_program.project.name,:style=>"width:100px;"}
           =truncate( task_program.project.name, :ommision => "...", :length => 80)               
-        %td{:title=>task_program.suite.name}
-          =truncate(task_program.suite.name, :ommision => "...", :length => 70)             
+        %td{:title=>task_program.suites.map(&:name)}
+          =truncate(task_program.suites.map(&:name).join(', '), :ommision => "...", :length => 70)             
         %td{:title=>task_program.user.name,:style=>"width:100px;"}
           =truncate( task_program.user.name, :ommision => "...", :length => 20)                 
         %td

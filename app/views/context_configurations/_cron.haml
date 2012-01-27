@@ -1,5 +1,9 @@
 %div#cron{:style=>"display:none;margin-top:10px;color:#848484;"}
   =_('Command:')
   %br
-  %label{:style=>" margin-left:10px;color:#373737;"}
-    =text_field "program", "cron", :style => " margin-left: 10px; width: 75%;"
+  %label
+    =text_field "cron", "min", :style => "margin-left: 5px; width: 50px;", :title=>"min"
+    =text_field "cron", "hour", :style => "margin-left: 5px; width: 50px", :title=>"hour"
+    =text_field "cron","day_of_month",:style =>"margin-left:10px;width:50px;", :title=>"day_of_month"
+    =text_field "cron","month", :style =>"margin-left:5px;width:50px;", :title=>"month"
+    =text_field "cron","day_of_week", :style =>"margin-left:5px;width:50px", :title=>"day_of_week"

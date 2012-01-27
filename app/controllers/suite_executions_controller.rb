@@ -472,7 +472,6 @@ class SuiteExecutionsController < ApplicationController
     #Save User Configuration
     @user_configuration = current_user.user_configuration
     @user_configuration.update_configuration(params[:execution])
-
     command = SuiteExecution.generate_command( params[:execution], "run")
   
     if params[:execution]["where_did_i_come"] == "new_program"

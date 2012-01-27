@@ -46,7 +46,8 @@ class Suite < ActiveRecord::Base
   has_many :suite_fields_relations, :dependent => :delete_all
   has_many :suite_cases_relations,  :dependent => :delete_all
   has_many :suite_containers, :dependent => :destroy
-  has_many :task_programs, :dependent => :destroy 
+  has_and_belongs_to_many :task_programs
+
   belongs_to :project
   named_scope :active, :conditions => { :deleted => false }
   named_scope :deleted, :conditions => { :deleted => true }
@@ -435,11 +436,24 @@ class Suite < ActiveRecord::Base
 
   protected
    def self.find(*args)
+
+      #One suite "1"
       if args.first.instance_of?(Fixnum) and args.length == 1
         Rails.cache.fetch("suite_#{args.first}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(*args) }
+
+      #Many suites "1,2,3..."
+      elsif args.first.instance_of?(Array)
+         suites = []
+         args.first.each do |suite_id|
+            suites << Rails.cache.fetch("suite_#{suite_id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(*args) }
+         end
+         suites
+
+      #Super
       else
         super(*args)
       end
+
    end
 
 
