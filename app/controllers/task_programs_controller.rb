@@ -27,73 +27,34 @@ class TaskProgramsController < ApplicationController
 
   def index
     Suite
-    #For filter
-    @projects    = Project.all
-    @users       = User.all   
-    @suites      = Array.new 
-    @user_id     = (params[:filter] && params[:filter][:user_id])   ? params[:filter][:user_id].to_i    : 0 
-    @project_id  = (params[:filter] && params[:filter][:project_id])? params[:filter][:project_id].to_i : params[:project_id].to_i
-    @suite_id    = (params[:filter] && params[:filter][:suite_id])  ? params[:filter][:suite_id].to_i   : 0
-    @init_date   = (params[:filter] && params[:filter][:init_date]) ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): 
-DateTime.now.in_time_zone
-    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone + (1*24*60*60) #1 day after
+    @projects     = Project.all
+    @users        = User.all   
+    @project_id   = params[:project_id] = (params[:filter] && params[:filter][:project_id])? params[:filter][:project_id].to_i : params[:project_id].to_i
 
-    @weekly_trans  = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
-    
+    #Suites
     #One project selected
     if @project_id != 0 
-         #Read suites ids from cache
-         suites_ids = Rails.cache.read("project_suites_#{@project_id}")
-         if !suites_ids
-             #Read suites from db
-             project = Project.find @project_id
-             @suites= project.suites
-             suites_ids = project.suite_ids
-          #Read suites from cache
-          else
-             suites_ids.each do |suite_id|
-                @suites << Rails.cache.fetch("suite_#{suite_id}"){Suite.find suite_id}
-             end
-         end
-    end
-    
-    #Bulid conditions
-    conditions        = Array.new
-    conditions_names  = Array.new
-    conditions_values = Array.new
-
-    if @project_id != 0   
-      conditions_names << " project_id = ? " 
-      conditions_values << @project_id
+      #Read suites ids from cache
+      suites_ids = Rails.cache.read("project_suites_#{@project_id}")
+      suites_ids = Project.find(@project_id).suite_ids if !suites_ids
+      @suites     = Suite.find(suites_ids)
     end
 
-    if @user_id != 0   
-      conditions_names << " user_id = ? " 
-      conditions_values << @user_id
-    end
+    params[:init_date]=(params[:filter] && params[:filter][:init_date]) ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): 
+DateTime.now.in_time_zone
+    params[:finish_date]= params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone + (1*24*60*60) #1 day after    
+    @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
 
-    if params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].empty?
-      conditions_names << " identifier  like ? " 
-      conditions_values << '%' + params[:filter][:identifier] + '%'
-    end
+    #DelayedJobs
+    @delayed_jobs = TaskProgram.filter(params)
 
-    if @suite_id != 0
-      conditions_names << " suite_id  = ? " 
-      conditions_values << @suite_id
-    end
-
-   conditions_names << " run_at BETWEEN ? AND ? " 
-   conditions_values << @init_date.strftime("%y-%m-%d %H:%M:%S")   
-   conditions_values << @finish_date.strftime("%y-%m-%d %H:%M:%S") 
-
-   conditions << conditions_names.join("and")  
-   conditions = conditions + conditions_values
-   number_per_page=10
-   number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
-
-   delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
-   @delayed_jobs = delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
+    #TODO: arreglar el finde de DJs
+    @delayed_jobs = DelayedJob.all.paginate :page => params[:page], :per_page =>10
   
+    #TODO: IN NEW VIEW 
+    #Cron
+    @crons = Cron.all    
+
   end
 
   def new
@@ -118,16 +79,16 @@ DateTime.now.in_time_zone
   end
 
   def confirm
-     @text_error   = TaskProgram.validate(params)   
-     @text_confirm = ''
-     if @text_error.empty? 
-      	 params[:execution][:server_port] = request.port if request.port != 80
-      	 cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
-      	 cant_suites = params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).count : params[:execution][:suite_ids].count
-      	 @user_configuration = current_user.user_configuration
-      	 @user_configuration.update_configuration(params[:execution])
-      	 cant_run_combination = @user_configuration.run_combinations.count
-      	 @suite_program_cant = cant_times * cant_suites * cant_run_combination
+    @text_error   = TaskProgram.validate(params)   
+    @text_confirm = ''
+    if @text_error.empty? 
+        params[:execution][:server_port] = request.port if request.port != 80
+        cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
+        cant_suites = params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).count : params[:execution][:suite_ids].count
+        @user_configuration = current_user.user_configuration
+        @user_configuration.update_configuration(params[:execution])
+        cant_run_combination = @user_configuration.run_combinations.count
+        @suite_program_cant = cant_times * cant_suites * cant_run_combination
          @create_path = url_for(params.merge!(:action => :create))
          if @suite_program_cant > MAX_SUITE_PROGRAM
             @text_confirm = _("You are to be scheduled #{@suite_program_cant} executions, please enter the number of executions to confirm.") 

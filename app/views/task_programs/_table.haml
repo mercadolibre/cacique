@@ -42,6 +42,29 @@
           =truncate( task_program.identifier, :ommision => "...", :length => 20)                           
         %td 
           =dj.s_status
+    
+    /TODO:NEW VIEW
+    -@crons.each do |cron|
+      -task_program = cron.task_program
+      %tr  
+        %td{:style=>"padding-left:8px;width:10px;"}
+          =link_to image_tag("/images/icons/ruby.png",:alt=>"ruby"), cron_path(cron.id) ,:method=>:delete,  :title=>_('Delete')
+
+        %td{:title=>task_program.project.name,:style=>"width:100px;"}
+          =truncate( task_program.project.name, :ommision => "...", :length => 80)               
+        %td{:title=>task_program.suites.map(&:name)}
+          =truncate(task_program.suites.map(&:name).join(', '), :ommision => "...", :length => 70)             
+        %td{:title=>task_program.user.name,:style=>"width:100px;"}
+          =truncate( task_program.user.name, :ommision => "...", :length => 20)                 
+        %td
+          %div{:style=>"width:80%; margin:0 auto;"}
+            %b{:style=>"width:90px;float:left;"}
+              ="#{cron.min} #{cron.hour} #{cron.day_of_month} #{cron.month} #{cron.day_of_week}"
+        %td{:title=>task_program.identifier}
+          =truncate( task_program.identifier, :ommision => "...", :length => 20)                           
+        %td 
+          CRON
+
 -else
   %div{ :style=>"clear: both"}        
   %h2

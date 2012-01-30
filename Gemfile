@@ -81,6 +81,7 @@ gem "newrelic_rpm"
 gem "RbYAML"
 gem "RedCloth"
 gem "cronedit"
+gem "net-ssh"
 
 #Cache
   gem "memcache-client"

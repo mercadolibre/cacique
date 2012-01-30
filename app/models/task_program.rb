@@ -45,7 +45,8 @@ class TaskProgram < ActiveRecord::Base
   belongs_to :project
   has_and_belongs_to_many :suites
   has_many :delayed_jobs, :dependent => :destroy
-  
+  has_many :crons, :dependent => :destroy
+
   validates_presence_of :user_id,    :message => _("Must complete User Field")
 
   def self.create_all(params)
@@ -69,10 +70,7 @@ class TaskProgram < ActiveRecord::Base
       task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
 
       #Cron new
-      cron = Cron.create( {:task_program_id=>task_program.id}.merge(params[:cron]) )
-
-      #Update cron machine
-      cron.add(task_program.execution_params.params)
+      Cron.add(task_program, params[:cron])
 
     #DelayedJob
     else
@@ -334,6 +332,51 @@ class TaskProgram < ActiveRecord::Base
       params[:execution][:user_id]   = current_user.id
       params[:execution][:suite_id]  = (params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]).join(",")
       params
+  end
+
+
+  def self.filter(params)
+
+    user_id  = (params[:filter] && params[:filter][:user_id])   ? params[:filter][:user_id].to_i    : 0 
+    suite_id = (params[:filter] && params[:filter][:suite_id])  ? params[:filter][:suite_id].to_i   : 0
+
+    #Bulid conditions
+    conditions        = Array.new
+    conditions_names  = Array.new
+    conditions_values = Array.new
+
+    if params[:project_id] != 0   
+      conditions_names << " project_id = ? " 
+      conditions_values << params[:project_id]
+    end
+
+    if user_id != 0   
+      conditions_names << " user_id = ? " 
+      conditions_values << user_id
+    end
+
+    if params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].empty?
+      conditions_names << " identifier  like ? " 
+      conditions_values << '%' + params[:filter][:identifier] + '%'
+    end
+
+    if @suite_id != 0
+      conditions_names << " suite_id  = ? " 
+      conditions_values << suite_id
+    end
+
+   conditions_names << " run_at BETWEEN ? AND ? " 
+   conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
+   conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
+
+   conditions << conditions_names.join("and")  
+   conditions = conditions + conditions_values
+   number_per_page=10
+   number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
+
+   delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
+   delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
+  
   end
 
 end

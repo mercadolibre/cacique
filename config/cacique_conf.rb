@@ -98,6 +98,13 @@ PORT_QUEUE=CONFIG[:starling][:port]
 #Directory for file sharing
 SHARED_DIRECTORY = "<shared_directory>"
 
+#Machine responsible for executing the task scheduling
+#(added to cron)
+SERVER_CRON = "10.4.0.42"
+USER_SERVER_CRON = "cacique"
+PASS_SERVER_CRON =  "Socrates"
+DIRECTORY_SERVER_CRON = "/home/cacique/cacique/tmp/"
+
 #Circuits versions
 VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
 CIRCUIT_MIN_VERSION_ENTRIES = 5

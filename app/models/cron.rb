@@ -40,24 +40,45 @@
  
  class Cron < ActiveRecord::Base
 
-  belongs_to :task_program
+  belongs_to :task_program, :dependent => :destroy
   validates_presence_of :task_program_id, :message => _("Must complete task program")
  
-  def add(execution_params)
+  #Create new Cron and update server cron
+  def self.add(task_program, cron_params)
+
+    #Cron new
+    cron = Cron.create( {:task_program_id=>task_program.id}.merge(cron_params) )
+
     #Generate command
-    command = build_command(execution_params)
+    command = cron.build_command(task_program.execution_params.params)
     
     #Generate file code 
-    code = add_line(command)
+    code = cron.add_line(command)
 
     #Update and execute file (SSH)
-    update_file(code)
+    cron.update_file(code)
   end
 
+  #Remove Cron and update server cron
+  def self.remove(id)
 
- 	def build_command(execution_params)
-    	command = SuiteExecution.generate_command(execution_params) 
-    	command.gsub!("\<user_name\>",FIRST_USER_NAME)#UserName
+    #Find cron
+    cron = Cron.find id.to_i
+
+    #Generate file code 
+    code = cron.remove_line
+
+    #Update and execute file (SSH)
+    cron.update_file(code)
+
+    #Cron destroy
+    cron.destroy
+
+  end
+
+  def build_command(execution_params)
+      command = SuiteExecution.generate_command(execution_params) 
+      command.gsub!("\<user_name\>",FIRST_USER_NAME)#UserName
       command.gsub!("\<user_pass\>",FIRST_USER_PASS)#UserPass
       "#{RAILS_ROOT}/lib/#{command}"
   end
@@ -65,26 +86,33 @@
   def add_line(command)
       code      = "require 'rubygems'\n require 'cronedit'\n include CronEdit\n\n"
       frecuency = "#{self.min} #{self.hour} #{self.day_of_month} #{self.month} #{self.day_of_week}"
-      code      + "Crontab.Add  :#{self.id}, '#{frecuency}  #{command}'" 
+      code      + "Crontab.Add  'program_#{self.id}', '#{frecuency}  #{command}'" 
   end
 
   def remove_line
       code = "require 'rubygems'\n require 'cronedit'\n include CronEdit\n\n"
-      code + "Crontab.Remove  :#{self.id}"     
+      code + "Crontab.Remove 'program_#{self.id}'"
   end
 
   def update_file(code)
+    require 'net/ssh'
 
-    #Generate File
-    file_name="#{RAILS_ROOT}/tmp/program_#{self.id}.rb"
-    File.delete(file_name) if File.exists?(file_name)
-    File.open(file_name, 'w') {|f| f.write(code) }
+    #SSH copy & run
+    Net::SSH.start(SERVER_CRON, USER_SERVER_CRON, :password =>PASS_SERVER_CRON) do |ssh|
 
-    #TODO:
-    #SSH copy
-    #SSH run
-    #Delete file
-    #File.delete(file_name)
+      #Generate File
+      file_name="program_#{self.id}.rb"
+      ssh.exec "echo -e \"#{code}\" > #{DIRECTORY_SERVER_CRON + file_name}" 
+          
+      #Run file
+      ssh.exec! "ruby #{DIRECTORY_SERVER_CRON + file_name}"
+
+      #Delete file
+      ssh.exec! "rm #{DIRECTORY_SERVER_CRON + file_name}"
+
+    end
+
+
   end
 
 end
