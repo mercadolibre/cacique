@@ -33,7 +33,18 @@ CodeMirror.defineMode("ruby", function(config, parserConfig) {
     }
     if (stream.eatSpace()) return null;
     var ch = stream.next();
-    if (ch == "`" || ch == "'" || ch == '"' || ch == "/") {
+
+    /*
+    * Bug:
+    *   Ruby parsing issue with division operator: ch == "/"
+    *   https://github.com/marijnh/CodeMirror2/issues/314
+    *
+    * Workaround:
+    *   ch == "/" && !stream.eol() && stream.peek() != " "
+    *   https://github.com/marijnh/CodeMirror2/commit/9f6449f71170efca905f1b052ec727a2bac81878
+    */
+    if (ch == "`" || ch == "'" || ch == '"' || // ch == "/") {
+      (ch == "/" && !stream.eol() && stream.peek() != " ")) {
       return chain(readQuoted(ch, "string", ch == '"'), stream, state);
     } else if (ch == "%") {
       var style, embed = false;
