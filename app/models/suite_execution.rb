@@ -354,13 +354,10 @@ class SuiteExecution < ActiveRecord::Base
  
     #Suite_id
     execution_params[:suite_ids] = execution_params[:suite_id] if execution_params[:suite_id]
-    command += execution_params[:suite_ids].join(',')
-
-    #UserName
-    command += " -u \<user_name\>"
-    #UserPass
-    command += " -p \<user_pass\>"
-  
+    command += execution_params[:suite_ids].to_a.join(',') 
+    current_user= User.find(execution_params[:user_id].to_i if !current_user
+    command += " -apikey #{current_user.api_key}"
+   
     #commented cases
     if execution_params.has_key?(:case_comment)
       cases_comment = execution_params[:case_comment].split(";") 
