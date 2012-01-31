@@ -144,7 +144,7 @@ dialog 	  --backtitle "CACIQUE" \
 mysql -uroot -e <<EOSQL "UPDATE mysql.user SET Password=PASSWORD('$PASSDB') WHERE User='$USRDB'; FLUSH PRIVILEGES;"
 EOSQL
     sudo sed -i s/acavalaruta/$RUTA/g /etc/apache2/apache2.conf 2>>installer.log
-    sudo /etc/init.d/pache2 restart
+    sudo /etc/init.d/apache2 restart
     ;;
   2)
    IP=`ifconfig  | grep -E 'inet addr:|Direc. inet:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
@@ -160,7 +160,7 @@ Configuring CACIQUE. Please Wait ....
 mysql -uroot -e <<EOSQL "UPDATE mysql.user SET Password=PASSWORD('cacique') WHERE User='cacique'; FLUSH PRIVILEGES;"
 EOSQL
     sudo sed -i s/acavalaruta/$RUTA/g /etc/apache2/apache2.conf 2>>installer.log
-    sudo /etc/init.d/pache2 restart
+    sudo /etc/init.d/apache2 restart
     ;;
   255)
     echo "ESC pressed.";;
