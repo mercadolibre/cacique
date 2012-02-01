@@ -317,6 +317,7 @@ class User < ActiveRecord::Base
   def self.deactivate(login)
     u= User.find_by_login(login)
     unless u.nil?
+      u.disable_api!(u)
       u.active=false
       u.save
     end
@@ -326,6 +327,7 @@ class User < ActiveRecord::Base
     u= User.find_by_login(login)
     unless u.nil?
       u.active=true
+      u.enable_api!
       u.save
     end
   end
@@ -421,11 +423,10 @@ class User < ActiveRecord::Base
     self.generate_api_key!
   end
 
-  def disable_api!
+  def disable_api!(usr=nil)
     #should be ....
     #self.update_attribute(:api_key, "")
-
-    usr=User.find_by_login(current_user.login)
+    usr=User.find_by_login(current_user.login) if !usr
     usr.update_attribute(:api_key, "")
     expires_cached_user
     current_user=usr
