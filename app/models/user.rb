@@ -467,10 +467,12 @@ class User < ActiveRecord::Base
     #       But Rails 2.3.x has a bug, and all Activerecord objects cached on memcached are frozen
     #       and I couldn't modify, currently It's tested on rails 2.3.5 and 2.3.9 and It's not fixed yet
     #       for more info about this bug: http://sleeplesscoding.blogspot.com/2010/08/rails-23-activesupportcachememorystore.html
-    usr=User.find_by_login(self.login)
-    usr.update_attribute(:api_key, secure_digest(Time.now, (1..10).map{ rand.to_s }))
-    expires_cached_user
-    current_user=usr
+    if self.respond_to?("api_key")
+    	usr=User.find_by_login(self.login)
+    	usr.update_attribute(:api_key, secure_digest(Time.now, (1..10).map{ rand.to_s }))
+    	expires_cached_user
+    	current_user=usr
+    end
   end
 
 
