@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
   before_save    :encrypt_password
   after_save     :expires_cached_user
   before_destroy :expires_cached_user, :expires_cached_user_circuits_edit
-  after_create   :user_stuff, :send_mail
+  after_create   :user_stuff, :send_mail,:enable_api!
 
   class AccessDenied < Exception
     def initialize( str )
@@ -467,7 +467,7 @@ class User < ActiveRecord::Base
     #       But Rails 2.3.x has a bug, and all Activerecord objects cached on memcached are frozen
     #       and I couldn't modify, currently It's tested on rails 2.3.5 and 2.3.9 and It's not fixed yet
     #       for more info about this bug: http://sleeplesscoding.blogspot.com/2010/08/rails-23-activesupportcachememorystore.html
-    usr=User.find_by_login(current_user.login)
+    usr=User.find_by_login(self.login)
     usr.update_attribute(:api_key, secure_digest(Time.now, (1..10).map{ rand.to_s }))
     expires_cached_user
     current_user=usr
