@@ -150,6 +150,11 @@ class SuiteExecution < ActiveRecord::Base
    self
  end
 
+  # return executions from previous day which status is "running" but are already finished
+  def self.idle_executions
+    SuiteExecution.status_running.find :all, :conditions => ["created_at > ?", Date.yesterday.to_s]
+  end
+
   def count_failures
     self.executions.count(:all, :conditions => "status = 3")
   end 
