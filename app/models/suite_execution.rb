@@ -55,7 +55,18 @@ class SuiteExecution < ActiveRecord::Base
   validates_presence_of :user_id, :message => _("Must Complete User Field")
   validates_length_of :identifier,:maximum=>50, :allow_nil => true, :message => _("Enter less than 50 characters for the identifier")
   
+  # TODO: move this to a Module for integration with Execution
+  STATUS = %w(waiting running ok error commented not_run stopped complete)
   
+  STATUS.each_with_index do |s, i|
+    # WAITING = 0, RUNNING = 1, ...
+    instance_eval do
+      self.const_set s.upcase.to_sym, i
+    end
+    # named_scope :status_waiting, :conditions => { :status => WAITING }
+    named_scope "status_#{s}".to_sym, :conditions => { :status => i }
+  end
+
   #Returns the string that represents the status
   def s_status
     case self.status
