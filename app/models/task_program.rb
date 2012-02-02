@@ -46,8 +46,8 @@ class TaskProgram < ActiveRecord::Base
   has_and_belongs_to_many :suites
   has_many :delayed_jobs, :dependent => :destroy
   has_many :crons, :dependent => :destroy
-
   validates_presence_of :user_id,    :message => _("Must complete User Field")
+  serialize :execution_params
 
   def self.create_all(params)
     Suite
@@ -59,18 +59,21 @@ class TaskProgram < ActiveRecord::Base
       params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
 
       #TaskProgram new
-      task_program = TaskProgram.create({ :user_id => current_user.id,
-                                            :suite_execution_ids => "", 
-                                            :project_id => params[:project_id],
-                                            :identifier=> params[:execution][:identifier],
-                                            :execution_params=> RunSuiteProgram.new(params[:execution]) 
-                                          })
+      task_program = TaskProgram.new({ :user_id => current_user.id,
+                                        :suite_execution_ids => "", 
+                                        :project_id => params[:project_id],
+                                        :identifier=> params[:execution][:identifier],
+                                        :execution_params=> params[:execution]
+                                      })
       #Suites                                           
       params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
       task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
 
-      #Cron new
-      Cron.add(task_program, params[:cron])
+      #Cron create => task_program create
+      cron = Cron.add(task_program, params[:cron])
+
+      #TODO: show erros in view
+      raise cron.errors.full_messages.to_s if !cron.errors.empty?
 
     #DelayedJob
     else

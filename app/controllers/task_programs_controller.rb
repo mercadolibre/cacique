@@ -37,7 +37,7 @@ class TaskProgramsController < ApplicationController
       #Read suites ids from cache
       suites_ids = Rails.cache.read("project_suites_#{@project_id}")
       suites_ids = Project.find(@project_id).suite_ids if !suites_ids
-      @suites     = Suite.find(suites_ids)
+      @suites    = Suite.find(suites_ids)
     end
 
     params[:init_date]=(params[:filter] && params[:filter][:init_date]) ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): 
