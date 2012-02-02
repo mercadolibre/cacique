@@ -52,6 +52,28 @@ class DelayedJob < ActiveRecord::Base
   
   before_destroy :verify_status
   
+  def self.add( task_program, params)
+
+      task_program.save
+
+      times_to_run = TaskProgram.generate_times_to_run(params[:program])
+      #Returns in the format [[time, status],[time, status]]
+      #Por ex. [[Time0,0],[Time1,1],[Time2,0]]
+
+      run = TaskProgram.calculate_status(times_to_run)
+      params[:execution][:delayed_job_status] = 1
+
+      #Build execution params
+      params[:execution][:task_program_id] = task_program.id
+      params[:execution][:user_mail]       = current_user.email
+      params[:execution][:user_id]         = current_user.id
+ 
+      #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
+      run.each do |r|
+        DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
+      end
+  end
+
   def verify_status
      task_program = TaskProgram.find self.task_program_id
     if self.status == 2

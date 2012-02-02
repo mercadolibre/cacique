@@ -50,62 +50,30 @@ class TaskProgram < ActiveRecord::Base
   def self.create_all(params)
     Suite
 
+    #TaskProgram new
+    task_program = TaskProgram.new({:user_id => current_user.id,
+                                    :suite_execution_ids => "", 
+                                    :project_id => params[:project_id],
+                                    :identifier=> params[:execution][:identifier],
+                                    :execution_params=> params[:execution]
+                                    })
+    #Suites                                           
+    params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
+    task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
+
+    #Build execution params
+    params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
+
     #CronEdit
     if params[:program][:range] == "forever"
-
-      #Build execution params
-      params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
-
-      #TaskProgram new
-      task_program = TaskProgram.new({ :user_id => current_user.id,
-                                        :suite_execution_ids => "", 
-                                        :project_id => params[:project_id],
-                                        :identifier=> params[:execution][:identifier],
-                                        :execution_params=> params[:execution]
-                                      })
-      #Suites                                           
-      params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
-      task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
-
-      #Cron create => task_program create
-      cron = Cron.add(task_program, params[:cron])
-
-      #TODO: show erros in view
-      raise cron.errors.full_messages.to_s if !cron.errors.empty?
-
+      Cron.add(task_program, params[:cron])
     #DelayedJob
     else
-      times_to_run = TaskProgram.generate_times_to_run(params[:program])
-      #Returns in the format [[time, status],[time, status]]
-      #Por ex. [[Time0,0],[Time1,1],[Time2,0]]
-
-      #Suites
-      params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
-      run = TaskProgram.calculate_status(times_to_run)
-      params[:execution][:delayed_job_status] = 1
-
-      #TaskProgram new
-      task_program = TaskProgram.create({:user_id => current_user.id,
-                                            :suite_execution_ids => "", 
-                                            :project_id => params[:project_id],
-                                            :identifier=> params[:execution][:identifier]
-                                            })
-      task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
-
-      #Build execution params
-      params[:execution][:identifier]      = _('Schedule') if params[:execution][:identifier].empty?
-      params[:execution][:task_program_id] = task_program.id
-      params[:execution][:user_mail]       = current_user.email
-      params[:execution][:user_id]         = current_user.id
- 
-      #server_port is used to send the confirmation mail schedules if DelayedJob have status = 2
-      run.each do |r|
-        DelayedJob.create_run(params[:execution], r[0], r[1], task_program.id)
-      end
+      DelayedJob.add(task_program, params)
     end
+
   end
 
-  
   #builds all agreed on the basis of "params" and assembles the "delayed job" for
   def self.generate_times_to_run(params)
     times_to_run = Array.new #Dates to generate delayed jobs 
