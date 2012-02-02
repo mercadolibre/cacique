@@ -434,7 +434,7 @@ class Suite < ActiveRecord::Base
    def self.find(*args)
       #One suite "1"
       if args.first.instance_of?(Fixnum) and args.length == 1
-        Rails.cache.fetch("suite_#{args.first}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(*args) }
+        Rails.cache.fetch("suite_#{args.first}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(args.first) }
 
       #Many suites "1,2,3..."
       elsif args.first.instance_of?(Array)
@@ -443,6 +443,7 @@ class Suite < ActiveRecord::Base
             suites << Rails.cache.fetch("suite_#{suite_id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(suite_id) }
          end
          suites
+         
       #Super
       else
         super(*args)
