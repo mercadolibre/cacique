@@ -1,6 +1,8 @@
 class CronsController < ApplicationController
 
   def create
+    #TODO: utilizar este metodo para al creación de un cron 
+    # o de todos (regenerate)
     Cron.regenerate
     redirect_to task_programs_path
   end

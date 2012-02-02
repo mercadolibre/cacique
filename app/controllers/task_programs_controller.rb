@@ -48,7 +48,7 @@ DateTime.now.in_time_zone
     #DelayedJobs
     @delayed_jobs = TaskProgram.filter(params)
 
-    #TODO: arreglar el finde de DJs
+    #TODO: arreglar find de DJs
     @delayed_jobs = DelayedJob.all.paginate :page => params[:page], :per_page =>10
   
     #TODO: IN NEW VIEW 

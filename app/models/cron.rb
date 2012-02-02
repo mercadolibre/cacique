@@ -161,8 +161,6 @@
     end
   end
 
-
-  #TODO: test and refactor regenerate
   #Regenerate the programming of the machine charge 
   #for carrying out the task scheduling
   # 1) Clear all crons
