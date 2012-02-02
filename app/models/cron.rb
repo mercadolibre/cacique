@@ -176,19 +176,18 @@
     lines_to_add_crons = ""
     crons.each do |cron|
       #Generate command
-      lines_to_add_crons += add_line(cron.build_command)
+      lines_to_add_crons += cron.add_line(cron.build_command)
     end
 
     # Generate file code to: Clear all + Create all 
     code = header_line + clear + lines_to_add_crons
 
     #Update and execute file (SSH)
-    cron.update_file(code)
+    crons.first.update_file(code)
 
   end
 
   def self.clear
-    code = "require 'rubygems'\n require 'cronedit'\n include CronEdit\n\n"
-    code + "cm = Crontab.new\ncm.clear!"
+    "cm = Crontab.new\ncm.clear!\n\n"
   end
 end

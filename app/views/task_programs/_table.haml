@@ -48,7 +48,7 @@
       -task_program = cron.task_program
       %tr  
         %td{:style=>"padding-left:8px;width:10px;"}
-          =link_to image_tag("/images/icons/ruby.png",:alt=>"ruby"), cron_path(cron.id) ,:method=>:delete,  :title=>_('Delete')
+          =link_to image_tag("/images/icons/cross.png",:alt=>"cross"), cron_path(cron.id) ,:method=>:delete,  :title=>_('Delete')
 
         %td{:title=>task_program.project.name,:style=>"width:100px;"}
           =truncate( task_program.project.name, :ommision => "...", :length => 80)               
