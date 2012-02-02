@@ -41,7 +41,7 @@
  class Cron < ActiveRecord::Base
 
   belongs_to :task_program, :dependent => :destroy
-  validates_presence_of :task_program_id, :message => _("Must complete task program"), :on=>:save
+  before_save :task_program_id_validation
 
   validates_format_of :min, 
     :with => /^(\s)*(\*)(\s)*$|^((\s)*[0-9]|[0-3]?[0-1](\s)*)([-,\/,\,](\s)*[0,9]|[0-3]?[0-1](\s)*)*$/,
@@ -63,13 +63,18 @@
     :with => /^(\s)*(\*)(\s)*$|^((\s)*[0-6](\s)*)([-,\/,\,](\s)*[0,6](\s)*)*$/,
     :message => "day_of_week" 
 
+  def task_program_id_validation
+    if !TaskProgram.exists?(task_program_id)
+      errors.add("task_program_id", "Must complete valid task program")
+    end
+  end
+
   #Create new Cron and update server cron
   def self.add(task_program, cron_params)
 
     #Cron validations
     cron = Cron.new(cron_params)
-
-    if cron.errors[:min].nil? and cron.errors[:hour].nil? and cron.errors[:day_of_month].nil? and cron.errors[:month].nil? and cron.errors[:day_of_week].nil?
+    if cron.valid?
 
       #TaskProgram.save
       task_program.save
@@ -150,23 +155,24 @@
                     
         #Validate Generate File
         #Fail DIRECTORY_SERVER_CRON
-        raise "CRONEDIT ERROR: No such file or directory. Please verify DIRECTORY_SERVER_CRON" if output and output.match(/No such file or directory/) 
+        raise "No such file or directory. Please verify DIRECTORY_SERVER_CRON" if output and output.match(/No such file or directory/) 
         #Others errors
-        raise "CRONEDIT ERROR: #{output}" if output
+        raise "#{output}" if output
 
         #Run file
         output = ssh.exec! "ruby #{DIRECTORY_SERVER_CRON + file_name}"
 
         #Validate Run file
-        raise "CRONEDIT ERROR: error al procesar el cron. #{output}" if output
+        raise "Error processing cron file. #{output}" if output
 
         #Delete file
         ssh.exec! "rm #{DIRECTORY_SERVER_CRON + file_name}"
       end
 
     #Conexion errors
-    rescue Exception => conexion_error 
-      raise "CRONEDIT ERROR: #{conexion_error}. Please verify SERVER_CRON, USER_SERVER_CRON and PASS_SERVER_CRON"
+    rescue Exception => error 
+      raise "CRONEDIT ERROR: AuthenticationFailed #{error.to_s}. Please verify SERVER_CRON, USER_SERVER_CRON and PASS_SERVER_CRON" if error.class == Net::SSH::AuthenticationFailed
+      raise "CRONEDIT ERROR: #{error.to_s}"
     end
   end
 
