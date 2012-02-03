@@ -969,7 +969,7 @@ a.qp_disabled {
   display: inline-block;
   clear: none;
   background: white;
-  border: 1px solid grey;
+  border: 1px solid #C1C1C1;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
 }
