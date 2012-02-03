@@ -875,10 +875,6 @@ msgid "Create Folder"
 msgstr "Crear Carpeta"
 
 #: app/views/categories/admin.haml:
-msgid "Example:"
-msgstr "Ejemplo de agrupación por carpetas:"
-
-#: app/views/categories/admin.haml:
 msgid "Publish"
 msgstr "Publicar"
 
@@ -1089,6 +1085,14 @@ msgstr "Guarde sus cambios en otro medio, refresque la página y intentelo nueva
 #: app/views/circuits/ruby.haml:
 msgid "You can generate html output with a script execution by using the RedCloth gem."
 msgstr "Es posible generar la salida de una ejecución del script con formato html a través de la utilización de la gema RedCloth."
+
+#: app/views/circuits/ruby.haml:
+msgid "Generate a script with the following code:"
+msgstr "Generar un script con el siguiente código:"
+
+#: app/views/circuits/ruby.haml:
+msgid "When you script run, you can see the output in HTML format."
+msgstr "Al ejecutar el script, se puede ver la salida en formato HTML."
 
 #: app/views/circuits/error.haml:
 msgid "The loaded Script Contains Errors:"
