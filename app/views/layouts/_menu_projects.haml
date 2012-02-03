@@ -18,25 +18,26 @@
           =_('Other Projects')
       %ul{:id=>"div_all_projects"}
  
-    %li
-      %a{ :href => "/user_functions", :title => _("Add/Remove Functions") }
-        %span
-          = _("Functions")
-
-    -if !@project_actual.nil?   
+    -if @project_actual   
       %li  
         -url_circuit = (!@user_last_edited_scripts.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? edit_project_circuit_path(@project_actual.id,@user_last_edited_scripts[@project_actual.id].to_s) : project_circuits_path(@project_actual.id)
         %a.parent{ :href => url_circuit }
           %span
             Scripts
-        %li
-          %a.parent{ :href => "/suites" }
-            %span
-              Suites
-        %li
-          %a{ :href => "/suite_executions" }
-            %span
-              =_('History')
+    %li
+      %a{ :href => "/user_functions", :title => _("Add/Remove Functions") }
+        %span
+          = _("Functions")
+
+    -if @project_actual            
+      %li
+        %a.parent{ :href => "/suites" }
+          %span
+            Suites
+      %li
+        %a{ :href => "/suite_executions" }
+          %span
+            =_('History')
 
     %li
       //By default is redirected to notes admin
