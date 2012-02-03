@@ -46,7 +46,7 @@
         =link_to ' Array','http://ruby-doc.org/core/classes/Array.html', :popup => true
       %li
         =link_to ' Hash','http://ruby-doc.org/core/classes/Hash.html', :popup => true
-  .column
+  .column{:style=>"width: 40%;"}
     %h3{:style=>"color:#4F5DD5;margin-bottom:5px;"}
       =_('RedCloth')
     %p
@@ -56,4 +56,17 @@
       %li
         =link_to ' Redcloth','http://redcloth.org/', :popup => true
       %li
-        =link_to ' Redcloth examples','http://redcloth.org/textile/writing-paragraph-text/', :popup => true
+        =link_to ' Redcloth examples','http://redcloth.org/textile/phrase-modifiers/#links', :popup => true
+    %br
+    %b
+      Example: 
+    %p
+      =_('Generate a script with the following code:')
+    %i{:style=>"text-align:left;"}
+      puts "!http://cacique.mercadolibre.com/sites/all/themes/cacique/images/icono.jpg(This page is valid HTML)!"
+      %br
+      puts "*Cacique*"
+      %br
+      puts "Visit \"Cacique Web\":http://cacique.mercadolibre.com/."
+    %p
+      =_('When you script run, you can see the output in HTML format.')
