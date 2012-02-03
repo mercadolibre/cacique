@@ -875,10 +875,6 @@ msgid "Create Folder"
 msgstr "Crear Carpeta"
 
 #: app/views/categories/admin.haml:
-msgid "Example:"
-msgstr "Ejemplo de agrupación por carpetas:"
-
-#: app/views/categories/admin.haml:
 msgid "Publish"
 msgstr "Publicar"
 
