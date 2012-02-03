@@ -58,6 +58,7 @@ javascripts:
   - datetime
   - tabla_suiteExe_editable
   - application
+  - execution_show
 stylesheets: 
 - base:
   - default

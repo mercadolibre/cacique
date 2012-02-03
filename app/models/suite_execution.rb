@@ -55,7 +55,18 @@ class SuiteExecution < ActiveRecord::Base
   validates_presence_of :user_id, :message => _("Must Complete User Field")
   validates_length_of :identifier,:maximum=>50, :allow_nil => true, :message => _("Enter less than 50 characters for the identifier")
   
+  # TODO: move this to a Module for integration with Execution
+  STATUS = %w(waiting running ok error commented not_run stopped complete)
   
+  STATUS.each_with_index do |s, i|
+    # WAITING = 0, RUNNING = 1, ...
+    instance_eval do
+      self.const_set s.upcase.to_sym, i
+    end
+    # named_scope :status_waiting, :conditions => { :status => WAITING }
+    named_scope "status_#{s}".to_sym, :conditions => { :status => i }
+  end
+
   #Returns the string that represents the status
   def s_status
     case self.status
@@ -138,6 +149,28 @@ class SuiteExecution < ActiveRecord::Base
    
    self
  end
+
+  # Returns the last Execution of each script/case scenario
+  def last_executions_status
+    sorted_executions = self.executions.sort {|ex1, ex2| ex2.created_at <=> ex1.created_at }
+    filtered_executions = []
+    sorted_executions.each do |ex|
+      filtered_executions << ex unless filtered_executions.find { |obj| obj.same_scenario? ex }
+    end
+    filtered_executions
+  end
+
+  def status_percentage
+    executions = last_executions_status.reject {|ex| ex.status == COMMENTED }
+    return 1 if executions.count == 0
+    ok = executions.count {|s| s.status == OK }
+    100 * ok / executions.count
+  end
+
+  # return executions from previous day which status is "running" but are already finished
+  def self.idle_executions
+    SuiteExecution.status_running.find :all, :conditions => ["created_at > ?", Date.yesterday.to_s]
+  end
 
   def count_failures
     self.executions.count(:all, :conditions => "status = 3")

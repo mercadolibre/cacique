@@ -1,4 +1,20 @@
 ===================================
+Version 0.2.5.4
+===================================
+• Menu: Added access to admin functions through the main menu
+• Execution Output: Added the ability to visualize the output of an execution in HTML format
+• User Functions: Added search on all projects for the search function
+• Adding rake task to refresh status for non finished executions
+• Adding ruby blocks on cacique functions 
+
+• Bug fixes:
+* Solution for FF 9 and chrome compatibility: 
+  You can create and edit relationships in a suite with these browsers
+* Editor: Hightligthing bug fix when type '/'
+* User Functions: The filter used in the search function is not reset when changing project
+* History: Fixes the status percentage on execution history listings
+
+===================================
 Version 0.2.5.3
 ===================================
 • Suites, scripts and data set:
@@ -25,7 +41,12 @@ Version 0.2.5.2
 ===================================
 • Scheduled task: When a user became inactive, his scheduled task are deleted and the project manager is notified
 
-Installation manual : 
+• New installer!
++ The installation environment is more friendly
++ Simplified and unified configurations
+We appreciate the contribution of Juan Carlos Luna
+
+• Installation manual : 
 + Selenium RC explanation 
 + Several improvements
 We appreciate the contribution of RMYA 

@@ -97,12 +97,12 @@ class ScriptRunner < ActiveRecord::Base
 
 
   #To generate cacique's functions
-  def method_missing(m,*x)
+  def method_missing(m,*x,&block)
      UserFunction
      #Function is sought
      ccq_function = ccq_find_function(m) 
      #If found, is generated
-     ccq_generate_function(ccq_function,x) if ccq_function 
+     ccq_generate_function(ccq_function,x,&block) if ccq_function 
   end
 
   # puts script manager. Adds to output log
@@ -309,11 +309,11 @@ private
   end
 
 
-  def ccq_generate_function(function, arguments)
+  def ccq_generate_function(function, arguments,&block)
     #Verify permissions
     if ccq_verify_function_permissions(function)
       #Search the object to add the function
-	    new_object = ObjectSpace._id2ref(self.object_id)
+      new_object = ObjectSpace._id2ref(self.object_id)
       #Add function to the called functions list
       @ccq_functions.push(function.name)
       #Eval function
@@ -323,7 +323,11 @@ private
   	     #Call fucntion with script params
         if function.native_params
           #Call fucntion with script params
-          eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments)" )
+          if block_given?
+		eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments,&block)")
+          else
+		eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments)" )
+          end
         else
           args = arguments.map{|argument| "#{ccq_to_ruby_expr(argument)}"}.join(",")
   	      eval_return  = eval("new_object." + function.name.to_s+ "("+args+")")

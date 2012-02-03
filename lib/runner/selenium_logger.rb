@@ -25,24 +25,6 @@
  #
 class SeleniumLogger
 
-	class Inner
-		def self.process_url_bot_y(url)
-			b = url.split("?")
-			new_url = ""
-			if b.size == 2 then
-				parameters = b[1]
-				uri = b[0]
-				array = parameters.split("&")
-				new_url = uri + "?" + array.select{ |x| x != "_PA" }.join("&") + "&bot=Y" + ( array.include?("_PA") ? "&_PA":"" )
-			else
-				uri = b[0]
-				new_url = uri + "?bot=Y"
-			end
-			print "converting url #{url} to #{new_url}\n"
-			return new_url
-		end
-	end
-
 	def initialize( real_selenium, script_runner )
 		@script_runner = script_runner
 		@real_selenium = real_selenium

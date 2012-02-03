@@ -32,43 +32,38 @@ class UserFunctionsController < ApplicationController
     #Default project options: 1-Filter 2-Cookie 3-Publics  
     @project_id   = params[:filter] ?  params[:filter][:project_id].to_s : ( params[:project_id] ? params[:project_id].to_i : "")
     params[:text] = params[:filter][:text]  if( params[:filter] and params[:filter][:text] ) #Search
+    @param_search = params[:filter] && params[:filter][:text]
+    @only_selected_project = params[:filter] && params[:filter][:only_selected_project] == "true"
+    params[:all_projects] = !@only_selected_project
 
     #Public functions 
     @public = params[:visibility] = true if( (params[:filter] and params[:filter][:project_id] == "") or @project_id == "" )
-
     @search = UserFunction.get_user_functions_with_filters([@project_id], params)   
     @user_functions = @search.paginate :page => params[:page], :per_page => 20
-    @param_search   = ( !params[:filter].nil? ?  params[:filter][:text] : nil )
     @has_permission = current_user.has_permission_admin_project?(@project_id)
     @users = User.all
   end
 
   def search
-     @params_filter     = {}
-     @user_functions   = []
-     if params[:filter] 
-       @params_filter = params[:filter]
-       #Visibility 
-       if params[:filter][:visibility]
-          params[:filter][:visibility].empty? ? @params_filter.delete(:visibility) : @params_filter[:visibility] = (params[:filter][:visibility] == "true")
-       end
-       #All projects
-       @params_filter[:projects_ids] = [] if ( !params[:filter][:projects_ids] or params[:filter][:projects_ids].first == "0" ) 
-       #Projects and visibility
-       if( !params[:filter][:visibility].nil? and !params[:filter][:projects_ids].empty? )
-          @params_filter[:logic] = Hash.new
-          @params_filter[:logic] = "and" 
-       end
-     else
-        @params_filter[:projects_ids] = [params[:project_id].to_i] if params[:project_id]
-     end
-    @search         = UserFunction.get_user_functions_with_filters(@params_filter[:projects_ids],@params_filter) if !@params_filter.empty?
+    @user_functions = []
+    if filters = params[:filter]
+      filters[:visibility] = (filters[:visibility] == "true")
+      #All projects
+      filters[:projects_ids] = [] if (!filters[:projects_ids] or filters[:projects_ids].first == "0")
+      #Projects and visibility
+      filters[:logic] = "and" unless (filters[:visibility] or filters[:projects_ids].empty?)
+    else
+      filters = {}
+      filters[:projects_ids] = [params[:project_id].to_i] if params[:project_id]
+    end
+    @params_filter  = filters
+    @search         = UserFunction.get_user_functions_with_filters(filters[:projects_ids],filters) unless filters.empty?
     @user_functions = @search.paginate :page => params[:page], :per_page => 20 if @search
     @projects       = Project.find(:all, :order => "name")
     @projects_names = Hash.new 
     @projects.each{ |project|  @projects_names[project.id] = project.name }
     @users          = User.all
-    @has_permission =  current_user.has_permission_admin_project?(@project_id)
+    @has_permission = current_user.has_permission_admin_project?(@project_id)
   end
 
   def new

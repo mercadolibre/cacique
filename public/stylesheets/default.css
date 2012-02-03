@@ -938,13 +938,45 @@ a.qp_disabled {
   margin-top:1px;
   padding:2px;
 }
-
+.buscar.with-checkbox {
+  width:inherit;
+  background: inherit;
+  border:inherit;
+  -moz-border-radius:inherit;
+}
+.buscar #filter_text {
+  width: 130px;
+  height: 20px;
+  border: none;
+  margin-left: 2px;
+}
 .buscar input{
   border:medium none;
   color:grey;
 }
+.buscar input.placeholder{
+  color:grey;
+}
 .buscar input:focus{
   color:black;
+}
+.buscar label {
+  display: inline-block;
+  clear: none;
+}
+.searchbox {
+  position: relative;
+  display: inline-block;
+  clear: none;
+  background: white;
+  border: 1px solid grey;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+}
+.buscar input.lupa {
+  position: relative;
+  top: 3px;
+  right: 3px;
 }
 /*********************Sortable List***************************/
 

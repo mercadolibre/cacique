@@ -4,32 +4,6 @@ module SuiteExecutionsHelper
     average[:failed] > 0? true: false
   end
   
-  def average(suite_execution)
-    status = suite_execution.executions.map(&:status)
-    total = 0
-    success = 0
-    failed = 0
-    status.each do |s|
-      if s != 4
-        if s == 2
-          success += 1
-        elsif s ==3
-          failed += 1
-        end
-        total += 1
-      end
-    end
-    if total == 0
-	    ss = 0
-	    ff = 0
-    else
-	    ss = success*100/total
-	    ff = failed*100/total
-    end
-    {:success => (ss), :failed => (ff)}
-  end
-
-
   # Returns an array with the suite's cases for a given circuit.
   def suite_cases(circuit,case_templates)
     cases = []

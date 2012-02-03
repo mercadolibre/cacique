@@ -1,4 +1,3 @@
--average = average(suite_execution)
 -no_permission_alert="alert('User has no permission to perform this action')"
 
 %tr{:onClick=>"marcar(this,'#D8DCDF');"}
@@ -41,7 +40,7 @@
 
   //Average
   %td{:style => 'color:green;width:30px;'}
-    =h average[:success].to_s + '%'
+    = suite_execution.status_percentage.to_s + '%'
  
   //Status
   %td{:style=>"width:30px;"}   

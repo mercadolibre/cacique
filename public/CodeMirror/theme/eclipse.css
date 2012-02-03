@@ -20,6 +20,7 @@
 .cm-s-eclipse span.cm-attribute {color: #00c;}
 
 .CodeMirror-matchingbracket{
-	border:1px solid grey;
-	color:black !important;;
+  border:1px solid grey;
+  color:black !important;;
+  margin: -1px;
 }
