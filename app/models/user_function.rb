@@ -220,8 +220,8 @@ class UserFunction < ActiveRecord::Base
   end
 
   def self.get_user_functions_with_filters(projects,params)  
-    return UserFunction.search_all_projects(params[:text]) if params[:all_projects]
-  
+    return UserFunction.search_all_projects(params[:text]) if params[:all_projects] and !params[:text].blank?
+
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
