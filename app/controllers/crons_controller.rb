@@ -1,5 +1,8 @@
 class CronsController < ApplicationController
 
+  def index
+  end
+  
   def create
     #TODO: utilizar este metodo para al creación de un cron 
     # o de todos (regenerate)

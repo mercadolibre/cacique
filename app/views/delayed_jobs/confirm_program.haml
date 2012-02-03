@@ -7,7 +7,7 @@
   -else    
     .form_button{:style=>"float:left;"} 
       -alert= _('Are you sure you confirm the programming?')   
-      %input{:type=>"button", :value=>_("Confirm"), :onclick=>"if( confirm('#{alert}') ){location='/task_programs/save_confirm_program/#{@task_program.id}'}"}
+      %input{:type=>"button", :value=>_("Confirm"), :onclick=>"if( confirm('#{alert}') ){location='/delayed_jobs/save_confirm_program/#{@task_program.id}'}"}
            
   //Table
   = will_paginate @delayed_jobs     

@@ -74,6 +74,50 @@ class DelayedJob < ActiveRecord::Base
       end
   end
 
+  def self.filter(params)
+
+    user_id  = (params[:filter] && params[:filter][:user_id])   ? params[:filter][:user_id].to_i    : 0 
+    suite_id = (params[:filter] && params[:filter][:suite_id])  ? params[:filter][:suite_id].to_i   : 0
+
+    #Bulid conditions
+    conditions        = Array.new
+    conditions_names  = Array.new
+    conditions_values = Array.new
+
+    if params[:project_id] != 0   
+      conditions_names << " project_id = ? " 
+      conditions_values << params[:project_id]
+    end
+
+    if user_id != 0   
+      conditions_names << " user_id = ? " 
+      conditions_values << user_id
+    end
+
+    if params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].empty?
+      conditions_names << " identifier  like ? " 
+      conditions_values << '%' + params[:filter][:identifier] + '%'
+    end
+
+    if suite_id != 0
+      conditions_names << " suite_id  = ? " 
+      conditions_values << suite_id
+    end
+
+   conditions_names << " run_at BETWEEN ? AND ? " 
+   conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
+   conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
+
+   conditions << conditions_names.join("and")  
+   conditions = conditions + conditions_values
+   number_per_page=10
+   number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
+
+   delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
+   delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
+  
+  end
+
   def verify_status
      task_program = TaskProgram.find self.task_program_id
     if self.status == 2

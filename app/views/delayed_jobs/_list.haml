@@ -1,0 +1,19 @@
+//Task Program
+.tag{ :id => "task_program", :style=>"left: 30%; height:300px; width:450px;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"task_program"}  
+  %h3
+    =_('Confirm Task Program')
+  -if !suites.empty?    
+    %h2
+      =_('Must Select any Suite') 
+    
+    =select "program", "suite_id",suites.collect {|s| [ truncate(s.name, :ommision => "...", :length => 60) , s.id ] }.sort!,{:include_blank => _('All')},{:onchange => remote_function(:update => "list_detail",  :method => "get",  :url => { :controllers => :delayed_jobs, :action => :get_detail_list},:condition=>"$j(this).val()!=''",:with => 'Form.Element.serialize(this)'), :style=>"max-width:200px; margin-left:10px;margin-top:5px;" }
+  -else
+    %br
+    %br
+    %br
+    %h2{:style=>"text-align:center;"}
+      %i
+        =_('Without Schedule')  
+        
+  #list_detail

@@ -1,4 +1,4 @@
-h2{:style=>"margin-top:10px;"}
+%h2{:style=>"margin-top:10px;"}
   =_('Upcoming deadlines')
 %div{:style=>"overflow:auto; max-height:150px;"}
   -if task_program_info.empty?
@@ -9,7 +9,7 @@ h2{:style=>"margin-top:10px;"}
     %table.detail{:style=>"margin:5px auto;width:95%;"}
       //Next Expirations
       -task_program_info.each do |id, date|
-        %tr{:onclick=>"location=' /task_programs/confirm_program/#{id}'", :style=>"cursor:pointer;"}
+        %tr{:onclick=>"location=' /delayed_jobs/confirm_program/#{id}'", :style=>"cursor:pointer;"}
           -next_expiration = date
           %th
             =_('Confirm')       
@@ -19,4 +19,3 @@ h2{:style=>"margin-top:10px;"}
       %div{:style=>"clear:both;"}
       
       
-

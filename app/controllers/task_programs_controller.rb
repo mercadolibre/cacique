@@ -26,34 +26,6 @@
 class TaskProgramsController < ApplicationController
 
   def index
-    Suite
-    @projects     = Project.all
-    @users        = User.all   
-    @project_id   = params[:project_id] = (params[:filter] && params[:filter][:project_id])? params[:filter][:project_id].to_i : params[:project_id].to_i
-
-    #Suites
-    #One project selected
-    if @project_id != 0 
-      #Read suites ids from cache
-      suites_ids = Rails.cache.read("project_suites_#{@project_id}")
-      suites_ids = Project.find(@project_id).suite_ids if !suites_ids
-      @suites    = Suite.find(suites_ids)
-    end
-
-    params[:init_date]=(params[:filter] && params[:filter][:init_date]) ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): 
-DateTime.now.in_time_zone
-    params[:finish_date]= params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone + (1*24*60*60) #1 day after    
-    @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
-
-    #DelayedJobs
-    @delayed_jobs = TaskProgram.filter(params)
-
-    #TODO: arreglar find de DJs
-    @delayed_jobs = DelayedJob.all.paginate :page => params[:page], :per_page =>10
-  
-    #TODO: IN NEW VIEW 
-    #Cron
-    @crons = Cron.all    
 
   end
 
@@ -102,12 +74,13 @@ DateTime.now.in_time_zone
 
 
   def create
-     @text_error = TaskProgram.validate(params)   
-     params[:execution][:server_port] = request.port if request.port != 80
-     @user_configuration = current_user.user_configuration
-     @user_configuration.update_configuration(params[:execution])
-     TaskProgram.create_all(params)
-     redirect_to "/task_programs" 
+    @text_error = TaskProgram.validate(params)   
+    params[:execution][:server_port] = request.port if request.port != 80
+    @user_configuration = current_user.user_configuration
+    @user_configuration.update_configuration(params[:execution])
+    TaskProgram.create_all(params)
+    redirect_to crons_path if params[:program][:range] == "forever"
+    redirect_to delayed_jobs_path
   end
 
 
@@ -131,41 +104,6 @@ DateTime.now.in_time_zone
     render :partial => "select_suites_of_project", :locals => { :suites=>@suites, :suite_id=>nil }
   end
 
-
-  def confirm_program
-    @task_program  = TaskProgram.find params[:id]
-    @confirm       = params[:confirm]? params[:confirm] : false
-    @delayed_jobs  = @task_program.delayed_jobs.paginate :page => params[:page], :per_page => 14, :order => 'run_at ASC'
-    @weekly_trans  = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}    
-  end
-  
-  def save_confirm_program
-    @task_program = TaskProgram.find params[:id]
-    #Schedules are confirmed as of today up to one month 
-    @task_program.confirm_delayed_jobs_until(DateTime.now >> 1)
-    redirect_to :action => :confirm_program, :id => @task_program.id, :confirm => true
-  end
-
-
-  def get_task_programs
-      #Scheduled suites are obtained
-      suites_ids = TaskProgram.find(:all, :conditions =>["project_id = ? and user_id = ?",params[:project_id],current_user.id]).map(&:suite_id).uniq
-      suites = Suite.find_all_by_id(suites_ids)
-      render :partial => "task_program_list" , :locals=>{:suites=>suites}  
-  end
-  
-  def get_task_program_detail
-        #Get all task program for the suite
-        task_programs = TaskProgram.find_all_by_suite_id params[:program][:suite_id]
-        task_program_info = Hash.new
-        task_programs.each do |tp|
-          #Get name of suite and the next expiration
-          next_expiration = tp.delayed_jobs.find_by_status 0
-          task_program_info[tp.id] = next_expiration if next_expiration
-        end
-      render :partial => "task_program_detail" , :locals=>{:task_program_info=>task_program_info}          
-  end
-  
 end
 
 

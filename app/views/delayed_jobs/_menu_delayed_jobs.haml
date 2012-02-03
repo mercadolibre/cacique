@@ -1,11 +1,16 @@
+/Delete
 =image_tag '/images/icons/trash.png', :alt=>'trash', :title=>_('Delete'), :confirm=>_('Are you sure to delete ') + "?", :onclick=>"form = $j('#dj_actions'); form.attr('action', '#{url_for(:controller=>:delayed_jobs, :action=>:destroy_collection)}');form.submit();"
+/List
 =image_tag '/images/icons/calendar_new.png' , :alt=>'new.png', :title=>_('New Schedule'),  :onClick => "suite_id = $j('#program_suite_id').val(); location='/task_programs/new/' + suite_id;"
-=image_tag '/images/icons/pause.png',:alt=>'pause.png',:title=>_('Confirm Schedule'),:onClick => remote_function(:complete => "$j('#div_task_program').show();",:update => "div_task_program",  :method => 'get',  :url => { :controller => :task_programs , :action => :get_task_programs, :id => "$j('#program_suite_id').val()" })
+/Pause
+=image_tag '/images/icons/pause.png',:alt=>'pause.png',:title=>_('Confirm Schedule'),:onClick => remote_function(:complete => "$j('#div_delayed_job').show();",:update => 'div_delayed_job',  :method => 'get',  :url => { :controller => :delayed_jobs , :action => :get_list, :id => "$j('#program_suite_id').val()" })
+/Info
 =image_tag '/images/icons/info.png', :alt=>'info.png',  :title=>_('Information'),:onClick => "$j('#infoTaskPrograms').toggle();"
 
-//TaskProgram list
-#div_task_program{:style=>"display:none;"}  
+//Delayed Job list
+#div_delayed_job{:style=>"display:none;"}  
 
 //Info task program
-= render :partial=> "info_task_programs"
+= render :partial=> "info_delayed_jobs"
+
 
