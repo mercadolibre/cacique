@@ -1,6 +1,6 @@
 //New
 -if !@public and ( current_user.has_role?("root") or @has_permission)
-  =link_to image_tag('icons/new.png'), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function")
+  =link_to image_tag('icons/new.png'), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function"), :style=>"margin-left:20%;"
 
 //Filter
 =link_to image_tag("/images/icons/filter.png", :title=>_('Filter')), "/user_functions/search"

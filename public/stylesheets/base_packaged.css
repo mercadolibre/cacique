@@ -130,7 +130,7 @@ a.qp_disabled {color: #888; text-decoration: none}
 .buscar input.placeholder{ color:grey}
 .buscar input:focus{ color:black}
 .buscar label {display: inline-block; clear: none}
-.searchbox {position: relative; display: inline-block; clear: none; background: white; border: 1px solid grey; -moz-border-radius:5px; -webkit-border-radius:5px}
+.searchbox {position: relative; display: inline-block; clear: none; background: white; border: 1px solid #C1C1C1; -moz-border-radius:5px; -webkit-border-radius:5px}
 .buscar input.lupa {position: relative; top: 3px; right: 3px}
  #circuits{ }
 #circuits li{ margin-bottom:5px}
