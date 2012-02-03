@@ -1086,6 +1086,10 @@ msgstr "Fue editado por el usuario "
 msgid "Save your changes in another medium, refresh the page and try again"
 msgstr "Guarde sus cambios en otro medio, refresque la página y intentelo nuevamente"
 
+#: app/views/circuits/ruby.haml:
+msgid "You can generate html output with a script execution by using the RedCloth gem."
+msgstr "Es posible generar la salida de una ejecución del script con formato html a través de la utilización de la gema RedCloth."
+
 #: app/views/circuits/error.haml:
 msgid "The loaded Script Contains Errors:"
 msgstr "El Script cargado contiene un error:"

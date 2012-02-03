@@ -1084,6 +1084,10 @@ msgid "Edit Script"
 msgstr "Editar Script"
 
 #: app/views/circuits/ruby.haml:
+msgid "You can generate html output with a script execution by using the RedCloth gem."
+msgstr "Você pode gerar a saída html com uma execução de script usando a gem RedCloth.."
+
+#: app/views/circuits/ruby.haml:
 msgid "About Ruby"
 msgstr "Saiba mais sobre Ruby"
 

@@ -14,36 +14,46 @@
   Ruby
 
 .main
-  %h3{:style=>"color:#4F5DD5"}
-    =_('About Ruby')
+  .column
+    %h3{:style=>"color:#4F5DD5"}
+      =_('About Ruby')
+    %dd
+      %li
+        =link_to _('Home Page'),'http://www.ruby-lang.org/es/', :popup => true
+      %li
+        =link_to _('20 minutes with Ruby'),'http://www.ruby-lang.org/es/documentation/quickstart/', :popup => true
+      %li
+        =link_to _('First steps'),'http://rubytutorial.wikidot.com/introduccion', :popup => true
 
-  %dd
-    %li
-      =link_to _('Home Page'),'http://www.ruby-lang.org/es/', :popup => true
-    %li
-      =link_to _('20 minutes with Ruby'),'http://www.ruby-lang.org/es/documentation/quickstart/', :popup => true
-    %li
-      =link_to _('First steps'),'http://rubytutorial.wikidot.com/introduccion', :popup => true
+    %h3{:style=>"color:#4F5DD5"}
+      =_('Regular Expressions')
+    %dd
+      %li
+        =link_to _('Console'),'http://www.rubular.com/', :popup => true
+      %li
+        %a{:onClick => "Effect.toggle('expresion_table','blind',{});", :style=>"text-decoration:underline; cursor:pointer;"}
+          =_('Character Table')
+        .div{:id=>'expresion_table',:style=>"display:none;"}
+          =render :partial => 'expression_table'
 
-  %h3{:style=>"color:#4F5DD5"}
-    =_('Regular Expressions')
-  %dd
-    %li
-      =link_to _('Console'),'http://www.rubular.com/', :popup => true
-    %li
-      %a{:onClick => "Effect.toggle('expresion_table','blind',{});", :style=>"text-decoration:underline; cursor:pointer;"}
-        =_('Character Table')
-      .div{:id=>'expresion_table',:style=>"display:none;"}
-        =render :partial => 'expression_table'
-
-  %h3{:style=>"color:#4F5DD5;margin-bottom:5px;"}
-    =_('Common Classes')
-  %br
-  %dd
-    %li
-      =link_to ' String','http://ruby-doc.org/core/classes/String.html', :popup => true
-    %li
-      =link_to ' Array','http://ruby-doc.org/core/classes/Array.html', :popup => true
-    %li
-      =link_to ' Hash','http://ruby-doc.org/core/classes/Hash.html', :popup => true
-
+    %h3{:style=>"color:#4F5DD5;margin-bottom:5px;"}
+      =_('Common Classes')
+    %br
+    %dd
+      %li
+        =link_to ' String','http://ruby-doc.org/core/classes/String.html', :popup => true
+      %li
+        =link_to ' Array','http://ruby-doc.org/core/classes/Array.html', :popup => true
+      %li
+        =link_to ' Hash','http://ruby-doc.org/core/classes/Hash.html', :popup => true
+  .column
+    %h3{:style=>"color:#4F5DD5;margin-bottom:5px;"}
+      =_('RedCloth')
+    %p
+      =_('You can generate html output with a script execution by using the RedCloth gem.')
+    %br
+    %dd
+      %li
+        =link_to ' Redcloth','http://redcloth.org/', :popup => true
+      %li
+        =link_to ' Redcloth examples','http://redcloth.org/textile/writing-paragraph-text/', :popup => true
