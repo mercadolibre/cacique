@@ -5,6 +5,7 @@ Version 0.2.5.4
 • Execution Output: Added the ability to visualize the output of an execution in HTML format
 • User Functions: Added search on all projects for the search function
 • Adding rake task to refresh status for non finished executions
+• Adding ruby blocks on cacique functions 
 
 • Bug fixes:
 * Solution for FF 9 and chrome compatibility: 
