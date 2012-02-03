@@ -123,7 +123,8 @@ a.qp_disabled {color: #888; text-decoration: none}
 .pagination_buttons a{ text-decoration: none}
 .pagination_links {float: right}
 .pagination_links .pagination {float: none; text-align: right}
- .buscar{ float:right; margin-right:30px; margin-top:1px; padding:2px}
+ .buscar{ float:right; width:160px; margin-right:30px; background: #ffffff; border:1px solid #c1c1c1; -moz-border-radius:5px; margin-top:1px; padding:2px}
+.buscar.with-checkbox {width:inherit; background: inherit; border:inherit; -moz-border-radius:inherit}
 .buscar #filter_text {width: 130px; height: 20px; border: none; margin-left: 2px}
 .buscar input{ border:medium none; color:grey}
 .buscar input.placeholder{ color:grey}

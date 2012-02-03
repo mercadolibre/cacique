@@ -7,7 +7,7 @@
 
 //Info
 =image_tag( "/images/icons/info.png", :title=>_('Information'), :onClick => "$j('#infoUserFunction').show();")
-.buscar 
+.buscar.with-checkbox
   - form_for :filter, url_for(:controller=>"user_functions", :action=>"index"), :html => {:method => :get} do |f|
     - if @project_actual
       = f.hidden_field 'project_id', :value => @project_id

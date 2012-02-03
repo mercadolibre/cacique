@@ -930,9 +930,19 @@ a.qp_disabled {
 /********************************* Search **************************/
 .buscar{
   float:right;
+  width:160px;
   margin-right:30px;
+  background: #ffffff;
+  border:1px solid  #c1c1c1;
+  -moz-border-radius:5px;
   margin-top:1px;
   padding:2px;
+}
+.buscar.with-checkbox {
+  width:inherit;
+  background: inherit;
+  border:inherit;
+  -moz-border-radius:inherit;
 }
 .buscar #filter_text {
   width: 130px;
