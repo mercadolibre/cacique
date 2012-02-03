@@ -148,6 +148,11 @@ class Execution < ActiveRecord::Base
      ![0,1].include?(self.status) 
   end
 
+  # Compares two Execution by Circuit and Case template
+  def same_scenario? other
+    circuit_id == other.circuit_id && case_template_id == other.case_template_id
+  end
+
 private
 
  def connect_mannager

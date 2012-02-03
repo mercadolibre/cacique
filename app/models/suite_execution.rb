@@ -150,6 +150,23 @@ class SuiteExecution < ActiveRecord::Base
    self
  end
 
+  # Returns the last Execution of each script/case scenario
+  def last_executions_status
+    sorted_executions = self.executions.sort {|ex1, ex2| ex2.created_at <=> ex1.created_at }
+    filtered_executions = []
+    sorted_executions.each do |ex|
+      filtered_executions << ex unless filtered_executions.find { |obj| obj.same_scenario? ex }
+    end
+    filtered_executions
+  end
+
+  def status_percentage
+    executions = last_executions_status.reject {|ex| ex.status == COMMENTED }
+    return 1 if executions.count == 0
+    ok = executions.count {|s| s.status == OK }
+    100 * ok / executions.count
+  end
+
   # return executions from previous day which status is "running" but are already finished
   def self.idle_executions
     SuiteExecution.status_running.find :all, :conditions => ["created_at > ?", Date.yesterday.to_s]
