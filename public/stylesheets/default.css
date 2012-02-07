@@ -807,11 +807,11 @@ table.homein td li{
 
 
 table.detail{
-  margin: 5px;
   width:100%; 
   border-collapse:collapse;
   clear:both;
   border:1px solid #336699;
+  background:white;
 }
 
 table.detail th{
@@ -911,7 +911,7 @@ a.qp_disabled {
   padding-top:8px;
   width:auto;
   font-weight:bold;
-  float:right;
+  float: right;
 }
 .pagination_buttons{
 	clear: both;
@@ -920,13 +920,7 @@ a.qp_disabled {
 .pagination_buttons a{
 	text-decoration: none;
 }
-.pagination_links {
-  float: right;
-}
-.pagination_links .pagination {
-  float: none;
-  text-align: right;
-}
+
 /********************************* Search **************************/
 .buscar{
   float:right;
@@ -1095,6 +1089,7 @@ table th.safari{
   color:#4F5DD5;
 }
 
+/************************** TABS ***********************************/
 .tab_view{
   width:115px;
   height:20px;
@@ -1106,10 +1101,39 @@ table th.safari{
   cursor:pointer;
   background:url(/images/menu/menutab.gif);
   opacity:0.5;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.tab_view.selected{
+  opacity:10;
+  position:relative;
+  top:2px;
 }
 
 .tab_view:hover{
   opacity:10;
+}
+
+/************************** Filter ***********************************/
+.filter{
+  background:  white;
+  border: 1px solid #C3C3C3;
+  color: #31576F;
+  float: left;
+  padding: 5px 0;
+  width: 100%;
+}
+
+.filter label{
+  width:60px; 
+  display:inline;
+  margin-left: 10px;
+}
+
+.filter select, .filter input{
+  width:100px; 
+  display:inline;
 }
 
 .div_hover{
@@ -1122,7 +1146,7 @@ table th.safari{
   background:#F5F6F7;
 }
 
-.edit_free_table{
+.tab_container{
   background: #EEEEED;
   padding:12px;
   -moz-border-radius:0px 2px 5px 5px; 
@@ -1131,8 +1155,9 @@ table th.safari{
   border:1px solid #C6C5C4;
   padding:15px 25px;
   width:96%;
-  height: 100%;
+  clear: both;
 }
+
 
 .edit_table{
   -moz-border-radius:20px;

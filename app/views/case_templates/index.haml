@@ -13,14 +13,10 @@
   = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
 
 .main
-  #TabView.TabView
-    .Tabs
-      .tab_view{:onclick=>"location='#{edit_project_circuit_path(@circuit.project_id,@circuit)}'"}
-        =_('Edit Script')
-      .tab_view{:onclick=>"location='#{project_circuit_case_templates_path(@project_id,@circuit)}'", :style=> "opacity:10;padding-top:4px;position:relative;top:2px;"}
-        =_('Data Set')
-      %div{ :style=>"clear: both"}     
-  .edit_free_table{:id=>"div_edit_free", :style=>"overflow:auto;width:98%;"}  
+  =link_to _('Edit Script'), edit_project_circuit_path(@circuit.project_id,@circuit), :class=>'tab_view' 
+  =link_to _('Data Set'), project_circuit_case_templates_path(@project_id,@circuit) , :class=>'tab_view selected' 
+  
+  .tab_container#div_edit_free{:style=>"overflow:auto;width:98%;"}  
     %div{ :style=>"width:500px;float:left; margin-bottom:10px;"}
       %div{ :id => "modified_file", :style => "width:20px;float:left;"}
       %b

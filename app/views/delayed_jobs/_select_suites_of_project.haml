@@ -1,7 +1,7 @@
-%label{:style=>"width:170px; float:left;"}      
+%label#select_suites   
   -value = params[:filter] && params[:filter][:suite_id]  ? params[:filter][:suite_id].to_i: ''  
-  -if !suites.empty?
-    =select("filter", "suite_id", suites.collect {|s| [ truncate(s.name.capitalize, :ommision => "...", :length => 60) , s.id ] }.sort!,{ :selected => value, :include_blank => _('All')},{ :style=>"width:160px;"})
-  -else
-    %i
-      Sin suites
+-if !suites.empty?
+  =select("filter", "suite_id", suites.collect {|s| [ truncate(s.name.capitalize, :ommision => "...", :length => 60) , s.id ] }.sort!,{ :selected => value, :include_blank => _('All')})
+-else
+  %i
+    Sin suites

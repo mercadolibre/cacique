@@ -104,7 +104,7 @@ table.homein td li{ font-family:sans-serif; font-weight:lighter; font-weight:bol
  .div.executions_header{ height:27px; margin-left:10px; border-bottom:none}
 .div.executions_header .header_item{ width: 60px; height:17px; float:left; padding: 5px; padding-left:10px; color:#ffffff; font: 12px sans-serif; font-weight:bold; text-align:center}
 .div.executions_header .header_item img{ display: block; margin: auto}
-table.detail{ margin: 5px; width:100%; border-collapse:collapse; clear:both; border:1px solid #336699}
+table.detail{ width:100%; border-collapse:collapse; clear:both; border:1px solid #336699; background:white}
 table.detail th{ background: #336699; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
 table.detail th a{ color:#ffffff; font-family:sans-serif; font-size:11px; font-weight:bold}
 table.detail th.d{ background: #626894; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
@@ -118,11 +118,9 @@ table.detail tr:hover{ background: #D8DCDF}
 table.detail th.exe {background: url(/images/tables/tag_blue.png); color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
  .qp_counter {margin: 10px}
 a.qp_disabled {color: #888; text-decoration: none}
-.pagination{ margin-left:10px; margin-bottom:2px; padding-top:8px; width:auto; font-weight:bold; float:right}
+.pagination{ margin-left:10px; margin-bottom:2px; padding-top:8px; width:auto; font-weight:bold; float: right}
 .pagination_buttons{ clear: both; text-align:center}
 .pagination_buttons a{ text-decoration: none}
-.pagination_links {float: right}
-.pagination_links .pagination {float: none; text-align: right}
  .buscar{ float:right; width:160px; margin-right:30px; background: #ffffff; border:1px solid #c1c1c1; -moz-border-radius:5px; margin-top:1px; padding:2px}
 .buscar input{ border:medium none; color:grey}
 .buscar input:focus{ color:black}
@@ -147,11 +145,15 @@ table th.safari{ opacity:0.7; background:#31576F}
 .execution .text_area{ width:830px; height: 100px; overflow: auto; font: normal 12px sans-serif; color: #8F8F8F ; border: #8F8F8F 1px solid; padding-left: 10px; -moz-border-radius:10px; margin-top:5px; margin-left:20px; text-align:left; line-height: 20px; background:#FFFFFF}
 .div_suite_circuit{ width:70%; margin:0 auto; margin-top:20px; font: bold 14px sans-serif; color:#293484}
 .div_suite_circuit b a{ font: bold 14px sans-serif; color:#4F5DD5}
-.tab_view{ width:115px; height:20px; float:left; color:#373737; font-size:12px; text-align:center; padding:5px;; cursor:pointer; background:url(/images/menu/menutab.gif); opacity:0.5}
+ .tab_view{ width:115px; height:20px; float:left; color:#373737; font-size:12px; text-align:center; padding:5px;; cursor:pointer; background:url(/images/menu/menutab.gif); opacity:0.5; text-decoration: none; font-weight: normal}
+.tab_view.selected{ opacity:10; position:relative; top:2px}
 .tab_view:hover{ opacity:10}
+ .filter{ background: white; border: 1px solid #C3C3C3; color: #31576F; float: left; padding: 5px 0; width: 100%}
+.filter label{ width:60px; display:inline; margin-left: 10px}
+.filter select, .filter input{ width:100px; display:inline}
 .div_hover{ -moz-border-radius:5px; border:1px solid #C3C3C3; padding:10px}
 .div_hover:hover{ background:#F5F6F7}
-.edit_free_table{ background: #EEEEED; padding:12px; -moz-border-radius:0px 2px 5px 5px; color:#373737; font-size:12px; border:1px solid #C6C5C4; padding:15px 25px; width:96%; height: 100%}
+.tab_container{ background: #EEEEED; padding:12px; -moz-border-radius:0px 2px 5px 5px; color:#373737; font-size:12px; border:1px solid #C6C5C4; padding:15px 25px; width:96%; clear: both}
 .edit_table{ -moz-border-radius:20px; -moz-border-radius-topleft:0px; padding: 15px 15px 15px 15px; height: 50%; margin-left:10%; margin-top: 0px; margin: 0 auto}
 .drag {position: relative}
 .ubic{ border:2px solid #31576F; overflow: hidden; width: 530px; height: 300px; padding: 10px; background: #D1E1E7; -moz-border-radius:20px; position:fixed}

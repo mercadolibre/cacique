@@ -1,12 +1,8 @@
 .main
-  #TabView.TabView
-    .Tabs
-      .tab_view{:onclick=>"location='#{edit_project_circuit_path(@circuit.project_id,@circuit)}'", :style=> "opacity:10;padding-top:4px;position:relative;top:2px;"}
-        =_('Edit Script')
-      .tab_view{:onclick=>"location='#{project_circuit_case_templates_path(@project_id,@circuit)}'"}
-        =_('Data Set')        
-      %div{ :style=>"clear: both"}
-  .edit_free_table{:id=>"div_edit_free"}
+  =link_to _('Edit Script'), edit_project_circuit_path(@circuit.project_id,@circuit), :class=>'tab_view selected'  
+  =link_to _('Data Set'), project_circuit_case_templates_path(@project_id,@circuit), :class=>'tab_view'   
+   
+  .tab_container#div_edit_free
     %div{ :style=>"width:500px;float:left; margin-bottom:10px;"}
       =image_tag "icons/s-edit.png",:id=>"pencil_icon",:alt=>"s-edit.png",:style => "display:none;"
       %b

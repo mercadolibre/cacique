@@ -1,7 +1,24 @@
 -javascript 'checkbox_lib' 
  
--if !delayed_jobs.empty?
-  %table.detail
+%table.detail
+  %thead
+    -if !delayed_jobs.empty?
+      /Paginate
+      = will_paginate @delayed_jobs, :params => { 'filter' => params[:filter]}
+      .pagination
+        %span
+        = _('Show') + ":"
+        = page_size_link 50
+        = page_size_link 100
+        = page_size_link 150
+
+             
+    /Filter
+    -form_for :delayed_jobs, :url => delayed_jobs_path,:html=>{:id=>"dj_actions",:style=>"margin-bottom:10px;", :method=>:get } do
+      =render :partial=>"filter" 
+
+  -if !delayed_jobs.empty?
+    /Header
     %tr     
       %th.def{:style => "width:3%;"}
         %input{ :type => "checkbox", :value => "checkbox", :onClick => "ch_select_all(this, 'delayed_jobs_action');"}
@@ -16,7 +33,9 @@
       %th{:style=>"min-width: 12%; max-width:12%;"}
         =_('Identifier')
       %th
-        =_("Status")                 
+        =_("Status") 
+
+    /Data                
     -delayed_jobs.each do |dj|
       -task_program = dj.task_program
       %tr  
@@ -25,9 +44,9 @@
           -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
           =check_box_tag "delayed_jobs_action[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"delayed_jobs_action"
         %td{:title=>task_program.project.name,:style=>"width:100px;"}
-          =truncate( task_program.project.name, :ommision => "...", :length => 80)               
+          =truncate( task_program.project.name, :ommision => "...", :length => 60)               
         %td{:title=>task_program.suites.map(&:name)}
-          =truncate(task_program.suites.map(&:name).join(', '), :ommision => "...", :length => 70)             
+          =truncate(task_program.suites.map(&:name).join(', '), :ommision => "...", :length => 60)             
         %td{:title=>task_program.user.name,:style=>"width:100px;"}
           =truncate( task_program.user.name, :ommision => "...", :length => 20)                 
         %td
@@ -43,8 +62,7 @@
         %td 
           =dj.s_status
 
--else
-  %div{ :style=>"clear: both"}        
-  %h2
-    %i
-      =_('Without Schedule')    
+  -else     
+    %h2
+      %i
+        =_('Without Schedule')    

@@ -25,10 +25,6 @@
  #
 class TaskProgramsController < ApplicationController
 
-  def index
-
-  end
-
   def new
     @suite_id    = params[:id]  if params[:id]
     @init_date   = Time.now
