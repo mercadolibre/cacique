@@ -54,7 +54,7 @@ class UserFunctionsController < ApplicationController
       filters[:logic] = "and" unless (filters[:visibility] or filters[:projects_ids].empty?)
     else
       filters = {}
-      filters[:projects_ids] = [params[:project_id].to_i] if params[:project_id]
+      filters[:projects_ids] = params[:project_id] ? [params[:project_id].to_i] : []
     end
     @params_filter  = filters
     @search         = UserFunction.get_user_functions_with_filters(filters[:projects_ids],filters) unless filters.empty?
