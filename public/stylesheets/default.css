@@ -83,7 +83,6 @@ a {
   color:#373737;
   font-weight: bold;
   font-family:sans-serif;
-  font-size: 12px;
 }
 .image {
 	float: left;
@@ -146,7 +145,10 @@ select{
 }
 
 
-
+/************************* General *********************************/
+.hide{
+  display:none;
+}
 
 /************************* Formularios ******************************/
 
@@ -439,7 +441,7 @@ legend {
   margin-bottom: 5px;
   color:#333333;
 }
-/********************** Home Bender *********************************/
+/********************** Home *********************************/
 
 .home_cacique{
    font-weight:bold; 
@@ -824,6 +826,22 @@ table.detail th{
   text-align:center;
 }
 
+table.detail th.very_small{
+  width:2%;
+}
+
+table.detail th.small{
+  width:10%;
+}
+
+table.detail th.medium{
+  width:20%;
+}
+
+table.detail th.long{
+  width:30%;
+}
+
 table.detail th a{
   color:#ffffff;
   font-family:sans-serif;
@@ -842,19 +860,17 @@ table.detail th.d{
   text-align:center;
 }
 
-
-
 table.detail td{
   color:#848484;
-  padding-bottom:5px;
+  padding:5px;
   font-family:sans-serif;
   font-size:11px;
   text-align:left;
   text-align:center;
   border:1px solid #D2D2D2;
-  padding:4px;
   vertical-align:middle;
 } 
+
 
 table.detail td img{
   border:none;
@@ -871,6 +887,26 @@ table.detail td a{
   text-decoration:underline;
   color:#848484;
   font-weight:normal;
+}
+
+table.detail td ul {
+  text-align: left;
+  padding-left:10px;
+  margin: 0;
+}
+
+table.detail td ul li sub{
+  float: right;
+  cursor:pointer;
+  text-decoration:underline;
+}
+
+table.detail td ul.inline{
+   text-align: center;
+}
+
+table.detail td ul.inline li.inline{
+  display:inline;
 }
 
 table.detail tr.oddRow { 
@@ -1121,7 +1157,7 @@ table th.safari{
   border: 1px solid #C3C3C3;
   color: #31576F;
   float: left;
-  padding: 5px 0;
+  padding: 10px 0;
   width: 100%;
 }
 
@@ -1134,6 +1170,9 @@ table th.safari{
 .filter select, .filter input{
   width:100px; 
   display:inline;
+}
+.filter input.submit{
+  cursor:pointer;
 }
 
 .div_hover{

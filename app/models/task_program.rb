@@ -50,6 +50,9 @@ class TaskProgram < ActiveRecord::Base
   def self.create_all(params)
     Suite
 
+    #Build execution params
+    params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
+
     #TaskProgram new
     task_program = TaskProgram.new({:user_id => current_user.id,
                                     :suite_execution_ids => "", 
@@ -60,9 +63,6 @@ class TaskProgram < ActiveRecord::Base
     #Suites                                           
     params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
     task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
-
-    #Build execution params
-    params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
 
     #CronEdit
     if params[:program][:range] == "forever"

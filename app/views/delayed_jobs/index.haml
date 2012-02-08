@@ -23,3 +23,5 @@
 
   $j('#new_icon').click(function(){suite_id = $j('#program_suite_id').val(); location='/task_programs/new/' + suite_id;}); 
   $j('#info_icon').click(function(){$j('#infoTaskPrograms').toggle();}); 
+
+  $j('.more').click(function(){ var element_name = '#' + $j(this).attr('name');$j(element_name).toggle(); })

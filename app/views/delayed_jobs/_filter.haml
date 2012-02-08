@@ -14,7 +14,7 @@
   %label
     =_("User")
   -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''  
-  =select("filter", "user_id", @users.collect {|u| [ truncate(u.login, :ommision => "...", :length => 60) , u.id ] }.sort!,{ :selected => value, :include_blank => _('All')})
+  =select("filter", "user_id", @users.collect {|u| [ truncate(u.name, :ommision => "...", :length => 60) , u.id ] }.sort!,{ :selected => value, :include_blank => _('All')})
               
   /Date From 
   %label
@@ -34,4 +34,4 @@
 
 
   %label
-    =submit_tag _("Apply")   
+    =submit_tag _("Apply"), :class=>'submit' 

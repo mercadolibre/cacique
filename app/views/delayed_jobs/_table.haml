@@ -11,56 +11,77 @@
         = page_size_link 150
 
   -form_for :delayed_jobs, :url => delayed_jobs_path,:html=>{:id=>"dj_actions",:style=>"margin-bottom:10px;"} do
+
     /Filter
     =render :partial=>"filter" 
 
     -if !delayed_jobs.empty?
+
+      /Suites
+      =render :patial=>'delayed_job_suites'
+
       /Header
       %tr     
-        %th.def{:style => "width:3%;"}
+        %th.very_small
           =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}
-        %th
+        %th.small
           =_("Project")   
-        %th{:style=>"width:32%"}
+        %th.medium
           =_("Suite")                  
-        %th
+        %th.small
           =_("Programmed by")            
-        %th
+        %th.medium
           =_("Schedule")
-        %th{:style=>"min-width: 12%; max-width:12%;"}
+        %th.medium
           =_('Identifier')
-        %th
+        %th.small
           =_("Status") 
 
       /Data                
       -delayed_jobs.each do |dj|
         -task_program = dj.task_program
         %tr  
-          %td{:style=>"padding-left:8px;width:10px;"}
-            //enabled
+          %td
             -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
             =check_box_tag "delayed_jobs_action[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"delayed_jobs_action"
-          %td{:title=>task_program.project.name,:style=>"width:100px;"}
+          %td{:title=>task_program.project.name}
             =truncate( task_program.project.name, :ommision => "...", :length => 60)               
-          %td{:title=>task_program.suites.map(&:name)}
-            =truncate(task_program.suites.map(&:name).join(', '), :ommision => "...", :length => 60)             
-          %td{:title=>task_program.user.name,:style=>"width:100px;"}
+          %td
+            -suites = task_program.suites
+            %ul
+              %li{:title=>suites.first.name}
+                =truncate(suites.first.name, :ommision => "...", :length => 30)
+                -if suites.count>1      
+                  %sub.more{:name=>"more_#{task_program.id}"}
+                    [...]           
+            %ul{:id=>"more_#{task_program.id}", :class=>'hide'}
+              -suites[1..suites.count].each do |suite|
+                %li{:title=>suite.name}
+                  =truncate(suite.name, :ommision => "...", :length => 35)
+
+          %td{:title=>task_program.user.name}
             =truncate( task_program.user.name, :ommision => "...", :length => 20)                 
           %td
-            %div{:style=>"width:80%; margin:0 auto;"}
-              %b{:style=>"width:90px;float:left;"}
-                ="#{dj.run_at.day}/#{dj.run_at.mon}/#{dj.run_at.year}"  
-              %b{:style=>"width:50px;float:left;"}
-                ="#{dj.run_at.hour}:#{dj.run_at.min}"                      
-              %div{:style=>"float:left;width:100px;"}
+            %ul.inline
+              %li.inline
+                %b
+                  ="#{dj.run_at.day}/#{dj.run_at.mon}/#{dj.run_at.year}"  
+              %li.inline
+                %b
+                  ="#{dj.run_at.hour}:#{dj.run_at.min}"                      
+              %li.inline
                 =@weekly_trans[dj.run_at.strftime('%A')] 
           %td{:title=>task_program.identifier}
             =truncate( task_program.identifier, :ommision => "...", :length => 20)                           
           %td 
             =dj.s_status
-
+      
     -else  
       %i
         %br
         %br  
-        =_('Without Schedule')    
+        =_('Without Schedule')  
+
+
+        
+         

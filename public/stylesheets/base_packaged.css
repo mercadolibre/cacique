@@ -7,7 +7,7 @@ h1 {margin: 0 auto; letter-spacing:1px; font-size: 14px; font-weight: bold; colo
 h2 {width:95%; margin: 0 auto; margin-top:5px; font-size: 12px; font-family:sans-serif; color: #626894; line-height: 20px}
 h3 {font-size: 12.5px; font-family:sans-serif; color: #4F5DD5}
 ul {margin-left: 0; padding-left: 0; list-style-position: inside}
-a {color:#373737; font-weight: bold; font-family:sans-serif; font-size: 12px}
+a {color:#373737; font-weight: bold; font-family:sans-serif}
 .image {float: left; margin: 0 20px 0 0}
 .new {font-size: 14px; font-weight: normal; color: #31576F; text-align:right; font-weight:normal}
 input{ font-size:11px}
@@ -17,6 +17,7 @@ select{ font-size:11px}
 .header_option{ width: 300px; color: #e5e5e5; float: right; margin: 103px 5px 0px 5px}
 .header_main * {margin: 0; padding: 0; color: #FFFFFF}
 .header_main a {display: block; float: left; height: 25px; background: #ABBA47 url(/images/img3.gif) repeat-x; text-decoration: none; font-weight: bold; text-transform: capitalize; text-align: left}
+ .hide{ display:none}
  .form_tag{ -moz-border-radius:5px; border:1px solid #C3C3C3; padding:10px; color:#31576F}
 .form_tag p i{ line-height: 180%; text-align:left}
 .form_tag_flap{ -moz-border-radius:10px 10px 0px 0px; border:1px solid #C3C3C3; border-bottom:0px; padding:5px; text-align:center}
@@ -106,12 +107,20 @@ table.homein td li{ font-family:sans-serif; font-weight:lighter; font-weight:bol
 .div.executions_header .header_item img{ display: block; margin: auto}
 table.detail{ width:100%; border-collapse:collapse; clear:both; border:1px solid #336699; background:white}
 table.detail th{ background: #336699; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
+table.detail th.very_small{ width:2%}
+table.detail th.small{ width:10%}
+table.detail th.medium{ width:20%}
+table.detail th.long{ width:30%}
 table.detail th a{ color:#ffffff; font-family:sans-serif; font-size:11px; font-weight:bold}
 table.detail th.d{ background: #626894; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
-table.detail td{ color:#848484; padding-bottom:5px; font-family:sans-serif; font-size:11px; text-align:left; text-align:center; border:1px solid #D2D2D2; padding:4px; vertical-align:middle}
+table.detail td{ color:#848484; padding:5px; font-family:sans-serif; font-size:11px; text-align:left; text-align:center; border:1px solid #D2D2D2; vertical-align:middle}
 table.detail td img{ border:none}
 table.detail td.img img{ border:none; width: 12px; height: 14px}
 table.detail td a{ cursor:pointer; text-decoration:underline; color:#848484; font-weight:normal}
+table.detail td ul {text-align: left; padding-left:10px; margin: 0}
+table.detail td ul li sub{ float: right; cursor:pointer; text-decoration:underline}
+table.detail td ul.inline{ text-align: center}
+table.detail td ul.inline li.inline{ display:inline}
 table.detail tr.oddRow {background-color: #F5F6F7}
 table.detail tr.evenRow {background-color: #FDFAFA}
 table.detail tr:hover{ background: #D8DCDF}
@@ -148,9 +157,10 @@ table th.safari{ opacity:0.7; background:#31576F}
  .tab_view{ width:115px; height:20px; float:left; color:#373737; font-size:12px; text-align:center; padding:5px;; cursor:pointer; background:url(/images/menu/menutab.gif); opacity:0.5; text-decoration: none; font-weight: normal}
 .tab_view.selected{ opacity:10; position:relative; top:2px}
 .tab_view:hover{ opacity:10}
- .filter{ background: white; border: 1px solid #C3C3C3; color: #31576F; float: left; padding: 5px 0; width: 100%}
+ .filter{ background: white; border: 1px solid #C3C3C3; color: #31576F; float: left; padding: 10px 0; width: 100%}
 .filter label{ width:60px; display:inline; margin-left: 10px}
 .filter select, .filter input{ width:100px; display:inline}
+.filter input.submit{ cursor:pointer}
 .div_hover{ -moz-border-radius:5px; border:1px solid #C3C3C3; padding:10px}
 .div_hover:hover{ background:#F5F6F7}
 .tab_container{ background: #EEEEED; padding:12px; -moz-border-radius:0px 2px 5px 5px; color:#373737; font-size:12px; border:1px solid #C6C5C4; padding:15px 25px; width:96%; clear: both}
