@@ -21,14 +21,16 @@
       %div{ :id => "modified_file", :style => "width:20px;float:left;"}
       %b
         =truncate(@circuit.name.capitalize, :ommision => "...", :length => 60)
-    .pagination_links
-      .pagination
-        %span
+        
+    /Paginate
+    = will_paginate @cases_pag, :params => params.merge({:circuit_id => @circuit.id})
+    .pagination
+      %span
         = _('Show') + ":"
         = page_size_link 10
         = page_size_link 20
         = page_size_link 50
-      = will_paginate @cases_pag, :params => params.merge({:circuit_id => @circuit.id})
+
     //Errors 
     = error_messages_for :circuit
     %div{ :style=>"clear: both"}

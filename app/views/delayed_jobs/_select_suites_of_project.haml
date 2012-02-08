@@ -3,5 +3,6 @@
 -if !suites.empty?
   =select("filter", "suite_id", suites.collect {|s| [ truncate(s.name.capitalize, :ommision => "...", :length => 60) , s.id ] }.sort!,{ :selected => value, :include_blank => _('All')})
 -else
-  %i
-    Sin suites
+  %label
+    %i
+      =_("Project Without Suites")
