@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :crons
-  map.resources :delayed_jobs, :collection => {:destroy_collection=>:get, :get_detail_list=>:get, :confirm_program=>:get} 
+  map.resources :delayed_jobs, :collection => { :get_detail_list=>:get, :confirm_program=>:get} 
   map.resources :case_data
   map.resources :categories, :collection => { :circuits_result => :get, :create=>:get, :delete=>:get, :edit=>:get, :update=>:get, :save_import_circuit=>:get, :import_circuit=>:get, :move=>:get, :move_save=>:get }
   map.resources :executions, :collection => { :retry_run=>:get, :show_snapshot=>:get}

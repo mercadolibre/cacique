@@ -17,9 +17,6 @@
 
     -if !delayed_jobs.empty?
 
-      /Suites
-      =render :patial=>'delayed_job_suites'
-
       /Header
       %tr     
         %th.very_small
@@ -43,24 +40,24 @@
         %tr  
           %td
             -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
-            =check_box_tag "delayed_jobs_action[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"delayed_jobs_action"
+            =check_box_tag "id[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"check_delayed_job"
           %td{:title=>task_program.project.name}
-            =truncate( task_program.project.name, :ommision => "...", :length => 60)               
+            =truncate( task_program.project.name, :ommision => '...', :length => 60)               
           %td
             -suites = task_program.suites
             %ul
               %li{:title=>suites.first.name}
-                =truncate(suites.first.name, :ommision => "...", :length => 30)
+                =truncate(suites.first.name, :ommision => '...', :length => 30)
                 -if suites.count>1      
                   %sub.more{:name=>"more_#{task_program.id}"}
                     [...]           
             %ul{:id=>"more_#{task_program.id}", :class=>'hide'}
               -suites[1..suites.count].each do |suite|
                 %li{:title=>suite.name}
-                  =truncate(suite.name, :ommision => "...", :length => 35)
+                  =truncate(suite.name, :ommision => '...', :length => 35)
 
           %td{:title=>task_program.user.name}
-            =truncate( task_program.user.name, :ommision => "...", :length => 20)                 
+            =truncate( task_program.user.name, :ommision => '...', :length => 20)                 
           %td
             %ul.inline
               %li.inline

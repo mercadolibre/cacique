@@ -1,8 +1,8 @@
+/New
+=link_to image_tag('/images/icons/calendar_new.png' , :id=>'new_icon',:alt=>'new.png', :title=>_('New Schedule')), new_task_program_path
+
 /Delete
 =image_tag '/images/icons/trash.png', :id=>'delete_icon', :alt=>'trash', :title=>_('Delete')
-
-/New
-=image_tag '/images/icons/calendar_new.png' , :id=>'new_icon',:alt=>'new.png', :title=>_('New Schedule')
 
 /Pause
 =link_to_remote image_tag('/images/icons/pause.png',:alt=>'pause.png',:title=>_('Confirm Schedule') ), :complete => "$j('#div_delayed_job').show();",:update => 'div_delayed_job',  :method => 'get',  :url => { :controller => :delayed_jobs , :action => :get_list, :id => "$j('#program_suite_id').val()" }
@@ -10,10 +10,10 @@
 /Info
 =image_tag '/images/icons/info.png', :id=>'info_icon', :alt=>'info.png',  :title=>_('Information')
 
-//Delayed Job list
+/Delayed Job list
 #div_delayed_job{:style=>"display:none;"}  
 
-//Info task program
-= render :partial=> "info_delayed_jobs"
+/Info task program
+= render :partial=> "info"
 
 

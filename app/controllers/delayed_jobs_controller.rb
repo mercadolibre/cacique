@@ -52,8 +52,8 @@ DateTime.now.in_time_zone
    end
 
    #Removes a collection of Delayed Jobs
-   def destroy_collection
-     DelayedJob.destroy params[:delayed_jobs_action] if params[:delayed_jobs_action]
+   def destroy
+     DelayedJob.destroy params[:id] if params[:id]
      redirect_to url_for( :controller=>:delayed_jobs, :action=>:index, :filter=>params[:filter])
    end
 

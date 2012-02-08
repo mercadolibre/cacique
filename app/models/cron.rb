@@ -83,19 +83,17 @@
 
   #Remove Cron and update server cron
   def self.remove(id)
-
-    #Find cron
-    cron = Cron.find id.to_i
-
-    #Generate file code 
-    code = header_line + cron.remove_line
-
-    #Update and execute file (SSH)
-    cron.update_file(code)
-
-    #Cron destroy
-    cron.destroy
-
+    cron_ids = id.to_a
+    cron_ids.each do |id|
+      #Find cron
+      cron = Cron.find id.to_i
+      #Generate file code 
+      code = header_line + cron.remove_line
+      #Update and execute file (SSH)
+      cron.update_file(code)
+      #Cron destroy
+      cron.destroy
+    end
   end
 
   #Builds Cacique command 

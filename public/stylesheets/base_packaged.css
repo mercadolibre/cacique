@@ -118,7 +118,7 @@ table.detail td img{ border:none}
 table.detail td.img img{ border:none; width: 12px; height: 14px}
 table.detail td a{ cursor:pointer; text-decoration:underline; color:#848484; font-weight:normal}
 table.detail td ul {text-align: left; padding-left:10px; margin: 0}
-table.detail td ul li sub{ float: right; cursor:pointer; text-decoration:underline}
+table.detail td ul li sub{ float: right; cursor:pointer}
 table.detail td ul.inline{ text-align: center}
 table.detail td ul.inline li.inline{ display:inline}
 table.detail tr.oddRow {background-color: #F5F6F7}

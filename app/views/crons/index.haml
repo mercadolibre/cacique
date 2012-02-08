@@ -1,5 +1,23 @@
 %h1
-  Cron
+  =_('Alarms')
+         
+=link_to _('Task Program'), delayed_jobs_path, :class=>'tab_view' 
+=link_to _('Cron'), crons_path, :class=>'tab_view selected'  
 
-=render :partial =>"table"
+.tab_container  
+  =render :partial => 'table', :locals => {:crons => @crons}
+  
+/Tools menu
+-content_for :tools_menu do
+  =render :partial=>'menu'  
+
+/Javascripts
+-javascript 'checkbox_lib'  
+%script
+  $j('#check_all').click(function(){ch_select_all(this, 'check_cron');}); 
+  var text_to_ask='#{_('Are You sure to delete Scheduling?')}';
+  var destroy_url = '#{url_for(:controller=>:crons, :action=>:destroy)}';
+  $j('#delete_icon').click( function(){if( confirm(text_to_ask) ){ form = $j('#cron_actions'); form.attr('action',destroy_url); form.submit();}}); 
+  $j('#info_icon').click(function(){$j('#infoTaskPrograms').toggle();}); 
+  $j('.more').click(function(){ var element_name = '#' + $j(this).attr('name');$j(element_name).toggle(); })
   

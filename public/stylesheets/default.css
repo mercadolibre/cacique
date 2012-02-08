@@ -898,7 +898,6 @@ table.detail td ul {
 table.detail td ul li sub{
   float: right;
   cursor:pointer;
-  text-decoration:underline;
 }
 
 table.detail td ul.inline{
