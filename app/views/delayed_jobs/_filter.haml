@@ -1,6 +1,3 @@
-= calendar_date_select_includes "blue"
-= stylesheet_link_tag 'blue.css'
-
 .filter
   /Project
   %label
@@ -18,7 +15,7 @@
     =_("User")
   -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''  
   =select("filter", "user_id", @users.collect {|u| [ truncate(u.login, :ommision => "...", :length => 60) , u.id ] }.sort!,{ :selected => value, :include_blank => _('All')})
-            
+              
   /Date From 
   %label
     =_('From:')

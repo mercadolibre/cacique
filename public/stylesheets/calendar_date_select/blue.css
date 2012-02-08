@@ -36,7 +36,8 @@ iframe.ie6_blocker {
 /*El color de la franja de abajo de el calendario*/
 .calendar_date_select .cds_buttons {
   text-align:center;
-  padding:5px 0px;
+  padding:5px 0px;
+
 }
 
 .calendar_date_select .cds_footer {
@@ -115,7 +116,6 @@ iframe.ie6_blocker {
 
 .calendar_date_select .cds_buttons a {
   -moz-border-radius:5px;
-  background:#DFEFFC url(images/icons/calendar_cell.png);
   border:1px solid #c1c4ea;
   color:#2E6E9E;
   font-weight:bold;
@@ -148,7 +148,6 @@ iframe.ie6_blocker {
 /* celda del calendario */
 .calendar_date_select tbody td {
   text-align:center;
-  background:#DFEFFC url(images/icons/calendar_cell.png) repeat-x scroll 50% 50%;
   border:1px solid #C5DBEC;
   color:#2E6E9E;
   outline-color:-moz-use-text-color;  
