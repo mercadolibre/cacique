@@ -15,10 +15,7 @@ class CronsController < ApplicationController
       @suites    = Suite.find(suites_ids)
     end
   
-    #TODO: in model
-    number_per_page=10
-    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
-    @crons = Cron.all.paginate :page => params[:page], :per_page => number_per_page
+    @crons = Cron.filter(params)
   end
   
   def create

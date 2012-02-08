@@ -10,7 +10,7 @@
         = page_size_link 100
         = page_size_link 150
 
-  -form_for :delayed_jobs, :url => delayed_jobs_path,:html=>{:id=>"dj_actions",:style=>"margin-bottom:10px;"} do
+  -form_for :delayed_jobs, :url => delayed_jobs_path, :html=>{:method=>:get, :id=>"dj_actions",:style=>"margin-bottom:10px;"} do
 
     /Filter
     =render :partial=>"filter" 

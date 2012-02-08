@@ -15,12 +15,20 @@
 -javascript 'checkbox_lib'   
 = calendar_date_select_includes "blue"
 %script
-  var text_to_ask='#{_('Are You sure to delete Scheduling?')}';
+  /check_all
   $j('#check_all').click(function(){ch_select_all(this, 'check_delayed_job');}); 
 
+  /Delete icon
+  var text_to_ask='#{_('Are You sure to delete Scheduling?')}';
   var delete_url = '#{url_for(:controller=>:delayed_jobs, :action=>:destroy)}';
   $j('#delete_icon').click( function(){if( confirm(text_to_ask) ){ form = $j('#dj_actions'); form.attr('action',delete_url); form.submit();}}); 
-
+  
+  /Info
   $j('#info_icon').click(function(){$j('#infoTaskPrograms').toggle();}); 
 
-  $j('.more').click(function(){ var element_name = '#' + $j(this).attr('name');$j(element_name).toggle(); })
+  /Show suites: More
+  $j('.more').click(function(){ var element_name = '#' + $j(this).attr('name');$j(element_name).toggle(); });
+
+  /On change fiter project, update filter suites
+  $j('#filter_project_id').change(function(){ new Ajax.Updater('select_suites', '/task_programs/show_suites_of_project', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.Element.serialize(this)})    });
+
