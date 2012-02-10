@@ -1,0 +1,12 @@
+%td{:title=>cron.min}
+  =truncate( cron.min, :ommision => '...', :length => 5)    
+%td{:title=>cron.hour}
+  =truncate( cron.hour, :ommision => '...', :length => 5)  
+%td{:title=>cron.day_of_month}
+  =truncate( cron.day_of_month, :ommision => '...', :length => 5)  
+%td{:title=>cron.month}
+  -months = cron.month.split(/,|\/|-/).map{ |d| Date::ABBR_MONTHNAMES[d.to_i]}.join(', ')
+  =truncate( months, :ommision => '...', :length => 10)  
+%td{:title=>cron.day_of_week}
+  -days_of_week = cron.day_of_week.split(/,|\/|-/).map{|d| Date::ABBR_DAYNAMES[d.to_i]}.join(', ')
+  =truncate( days_of_week, :ommision => '...', :length => 10) 

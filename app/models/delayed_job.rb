@@ -85,37 +85,39 @@ class DelayedJob < ActiveRecord::Base
     conditions_values = Array.new
 
     if params[:project_id] != 0   
-      conditions_names << " project_id = ? " 
+      conditions_names << " task_programs.project_id = ? " 
       conditions_values << params[:project_id]
     end
 
     if user_id != 0   
-      conditions_names << " user_id = ? " 
+      conditions_names << " task_programs.user_id = ? " 
       conditions_values << user_id
     end
 
     if params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].empty?
-      conditions_names << " identifier  like ? " 
+      conditions_names << " task_programs.identifier  like ? " 
       conditions_values << '%' + params[:filter][:identifier] + '%'
     end
 
     if suite_id != 0
-      conditions_names << " suite_id  = ? " 
+      conditions_names << " suites.id  in (?)" 
       conditions_values << suite_id
     end
 
-   conditions_names << " run_at BETWEEN ? AND ? " 
-   conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
-   conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
+    conditions_names << " delayed_jobs.run_at BETWEEN ? AND ? " 
+    conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
+    conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
 
-   conditions << conditions_names.join("and")  
-   conditions = conditions + conditions_values
-   number_per_page=10
-   number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
+    conditions << conditions_names.join("and")  
+    conditions = conditions + conditions_values
 
-   delayed_jobs  = DelayedJob.find :all, :joins =>:task_program, :conditions=>conditions, :order => "run_at ASC"
-   delayed_jobs.paginate :page => params[:page], :per_page => number_per_page
-  
+    task_programs = TaskProgram.find :all, :include=>[:suites, :delayed_jobs], :conditions=>conditions, :order => "identifier ASC"
+
+    #Paginate
+    number_per_page=10
+    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
+    task_programs.paginate :page => params[:page], :per_page => number_per_page
+    
   end
 
   def verify_status

@@ -25,7 +25,7 @@
 
  class Cron < ActiveRecord::Base
 
-  belongs_to :task_program, :dependent => :destroy
+  belongs_to :task_program
   before_save :task_program_id_validation
 
   validates_format_of :min, :hour, :day_of_month, :month, :day_of_week, :with => /^(\s)*(\*)(\s)*$|^(\s)*[0-9]+(\s)*([-,\/,\,](\s)*[0-9]+(\s)*)*$/,  :message => "Invalid format"
@@ -121,22 +121,22 @@
       conditions_values << '%' + params[:filter][:identifier] + '%'
     end
 
-    #if suite_id != 0
-    #  conditions_names << " suite_id  in (?) " 
-    #  conditions_values << suite_id
-    #end
+    if suite_id != 0
+      conditions_names << " suites.id  in (?)" 
+      conditions_values << suite_id
+    end
 
    conditions << conditions_names.join("and")  
    conditions = conditions + conditions_values
-   number_per_page=10
-   number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
 
-   crons  = Cron.find :all, :include=>[:task_program], :conditions=>conditions, :order => "identifier ASC"
-   crons.paginate :page => params[:page], :per_page => number_per_page
-  
+   crons = Cron.find :all, :include=>[:task_program=>:suites], :conditions=>conditions, :order => "identifier ASC"
+
+    #Paginate
+    number_per_page=10
+    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)
+    crons.paginate :page => params[:page], :per_page => number_per_page
+    
   end
-
-
 
   #Builds Cacique command 
   def build_command

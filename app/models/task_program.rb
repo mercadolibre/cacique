@@ -43,9 +43,10 @@ class TaskProgram < ActiveRecord::Base
   belongs_to :project
   has_and_belongs_to_many :suites
   has_many :delayed_jobs, :dependent => :destroy
-  has_many :crons, :dependent => :destroy
+  has_one  :cron, :dependent => :destroy
   validates_presence_of :user_id,    :message => _("Must complete User Field")
   serialize :execution_params
+  before_destroy :validate_permissions
 
   def self.create_all(params)
     Suite
@@ -301,6 +302,10 @@ class TaskProgram < ActiveRecord::Base
       params[:execution][:user_id]   = current_user.id
       params[:execution][:suite_id]  = (params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]).join(",")
       params
+  end
+
+  def validate_permissions
+    (current_user.has_role?("root") or task_program.user_id == current_user.id)
   end
 
 end

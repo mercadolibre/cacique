@@ -1,8 +1,8 @@
 %table.detail
   %thead
-    -if !delayed_jobs.empty?
+    -if !task_programs.empty?
       /Paginate
-      = will_paginate @delayed_jobs, :params => { 'filter' => params[:filter]}
+      = will_paginate @task_programs, :params => { 'filter' => params[:filter]}
       .pagination
         %span
         = _('Show') + ":"
@@ -10,12 +10,10 @@
         = page_size_link 100
         = page_size_link 150
 
-  -form_for :delayed_jobs, :url => delayed_jobs_path, :html=>{:method=>:get, :id=>"dj_actions",:style=>"margin-bottom:10px;"} do
-
     /Filter
     =render :partial=>"filter" 
 
-    -if !delayed_jobs.empty?
+    -if !task_programs.empty?
 
       /Header
       %tr     
@@ -30,49 +28,25 @@
         %th.medium
           =_("Schedule")
         %th.medium
-          =_('Identifier')
-        %th.small
-          =_("Status") 
+          =_('Identifier') 
 
-      /Data                
-      -delayed_jobs.each do |dj|
-        -task_program = dj.task_program
-        %tr  
-          %td
-            -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
-            =check_box_tag "id[]", dj.id, false, :disabled=>enabled, :id => "delayed_job_"+dj.id.to_s, :class=>"check_delayed_job"
-          %td{:title=>task_program.project.name}
-            =truncate( task_program.project.name, :ommision => '...', :length => 60)               
-          %td
-            -suites = task_program.suites
-            %ul
-              %li{:title=>suites.first.name}
-                =truncate(suites.first.name, :ommision => '...', :length => 30)
-                -if suites.count>1      
-                  %sub.more{:name=>"more_#{task_program.id}"}
-                    [...]           
-            %ul{:id=>"more_#{task_program.id}", :class=>'hide'}
-              -suites[1..suites.count].each do |suite|
-                %li{:title=>suite.name}
-                  =truncate(suite.name, :ommision => '...', :length => 35)
-
-          %td{:title=>task_program.user.name}
-            =truncate( task_program.user.name, :ommision => '...', :length => 20)                 
-          %td
-            %ul.inline
-              %li.inline
-                %b
-                  ="#{dj.run_at.day}/#{dj.run_at.mon}/#{dj.run_at.year}"  
-              %li.inline
-                %b
-                  ="#{dj.run_at.hour}:#{dj.run_at.min}"                      
-              %li.inline
-                =@weekly_trans[dj.run_at.strftime('%A')] 
-          %td{:title=>task_program.identifier}
-            =truncate( task_program.identifier, :ommision => "...", :length => 20)                           
-          %td 
-            =dj.s_status
-      
+      /Data 
+      -form_for :task_programs,:url=>{:controller=>:task_programs, :action=>:destroy},:html=>{:id=>'form_delete'} do                     
+        -task_programs.each do |task_program|
+          %tr  
+            %td
+              -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
+              =check_box_tag "id[]", task_program.id, false, :disabled=>enabled, :class=>"check_delayed_job"
+            %td{:title=>task_program.project.name}
+              =truncate( task_program.project.name, :ommision => '...', :length => 60)               
+            %td
+              =render :partial=>'task_programs/suites', :locals=>{:task_program=>task_program}
+            %td{:title=>task_program.user.name}
+              =truncate( task_program.user.name, :ommision => '...', :length => 20)                 
+            %td
+              =render :partial=>'delayed_jobs', :locals=>{:task_program=>task_program}               
+            %td{:title=>task_program.identifier}
+              =truncate( task_program.identifier, :ommision => "...", :length => 20)                          
     -else  
       %i
         %br

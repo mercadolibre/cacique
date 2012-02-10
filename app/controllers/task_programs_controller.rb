@@ -90,6 +90,15 @@ class TaskProgramsController < ApplicationController
     end
   end
 
+   #Removes a collection of Delayed Jobs
+   def destroy
+    if params[:id]
+      task_program_ids = params[:id].map{|x| x.to_i}
+      TaskProgram.destroy(task_program_ids)
+      redirect_to :back, :filter=>params[:filter] #Crons or delayed jobs
+    end
+   end
+
   def show_suites_of_project
     if params[:filter][:project_id] == ''
       @suites = Suite.find :all

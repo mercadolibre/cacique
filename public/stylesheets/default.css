@@ -827,19 +827,19 @@ table.detail th{
 }
 
 table.detail th.very_small{
-  width:2%;
+  max-width:2%;
 }
 
 table.detail th.small{
-  width:10%;
+  max-width:10%;
 }
 
 table.detail th.medium{
-  width:20%;
+  max-width:20%;
 }
 
 table.detail th.long{
-  width:30%;
+  max-width:30%;
 }
 
 table.detail th a{
@@ -895,13 +895,14 @@ table.detail td ul {
   margin: 0;
 }
 
-table.detail td ul li sub{
+table.detail td ul sub.more{
   float: right;
   cursor:pointer;
 }
 
 table.detail td ul.inline{
-   text-align: center;
+  text-align: left;
+  display:inline;
 }
 
 table.detail td ul.inline li.inline{

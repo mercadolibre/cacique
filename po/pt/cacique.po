@@ -3055,6 +3055,9 @@ msgstr "Confirmada"
 msgid "Last Confirmed"
 msgstr "Confirmado última"
 
+#: app/views/crons/index.haml: 
+msgid "Alarms"
+msgstr "Alarmes"
 
 #: app/views/task_programs/confirm_program.haml: 
 msgid "Programed task confirmation"

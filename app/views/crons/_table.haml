@@ -9,9 +9,7 @@
         = page_size_link 50
         = page_size_link 100
         = page_size_link 150
-
-  -form_for :crons, :url => crons_path,:html=>{:id=>"cron_actions",:style=>"margin-bottom:10px;"} do
-
+        
     /Filter
     =render :partial=>"filter" 
 
@@ -28,39 +26,41 @@
         %th.small
           =_("Programmed by")            
         %th.small
-          =_("Schedule")
+          min
+        %th.small          
+          hour 
+        %th.small         
+          day of month
+        %th.small          
+          month 
+        %th.small            
+          day of week        
         %th.medium
           =_('Identifier')
 
-      /Data                
-      -crons.each do |cron|
-        -task_program = cron.task_program
-        %tr  
-          %td
-            -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
-            =check_box_tag 'id[]', cron.id, false, :disabled=>enabled, :id => 'cron_'+cron.id.to_s, :class=>"check_cron"
-          %td{:title=>task_program.project.name}
-            =truncate( task_program.project.name, :ommision => '...', :length => 60)               
-          %td
-            -suites = task_program.suites
-            %ul
-              %li{:title=>suites.first.name}
-                =truncate(suites.first.name, :ommision => '...', :length => 30)
-                -if suites.count>1      
-                  %sub.more{:name=>"more_#{task_program.id}"}
-                    [...]           
-            %ul{:id=>"more_#{task_program.id}", :class=>'hide'}
-              -suites[1..suites.count].each do |suite|
-                %li{:title=>suite.name}
-                  =truncate(suite.name, :ommision => '...', :length => 35)
-
-          %td{:title=>task_program.user.name}
-            =truncate( task_program.user.name, :ommision => '...', :length => 20)                 
-          %td
-            %b
-              ="#{cron.min} #{cron.hour} #{cron.day_of_month} #{cron.month} #{cron.day_of_week}"
-          %td{:title=>task_program.identifier}
-            =truncate( task_program.identifier, :ommision =>'...', :length => 20)                                
+      /Data 
+      -form_for :task_programs,:url=>{:controller=>:task_programs, :action=>:destroy},:html=>{:id=>'form_delete'}  do                     
+        -crons.each do |cron|
+          -task_program = cron.task_program
+          %tr 
+            /Checkbox 
+            %td
+              -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
+              =check_box_tag 'id[]', task_program.id, false, :disabled=>enabled, :class=>"check_cron"
+            /Project
+            %td{:title=>task_program.project.name}
+              =truncate( task_program.project.name, :ommision => '...', :length => 60)    
+            /Suites        
+            %td
+              =render :partial=>'task_programs/suites', :locals=>{:task_program=>task_program}
+            /User
+            %td{:title=>task_program.user.name}
+              =truncate( task_program.user.name, :ommision => '...', :length => 20)  
+            /Frecuency               
+            =render :partial =>'frecuency', :locals=>{:cron=>cron}
+            /Identifier
+            %td{:title=>task_program.identifier}
+              =truncate( task_program.identifier, :ommision =>'...', :length => 20)                                
     -else  
       %i
         %br

@@ -1,0 +1,12 @@
+%li
+  %ul.inline
+    %li.inline
+      ="#{delayed_job.run_at.day}/#{delayed_job.run_at.mon}/#{delayed_job.run_at.year}"  
+    %li.inline
+      %b
+        ="#{delayed_job.run_at.hour}:#{delayed_job.run_at.min}"                      
+    %li.inline
+      =@weekly_trans[delayed_job.run_at.strftime('%A')]
+    %li.inline
+      %b
+        =delayed_job.s_status    

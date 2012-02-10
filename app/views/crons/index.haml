@@ -19,8 +19,7 @@
 
   /Delete
   var text_to_ask='#{_('Are You sure to delete Scheduling?')}';
-  var destroy_url = '#{url_for(:controller=>:crons, :action=>:destroy)}';
-  $j('#delete_icon').click( function(){if( confirm(text_to_ask) ){ form = $j('#cron_actions'); form.attr('action',destroy_url); form.submit();}}); 
+  $j('#delete_icon').click( function(){if( confirm(text_to_ask) ){$j('#form_delete').submit();}}); 
 
   /Info
   $j('#info_icon').click(function(){$j('#infoTaskPrograms').toggle();}); 

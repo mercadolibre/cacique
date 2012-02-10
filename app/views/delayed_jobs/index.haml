@@ -5,7 +5,7 @@
 =link_to _('Cron'), crons_path, :class=>'tab_view' 
 
 .tab_container  
-  =render :partial => 'table', :locals => {:delayed_jobs => @delayed_jobs}
+  =render :partial => 'table', :locals => {:task_programs => @task_programs}
   
 /Tools menu
 -content_for :tools_menu do
@@ -18,10 +18,9 @@
   /check_all
   $j('#check_all').click(function(){ch_select_all(this, 'check_delayed_job');}); 
 
-  /Delete icon
+  /Delete
   var text_to_ask='#{_('Are You sure to delete Scheduling?')}';
-  var delete_url = '#{url_for(:controller=>:delayed_jobs, :action=>:destroy)}';
-  $j('#delete_icon').click( function(){if( confirm(text_to_ask) ){ form = $j('#dj_actions'); form.attr('action',delete_url); form.submit();}}); 
+  $j('#delete_icon').click( function(){if( confirm(text_to_ask) ){$j('#form_delete').submit();}}); 
   
   /Info
   $j('#info_icon').click(function(){$j('#infoTaskPrograms').toggle();}); 

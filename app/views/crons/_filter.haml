@@ -1,6 +1,6 @@
 .filter
-  /TaskProgram filter
-  =render :partial=> 'task_programs/filter'
-  
-  %label
-    =submit_tag _("Apply"), :class=>'submit' 
+  -form_for :crons, :url => crons_path, :html=>{:method=>:get}  do
+    /TaskProgram filter
+    =render :partial=> 'task_programs/filter'
+    %label
+      =submit_tag _("Apply"), :class=>'submit' 

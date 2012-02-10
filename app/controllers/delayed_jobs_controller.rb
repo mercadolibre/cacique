@@ -47,14 +47,17 @@ DateTime.now.in_time_zone
     @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
     
     #DelayedJobs
-    @delayed_jobs = DelayedJob.filter(params)
+    @task_programs = DelayedJob.filter(params)
 
    end
 
    #Removes a collection of Delayed Jobs
    def destroy
-     DelayedJob.destroy params[:id] if params[:id]
-     redirect_to url_for( :controller=>:delayed_jobs, :action=>:index, :filter=>params[:filter])
+    if params[:id]
+      delayed_job = DelayedJob.find params[:id] 
+      delayed_job.destroy if current_user.has_role?("root") or delayed_job.task_program.user_id == current_user.id
+    end
+    redirect_to url_for( :controller=>:delayed_jobs, :action=>:index, :filter=>params[:filter])
    end
 
   def get_list
