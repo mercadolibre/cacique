@@ -3242,6 +3242,27 @@ msgstr "Ultima Confirmada"
 msgid "Alarms"
 msgstr "Alarmas"
 
+#: app/views/crons/index.haml: 
+msgid "Hour"
+msgstr "Hora"
+
+#: app/views/crons/index.haml: 
+msgid "Day of month"
+msgstr "Día del mes"
+
+#: app/views/crons/index.haml: 
+msgid "Day"
+msgstr "Día"
+
+#: app/views/crons/index.haml: 
+msgid "Month"
+msgstr "Mes"
+
+#: app/views/crons/index.haml: 
+msgid "Day of week"
+msgstr "Día de la semana"
+
+
 #: app/views/task_programs/confirm_program.haml: 
 msgid "Programed task confirmation"
 msgstr "Confirmacion de las tareas programadas"

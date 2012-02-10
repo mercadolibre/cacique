@@ -2,7 +2,7 @@
   =_('Alarms')
          
 =link_to _('Task Program'), delayed_jobs_path, :class=>'tab_view' 
-=link_to _('Cron'), crons_path, :class=>'tab_view selected'  
+=link_to _('Alarms'), crons_path, :class=>'tab_view selected'  
 
 .tab_container  
   =render :partial => 'table', :locals => {:crons => @crons}

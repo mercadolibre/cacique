@@ -108,6 +108,10 @@ class DelayedJob < ActiveRecord::Base
     conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
     conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
 
+    #Only confirmed
+    conditions_names << " delayed_jobs.status in(?) " 
+    conditions_values << [1,2]   
+
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values
 

@@ -107,17 +107,17 @@ table.homein td li{ font-family:sans-serif; font-weight:lighter; font-weight:bol
 .div.executions_header .header_item img{ display: block; margin: auto}
 table.detail{ width:100%; border-collapse:collapse; clear:both; border:1px solid #336699; background:white}
 table.detail th{ background: #336699; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
-table.detail th.very_small{ max-width:2%}
-table.detail th.small{ max-width:10%}
-table.detail th.medium{ max-width:20%}
-table.detail th.long{ max-width:30%}
+table.detail th.very_small{ width:2%}
+table.detail th.small{ width:10%}
+table.detail th.medium{ width:20%}
+table.detail th.long{ width:30%}
 table.detail th a{ color:#ffffff; font-family:sans-serif; font-size:11px; font-weight:bold}
 table.detail th.d{ background: #626894; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
 table.detail td{ color:#848484; padding:5px; font-family:sans-serif; font-size:11px; text-align:left; text-align:center; border:1px solid #D2D2D2; vertical-align:middle}
 table.detail td img{ border:none}
 table.detail td.img img{ border:none; width: 12px; height: 14px}
 table.detail td a{ cursor:pointer; text-decoration:underline; color:#848484; font-weight:normal}
-table.detail td ul {text-align: left; padding-left:10px; margin: 0}
+table.detail td ul {text-align: left; margin: 0}
 table.detail td ul sub.more{ float: right; cursor:pointer}
 table.detail td ul.inline{ text-align: left; display:inline}
 table.detail td ul.inline li.inline{ display:inline}

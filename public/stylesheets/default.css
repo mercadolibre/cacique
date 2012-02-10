@@ -827,19 +827,19 @@ table.detail th{
 }
 
 table.detail th.very_small{
-  max-width:2%;
+  width:2%;
 }
 
 table.detail th.small{
-  max-width:10%;
+  width:10%;
 }
 
 table.detail th.medium{
-  max-width:20%;
+  width:20%;
 }
 
 table.detail th.long{
-  max-width:30%;
+  width:30%;
 }
 
 table.detail th a{
@@ -891,9 +891,9 @@ table.detail td a{
 
 table.detail td ul {
   text-align: left;
-  padding-left:10px;
   margin: 0;
 }
+
 
 table.detail td ul sub.more{
   float: right;
