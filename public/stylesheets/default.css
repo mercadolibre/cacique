@@ -159,11 +159,38 @@ select{
   color:#31576F;
 }
 
+.form_tag label.inline{
+  display: block;
+  float: left;
+  max-width: 80px;
+  min-width: 40px;
+}
+
+.form_tag input.inline{
+  width:50px;
+  margin-left: 5px;
+  display:inline;
+}
+
+.form_tag input.inline.hide{
+  display:none;
+  disabled
+}
+
+.form_tag select.inline{
+  display:inline;
+  margin-left: 5px;
+}
 
 .form_tag p i{
  line-height: 180%;
  text-align:left;
 }
+.form_tag img.edit_select{
+  cursor:pointer;
+  float: right;
+}
+
 
 .form_tag_flap{
  -moz-border-radius:10px 10px 0px 0px;

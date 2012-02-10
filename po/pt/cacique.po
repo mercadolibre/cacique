@@ -3055,10 +3055,13 @@ msgstr "Confirmada"
 msgid "Last Confirmed"
 msgstr "Confirmado última"
 
+#: app/views/crons/new.haml: 
+msgid "Alarm"
+msgstr "Alarme"
+
 #: app/views/crons/index.haml: 
 msgid "Alarms"
 msgstr "Alarmes"
-
 
 #: app/views/crons/index.haml: 
 msgid "Alarms"

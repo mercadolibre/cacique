@@ -75,7 +75,7 @@ class TaskProgramsController < ApplicationController
     @user_configuration = current_user.user_configuration
     @user_configuration.update_configuration(params[:execution])
     TaskProgram.create_all(params)
-    path = (params[:program][:range] == "forever")? crons_path : delayed_jobs_path
+    path = (params[:program][:range] == "alarm")? crons_path : delayed_jobs_path
     redirect_to path
   end
 

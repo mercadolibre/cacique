@@ -66,7 +66,7 @@ class TaskProgram < ActiveRecord::Base
     task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
 
     #CronEdit
-    if params[:program][:range] == "forever"
+    if params[:program][:range] == "alarm"
       Cron.add(task_program, params[:cron])
     #DelayedJob
     else
@@ -106,7 +106,7 @@ class TaskProgram < ActiveRecord::Base
                weekly_date  = weekly_date +  60*60*24 #Add one day
              end        
          end
-      when "forever"
+      when "alarm"
          times_to_run << params[:cron]
       else
         raise "Indefined range"

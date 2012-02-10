@@ -19,8 +19,8 @@
       =radio_button_tag "program[range]", "extend", false, {:onclick=>"CCQUI.show_and_hide('#repetitions_and_init_date,#frecuency,#extended', '#one,#cron');" } 
       =_('Range')
     %div{ :style=>"width:80px; float:left;margin-bottom:10px;color:#848484;"}     
-      =radio_button_tag "program[range]", "forever", false, {:onclick=>"CCQUI.show_and_hide('#cron', '#repetitions_and_init_date,#frecuency,#extended, #one');"}
-      =_('Forever')   
+      =radio_button_tag "program[range]", "alarm", false, {:onclick=>"CCQUI.show_and_hide('#cron', '#repetitions_and_init_date,#frecuency,#extended, #one');"}
+      =_('Alarm')   
     %div{ :style=>"border-top:1px solid #C3C3C3;clear: both;margin-bottom:10px;"}
     
     //DATES ONE          

@@ -3238,6 +3238,10 @@ msgstr "Confirmada"
 msgid "Last Confirmed"
 msgstr "Ultima Confirmada"
 
+#: app/views/crons/new.haml: 
+msgid "Alarm"
+msgstr "Alarma"
+
 #: app/views/crons/index.haml: 
 msgid "Alarms"
 msgstr "Alarmas"

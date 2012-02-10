@@ -19,7 +19,12 @@ select{ font-size:11px}
 .header_main a {display: block; float: left; height: 25px; background: #ABBA47 url(/images/img3.gif) repeat-x; text-decoration: none; font-weight: bold; text-transform: capitalize; text-align: left}
  .hide{ display:none}
  .form_tag{ -moz-border-radius:5px; border:1px solid #C3C3C3; padding:10px; color:#31576F}
+.form_tag label.inline{ display: block; float: left; max-width: 80px; min-width: 40px}
+.form_tag input.inline{ width:50px; margin-left: 5px; display:inline}
+.form_tag input.inline.hide{ display:none; disabled }
+.form_tag select.inline{ display:inline; margin-left: 5px}
 .form_tag p i{ line-height: 180%; text-align:left}
+.form_tag img.edit_select{ cursor:pointer; float: right}
 .form_tag_flap{ -moz-border-radius:10px 10px 0px 0px; border:1px solid #C3C3C3; border-bottom:0px; padding:5px; text-align:center}
 .form_button{ float:right; margin-right:40px; -moz-border-radius:5px; border:1px solid #C3C3C3; color:#31576F}
 .form_button input{ cursor:pointer}
