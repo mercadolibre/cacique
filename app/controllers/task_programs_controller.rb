@@ -80,22 +80,11 @@ class TaskProgramsController < ApplicationController
     redirect_to path
   end
 
-
-  def delete
-    @job = DelayedJob.find params[:id]
-    if current_user.has_role?("root") or @job.task_program.user_id == current_user.id
-      @job.destroy
-      redirect_to "/task_programs"
-    else
-      redirect_to "/users/access_denied?source_uri=task_programs"
-    end
-  end
-
    #Removes a collection of Delayed Jobs
    def destroy
     if params[:id]
       task_program_ids = params[:id].map{|x| x.to_i}
-      TaskProgram.destroy(task_program_ids)
+      TaskProgram.destroy_all(task_program_ids)
       redirect_to :back, :filter=>params[:filter] #Crons or delayed jobs
     end
    end

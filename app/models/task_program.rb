@@ -46,13 +46,13 @@ class TaskProgram < ActiveRecord::Base
   has_one  :cron, :dependent => :destroy
   validates_presence_of :user_id,    :message => _("Must complete User Field")
   serialize :execution_params
-  before_destroy :validate_permissions
 
   def self.create_all(params)
     Suite
 
     #Build execution params
-    params[:execution][:identifier] = _('Schedule') if params[:execution][:identifier].empty?
+    params[:execution][:identifier]= _('Schedule') if params[:execution][:identifier].empty?
+    params[:execution][:kind]      = params[:program][:range] == "alarm" ? 1: 2
 
     #TaskProgram new
     task_program = TaskProgram.new({:user_id => current_user.id,
@@ -65,6 +65,8 @@ class TaskProgram < ActiveRecord::Base
     params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
     task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
 
+
+
     #CronEdit
     if params[:program][:range] == "alarm"
       Cron.add(task_program, params[:cron])
@@ -73,6 +75,13 @@ class TaskProgram < ActiveRecord::Base
       DelayedJob.add(task_program, params)
     end
 
+  end
+
+  def self.destroy_all(task_program_ids)
+      task_program_ids.each do |id|
+        task_program = TaskProgram.find(id)
+        task_program.destroy if current_user.has_role?("root") or task_program.user_id == current_user.id
+      end
   end
 
   #builds all agreed on the basis of "params" and assembles the "delayed job" for
@@ -262,16 +271,11 @@ class TaskProgram < ActiveRecord::Base
          :conditions => ['user_id=? AND project_id IN (?)', user.id, projects], :group => 'suite_id')
   end
 
-
   def self.build_params
       params[:execution][:user_mail] = current_user.email
       params[:execution][:user_id]   = current_user.id
       params[:execution][:suite_id]  = (params[:execution][:suite_ids].include?("0")? Suite.find_all_by_project_id(params[:project_id]).map(&:id) : params[:execution][:suite_ids]).join(",")
       params
-  end
-
-  def validate_permissions
-    (current_user.has_role?("root") or task_program.user_id == current_user.id)
   end
 
 end
