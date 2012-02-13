@@ -225,7 +225,15 @@
 
   end
 
+  #Clear all crons code
   def self.clear
     "cm = Crontab.new\ncm.clear!\n\n"
   end
+
+ def self.validate_params(params)
+    cron = Cron.new(params)
+    return cron.errors.full_messages.join(', ') if !cron.valid?
+    return ""
+ end
+
 end

@@ -10,11 +10,9 @@ class CronsController < ApplicationController
     #One project selected
     if @project_id != 0 
       #Read suites ids from cache
-      suites_ids = Rails.cache.read("project_suites_#{@project_id}")
-      suites_ids = Project.find(@project_id).suite_ids if !suites_ids
+      suites_ids = Rails.cache.fetch("project_suites_#{@project_id}"){Project.find(@project_id).suite_ids}
       @suites    = Suite.find(suites_ids)
     end
-  
     @crons = Cron.filter(params)
   end
   

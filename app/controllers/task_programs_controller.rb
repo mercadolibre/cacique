@@ -44,15 +44,12 @@ class TaskProgramsController < ApplicationController
     @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
     @each_hour_or_min  = [ [_("hs."), "hours"], [_("min"),"min"] ]
     @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
- 
-    #Errors create
-    @errors = params[:errors].to_s
 
   end
 
   def confirm
-    @text_error   = TaskProgram.validate(params)   
-    @text_confirm = ''
+    @text_confirm = ''    
+    @text_error   = TaskProgram.validate_params(params)   
     if @text_error.empty? 
         params[:execution][:server_port] = request.port if request.port != 80
         cant_times  = TaskProgram.generate_times_to_run(params[:program]).count
@@ -65,7 +62,8 @@ class TaskProgramsController < ApplicationController
          if @suite_program_cant > MAX_SUITE_PROGRAM
             @text_confirm = _("You are to be scheduled #{@suite_program_cant} executions, please enter the number of executions to confirm.") 
          end
-     end  
+     end
+
      respond_to do |format|
          format.html
          format.js # run the confirm.rjs template
@@ -74,13 +72,11 @@ class TaskProgramsController < ApplicationController
 
 
   def create
-    @text_error = TaskProgram.validate(params)   
     params[:execution][:server_port] = request.port if request.port != 80
     @user_configuration = current_user.user_configuration
     @user_configuration.update_configuration(params[:execution])
-    entity = TaskProgram.create_all(params)
-    path = new_task_program_path(:errors=>entity.errors.full_messages.join(', ')) if entity.class == Cron and !entity.errors.empty?
-    path = (params[:program][:range] == "alarm")? crons_path : delayed_jobs_path if !path
+    TaskProgram.create_all(params)
+    path = (params[:program][:range] == "alarm")? crons_path : delayed_jobs_path
     redirect_to path
   end
 
