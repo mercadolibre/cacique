@@ -9,7 +9,14 @@
 
 %td{:title=>cron.month}
   -months = cron.month.split(/,|\/|-/).map{ |d| Date::ABBR_MONTHNAMES[d.to_i]}.join(', ')
-  =truncate( months, :ommision => '...', :length => 5)  
+  -if months.empty?
+    =truncate( cron.month, :ommision => '...', :length => 5) 
+  -else 
+    =truncate( months, :ommision => '...', :length => 5)  
 %td{:title=>cron.day_of_week}
   -days_of_week = cron.day_of_week.split(/,|\/|-/).map{|d| Date::ABBR_DAYNAMES[d.to_i]}.join(', ')
-  =truncate( days_of_week, :ommision => '...', :length => 10) 
+  -if days_of_week.empty?
+    =truncate( cron.day_of_week, :ommision => '...', :length => 10) 
+  -else 
+    =truncate( days_of_week, :ommision => '...', :length => 10) 
+

@@ -28,24 +28,28 @@
   belongs_to :task_program
   before_save :task_program_id_validation
 
+
   validates_format_of :min, :hour, :day_of_month, :month, :day_of_week, :with => /^(\s)*(\*)(\s)*$|^(\s)*[0-9]+(\s)*([-,\/,\,](\s)*[0-9]+(\s)*)*$/,  :message => "Invalid format"
   validates_each :min, :hour, :day_of_month, :month, :day_of_week do |record, attr, value|
-    #Numbers
-    values   = value.split(/,|\/|-/).map{|x| x.to_i}
-    case attr
-      when :min
-        range = (0..59)
-      when :hour
-        range = (0..23)      
-      when :day_of_month
-        range = (1..31)          
-      when :month
-        range = (1..12)   
-      when :day_of_week
-        range = (0..6)                     
-    end 
-    errors = values.select{|x| !range.include?(x)}  
-    record.errors.add attr, errors.join(', ') if !errors.empty?
+    value.gsub!(" ", "") #without spaces
+    if value != "*"
+      #Numbers
+      values   = value.split(/,|\/|-/).map{|x| x.to_i}
+      case attr
+        when :min
+          range = (0..59)
+        when :hour
+          range = (0..23)      
+        when :day_of_month
+          range = (1..31)          
+        when :month
+          range = (1..12)   
+        when :day_of_week
+          range = (0..6)                     
+      end 
+      errors = values.select{|x| !range.include?(x)}  
+      record.errors.add attr, errors.join(', ') if !errors.empty?
+    end
   end
  
   def task_program_id_validation
@@ -140,7 +144,7 @@
 
   #Builds Cacique command 
   def build_command
-      command = SuiteExecution.generate_command(self.task_program.execution_params) 
+      command = SuiteExecution.generate_command(self.task_program.execution_params, "cron") 
       "#{RAILS_ROOT}/lib/#{command}"
   end
 
