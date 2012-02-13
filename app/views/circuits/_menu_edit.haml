@@ -43,7 +43,7 @@
 
   %div{ :style=>"margin:auto;width:300px;display:inline;padding-left:10px;"}
     //Cases
-    -cases =[[_("Without Cases"), ""]] + @circuit.case_templates.collect{|c| [ truncate(c.objective.capitalize, :ommision => "...", :length => 70), c.id ]}
+    -cases =[[_("Without Cases"), ""]] + @circuit.case_templates.active.collect{|c| [ truncate(c.objective.capitalize, :ommision => "...", :length => 70), c.id ]}
     -value =  @execution_running? @execution_running.case_template_id : ""
     =select("cases", "id",  cases ,{:selected => value},{:style => "width:150px;vertical-align:9px;"})
 
