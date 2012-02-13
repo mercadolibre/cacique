@@ -29,20 +29,24 @@ class TaskProgramsController < ApplicationController
     @suite_id    = params[:id]  if params[:id]
     @init_date   = Time.now
     @finish_date = Time.now + (24*60*60) #Tomorrow
+
     #obtain user configuration
-      @user_configuration = UserConfiguration.find_by_user_id(current_user.id)
-      @user_configuration_values = @user_configuration.get_hash_values
-      @column_1, @column_2 = ContextConfiguration.calculate_columns
-      @suite_execution = SuiteExecution.new
-      @command = params[:command]
+    @user_configuration = UserConfiguration.find_by_user_id(current_user.id)
+    @user_configuration_values = @user_configuration.get_hash_values
+    @column_1, @column_2 = ContextConfiguration.calculate_columns
+    @suite_execution = SuiteExecution.new
+    @command = params[:command]
 
     #Data for program
-      @suites       = Suite.find :all, :conditions=>["project_id = ?", params[:project_id]], :order => "name"
-      @weekly       = Date::DAYNAMES 
-      @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
-      @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
-      @each_hour_or_min  = [ [_("hs."), "hours"], [_("min"),"min"] ]
-      @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
+    @suites       = Suite.find :all, :conditions=>["project_id = ?", params[:project_id]], :order => "name"
+    @weekly       = Date::DAYNAMES 
+    @weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
+    @range_repeat  = [ [_("Each"), "each"], [_("Specify"),"specific"] ]
+    @each_hour_or_min  = [ [_("hs."), "hours"], [_("min"),"min"] ]
+    @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
+ 
+    #Errors create
+    @errors = params[:errors].to_s
 
   end
 
@@ -74,8 +78,9 @@ class TaskProgramsController < ApplicationController
     params[:execution][:server_port] = request.port if request.port != 80
     @user_configuration = current_user.user_configuration
     @user_configuration.update_configuration(params[:execution])
-    TaskProgram.create_all(params)
-    path = (params[:program][:range] == "alarm")? crons_path : delayed_jobs_path
+    entity = TaskProgram.create_all(params)
+    path = new_task_program_path(:errors=>entity.errors.full_messages.join(', ')) if entity.class == Cron and !entity.errors.empty?
+    path = (params[:program][:range] == "alarm")? crons_path : delayed_jobs_path if !path
     redirect_to path
   end
 

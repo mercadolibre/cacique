@@ -3,8 +3,8 @@
   -time_now = DateTime.now
   %label.inline    
     =_('Day')
-  =select "cron", "day", (1..31).zip((1..31).to_a) + [['*']], {:selected => time_now.day},{:class=>'inline'}    
-  =text_field "cron", "day", :title=>_('Day of month'), :class=>'inline hide', :disabled=>'disabled'  
+  =select "cron", "day_of_month", (1..31).zip((1..31).to_a) + [['*']], {:selected => time_now.day},{:class=>'inline'}    
+  =text_field "cron", "day_of_month", :title=>_('Day of month'), :class=>'inline hide', :disabled=>'disabled'  
   %br
   %br  
   %label.inline     
