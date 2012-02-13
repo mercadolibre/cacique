@@ -38,7 +38,7 @@ class ScriptRunner < ActiveRecord::Base
   attr_accessor	:data_recoveries
   attr_accessor :project_id #to find required cacique functions
   attr_accessor :configuration_values
-  attr_accessor :execution 
+  attr_accessor :execution
   attr_accessor :free_values
   attr_accessor :execution_flag
   attr_accessor :ccq_exec_flag
@@ -71,7 +71,10 @@ class ScriptRunner < ActiveRecord::Base
     #Se execution values
     execution.ip=local_ip
     execution.pid=$$
+    execution.suite_execution.status=1
+    execution.suite_execution.save
     execution.save
+    
     Rails.cache.write WORKER_CACHE_KEY, execution
     #Method for the creation of the script
     ccq_generate_script(ccq_file_code)
