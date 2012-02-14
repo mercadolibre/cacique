@@ -254,6 +254,9 @@ case $ACTION in
 		program)
 			suite_execution $ID
 			;;
+    cron)
+      suite_execution $ID
+      ;;      
 		runlist)
 			#en ACTION tiene el $1 inicial y en id tiene el $2 inicial
 			file_counter=0

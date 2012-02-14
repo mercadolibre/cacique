@@ -77,7 +77,21 @@ class SuiteExecution < ActiveRecord::Base
         _("Complete")
     end
   end
-  
+
+  #Returns the string that represents the kind
+  def s_kind
+    case self.kind
+      when 0
+        "Normal"
+      when 1
+        _("Alarm")
+      when 2
+        _("Task Program")
+      else
+        "Invalid"
+    end
+  end
+    
   def self.cancel(id)
    suite_execution=SuiteExecution.find id
     suite_execution.executions.each do |exe|
@@ -346,7 +360,9 @@ class SuiteExecution < ActiveRecord::Base
   
   #It will show the command that you should use to run that configuration
   def self.generate_command(execution_params, function="run")
+
     command = "cacique #{function} " 
+
     #Suite_id
     execution_params[:suite_ids] = execution_params[:suite_id] if execution_params[:suite_id]
     command += execution_params[:suite_ids].to_a.join(',') 
@@ -356,6 +372,14 @@ class SuiteExecution < ActiveRecord::Base
        userkey=current_user.api_key
     end
     command += " -apikey #{userkey}"
+
+    #Kind
+    case function
+      when "cron"
+          command += " -kind 1"         
+      when "program"
+          command += " -kind 2" 
+    end
    
     #commented cases
     if execution_params.has_key?(:case_comment)
@@ -425,11 +449,6 @@ class SuiteExecution < ActiveRecord::Base
     #DebugMode
     if execution_params.has_key?(:debug_mode)
       command += " -debug_mode true"
-    end
-    
-    #Program
-    if execution_params.has_key?(:task_program_id)
-      command += " -task_program_id " + execution_params[:task_program_id].to_s
     end
     
     #server's ip

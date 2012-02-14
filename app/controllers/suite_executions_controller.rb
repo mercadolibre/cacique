@@ -166,6 +166,7 @@ class SuiteExecutionsController < ApplicationController
   end
 
   def create
+
     if !params[:execution].nil? and params[:execution].include?(:suite_id) 
       #if run a suite, i have suite_id
       suite_id = params[:execution][:suite_id]
@@ -207,9 +208,16 @@ class SuiteExecutionsController < ApplicationController
     else
       user_id = current_user.id
     end
-    
+
+    #Kind of suite execution
+    kind = (params[:execution] and params[:execution][:kind])?  params[:execution][:kind].first.to_i : 0
+
     combinations.each do |combination|
-      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,:project_id=>@project_id, :identifier=>identifier,:user_id=>user_id)
+      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,
+                                               :project_id=>@project_id, 
+                                               :identifier=>identifier,
+                                               :user_id=>user_id,
+                                               :kind=>kind)
       #add run parameters to suite_execution
       @suite_execution.create_configuration_to_run(combination)     
       #Executions are generated for the suite
