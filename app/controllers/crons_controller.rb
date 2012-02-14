@@ -21,8 +21,4 @@ class CronsController < ApplicationController
     redirect_to crons_path
   end
 
-  def destroy
-    Cron.remove(params[:id])
-  end
-
 end

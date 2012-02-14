@@ -27,7 +27,7 @@
 
   belongs_to :task_program
   before_save :task_program_id_validation
-
+  before_destroy :remove
 
   validates_format_of :min, :hour, :day_of_month, :month, :day_of_week, :with => /^(\s)*(\*)(\s)*$|^(\s)*[0-9]+(\s)*([-,\/,\,](\s)*[0-9]+(\s)*)*$/,  :message => "Invalid format"
   validates_each :min, :hour, :day_of_month, :month, :day_of_week do |record, attr, value|
@@ -86,18 +86,11 @@
   end
 
   #Remove Cron and update server cron
-  def self.remove(id)
-    cron_ids = id.to_a
-    cron_ids.each do |id|
-      #Find cron
-      cron = Cron.find id.to_i
-      #Generate file code 
-      code = header_line + cron.remove_line
-      #Update and execute file (SSH)
-      cron.update_file(code)
-      #Cron destroy
-      cron.destroy
-    end
+  def remove
+    #Generate file code 
+    code = Cron.header_line + self.remove_line
+    #Update and execute file (SSH)
+    self.update_file(code)
   end
 
   def self.filter(params)
