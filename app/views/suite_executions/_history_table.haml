@@ -1,45 +1,58 @@
--if suite_executions.empty? && params[:filter].nil?
-  %h2{:style=>"text-align:center;margin-top:10%;"}
-    %i
-      =_('No Executions')
-      
--elsif suite_executions.empty? && !params[:filter].nil?
-  %h2{:style=>"text-align:center;margin-top:30px;"}
-    %i
-      =_("No results were found")
-      
--else
-  %div{:style=>"width:95%;"}
+%table.detail{:name=>"table_zebra"}
+  %thead
+
+    /Paginate
     -unless params.include? "filter"
       = will_paginate suite_executions
     -else
       = will_paginate suite_executions, :params => { 'filter' => filter}
-  %div{ :style=>"clear: both;"}
+    .pagination
+      = _('Show') + ":"
+      = page_size_link 50
+      = page_size_link 100
+      = page_size_link 150    
+        
+    /Filter
+    =render :partial => "filter_index" 
+    
+  -if suite_executions.empty? && params[:filter].nil?
+    %i
+      %br
+      %br  
+      =_('No Executions')
+        
+  -elsif suite_executions.empty? && !params[:filter].nil?
+    %i
+      %br
+      %br  
+      =_("No results were found")
 
-  -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do
-    %table.detail{:id=>"executions",:name=>"table_zebra", :cellspacing=>0, :style=>"float:left;width:96%; margin-top:0px;"}
-      %tr
-        %th{:style=>"width:30px;"}
-          %input{ :type => "checkbox", :id=>"seleccion",:name => 'todos',:value => "checkbox", :onChange => "ModificarTodos(this);", :style=>"margin:0px;"}
-        %th{:style=>"width:30px;", :class => "sortable"}
-          T
-        %th{:style=>"min-width: 12%; max-width:12%;", :class => "sortable"}
-          =_('Identifier')
-        %th{:style=>"min-width: 40%; max-width:40%;", :class => "sortable"}
-          =_('Name')
-        %th{:style=>"min-width: 5%; max-width:10%;", :class => "sortable"}
-          =_('User')
-        %th{:class => "sortable"}
-          =_('Date')
-        %th{:class => "sortable"}
-          =_('Duration')   
-        %th{:style=>"min-width:12%;", :class => "sortable"}
-          Configuration                
-        %th{:class => "sortable"}
-          Ok        
-        %th{:style=>"min-width:6%;", :class => "sortable"}
-          =_('Status')
+  -else  
+    /Header             
+    %tr
+      %th.very_small
+        =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}      
+      %th.very_small{ :class => "sortable"}
+        T
+      %th.small{:class => "sortable"}
+        =_('Identifier')
+      %th.medium{ :class => "sortable"}
+        =_('Name')
+      %th.small{ :class => "sortable"}
+        =_('User')
+      %th.small{:class => "sortable"}
+        =_('Date')
+      %th.very_small{:class => "sortable"}
+        =_('Duration')   
+      %th.small{:class => "sortable"}
+        Configuration                
+      %th.very_small{:class => "sortable"}
+        Ok        
+      %th.very_small{ :class => "sortable"}
+        =_('Status')
 
+    /Data
+    -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do      
       -suite_executions.each do |suite_execution|
         //verifies the name of the suite, or if an execution unit, the script
         -entity = (suite_execution.suite_id==0)? suite_execution.executions.first.circuit : suite_execution.suite
@@ -50,18 +63,3 @@
             %td{:colspan=>"10"}
               ="Error  (Please, delete Suite execution #{suite_execution.id})"
  
-//JS
-= calendar_date_select_includes "blue"
--javascript 'tabla_suiteExe_editable'
--javascript 'tablesort'
-
-%script
-  //Tabla editable
-  jQuery(window).bind("load", function(){
-  iniciarTabla();
-  })
-  //marked file
-  var marcado  = ""; 
-  var anterior = "";
-  var color_anterior = "";
-

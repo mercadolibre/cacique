@@ -4,7 +4,6 @@
       /Paginate
       = will_paginate crons, :params => { 'filter' => params[:filter]}
       .pagination
-        %span
         = _('Show') + ":"
         = page_size_link 50
         = page_size_link 100

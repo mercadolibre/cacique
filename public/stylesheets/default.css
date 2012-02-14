@@ -1202,6 +1202,11 @@ table th.safari{
   cursor:pointer;
 }
 
+.filter input.submit_min{
+  cursor:pointer;
+  width:40px;
+}
+
 .div_hover{
   -moz-border-radius:5px;
   border:1px solid #C3C3C3;

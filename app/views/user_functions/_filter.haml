@@ -35,7 +35,7 @@
         %label{:style=>" display:inline;"}
           =_('Projects:')
         .form_tag{:style=>'max-height: 80px; width: 95%; overflow: auto; padding: 5px; margin-bottom: 10px;clear:both;float: left;'}
-          = check_box_tag '[filter][projects_ids][]', 0, false, :onClick => "ch_select_all(this, 'projects_ids');disable_all($j(this).is(':checked'), 'project_ids');"
+          = check_box_tag '[filter][projects_ids][]', 0, false, :onClick => "ch_select_all(this, '.projects_ids');disable_all($j(this).is(':checked'), 'project_ids');"
           %b{:style=>'color:#848484;'}
             All
           %br

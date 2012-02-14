@@ -7,19 +7,39 @@
   %h1{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize, :style=>"   margin: 20px auto 0;;"}
     =_('History of Execution from: ')
     =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
-  =render :partial => "filter_index"
-  #history_table{:style=>"clear:both;"}
+
+  #history_table
     =render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
 
 //Tools menu
 -content_for :tools_menu do
-  %img{:src => "/images/icons/pdf.png",     :alt=>"pdf.png",     :title=>_('Export to PDF'),  :onClick => "EnviarFormulario();"}
-  %img{:src => "/images/icons/filter.png",  :alt=>"filter.png",  :title=>_('Filter'),         :onClick => "document.getElementById('filter_form').toggle();"}
-  %img{:src => "/images/icons/info.png",    :alt=>"info.png",    :title=>_('Information'),    :onClick => "document.getElementById('infoSuiteExecution').toggle();"}
+  =image_tag  "/images/icons/pdf.png", :alt=>"pdf.png", :title=>_('Export to PDF'), :id=>'pdf_icon'
+  =image_tag "/images/icons/info.png",:alt=>"info.png", :title=>_('Information'), :id=>'info_icon'
 
 //Help 
-=render :partial => "info_suite_execution"
+=render :partial => "info"
 
 //JS
+= calendar_date_select_includes "blue"
 -javascript 'history'
+-javascript 'checkbox_lib'  
+-javascript 'tabla_suiteExe_editable'
+-javascript 'tablesort'
+%script
+  /check_all
+  $j('#check_all').click(function(){ch_select_all(this, '.check_suite_execution');}); 
 
+  //Tabla editable
+  jQuery(window).bind("load", function(){
+  iniciarTabla();
+  })
+  //marked file
+  var marcado  = ""; 
+  var anterior = "";
+  var color_anterior = "";
+
+  /PDF
+  $j('#pdf_icon').click(function(){EnviarFormulario();}); 
+
+  /Info
+  $j('#info_icon').click(function(){$j('#infoSuiteExecution').toggle();}); 

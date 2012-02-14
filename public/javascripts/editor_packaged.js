@@ -10,7 +10,7 @@ function sendCircuitUpdate(){c_name=document.getElementById('circuit_name').valu
 function changeInput(){if(document.getElementById('data_recovery_name_code').style.display=='none'){document.getElementById('data_recovery_name_code').style.display='block';document.getElementById('data_recovery_name_code_2').style.display='none';}else{document.getElementById('data_recovery_name_code').style.display='none';document.getElementById('data_recovery_name_code_2').style.display='block';}}
 function change_default(elem,value){options_name=".options_of_"+value;checkboxs=$j(options_name);if(elem.checked){checkboxs.attr('disabled',true);checkboxs.attr('checked',false);}
 else{checkboxs.attr('disabled',false);}}
-function ch_select_all(checker,attr_class){$j("."+attr_class).attr('checked',checker.checked);}
+function ch_select_all(checker,selector){$j(selector).attr('checked',checker.checked);}
 function disable_all(disabled,attr_class){$j("."+attr_class).attr('disabled',disabled);}
 function add_argument(){table=document.getElementById('arguments_table');row=table.insertRow(table.rows.length);row.id='row_'+table.rows.length;cell=row.insertCell(0);cell.innerHTML='<input name=user_function[args]['+cant_args_add+'] id=user_function_args_'+cant_args_add+'>';cell=row.insertCell(1);elemento=document.createElement('img');elemento.name='row_'+table.rows.length;elemento.src='/images/icons/cross.png';elemento.alt='cross.png';elemento.setAttribute('style','cursor:pointer; height:12px; width:12px; margin-left:10px;');elemento.onclick=function(){eliminarArgument(this.name);}
 cell.appendChild(elemento);div=document.getElementById('div_arguments_table');div.appendChild(table);cant_args_add+=1;}

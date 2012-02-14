@@ -166,6 +166,7 @@ table th.safari{ opacity:0.7; background:#31576F}
 .filter label{ width:60px; display:inline; margin-left: 10px}
 .filter select, .filter input{ width:100px; display:inline}
 .filter input.submit{ cursor:pointer}
+.filter input.submit_min{ cursor:pointer; width:40px}
 .div_hover{ -moz-border-radius:5px; border:1px solid #C3C3C3; padding:10px}
 .div_hover:hover{ background:#F5F6F7}
 .tab_container{ background: #EEEEED; padding:12px; -moz-border-radius:0px 2px 5px 5px; color:#373737; font-size:12px; border:1px solid #C6C5C4; padding:15px 25px; width:96%; clear: both}

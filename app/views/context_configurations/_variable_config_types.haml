@@ -2,7 +2,7 @@
   -when 'checkbox'
     -default_actived = @user_configuration_values[context_configuration.name].include?("default")
     //check all 
-    %input{ :type => "checkbox", :name => 'todos', :value => "checkbox", :onClick => "ch_select_all(this, 'options_of_#{context_configuration.name}');"}
+    %input{ :type => "checkbox", :name => 'todos', :value => "checkbox", :onClick => "ch_select_all(this, '.options_of_#{context_configuration.name}');"}
     =_("All")
     -context_configuration.all_values.each do |value|
       %div{:title=>value}

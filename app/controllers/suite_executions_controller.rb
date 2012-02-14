@@ -37,49 +37,43 @@ class SuiteExecutionsController < ApplicationController
   skip_before_filter :context_stuff, :only => [:update_suite_execution_status, :update_executions_status]
 
   def index
-    @project ||= Project.find params[:project_id]
+
     @errores = Array.new
-    @user_names  ||= User.all
     CalendarDateSelect.format=(:finnish)   
-    @init_date = params[:filter] && params[:filter][:init_date]? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (2*24*60*60) #2 days later
-    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone
     @readonly    = true unless current_user.has_role?("editor", @project)
-    row_per_page = (params[:filter] && params[:filter][:paginate])? params[:filter][:paginate].to_i : 12
+
+    #Project
+    @project ||= Project.find params[:project_id]
+
+    #Status
     @status = [  [_("all"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5], [_("Stopped"),6] ]
-    @context_configurations = ContextConfiguration.find_all_by_enable true
 
-   #show filters
-   if params[:filter]
-      @show_model   = params[:filter][:model]
-      @suite_names  ||= @project.suites
-      @script_names ||= @project.circuits      
-      @suite_names  ||= @project.suites
-      @script_names ||= @project.circuits
+    #Users
+    @users  = User.all
 
-      suite_executions = SuiteExecution.filter(@project,params[:filter])
-      #select cases values
-      if params[:filter][:circuit_id] && !params[:filter][:circuit_id].empty?
-         circuit = Circuit.find params[:filter][:circuit_id]
-         @case_names = circuit.case_templates
-      end     
+    #Scripts
+    @scripts = @project.circuits      
 
-      #Paginate
-      @total_rate = suite_executions.count
-      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page
-   else
-      suite_executions = SuiteExecution.filter(@project, Hash.new)
-      @total_rate = suite_executions.count
-      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
-   end
-   #Get percentages of states
-   @rates =  SuiteExecution.get_rates(suite_executions)
+    #Suites
+    suites_ids = Rails.cache.fetch("project_suites_#{@project.id}"){Project.find(@project.id).suite_ids}
+    @suites    = Suite.find(suites_ids)
 
-   #Run configurations
-   @run_configurations = Hash.new
-   @suite_executions.each do |se| 
-       @run_configurations[se.id] = se.execution_configuration_values
-   end
-   
+    #Dates
+    params[:init_date]   = params[:filter] && params[:filter][:init_date] ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (1*24*60*60)  #1 days after
+    params[:finish_date] = params[:filter] && params[:filter][:finish_date] ? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") :  DateTime.now.in_time_zone
+
+    #Suite executions
+    @suite_executions = SuiteExecution.filter(@project,params)
+
+    #Get percentages of states
+    @rates =  SuiteExecution.get_rates(@suite_executions)
+
+    #Run configurations
+    @run_configurations = Hash.new
+    @suite_executions.each do |se| 
+      @run_configurations[se.id] = se.execution_configuration_values
+    end
+
   end
 
   #stoping suite_execution!
@@ -243,9 +237,6 @@ class SuiteExecutionsController < ApplicationController
       @suite_execution.load_cache          
       #caching last executions of suite_execution
       @suite_execution.load_last_executions_cache    
-      
-      #means it is a suite scheduled
-      task_program.add_suite_execution_id(@suite_execution.id) if task_program
      
       suite_executions << @suite_execution
     end

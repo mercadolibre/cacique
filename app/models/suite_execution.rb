@@ -516,132 +516,92 @@ class SuiteExecution < ActiveRecord::Base
   end  
 
   def self.filter(project,params)
-   init_date    = params[:init_date] ? DateTime.strptime(params[:init_date], "%d.%m.%Y %H:%M"): DateTime.strptime( (DateTime.now.in_time_zone - (7*24*60*60)).to_s , "%Y-%m-%d %H:%M")#7 days after
-  finish_date  = params[:init_date] ? DateTime.strptime(params[:finish_date], "%d.%m.%Y %H:%M") : DateTime.strptime(  DateTime.now.in_time_zone.to_s , "%Y-%m-%d %H:%M:%S")
+    user_id     = params[:filter] && params[:filter][:user_id]   && !params[:filter][:user_id].blank?  ? params[:filter][:user_id].to_i    : nil 
+    suite_id    = params[:filter] && params[:filter][:suite_id]  && !params[:filter][:suite_id].blank? ? params[:filter][:suite_id].to_i   : nil
+    script_id   = params[:filter] && params[:filter][:script_id] && !params[:filter][:script_id].blank? ? params[:filter][:script_id].to_i : nil   
+    status      = params[:filter] && params[:filter][:status]    && !params[:filter][:status] && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
+    identifier  = params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
+    kind        = 0
 
-   #Bulid include
-    query_include     = Array.new
-
-   #Bulid conditions
+    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
     conditions_names  = Array.new
-   
+    query_include     = Array.new
+
     #Project   
     conditions_names  <<  " suite_executions.project_id = ? "
     conditions_values <<  project.id
-    #Dates
-    conditions_names  <<  " suite_executions.created_at <= ? "
-    date = finish_date
-    conditions_values <<  Time.local(date.year, date.month, date.day, date.hour, date.min, date.sec).getutc
-    conditions_names  <<  " suite_executions.created_at >= ? "
-    date = init_date
-    conditions_values <<  Time.local(date.year, date.month, date.day, date.hour, date.min, '00').getutc  
+
     #Identifier  
-    identifier  = params[:identifier]
-    if identifier && !identifier.empty?
+    if identifier
       conditions_names  <<  " suite_executions.identifier like ? "
       conditions_values << '%' + identifier + '%'
     end
+
     #user
-    user = params[:user_id]
-    if user && !user.empty? 
+    if user_id
       conditions_names  <<  " suite_executions.user_id = ? "
-      conditions_values <<  user   
+      conditions_values <<  user_id
     end
+
+    #Kind
+    conditions_names  <<  " suite_executions.kind = ? "
+    conditions_values <<  kind  
+
+    #suite
+    if suite_id
+      conditions_names  <<  " suite_executions.suite_id = ? "
+      conditions_values <<  suite_id   
+    end
+
     #status
-    status = params[:status]
-    if status && status.to_i != -1
+    if status
       conditions_names  <<  " suite_executions.status = ? "
       conditions_values <<  status.to_i
-    end        
+    end       
 
-   case params[:model] 
-    #SUITES
-    when "suites"
-            #Programs
-            if params[:programs] == "1"
-               #Conditions for task programs 
-               tp_conditions        = Array.new
-               tp_conditions_values = Array.new
-               tp_conditions_names  = Array.new 
-               if user && !user.empty? 
-                  tp_conditions_names  <<  " user_id = ? "
-                  tp_conditions_values <<  user   
-               end  
-               if !params[:suite_id].empty?
-                  tp_conditions_names  << " suite_id  = ? " 
-                  tp_conditions_values <<  params[:suite_id]
-               end    
-               tp_conditions << tp_conditions_names.join("and")  
-               tp_conditions = tp_conditions + tp_conditions_values                         
-               task_program_suite_executions = TaskProgram.find :all, :conditions=>tp_conditions 
-               #For all task programs get the suite_executions_ids
-               suite_execution_ids = Array.new
-               task_program_suite_executions.each do |tp|
-                 #Add array with suite_execution_ids
-                 suite_execution_ids = suite_execution_ids + tp.suite_execution_ids.split(",") if tp.suite_execution_ids && !tp.suite_execution_ids.empty?
-               end                 
-               if !suite_execution_ids.empty?
-                  conditions_names  << " suite_executions.id  in (?)" 
-                  conditions_values <<  suite_execution_ids.collect{|x| x.to_i}#Ids string to integer
-               else
-                  conditions_names  << " suite_executions.suite_id  <> ? " 
-                  conditions_values <<  0     
-               end        
-            #all (Programs or not)
-            else
-               #Search specific suite
-               if !params[:suite_id].empty?
-                  conditions_names  << " suite_executions.suite_id  = ? " 
-                  conditions_values <<  params[:suite_id]
-               else
-                  conditions_names  << " suite_executions.suite_id  <> ? " 
-                  conditions_values <<  0            
-               end
-            end    
-      #SCRIPTS
-      when  "scripts"
-            query_include << "executions"
-            conditions_names  << " suite_executions.suite_id  = ? " 
-            conditions_values << 0    
-            #Search specific script
-            if !params[:circuit_id].nil?  && !params[:circuit_id].empty? 
-            conditions_names  << " executions.circuit_id  = ? " 
-            conditions_values << params[:circuit_id] 
-               #Search specific case
-               if !params[:case_id].nil?  && !params[:case_id].empty? 
-                  conditions_names  << " executions.case_template_id  = ? " 
-                  conditions_values << params[:case_id]
-               end
-             end 
-      end
+    #Dates
+    conditions_names << " suite_executions.created_at BETWEEN ? AND ? " 
+    conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
+    conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
 
-     #Context configurations
+    #Script
+    if script_id
+      conditions_names  <<  " executions.circuit_id = ? "
+      conditions_values <<  script_id  
+      query_include     << :executions
+    end
+
+    #Context configurations
      if params[:context_configurations]
-        query_include << "execution_configuration_values"
-        #Get boolean context configuration
-        boolean_context_configuration = (ContextConfiguration.find_all_by_view_type "boolean").map(&:id)
-        params[:context_configurations].each do | context_configuration_id , context_configuration_values |
-               if (!context_configuration_values.empty? or boolean_context_configuration.include?(context_configuration_id.to_i))
-                  #Boolean
-                  if boolean_context_configuration.include?(context_configuration_id.to_i) and context_configuration_values.empty?
-                     values_sql_statment =  "('')"
-                  else
-                     values_sql_statment =  "(" + context_configuration_values.collect{|ccv| "\'" + ccv + "\'"}.to_a.join(',') + ")"
-                  end
-                  conditions_names  << " EXISTS (SELECT * FROM execution_configuration_values WHERE suite_executions.id = execution_configuration_values.suite_execution_id AND execution_configuration_values.context_configuration_id = #{context_configuration_id.to_i} AND execution_configuration_values.value in #{values_sql_statment})  " 
-                end
+      query_include << :execution_configuration_values
+      #Get boolean context configuration
+      boolean_context_configuration = (ContextConfiguration.find_all_by_view_type "boolean").map(&:id)
+      params[:context_configurations].each do | context_configuration_id , context_configuration_values |
+        if (!context_configuration_values.empty? or boolean_context_configuration.include?(context_configuration_id.to_i))
+          #Boolean
+          if boolean_context_configuration.include?(context_configuration_id.to_i) and context_configuration_values.empty?
+            values_sql_statment =  "('')"
+          else
+            values_sql_statment =  "(" + context_configuration_values.collect{|ccv| "\'" + ccv + "\'"}.to_a.join(',') + ")"
+          end
+          conditions_names  << " EXISTS (SELECT * FROM execution_configuration_values WHERE suite_executions.id = execution_configuration_values.suite_execution_id AND execution_configuration_values.context_configuration_id = #{context_configuration_id.to_i} AND execution_configuration_values.value in #{values_sql_statment})  " 
         end
-     end
+      end
+    end
 
     #Build conditions
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values 
 
-
     suite_executions = SuiteExecution.find :all, :conditions=>conditions, :order => 'suite_executions.created_at DESC', :include => query_include
-    return suite_executions
+ 
+    #Paginate
+    number_per_page=10
+    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)   
+    suite_executions.paginate :page => params[:page], :per_page => number_per_page
+
   end
   
   #Get percentages of states

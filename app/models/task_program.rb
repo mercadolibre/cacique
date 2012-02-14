@@ -30,7 +30,6 @@
 #
 #  id                  :integer(4)      not null, primary key
 #  user_id             :integer(4)
-#  suite_execution_ids :text
 #  suite_id            :integer(4)
 #  project_id          :integer(4)
 #  created_at          :datetime
@@ -56,7 +55,6 @@ class TaskProgram < ActiveRecord::Base
 
     #TaskProgram new
     task_program = TaskProgram.new({:user_id => current_user.id,
-                                    :suite_execution_ids => "", 
                                     :project_id => params[:project_id],
                                     :identifier=> params[:execution][:identifier],
                                     :execution_params=> params[:execution]
@@ -196,16 +194,6 @@ class TaskProgram < ActiveRecord::Base
      times_with_status[mark][1] = 2 if set_mark
      return times_with_status
   end
-  
-  def add_suite_execution_id(suite_execution_id)
-    if self.suite_execution_ids.empty?
-      self.suite_execution_ids += suite_execution_id.to_s
-    else
-      self.suite_execution_ids += "," + suite_execution_id.to_s
-    end
-    self.save
-  end
-  
   
   def find_previous_program(delayed_job_id)
     runs = self.delayed_jobs.order(:run_at).reverse
