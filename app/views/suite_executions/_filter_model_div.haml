@@ -2,6 +2,7 @@
 %label
   =image_tag('icons/suite_min.png', :alt=>'suite_min.png', :title=>'Suite')
 -value =  params[:filter] && params[:filter][:suite_id] && !params[:filter][:suite_id].empty? ? params[:filter][:suite_id].to_i : ""
+
 =select('filter', 'suite_id', suites.collect{|p| [ p.name, p.id ] }.sort!,{:selected => value, :include_blank => _('All')})
 
 /Script

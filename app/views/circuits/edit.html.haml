@@ -2,7 +2,7 @@
   =link_to _('Edit Script'), edit_project_circuit_path(@circuit.project_id,@circuit), :class=>'tab_view selected'  
   =link_to _('Data Set'), project_circuit_case_templates_path(@project_id,@circuit), :class=>'tab_view'   
    
-  .tab_container#div_edit_free
+  .tab_container#div_edit_free.height
     %div{ :style=>"width:500px;float:left; margin-bottom:10px;"}
       =image_tag "icons/s-edit.png",:id=>"pencil_icon",:alt=>"s-edit.png",:style => "display:none;"
       %b

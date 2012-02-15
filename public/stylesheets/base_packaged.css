@@ -176,6 +176,7 @@ table th.safari{ opacity:0.7; background:#31576F}
 .div_hover{ -moz-border-radius:5px; border:1px solid #C3C3C3; padding:10px}
 .div_hover:hover{ background:#F5F6F7}
 .tab_container{ background: #EEEEED; padding:12px; -moz-border-radius:0px 2px 5px 5px; color:#373737; font-size:12px; border:1px solid #C6C5C4; padding:15px 25px; width:96%; clear: both}
+.tab_container.height{ height: 100%}
 .edit_table{ -moz-border-radius:20px; -moz-border-radius-topleft:0px; padding: 15px 15px 15px 15px; height: 50%; margin-left:10%; margin-top: 0px; margin: 0 auto}
 .drag {position: relative}
 .ubic{ border:2px solid #31576F; overflow: hidden; width: 530px; height: 300px; padding: 10px; background: #D1E1E7; -moz-border-radius:20px; position:fixed}

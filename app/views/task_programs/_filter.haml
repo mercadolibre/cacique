@@ -2,7 +2,7 @@
 %label
   =_("Project") 
 -value =(@project_id !=0) ? @project_id.to_i: ''  
-=select("filter", "project_id", @projects.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60) , p.id ] }.sort!,{ :selected => value})
+=select("filter", "project_id", @projects.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60) , p.id ] }.sort!,{ :selected => value })
   
 /Suite
 %label 

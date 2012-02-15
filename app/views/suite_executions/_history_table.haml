@@ -4,11 +4,11 @@
   %thead  
     %tr  
       -if suite_executions.empty? && params[:filter].nil?
-        %td
+        %th
           =_('No Executions')
           
       -elsif suite_executions.empty? && !params[:filter].nil?
-        %td
+        %th
           =_("No results were found")
 
       -else  

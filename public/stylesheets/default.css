@@ -87,6 +87,8 @@ a {
   font-weight: bold;
   font-family:sans-serif;
 }
+
+
 .image {
 	float: left;
 	margin: 0 20px 0 0;
@@ -1260,6 +1262,9 @@ table th.safari{
   clear: both;
 }
 
+.tab_container.height{
+ height: 100%;
+}
 
 .edit_table{
   -moz-border-radius:20px;

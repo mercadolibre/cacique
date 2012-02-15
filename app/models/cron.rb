@@ -97,6 +97,7 @@
 
     user_id  = (params[:filter] && params[:filter][:user_id])   ? params[:filter][:user_id].to_i    : 0 
     suite_id = (params[:filter] && params[:filter][:suite_id])  ? params[:filter][:suite_id].to_i   : 0
+    identifier  = params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
 
     #Bulid conditions
     conditions        = Array.new
@@ -113,9 +114,9 @@
       conditions_values << user_id
     end
 
-    if params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].empty?
+    if identifier
       conditions_names << " task_programs.identifier  like ? " 
-      conditions_values << '%' + params[:filter][:identifier] + '%'
+      conditions_values << '%' + identifier + '%'
     end
 
     if suite_id != 0
@@ -126,7 +127,7 @@
    conditions << conditions_names.join("and")  
    conditions = conditions + conditions_values
 
-   crons = Cron.find :all, :include=>[:task_program=>:suites], :conditions=>conditions, :order => "identifier ASC"
+   crons = Cron.find :all, :include=>[:task_program=>:suites], :conditions=>conditions, :order => "task_programs.identifier ASC"
 
     #Paginate
     number_per_page=10

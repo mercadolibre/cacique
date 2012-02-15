@@ -63,8 +63,6 @@ class TaskProgram < ActiveRecord::Base
     params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
     task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
 
-
-
     #CronEdit
     if params[:program][:range] == "alarm"
       Cron.add(task_program, params[:cron])
@@ -92,26 +90,26 @@ class TaskProgram < ActiveRecord::Base
       when "extend"
         case params[:frecuency]
           when "daily"  
-             frecuency_init_date   = params[:init_date].to_time
-             frecuency_finish_date = params[:finish_date].to_time  
-             daily_date            = frecuency_init_date
-             while(daily_date.in_time_zone <= frecuency_finish_date.in_time_zone ) do
-               times_to_run = times_to_run + program_repeat(params, daily_date) #Repeats execution
-               daily_date = daily_date +  60*60*24 #Add one day
-             end
+            frecuency_init_date   = params[:init_date].to_time
+            frecuency_finish_date = params[:finish_date].to_time  
+            daily_date            = frecuency_init_date
+            while(daily_date.in_time_zone <= frecuency_finish_date.in_time_zone ) do
+              times_to_run = times_to_run + program_repeat(params, daily_date) #Repeats execution
+              daily_date = daily_date +  60*60*24 #Add one day
+            end
          when "weekly"     
-             weekly_init_date_aux = params[:init_date].to_time
-             weekly_finish_date   = params[:finish_date].to_time             
-             days_of_week         = params[:week_days]
-             #Build the init date
-             weekly_init_date = Time.local(weekly_init_date_aux.year, weekly_init_date_aux.month, weekly_init_date_aux.day,  '00', '00', '00')
-             weekly_date      = weekly_init_date
-             while(weekly_date.in_time_zone  <= weekly_finish_date.in_time_zone) do
-               #Get the first valid date
-               weekly_date  = get_next_valid_date(days_of_week, weekly_date , weekly_finish_date )
-               times_to_run = times_to_run + program_repeat(params, weekly_date )
-               weekly_date  = weekly_date +  60*60*24 #Add one day
-             end        
+            weekly_init_date_aux = params[:init_date].to_time
+            weekly_finish_date   = params[:finish_date].to_time             
+            days_of_week         = params[:week_days]
+            #Build the init date
+            weekly_init_date = Time.local(weekly_init_date_aux.year, weekly_init_date_aux.month, weekly_init_date_aux.day,  '00', '00', '00')
+            weekly_date      = weekly_init_date
+            while(weekly_date.in_time_zone  <= weekly_finish_date.in_time_zone) do
+              #Get the first valid date
+              weekly_date  = get_next_valid_date(days_of_week, weekly_date , weekly_finish_date )
+              times_to_run = times_to_run + program_repeat(params, weekly_date )
+              weekly_date  = weekly_date +  60*60*24 #Add one day
+            end        
          end
       when "alarm"
          times_to_run << params[:cron]
@@ -128,29 +126,29 @@ class TaskProgram < ActiveRecord::Base
     runs          = params[:runs].to_i
     if  runs > 1 
        case params[:range_repeat]
-            when "each"
-                per_each =  params[:per_each].to_i
-                #Build the init date
-                per_each_init_date = Time.local(date.year, date.month, date.day, init_hour, init_min, '00')
-                #Each hours or minutes
-                if params[:each_hour_or_min] == "min" #Minutes   
-                     type_time = 60     #Add the selected minutes to the date             
-                else #hours
-                     type_time = 60*60 #Add the selected hours to the date
-                end
-                runs.times do |i|
-                  times_to_run << per_each_init_date
-                  per_each_init_date = per_each_init_date + per_each * type_time
-                end
+          when "each"
+            per_each =  params[:per_each].to_i
+            #Build the init date
+            per_each_init_date = Time.local(date.year, date.month, date.day, init_hour, init_min, '00')
+            #Each hours or minutes
+            if params[:each_hour_or_min] == "min" #Minutes   
+              type_time = 60     #Add the selected minutes to the date             
+            else #hours
+              type_time = 60*60 #Add the selected hours to the date
+            end
+            runs.times do |i|
+              times_to_run << per_each_init_date
+                per_each_init_date = per_each_init_date + per_each * type_time
+              end
             when "specific"
               runs.times do |nro|
-                  input_name   = "specific_hour_" + nro.to_s 
-                  #Get the init_hour for the specific run
-                  hour_and_min = params[input_name.to_sym]
-                  hour         = hour_and_min.split(':')[0]
-                  minutes      = hour_and_min.split(':')[1]
-                  #Build the init date
-                  times_to_run << Time.local(date.year, date.month, date.day, hour,  minutes , '00')
+                input_name   = "specific_hour_" + nro.to_s 
+                #Get the init_hour for the specific run
+                hour_and_min = params[input_name.to_sym]
+                hour         = hour_and_min.split(':')[0]
+                minutes      = hour_and_min.split(':')[1]
+                #Build the init date
+                times_to_run << Time.local(date.year, date.month, date.day, hour,  minutes , '00')
               end
             else          
               raise "Indefined range"

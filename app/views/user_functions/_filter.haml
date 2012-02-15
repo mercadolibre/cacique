@@ -1,60 +1,52 @@
 -javascript 'checkbox_lib'
 
-.filter{:style => "width:55%;float: left;margin-right: 10px;"}
+.filter
   -form_for :user_function, :url => url_for(:controller => :user_functions, :action => :search) do
-    .form_tag{:style=>"margin-bottom:10px;height: 120px;"}
-      %div{:style=>"float:left;"}
-        //Name or description
-        %label{:style=>"display:inline-block;"}
-          =_('Name')
-          \/
-          %br
-          =_('Description')
-          \:
-        -value = params[:filter] && params[:filter][:text]  ? params[:filter][:text] : ''
-        =text_field("filter", "text", {:value=>value, :style => "color:black ;width: 150px;margin-left:10px;"})
-        %br
-        %br
 
-        //Created by
-        %label{:style=>"display:inline-block;width:80px;"}
-          =_('Created by:')
-        -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i : ''
-        =select("filter", "user_id", @users.collect {|u| [ truncate(u.name.capitalize, :ommision => "...", :length => 60), u.id ] }.sort!,{ :selected => value, :include_blank => _('All')},{ :style => "width: 132px; margin-right: 10px;"})  
-        %br
-        %br
-        //Public 
-        %label{:style=>"display:inline-block;width:80px;"}
-          =_('Privacity')
-          \:
-        -value = (params[:filter] and !params[:filter][:visibility].nil?) ? params[:filter][:visibility].to_s : ""
-        =select("filter", "visibility", [[_('Public use'), "true" ],[_('Private use'), "false" ]],{ :selected => value, :include_blank => _('All')},{ :style => "width: 132px; "}) 
+    /Projects
+    %label{:style=>'float:left;'}
+      =_('Projects:')
+    .form_tag{:style=>'max-height: 60px; width: 200px; overflow: auto;float:left;'}
+      = check_box_tag '[filter][projects_ids][]', 0, false, :onClick => "ch_select_all(this, '.projects_ids');disable_all($j(this).is(':checked'), 'project_ids');"
+      %b{:style=>'color:#848484;'}
+        All
+      %br
+      -@projects.each do |project|
+        %div{:title=>project.name.capitalize,:style=>'color:#848484;'}
+          -value = ( (!params[:filter] and params[:project_id] and project.id == params[:project_id].to_i) or (params[:filter] and params[:filter][:projects_ids] and params[:filter][:projects_ids].include?(project.id.to_s)) )
+          = check_box_tag '[filter][projects_ids][]', project.id, value, :class=>'project_ids'
+          = truncate(project.name.capitalize, :ommision => '...', :length => 30)
+           
+    /Name or description
+    %label
+      =_('Name')
+      \/
+      =_('Description')
+      \:
+    -value = params[:filter] && params[:filter][:text]  ? params[:filter][:text] : ''
+    =text_field("filter", "text", {:value=>value})
 
-      %div{:style=>" display: inline-table;margin-left: 20px;"}
-        //Projects
-        %label{:style=>" display:inline;"}
-          =_('Projects:')
-        .form_tag{:style=>'max-height: 80px; width: 95%; overflow: auto; padding: 5px; margin-bottom: 10px;clear:both;float: left;'}
-          = check_box_tag '[filter][projects_ids][]', 0, false, :onClick => "ch_select_all(this, '.projects_ids');disable_all($j(this).is(':checked'), 'project_ids');"
-          %b{:style=>'color:#848484;'}
-            All
-          %br
-          -@projects.each do |project|
-            %div{:title=>project.name.capitalize,:style=>'color:#848484;'}
-              -value = ( (!params[:filter] and params[:project_id] and project.id == params[:project_id].to_i) or (params[:filter] and params[:filter][:projects_ids] and params[:filter][:projects_ids].include?(project.id.to_s)) )
-              = check_box_tag '[filter][projects_ids][]', project.id, value, :class=>'project_ids'
-              = truncate(project.name.capitalize, :ommision => '...', :length => 30)
+    /Created by
+    %label
+      =_('Created by:')
+    -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i : ''
+    =select("filter", "user_id", @users.collect {|u| [ truncate(u.name.capitalize, :ommision => "...", :length => 60), u.id ] }.sort!,{ :selected => value, :include_blank => _('All')})  
 
-      //Submit
-      .form_button{:style=>"float: right;  margin: 0 0 0 3%;"}
-        %label
-          =submit_tag _("Apply")
+    /Public 
+    %label{:style=>"display:inline-block;width:80px;"}
+      =_('Privacity')
+      \:
+    -value = (params[:filter] and !params[:filter][:visibility].nil?) ? params[:filter][:visibility].to_s : ""
+    =select("filter", "visibility", [[_('Public use'), "true" ],[_('Private use'), "false" ]],{ :selected => value, :include_blank => _('All')}) 
+
+    /Submit
+    %label
+      =submit_tag _("Apply"), :class=>'submit' 
+
+    %br
+    %br
+
+
+
     
--if !@params_filter[:projects_ids].empty?
-  .form_tag{:style=>"margin-bottom:10px;float:left;height: 120px; width: 20%; overflow: auto;" }
-    -@params_filter[:projects_ids].each do |project_id|
-      .form_tag{:style=>"height:10px;margin-bottom:5px;"}
-        =truncate(@projects_names[project_id.to_i], :ommision => "...", :length => 30)
 
-
-%div{:style=>"clear:both;"}
