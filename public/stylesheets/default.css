@@ -57,7 +57,7 @@ h1 {
 
 
 h1.top {
-  margin-top: 20px;
+ margin: 20px 0 5px;
 }
 
 h2 {
@@ -68,6 +68,10 @@ h2 {
   font-family:sans-serif;
   color: #626894;
   line-height: 20px;
+}
+
+h2.inline {
+  display:inline;
 }
 
 h3 {

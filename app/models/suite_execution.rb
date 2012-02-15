@@ -82,7 +82,7 @@ class SuiteExecution < ActiveRecord::Base
   def s_kind
     case self.kind
       when 0
-        "Normal"
+        _("History")
       when 1
         _("Alarm")
       when 2
@@ -96,7 +96,7 @@ class SuiteExecution < ActiveRecord::Base
   def self.s_kind(kind)
     case kind.to_i
       when 0
-        "Normal"
+        _("History")
       when 1
         _("Alarms")
       when 2
@@ -613,7 +613,7 @@ class SuiteExecution < ActiveRecord::Base
     suite_executions = SuiteExecution.find :all, :conditions=>conditions, :order => 'suite_executions.created_at DESC', :include => query_include
  
     #Paginate
-    number_per_page=10
+    number_per_page=9
     number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)   
     suite_executions.paginate :page => params[:page], :per_page => number_per_page
 

@@ -62,7 +62,7 @@ class SuiteExecutionsController < ApplicationController
     params[:init_date]   = params[:filter] && params[:filter][:init_date] ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (1*24*60*60)  #1 days after
     params[:finish_date] = params[:filter] && params[:filter][:finish_date] ? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") :  DateTime.now.in_time_zone
 
-    @kind = SuiteExecution.s_kind(params[:kind]) if params[:kind]
+    @kind = SuiteExecution.s_kind(params[:kind].to_i)
 
     #Suite executions
     @suite_executions = SuiteExecution.filter(@project,params)

@@ -4,8 +4,9 @@
 .main {width: 98%; height:85%; padding:1.5% 2%; font-family: sans-serif}
 .column {float:left; width:30%; margin-left:13px; padding:10px}
 h1 {text-align:left; letter-spacing:1px; font-size: 14px; font-weight: bold; color: #373737; font-family:sans-serif; margin: 10px auto 15px}
-h1.top {margin-top: 20px}
+h1.top {margin: 20px 0 5px}
 h2 {width:95%; margin: 0 auto; margin-top:5px; font-size: 12px; font-family:sans-serif; color: #626894; line-height: 20px}
+h2.inline {display:inline}
 h3 {font-size: 12.5px; font-family:sans-serif; color: #4F5DD5}
 ul {margin-left: 0; padding-left: 0; list-style-position: inside}
 a {color:#373737; font-weight: bold; font-family:sans-serif}

@@ -3,7 +3,7 @@
   =render :partial=>'frecuency', :locals=>{:delayed_job=> delayed_jobs.first}        
   -if delayed_jobs.count>1      
     %div{:id=>"more_frecuency_#{task_program.id}", :class=>'hide'}
-      -delayed_jobs.each do |dj|            
-        =render :partial=>'frecuency', :locals=>{:delayed_job=> dj}   
+      -delayed_jobs[1..delayed_jobs.count].each do |dj|            
+        =render :partial=>'delayed_job', :locals=>{:delayed_job=> dj}   
     %sub.more{:name=>"more_frecuency_#{task_program.id}"}
       [...]  

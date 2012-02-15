@@ -2,13 +2,10 @@
 -if !@suite_executions.empty?
   =render :partial => "rates"
 
-%h1.top{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize}
-  =_('History of Execution from: ')
+%h1.top
+  =@kind
+%h2.inline
   =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
-
--if @kind != 0
-  %h2
-    =@kind
 
 /Paginate
 -if  !@suite_executions.empty?

@@ -14,4 +14,4 @@
     =calendar_date_select_tag "filter[finish_date]", params[:finish_date].strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24), :after_show => "set_date();",:onchange => "set_hour();"
 
     %label
-      =submit_tag _("Apply"), :class=>'submit' 
+      =submit_tag 'Ok', :class=>'submit_min'
