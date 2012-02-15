@@ -91,6 +91,21 @@ class SuiteExecution < ActiveRecord::Base
         "Invalid"
     end
   end
+
+  #Returns the string that represents the param kind 
+  def self.s_kind(kind)
+    case kind.to_i
+      when 0
+        "Normal"
+      when 1
+        _("Alarms")
+      when 2
+        _("Task Programs")
+      else
+        "Invalid"
+    end
+  end
+
     
   def self.cancel(id)
    suite_execution=SuiteExecution.find id
@@ -521,7 +536,7 @@ class SuiteExecution < ActiveRecord::Base
     script_id   = params[:filter] && params[:filter][:script_id] && !params[:filter][:script_id].blank? ? params[:filter][:script_id].to_i : nil   
     status      = params[:filter] && params[:filter][:status]    && !params[:filter][:status] && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
     identifier  = params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
-    kind        = 0
+    kind        = params[:kind] ? params[:kind] : 0
 
     #Bulid conditions
     conditions        = Array.new

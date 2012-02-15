@@ -46,7 +46,7 @@ class SuiteExecutionsController < ApplicationController
     @project ||= Project.find params[:project_id]
 
     #Status
-    @status = [  [_("all"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5], [_("Stopped"),6] ]
+    @status = [  [_("All"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5], [_("Stopped"),6] ]
 
     #Users
     @users  = User.all
@@ -61,6 +61,8 @@ class SuiteExecutionsController < ApplicationController
     #Dates
     params[:init_date]   = params[:filter] && params[:filter][:init_date] ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (1*24*60*60)  #1 days after
     params[:finish_date] = params[:filter] && params[:filter][:finish_date] ? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") :  DateTime.now.in_time_zone
+
+    @kind = SuiteExecution.s_kind(params[:kind]) if params[:kind]
 
     #Suite executions
     @suite_executions = SuiteExecution.filter(@project,params)

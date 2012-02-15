@@ -6,6 +6,10 @@
   =_('History of Execution from: ')
   =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
 
+-if @kind != 0
+  %h2
+    =@kind
+
 /Paginate
 -if  !@suite_executions.empty?
   -unless params.include? "filter"

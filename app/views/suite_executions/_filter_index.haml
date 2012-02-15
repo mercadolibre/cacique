@@ -1,5 +1,9 @@
 .filter
   -form_for :suite_execution, :url => {:controller => 'suite_executions', :action => :index} do
+  
+    /Kind
+    %input{:name=>'kind', :value=>params[:kind].to_i, :type=>'hidden'}  
+
     /Identifier
     %label
       Id

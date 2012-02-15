@@ -29,9 +29,11 @@
             %span
               Suites
         %li
-          %a{ :href => "/suite_executions" }
+          %a.parent{ :href => suite_executions_path }
             %span
               =_('History')
+          %ul         
+            =render :partial=> "layouts/menu_history"
 
     %li
       //By default is redirected to notes admin
