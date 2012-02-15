@@ -27,8 +27,8 @@
 class RunSuiteProgram < Struct.new(:params)
 
   def perform
-    dj = DelayedJob.find(params[:delayed_job_id])
-  
+    dj = DelayedJob.find(params[:delayed_job_id]) 
+      
     #Manejo de Estados
     case dj.status
       when 0
@@ -59,10 +59,7 @@ class RunSuiteProgram < Struct.new(:params)
         end
         suite_execution = SuiteExecution.generate_suite_execution_with_message("Not executed because the programming has an unknown state: #{dj.status}", params[:suite_id], params[:identifier], params[:user_id], context_configurations)
     end
-    #Delete Task program withuot delayed jobs
-    task_program = TaskProgram.find(params[:task_program_id])
-    task_program.destroy if task_program.delayed_jobs.count == 0
-
+  dj.destroy
   rescue
     puts $!
     puts $@

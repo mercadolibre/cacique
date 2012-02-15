@@ -51,7 +51,8 @@ class DelayedJob < ActiveRecord::Base
   validates_presence_of :status,            :message => _("Must complete status")
   
   before_destroy :verify_status
-  
+  after_destroy :destroy_task_program
+
   def self.add( task_program, params)
 
       task_program.save
@@ -218,7 +219,14 @@ class DelayedJob < ActiveRecord::Base
     end
 
     return "" #Without errors
- end
+  end
  
-  
+  #If Delayed jobs is the last => destroy Task program
+  def destroy_task_program
+    task_program = self.task_program
+    if task_program.delayed_jobs.count == 0
+       task_program.destroy
+    end
+  end
+
 end
