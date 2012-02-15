@@ -1,10 +1,24 @@
 %h1
   =_('Alarms')
          
-=link_to truncate( _('Task Program'), :ommision => "...", :length => 10), delayed_jobs_path, :class=>'tab_view' 
+=link_to truncate( _('Task Program'),:ommision => "...", :length => 10), delayed_jobs_path, :class=>'tab_view'
 =link_to _('Alarms'), crons_path, :class=>'tab_view selected'  
 
-.tab_container  
+.tab_container 
+ 
+  /Paginate
+  -if !@crons.empty?
+    = will_paginate @crons, :params => { 'filter' => params[:filter] }
+    .pagination
+      = _('Show') + ":"
+      = page_size_link 50
+      = page_size_link 100
+      = page_size_link 150
+
+  /Filter
+  =render :partial=>"filter" 
+
+  /Table
   =render :partial => 'table', :locals => {:crons => @crons}
   
 /Tools menu

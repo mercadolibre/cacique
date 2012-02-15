@@ -85,8 +85,8 @@ class TaskProgramsController < ApplicationController
     if params[:id]
       task_program_ids = params[:id].map{|x| x.to_i}
       TaskProgram.destroy_all(task_program_ids)
-      redirect_to :back, :filter=>params[:filter] #Crons or delayed jobs
     end
+    redirect_to :back, :filter=>params[:filter] #Crons or delayed jobs
    end
 
   def show_suites_of_project

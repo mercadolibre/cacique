@@ -1,15 +1,28 @@
 //Rates
 -if !@suite_executions.empty?
-  %div{:style=>"width:96%;"}
-    =render :partial => "rates"
+  =render :partial => "rates"
 
-.main{:style=>"width:100%;padding:0%;"}
-  %h1{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize, :style=>"   margin: 20px auto 0;;"}
-    =_('History of Execution from: ')
-    =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
+%h1.top{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize}
+  =_('History of Execution from: ')
+  =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
 
-  #history_table
-    =render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
+/Paginate
+-if  !@suite_executions.empty?
+  -unless params.include? "filter"
+    = will_paginate @suite_executions
+  -else
+    = will_paginate @suite_executions, :params => { 'filter' => params[:filter] }
+  .pagination
+    = _('Show') + ":"
+    = page_size_link 50
+    = page_size_link 100
+    = page_size_link 150    
+        
+/Filter
+=render :partial => "filter_index" 
+
+/Table
+=render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
 
 //Tools menu
 -content_for :tools_menu do

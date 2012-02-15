@@ -1,21 +1,12 @@
 %table.detail
+  %caption
+    /Task Programs
   %thead
-    -if !task_programs.empty?
-      /Paginate
-      = will_paginate @task_programs, :params => { 'filter' => params[:filter]}
-      .pagination
-        = _('Show') + ":"
-        = page_size_link 50
-        = page_size_link 100
-        = page_size_link 150
-
-    /Filter
-    =render :partial=>"filter" 
-
-    -if !task_programs.empty?
-
-      /Header
-      %tr     
+    %tr
+      -if task_programs.empty?
+        %td
+          =_('Without Schedule')      
+      -else       
         %th.very_small
           =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}
         %th.small
@@ -29,28 +20,24 @@
         %th.medium
           =_('Identifier') 
 
-      /Data 
-      -form_for :task_programs,:url=>{:controller=>:task_programs, :action=>:destroy},:html=>{:id=>'form_delete'} do                     
-        -task_programs.each do |task_program|
-          %tr  
-            %td
-              -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
-              =check_box_tag "id[]", task_program.id, false, :disabled=>enabled, :class=>"check_delayed_job"
-            %td{:title=>task_program.project.name}
-              =truncate( task_program.project.name, :ommision => '...', :length => 60)               
-            %td
-              =render :partial=>'task_programs/suites', :locals=>{:task_program=>task_program}
-            %td{:title=>task_program.user.name}
-              =truncate( task_program.user.name, :ommision => '...', :length => 20)                 
-            %td
-              =render :partial=>'delayed_jobs', :locals=>{:task_program=>task_program}               
-            %td{:title=>task_program.identifier}
-              =truncate( task_program.identifier, :ommision => "...", :length => 20)                          
-    -else  
-      %i
-        %br
-        %br  
-        =_('Without Schedule')  
+  %tbody
+    -form_for :task_programs,:url=>{:controller=>:task_programs,:action=>:destroy},:html=>{:id=>'form_delete'} do                     
+      -task_programs.each do |task_program|
+        %tr  
+          %td
+            -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
+            =check_box_tag "id[]", task_program.id, false, :disabled=>enabled, :class=>"check_delayed_job"
+          %td{:title=>task_program.project.name}
+            =truncate( task_program.project.name, :ommision => '...', :length => 60)               
+          %td
+            =render :partial=>'task_programs/suites', :locals=>{:task_program=>task_program}
+          %td{:title=>task_program.user.name}
+            =truncate( task_program.user.name, :ommision => '...', :length => 20)                 
+          %td
+            =render :partial=>'delayed_jobs', :locals=>{:task_program=>task_program}               
+          %td{:title=>task_program.identifier}
+            =truncate( task_program.identifier, :ommision => "...", :length => 20)                          
+
 
 
         

@@ -46,15 +46,18 @@ body {
  }
 
 h1 {
-  margin: 0 auto;
+  text-align:left;
   letter-spacing:1px;
   font-size: 14px;
   font-weight: bold;
   color: #373737;
-  margin-bottom:15px;
-  margin-top:10px;
   font-family:sans-serif;  
-  text-align:left;
+  margin: 10px auto 15px;
+}
+
+
+h1.top {
+  margin-top: 20px;
 }
 
 h2 {
@@ -833,8 +836,6 @@ table.homein td li{
    margin: auto;
 }
 
-
-
 table.detail{
   width:100%; 
   border-collapse:collapse;
@@ -958,7 +959,37 @@ table.detail th.exe {
   text-align:center;
 }
 
+/************************* Rates ****************************/
+ul.rates {
+  border: 1px solid #D2D2D2;
+  border-top:0px; 
+  width:auto;
+  float:right;
+  padding:5px;
+  margin-left:5px;
+  font-size: 10px;
+  font-weight: normal;
+  margin-top: 0;
+}
 
+ul.rates li{
+  display:inline;
+  font-weight:bold;
+  margin-left:10px;
+  border-right: 1px solid #D2D2D2;
+}
+
+ul.rates li.ok {
+  color:DarkGreen;
+}
+
+ul.rates li.fail{
+  color:red; 
+}
+
+ul.rates li.others{
+  color:#2C4B9B; 
+}
 /**************************** pagination ********************/
 
 .qp_counter {
@@ -1372,7 +1403,7 @@ table.relation.in td{
    cursor:pointer;
 }
 
-/************************************ Relations 2 --> Drag and Drop***************************************/
+/******************************** Relations 2 --> Drag and Drop ***********************************/
 
     #dhtmlgoodies_dragDropContainer{	/* Main container for this script */
     width:790px;
@@ -1518,7 +1549,7 @@ table.relation.in td{
 
 
 
-/************************************ Suite_executions --> Tabs de circuitos de la suite **************************************/
+/************************ Suite_executions --> Tabs de circuitos de la suite ***************************/
 
 
 .circuits{

@@ -1,55 +1,37 @@
 %table.detail{:name=>"table_zebra"}
-  %thead
+  %caption
+    /History
+  %thead  
+    %tr  
+      -if suite_executions.empty? && params[:filter].nil?
+        %td
+          =_('No Executions')
+          
+      -elsif suite_executions.empty? && !params[:filter].nil?
+        %td
+          =_("No results were found")
 
-    /Paginate
-    -unless params.include? "filter"
-      = will_paginate suite_executions
-    -else
-      = will_paginate suite_executions, :params => { 'filter' => filter}
-    .pagination
-      = _('Show') + ":"
-      = page_size_link 50
-      = page_size_link 100
-      = page_size_link 150    
-        
-    /Filter
-    =render :partial => "filter_index" 
-    
-  -if suite_executions.empty? && params[:filter].nil?
-    %i
-      %br
-      %br  
-      =_('No Executions')
-        
-  -elsif suite_executions.empty? && !params[:filter].nil?
-    %i
-      %br
-      %br  
-      =_("No results were found")
-
-  -else  
-    /Header             
-    %tr
-      %th.very_small
-        =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}      
-      %th.very_small{ :class => "sortable"}
-        T
-      %th.small{:class => "sortable"}
-        =_('Identifier')
-      %th.medium{ :class => "sortable"}
-        =_('Name')
-      %th.small{ :class => "sortable"}
-        =_('User')
-      %th.small{:class => "sortable"}
-        =_('Date')
-      %th.very_small{:class => "sortable"}
-        =_('Duration')   
-      %th.small{:class => "sortable"}
-        Configuration                
-      %th.very_small{:class => "sortable"}
-        Ok        
-      %th.very_small{ :class => "sortable"}
-        =_('Status')
+      -else  
+        %th.very_small
+          =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}      
+        %th.very_small{ :class => "sortable"}
+          T
+        %th.small{:class => "sortable"}
+          =_('Identifier')
+        %th.medium{ :class => "sortable"}
+          =_('Name')
+        %th.small{ :class => "sortable"}
+          =_('User')
+        %th.small{:class => "sortable"}
+          =_('Date')
+        %th.very_small{:class => "sortable"}
+          =_('Duration')   
+        %th.small{:class => "sortable"}
+          Configuration                
+        %th.very_small{:class => "sortable"}
+          Ok        
+        %th.very_small{ :class => "sortable"}
+          =_('Status')
 
     /Data
     -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do      
@@ -57,7 +39,7 @@
         //verifies the name of the suite, or if an execution unit, the script
         -entity = (suite_execution.suite_id==0)? suite_execution.executions.first.circuit : suite_execution.suite
         -if entity
-          =render :partial=>'history_table_row', :locals=>{:entity =>entity, :suite_execution=>suite_execution}
+          =render :partial=>'history_table_row',:locals=>{:entity =>entity,:suite_execution=>suite_execution}
         -else
           %tr
             %td{:colspan=>"10"}

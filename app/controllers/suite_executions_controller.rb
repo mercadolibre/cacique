@@ -38,7 +38,7 @@ class SuiteExecutionsController < ApplicationController
 
   def index
 
-    @errores = Array.new
+    @errores ||= Array.new
     CalendarDateSelect.format=(:finnish)   
     @readonly    = true unless current_user.has_role?("editor", @project)
 
@@ -67,6 +67,7 @@ class SuiteExecutionsController < ApplicationController
 
     #Get percentages of states
     @rates =  SuiteExecution.get_rates(@suite_executions)
+    @total_rate = @suite_executions.count
 
     #Run configurations
     @run_configurations = Hash.new

@@ -5,6 +5,20 @@
 =link_to _('Alarms'), crons_path, :class=>'tab_view' 
 
 .tab_container  
+
+  /Paginate
+  -if !@task_programs.empty?
+    = will_paginate @task_programs, :params => { 'filter' => params[:filter]}
+    .pagination
+      = _('Show') + ":"
+      = page_size_link 50
+      = page_size_link 100
+      = page_size_link 150
+
+  /Filter
+  =render :partial=>"filter" 
+
+  /Table
   =render :partial => 'table', :locals => {:task_programs => @task_programs}
   
 /Tools menu
