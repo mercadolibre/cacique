@@ -1,6 +1,6 @@
 -delayed_jobs = task_program.delayed_jobs  
 %ul
-  =render :partial=>'frecuency', :locals=>{:delayed_job=> delayed_jobs.first}        
+  =render :partial=>'delayed_job', :locals=>{:delayed_job=> delayed_jobs.first}        
   -if delayed_jobs.count>1      
     %div{:id=>"more_frecuency_#{task_program.id}", :class=>'hide'}
       -delayed_jobs[1..delayed_jobs.count].each do |dj|            
