@@ -16,7 +16,7 @@
 
     /User
     %label
-      =_('User')
+      =image_tag('icons/user.png', :alt=>'user.png', :title=>_('User'), :width=>16, :heigth=>16)
     -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''
     =select('filter', 'user_id', @users.collect {|u| [ u.name, u.id ] }.sort!,{  :selected => value, :include_blank => _('All')})  
 

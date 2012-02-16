@@ -28,7 +28,7 @@
 
     /Created by
     %label
-      =_('Created by:')
+      =image_tag('icons/user.png', :alt=>'user.png', :title=>_('Created by:'), :width=>16, :heigth=>16)
     -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i : ''
     =select("filter", "user_id", @users.collect {|u| [ truncate(u.name.capitalize, :ommision => "...", :length => 60), u.id ] }.sort!,{ :selected => value, :include_blank => _('All')})  
 

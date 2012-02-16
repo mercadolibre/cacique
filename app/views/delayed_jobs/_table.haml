@@ -38,7 +38,7 @@
               =render :partial=>'frecuency', :locals=>{:delayed_job=> task_program.delayed_jobs.first, :weekly_trans=>@weekly_trans} 
               -if task_program.delayed_jobs.count >1
                 %sub.more
-                  =link_to_remote '[...]', :complete => "$j('#delayed_job_list').show();",:update => 'delayed_jobs',  :method => 'get',  :url => delayed_job_path(task_program.id)             
+                  =link_to_remote '[...]', :complete => "$j('#delayed_job_list').show();",:update => 'delayed_jobs',  :method => 'get',  :url => delayed_job_path(task_program.id), :before=>"$j('body').css('cursor', 'progress')", :complete=>"$j('body').css('cursor', 'auto')"            
           %td{:title=>task_program.identifier}
             =truncate( task_program.identifier, :ommision => "...", :length => 20)                          
 
