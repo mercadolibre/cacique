@@ -100,10 +100,10 @@ SHARED_DIRECTORY = "<shared_directory>"
 
 #Machine responsible for executing the task scheduling
 #(added to cron)
-SERVER_CRON = "10.4.0.42"
-USER_SERVER_CRON = "cacique"
-PASS_SERVER_CRON =  "Socrates"
-DIRECTORY_SERVER_CRON = "/home/cacique/cacique/tmp/"
+SERVER_CRON = "<server_cron>"
+USER_SERVER_CRON = "<user_server_cron>"
+PASS_SERVER_CRON =  "<pass_server_cron>"
+DIRECTORY_SERVER_CRON = "<directory_server_cron>"
 
 #Circuits versions
 VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
