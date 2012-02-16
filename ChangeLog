@@ -1,4 +1,19 @@
 ===================================
+Version 0.2.5.7
+===================================
+• Executions: Timeout to avoid scripts running forever
+
+• Minor features:
+  Queue observer: shows task running time
+  Textile Output: Added table/blockquote styles
+  Outputs: show additional info for root users
+
+• Bug fixes:
+  Suite execution status didn't show correctly as soon as it started running
+  Deleting a Suite deletes its scheduled tasks
+  Hide deleted cases from Script editor
+
+===================================
 Version 0.2.5.4
 ===================================
 • Menu: Added access to admin functions through the main menu
