@@ -1,4 +1,3 @@
--average = average(suite_execution)
 -no_permission_alert="alert('User has no permission to perform this action')"
 
 %tr{:onClick=>"marcar(this,'#D8DCDF');"}
@@ -17,7 +16,7 @@
 
   //Name
   %td{:title=>entity.name}
-    =h truncate(entity.name, :ommision => "...", :length => 70)
+    =h truncate(entity.name, :ommision => "...", :length => 65)
 
   //User
   %td
@@ -40,8 +39,8 @@
     =render :partial => 'run_configuration_values', :locals=>{:exec_conf_values=> @run_configurations[suite_execution.id]}            
 
   //Average
-  %td
-    =h average[:success].to_s + '%'
+  %td.green
+    = suite_execution.status_percentage.to_s + '%'
  
   //Status
   %td 

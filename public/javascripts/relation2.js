@@ -32,7 +32,7 @@ var cantidad_flechas = 0;
 
   //Load Page:
   //Drag and Drop init
-  window.onload = initDragDropScript;
+on_load_event(initDragDropScript);
 
 //total arrow init
   function  inicializar_cant_flechas(){

@@ -235,7 +235,11 @@ class CircuitsController < ApplicationController
         @version=@circuit.versions.last if @version.nil?
         @version_number=@version.number
       else
-        @version = @circuit.versions.last
+          @version = @circuit.versions.last
+          unless @version
+            @circuit.save
+            @version=@circuit.versions.last
+          end
       end
       #Version
       @previous_version = @circuit.versions.map{|v| v.number}.select{|n| n<@circuit.version}.max

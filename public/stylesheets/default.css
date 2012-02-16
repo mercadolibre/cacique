@@ -892,10 +892,11 @@ table.detail{
   background:white;
 }
 
+
 table.detail th{
 	background: #336699;
   color:#ffffff;
-  padding:5px;
+  padding:2px;
   font-family:sans-serif;
   font-size:11px;
   font-weight:bold;
@@ -947,6 +948,9 @@ table.detail td{
   vertical-align:middle;
 } 
 
+table.detail td.green{
+  color:green;
+}
 
 table.detail td img{
   border:none;
@@ -968,6 +972,10 @@ table.detail td a{
 table.detail td ul {
   text-align: left;
   margin: 0;
+}
+table.detail td ul.height{
+  height:20px;
+  display:inline-block
 }
 
 table.detail td sub.more{
@@ -1087,13 +1095,45 @@ a.qp_disabled {
   margin-top:1px;
   padding:2px;
 }
-
+.buscar.with-checkbox {
+  width:inherit;
+  background: inherit;
+  border:inherit;
+  -moz-border-radius:inherit;
+}
+.buscar #filter_text {
+  width: 130px;
+  height: 20px;
+  border: none;
+  margin-left: 2px;
+}
 .buscar input{
   border:medium none;
   color:grey;
 }
+.buscar input.placeholder{
+  color:grey;
+}
 .buscar input:focus{
   color:black;
+}
+.buscar label {
+  display: inline-block;
+  clear: none;
+}
+.searchbox {
+  position: relative;
+  display: inline-block;
+  clear: none;
+  background: white;
+  border: 1px solid #C1C1C1;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+}
+.buscar input.lupa {
+  position: relative;
+  top: 3px;
+  right: 3px;
 }
 /*********************Sortable List***************************/
 

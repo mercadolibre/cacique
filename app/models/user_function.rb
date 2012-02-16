@@ -220,6 +220,8 @@ class UserFunction < ActiveRecord::Base
   end
 
   def self.get_user_functions_with_filters(projects,params)  
+    return UserFunction.search_all_projects(params[:text]) if params[:all_projects] and !params[:text].blank?
+
    #Bulid conditions
     conditions        = Array.new
     conditions_values = Array.new
@@ -252,7 +254,11 @@ class UserFunction < ActiveRecord::Base
     search     = UserFunction.find(:all, :conditions=>conditions, :order=> "name ASC")
     return search  
   end
-    
+
+  def self.search_all_projects(filter)
+    conditions = ["(name like ? or description like ?)", "%#{filter}%", "%#{filter}%"] unless filter.blank?
+    UserFunction.find(:all, :conditions => conditions, :order => "name ASC")
+  end    
   
   #VERSION_MAX_FOR_FUNCTION --> version function number max allowed checker
   def clean_versions
