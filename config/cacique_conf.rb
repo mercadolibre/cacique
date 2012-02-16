@@ -118,6 +118,9 @@ MAX_SUITE_PROGRAM = 300
 #Timeout that system is going to wait before stop an atomic execution
 ATOMIC_TIMEOUT = 90
 
+#default value for timeout for every execution on cacique
+CCQ_DEFAULT_TIMEOUT=3600
+
 #Constants caching time (seconds)
 CACHE_EXPIRE_EXEC = 7200 
 CACHE_EXPIRE_SUITE_EXEC = 7200
