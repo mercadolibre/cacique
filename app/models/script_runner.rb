@@ -38,7 +38,7 @@ class ScriptRunner < ActiveRecord::Base
   attr_accessor	:data_recoveries
   attr_accessor :project_id #to find required cacique functions
   attr_accessor :configuration_values
-  attr_accessor :execution 
+  attr_accessor :execution
   attr_accessor :free_values
   attr_accessor :execution_flag
   attr_accessor :ccq_exec_flag
@@ -58,7 +58,7 @@ class ScriptRunner < ActiveRecord::Base
       Timeout::timeout(ATOMIC_TIMEOUT) do
         while @ccq_atomic do end 
       end
-      $ccq_execution_thread.kill 
+      Thread.list.each {|th| kill} 
     end
     #Marking worker for reboot
     Signal.trap("SIGUSR1") do
@@ -71,12 +71,16 @@ class ScriptRunner < ActiveRecord::Base
     #Se execution values
     execution.ip=local_ip
     execution.pid=$$
+    execution.suite_execution.status=1
+    execution.suite_execution.save
     execution.save
+    
     Rails.cache.write WORKER_CACHE_KEY, execution
     #Method for the creation of the script
     ccq_generate_script(ccq_file_code)
     #Thread
 		self.ccq_return = Hash.new
+    @ccq_timeout=CCQ_DEFAULT_TIMEOUT
     $ccq_execution_thread=Thread.new do
       begin
 	  	  #Run script header (Cacique user function)
@@ -91,6 +95,11 @@ class ScriptRunner < ActiveRecord::Base
   			finalize_run_script
 	    end
     end# Thread.new end
+    while($ccq_execution_thread.alive?)
+       sleep 1
+       @ccq_timeout-=1
+       Thread.list.each { |th| th.kill} if @ccq_timeout==0 
+    end
     $ccq_execution_thread.join
     return ccq_get_return_data
 	end#run_source_code
@@ -324,9 +333,9 @@ private
         if function.native_params
           #Call fucntion with script params
           if block_given?
-		eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments,&block)")
+              eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments,&block)")
           else
-		eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments)" )
+              eval_return =  eval( "new_object.method(function.name.to_sym).call(*arguments)" )
           end
         else
           args = arguments.map{|argument| "#{ccq_to_ruby_expr(argument)}"}.join(",")
