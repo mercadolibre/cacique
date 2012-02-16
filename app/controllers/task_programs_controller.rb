@@ -57,7 +57,7 @@ class TaskProgramsController < ApplicationController
         @user_configuration = current_user.user_configuration
         @user_configuration.update_configuration(params[:execution])
         cant_run_combination = @user_configuration.run_combinations.count
-        @suite_program_cant = cant_times * cant_suites * cant_run_combination
+        @suite_program_cant = cant_times * cant_run_combination
          @create_path = url_for(params.merge!(:action => :create))
          if @suite_program_cant > MAX_SUITE_PROGRAM
             @text_confirm = _("You are to be scheduled #{@suite_program_cant} executions, please enter the number of executions to confirm.") 

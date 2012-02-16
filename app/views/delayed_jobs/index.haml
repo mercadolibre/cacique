@@ -19,7 +19,7 @@
   =render :partial=>"filter" 
 
   /Table
-  =render :partial => 'table', :locals => {:task_programs => @task_programs}
+  =render :partial => 'table', :locals => {:task_programs => @task_programs, :delayed_jobs=>@delayed_jobs}
   
 /Tools menu
 -content_for :tools_menu do

@@ -2494,10 +2494,6 @@ msgstr "Complete un objetivo haciendo doble click"
 msgid "History of"
 msgstr "Historial de"
 
-#: app/views/suite_executions/index.haml:
-msgid "History of Execution from: "
-msgstr "Historial de Ejecuciones de: "
-
 #: app/views/notes/index.haml:
 msgid "General Notes"
 msgstr "Notas Generales"
@@ -3236,7 +3232,7 @@ msgstr "Confirmada"
 
 #: app/models/delayed_job.rb:
 msgid "Last Confirmed"
-msgstr "Ultima Confirmada"
+msgstr "Última Confirmada"
 
 #: app/views/crons/new.haml: 
 msgid "Alarm"

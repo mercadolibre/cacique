@@ -3,6 +3,7 @@
 .content{ min-height: 400px; overflow: auto; padding-left: 3%; padding-right: 3%; margin-bottom:3%; padding-bottom:2.5%; font-size: 12px; float:right: }
 .main {width: 98%; height:85%; padding:1.5% 2%; font-family: sans-serif}
 .column {float:left; width:30%; margin-left:13px; padding:10px}
+.column.max {float:left; width:42%; margin-left:13px; padding:10px}
 h1 {text-align:left; letter-spacing:1px; font-size: 14px; font-weight: bold; color: #373737; font-family:sans-serif; margin: 10px auto 15px}
 h1.top {margin: 20px 0 5px}
 h2 {width:95%; margin: 0 auto; margin-top:5px; font-size: 12px; font-family:sans-serif; color: #626894; line-height: 20px}
@@ -76,7 +77,12 @@ legend {font-size: 1.4em; font-weight: bold; position: relative; top: -.4em}
 #cacique_about p{ text-align:center; clear:both; height:auto; color:#293484; font-variant:small-caps; overflow:none}
 #cacique_about p a{ text-decoration:none}
 #cacique_about h3{ text-align:center; font-variant:small-caps; color:#293484; font-size:15px}
- .tag{ -moz-background-clip:border; -moz-background-inline-policy:continuous; -moz-background-origin:padding; background:transparent url(/images/background/home_tag.png) repeat-x scroll; border:1px solid #C3C3C3; margin-bottom:20px; padding:5px 20px 5px 20px; width: 300px; text-align:left; -moz-border-radius:10px; position:fixed; left: 35%; top:20%; z-index:3}
+ .popup{ -moz-background-clip:border; -moz-background-inline-policy:continuous; -moz-background-origin:padding; background:transparent url(/images/background/home_tag.png) repeat-x scroll; border:1px solid #C3C3C3; padding:5px 20px 5px 20px; width: 40%; -moz-border-radius:10px; position:fixed; left: 30%; top:20%; z-index:3}
+.popup .scroll{ border: 1px solid #D2D2D2; height: 200px; margin-bottom: 10px; overflow: auto}
+.popup .center{ width:40%}
+.popup ul{ text-align: left; padding: 0 5px}
+.popup ul li.inline{ display:inline}
+.tag{ -moz-background-clip:border; -moz-background-inline-policy:continuous; -moz-background-origin:padding; background:transparent url(/images/background/home_tag.png) repeat-x scroll; border:1px solid #C3C3C3; margin-bottom:20px; padding:5px 20px 5px 20px; width: 300px; text-align:left; -moz-border-radius:10px; position:fixed; left: 35%; top:20%; z-index:3}
 .tag h3{ text-align:center; color:#373737}
 .tag label{ font-size:12px; color:#31576F}
 .tag p{ height:85%; width:98%; overflow:auto; font-size:12px}
@@ -125,7 +131,10 @@ table.detail td img{ border:none}
 table.detail td.img img{ border:none; width: 12px; height: 14px}
 table.detail td a{ cursor:pointer; text-decoration:underline; color:#848484; font-weight:normal}
 table.detail td ul {text-align: left; margin: 0}
-table.detail td ul sub.more{ float: right; cursor:pointer}
+table.detail td sub.more{ float: right; cursor:pointer}
+table.detail td sub.more a{ text-decoration:none}
+table.detail td b.right{ float: right}
+table.detail td ul li.inline{ display:inline}
 table.detail td ul.inline{ text-align: left; display:inline}
 table.detail td ul.inline li.inline{ display:inline}
 table.detail tr.oddRow {background-color: #F5F6F7}

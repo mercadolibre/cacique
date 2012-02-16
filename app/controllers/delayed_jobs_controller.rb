@@ -92,5 +92,12 @@ DateTime.now.in_time_zone
     @task_program.confirm_delayed_jobs_until(DateTime.now >> 1)
     redirect_to :action => :confirm_program, :id => @task_program.id, :confirm => true
   end
+
+  def show
+    task_program = TaskProgram.find( params[:id].to_i)
+    delayed_jobs = DelayedJob.build_structure(task_program)
+    weekly_trans = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}
+    render :partial => "show" , :locals=>{:delayed_jobs=>delayed_jobs, :weekly_trans=>weekly_trans}   
+  end
   
 end

@@ -45,6 +45,13 @@ body {
   padding:10px;
  }
 
+.column.max {
+  float:left;
+  width:42%;
+  margin-left:13px;
+  padding:10px;
+ }
+
 h1 {
   text-align:left;
   letter-spacing:1px;
@@ -566,6 +573,41 @@ legend {
 
 /**********************POPUPS********************/
 
+.popup{
+  -moz-background-clip:border;
+  -moz-background-inline-policy:continuous;
+  -moz-background-origin:padding;
+  background:transparent url(/images/background/home_tag.png) repeat-x scroll;
+  border:1px solid #C3C3C3;
+  padding:5px 20px 5px 20px;
+  width: 40%;
+  -moz-border-radius:10px;
+  position:fixed;
+  left: 30%; 
+  top:20%;
+  z-index:3;
+}
+
+.popup .scroll{
+  border: 1px solid #D2D2D2;
+  height: 200px;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.popup .center{
+  width:40%;
+}
+
+.popup  ul{
+  text-align: left;
+  padding: 0 5px;
+}
+
+.popup ul li.inline{
+  display:inline;
+}
+
 .tag{
   -moz-background-clip:border;
   -moz-background-inline-policy:continuous;
@@ -928,10 +970,21 @@ table.detail td ul {
   margin: 0;
 }
 
-
-table.detail td ul sub.more{
+table.detail td sub.more{
   float: right;
   cursor:pointer;
+}
+
+table.detail td sub.more a{
+  text-decoration:none;
+}
+
+table.detail td b.right{
+   float: right;
+}
+
+table.detail td ul li.inline{
+  display:inline;
 }
 
 table.detail td ul.inline{
@@ -942,6 +995,8 @@ table.detail td ul.inline{
 table.detail td ul.inline li.inline{
   display:inline;
 }
+
+
 
 table.detail tr.oddRow { 
   background-color: #F5F6F7;

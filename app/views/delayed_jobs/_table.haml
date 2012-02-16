@@ -17,7 +17,7 @@
           =_("Programmed by")            
         %th.medium
           =_("Schedule")
-        %th.medium
+        %th.small
           =_('Identifier') 
 
   %tbody
@@ -33,12 +33,17 @@
             =render :partial=>'task_programs/suites', :locals=>{:task_program=>task_program}
           %td{:title=>task_program.user.name}
             =truncate( task_program.user.name, :ommision => '...', :length => 20)                 
-          %td
-            =render :partial=>'delayed_jobs', :locals=>{:task_program=>task_program}               
+          %td 
+            %ul
+              =render :partial=>'frecuency', :locals=>{:delayed_job=> task_program.delayed_jobs.first, :weekly_trans=>@weekly_trans} 
+              -if task_program.delayed_jobs.count >1
+                %sub.more
+                  =link_to_remote '[...]', :complete => "$j('#delayed_job_list').show();",:update => 'delayed_jobs',  :method => 'get',  :url => delayed_job_path(task_program.id)             
           %td{:title=>task_program.identifier}
             =truncate( task_program.identifier, :ommision => "...", :length => 20)                          
 
 
-
+//Delayed Jobs
+#delayed_jobs{:class=>'hidden'}
         
          

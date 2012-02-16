@@ -43,8 +43,10 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
+
 require "#{RAILS_ROOT}/lib/run_suite_program.rb"
 class DelayedJob < ActiveRecord::Base
+
   unloadable
   belongs_to :task_program
   validates_presence_of :task_program_id,   :message => _("Must complete task program")
@@ -52,6 +54,8 @@ class DelayedJob < ActiveRecord::Base
   
   before_destroy :verify_status
   after_destroy :destroy_task_program
+
+
 
   def self.add( task_program, params)
 
@@ -109,10 +113,6 @@ class DelayedJob < ActiveRecord::Base
     conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
     conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
 
-    #Only confirmed
-    conditions_names << " delayed_jobs.status in(?) " 
-    conditions_values << [1,2]   
-
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values
 
@@ -124,6 +124,15 @@ class DelayedJob < ActiveRecord::Base
     task_programs.paginate :page => params[:page], :per_page => number_per_page
     
   end
+
+  #Delayed jobs only_confirmed and last_confirmed: {task_program_id=>[confirmed djs, last confirmed dj]}
+  def self.build_structure(task_program)
+    confirmed      = task_program.delayed_jobs.find_all_by_status(1) 
+    last_confirmed = task_program.delayed_jobs.find_all_by_status(2).first 
+    total_not_confirmed = task_program.delayed_jobs.find_all_by_status(0)
+    [confirmed, last_confirmed, total_not_confirmed]
+  end
+
 
   def verify_status
      task_program = TaskProgram.find self.task_program_id
@@ -154,6 +163,18 @@ class DelayedJob < ActiveRecord::Base
         return _("Last Confirmed")
     end
   end
+ 
+  def self.s_status(status)
+    case status
+      when 0 
+        return _("To be confirmed")
+      when 1
+        return _("Confirmed")
+      when 2
+        return _("Last Confirmed")
+    end
+  end 
+ 
   
   def self.create_run(params, time, status, task_program_id)
     #Creo la programacion con params incompleto.
