@@ -63,4 +63,17 @@
       -execution.output.split("\n").each do |line|
         =h line
         %br 
+
+  /Roots Info
+  -if current_user.has_role?("root")    
+    %b{:style=>'color:#2C4B9B;font-size:13px;text-decoration:underline;'}
+      Execution Info
+    %ul
+      %li
+        IP:
+        =execution.ip
+      %li
+        PID:
+        =execution.pid
+
   %div{ :style=>'clear: both'}
