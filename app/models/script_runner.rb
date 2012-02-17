@@ -95,10 +95,11 @@ class ScriptRunner < ActiveRecord::Base
   			finalize_run_script
 	    end
     end# Thread.new end
+    
     while($ccq_execution_thread.alive?)
-       sleep 1
-       @ccq_timeout-=1
-       Thread.list.each { |th| th.kill} if @ccq_timeout==0 
+       sleep 10
+       @ccq_timeout= @ccq_timeout.to_i - 10
+       Thread.list.each { |th| th.kill} if @ccq_timeout<=0
     end
     $ccq_execution_thread.join
     return ccq_get_return_data
