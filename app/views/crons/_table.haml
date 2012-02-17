@@ -1,6 +1,6 @@
 %table.detail
   %caption
-    /Alams
+    -#Alams
   %thead
     %tr
       -if crons.empty?
@@ -32,22 +32,22 @@
       -crons.each do |cron|
         -task_program = cron.task_program
         %tr 
-          /Checkbox 
+          -#Checkbox 
           %td
             -enabled = !(current_user.has_role?("root") or task_program.user_id == current_user.id)
             =check_box_tag 'id[]', task_program.id, false, :disabled=>enabled, :class=>"check_cron"
-          /Project
+          -#Project
           %td{:title=>task_program.project.name}
             =truncate( task_program.project.name, :ommision => '...', :length => 60)    
-          /Suites        
+          -#Suites        
           %td
             =render :partial=>'task_programs/suites', :locals=>{:task_program=>task_program}
-          /User
+          -#User
           %td{:title=>task_program.user.name}
             =truncate( task_program.user.name, :ommision => '...', :length => 20)  
-          /Frecuency               
+          -#Frecuency               
           =render :partial =>'frecuency', :locals=>{:cron=>cron}
-          /Identifier
+          -#Identifier
           %td{:title=>task_program.identifier}
             =truncate( task_program.identifier, :ommision =>'...', :length => 20)                                
 

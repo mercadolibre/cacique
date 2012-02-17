@@ -24,9 +24,9 @@
     %div{:style=>style_3}
       =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
 %script
-  /Edit cron
+  -#Edit cron
   $j('.edit_select').click(function(){$j('#cron>select.inline,input.inline').toggle();$j('#cron>:visible').removeAttr('disabled');$j('#cron>:hidden').attr('disabled', 'disabled'); });   
 
-  /Errors
+  -#Errors
   var errors='#{@errors}';
   if(errors) alert(errors);

@@ -7,7 +7,7 @@
         =_('This suite is not scheduled to confirm')
   -else
     %table.detail{:style=>"margin:5px auto;width:95%;"}
-      //Next Expirations
+      -#Next Expirations
       -task_program_info.each do |id, date|
         %tr{:onclick=>"location=' /delayed_jobs/confirm_program/#{id}'", :style=>"cursor:pointer;"}
           -next_expiration = date

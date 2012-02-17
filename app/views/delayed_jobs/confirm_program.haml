@@ -9,7 +9,7 @@
       -alert= _('Are you sure you confirm the programming?')   
       %input{:type=>"button", :value=>_("Confirm"), :onclick=>"if( confirm('#{alert}') ){location='/delayed_jobs/save_confirm_program/#{@task_program.id}'}"}
            
-  //Table
+  -#Table
   = will_paginate @delayed_jobs     
   =render :partial => "table", :locals => {:delayed_jobs => @delayed_jobs, :suites_names=>@suites_names, :users_names=>@users_names}
   

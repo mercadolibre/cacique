@@ -4,7 +4,7 @@
 -javascript 'checked_default'
 -javascript 'checkbox_lib'
 
-//Selected filed in table of cases
+-#Selected filed in table of cases
 %script
   var marcado  = "";
   var anterior = "";
@@ -42,7 +42,7 @@
   $j('#form_to_run_suite').submit();
   }
 
-//Tools menu
+-#Tools menu
 -content_for :tools_menu do
   =image_tag("/images/icons/play.png", :alt=>"run", :title=>_('Run'), :onClick => "submit_and_hide(this);")
   =image_tag("/images/load/spinner.gif", :alt=>"running", :title=>_('Running ...'), :style => 'display:none; cursor:default;')

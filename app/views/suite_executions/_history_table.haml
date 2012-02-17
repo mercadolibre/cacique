@@ -1,6 +1,6 @@
 %table.detail{:name=>"table_zebra"}
   %caption
-    /History
+    -#History
   %thead  
     %tr  
       -if suite_executions.empty? && params[:filter].nil?
@@ -33,10 +33,10 @@
         %th.very_small{ :class => "sortable"}
           =_('Status')
 
-    /Data
+    -#Data
     -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do      
       -suite_executions.each do |suite_execution|
-        //verifies the name of the suite, or if an execution unit, the script
+        -#verifies the name of the suite, or if an execution unit, the script
         -entity = (suite_execution.suite_id==0)? suite_execution.executions.first.circuit : suite_execution.suite
         -if entity
           =render :partial=>'history_table_row',:locals=>{:entity =>entity,:suite_execution=>suite_execution}

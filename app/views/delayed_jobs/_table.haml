@@ -1,6 +1,6 @@
 %table.detail
   %caption
-    /Task Programs
+    -#Task Programs
   %thead
     %tr
       -if task_programs.empty?
@@ -43,7 +43,7 @@
             =truncate( task_program.identifier, :ommision => "...", :length => 20)                          
 
 
-//Delayed Jobs
+-#Delayed Jobs
 #delayed_jobs{:class=>'hidden'}
         
          

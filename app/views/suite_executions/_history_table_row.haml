@@ -2,47 +2,47 @@
 
 %tr{:onClick=>"marcar(this,'#D8DCDF');"}
 
-  //Checkbox
+  -#Checkbox
   %td
     =check_box_tag "suite_executions[]", suite_execution.id, false, :class=>"check_suite_execution"
  
-  //Name entity
+  -#Name entity
   %td{:style=>"width:30px;"}
     =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
 
-  //identifier
+  -#identifier
   %td{:name=> @readonly ? "" : "edit_cell", :id=>suite_execution.id, :title => suite_execution.identifier, :ondblclick => no_permission_alert}
     =h truncate(suite_execution.identifier, :ommision => "...", :length => 20)
 
-  //Name
+  -#Name
   %td{:title=>entity.name}
     =h truncate(entity.name, :ommision => "...", :length => 65)
 
-  //User
+  -#User
   %td
     =h truncate(suite_execution.user.name, :ommision => "...", :length => 25)
   
-  //Date        
+  -#Date        
   %td
     -if suite_execution.created_at.today?
       =h suite_execution.created_at.to_s(:short).split("-")[0]
     -else
       =h suite_execution.created_at.to_s(:short)
 
-  //Time spent
+  -#Time spent
   %td
     =truncate(suite_execution.time_spent.to_s,:ommision => "...", :length => 10)
     \.s  
 
-  //Run configuration     
+  -#Run configuration     
   %td
     =render :partial => 'run_configuration_values', :locals=>{:exec_conf_values=> @run_configurations[suite_execution.id]}            
 
-  //Average
+  -#Average
   %td.green
     = suite_execution.status_percentage.to_s + '%'
  
-  //Status
+  -#Status
   %td 
     %div{:id=>'status_' + suite_execution.id.to_s}
       =render :partial => 'status', :locals=>{:suite_execution => suite_execution}

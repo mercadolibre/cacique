@@ -1,43 +1,43 @@
 .filter
   -form_for :suite_execution, :url => {:controller => 'suite_executions', :action => :index} do
   
-    /Kind
+    -#Kind
     %input{:name=>'kind', :value=>params[:kind].to_i, :type=>'hidden'}  
 
-    /Identifier
+    -#Identifier
     %label
       Id
     -value = params[:filter] && params[:filter][:identifier]  ? params[:filter][:identifier]: ''
     =text_field('filter', 'identifier', {:value=>value})
 
 
-    /Scripts and Suites
+    -#Scripts and Suites
     =render :partial => "filter_model_div", :locals => {:suites=>@suites, :scripts=>@scripts}
 
-    /User
+    -#User
     %label
       =image_tag('icons/user.png', :alt=>'user.png', :title=>_('User'), :width=>16, :heigth=>16)
     -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''
     =select('filter', 'user_id', @users.collect {|u| [ u.name, u.id ] }.sort!,{  :selected => value, :include_blank => _('All')})  
 
 
-    /Date From
+    -#Date From
     %label
       =_('From:')
     =calendar_date_select_tag 'filter[init_date]', params[:init_date].strftime("%d.%m.%Y %H:%M"),:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date <= (new Date()).stripTime()", :popup => :force, :year_range => (DateTime.now << 24)..DateTime.now
 
-    /Date Until
+    -#Date Until
     %label
       =_('Until:')
     =calendar_date_select_tag 'filter[finish_date]',params[:finish_date].strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date <= (new Date()).stripTime()", :popup => :force, :year_range => (DateTime.now << 24)..DateTime.now, :after_show => "set_date();",:onchange => "set_hour();"
 
-    /Status
+    -#Status
     %label
       =_('Status:')
     -value = params[:filter] && params[:filter][:status] ? params[:filter][:status].to_i: ''
     =select('filter','status',@status, {:selected => value})
 
-    /Submit
+    -#Submit
     %label
       =submit_tag 'Ok', :class=>'submit_min' 
 

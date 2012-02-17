@@ -3,7 +3,7 @@
 -not_confirmed  = delayed_jobs[2]
 
 %div{:class=>'column max'}
-  /Confirmed
+  -#Confirmed
   -if !confirmed.blank?
     %h2
       =DelayedJob.s_status(1)   
@@ -12,14 +12,14 @@
         %ul          
           =render :partial=>'frecuency', :locals=>{:delayed_job=> dj, :weekly_trans=>weekly_trans}   
                       
-  /Last Confirmed
+  -#Last Confirmed
   -if last_confirmed
     %h2
       =DelayedJob.s_status(2)   
     %ul   
       =render :partial=>'frecuency', :locals=>{:delayed_job=> last_confirmed, :weekly_trans=>weekly_trans} 
      
-/Not confirmed
+-#Not confirmed
 -if !not_confirmed.blank?
   %div{:class=>'column max' }
     %h2
@@ -29,7 +29,7 @@
         %ul           
           =render :partial=>'frecuency', :locals=>{:delayed_job=> dj, :weekly_trans=>weekly_trans} 
 
-/TaskProgram
+-#TaskProgram
 -if not_confirmed.blank? and !confirmed.blank?
   -task_program = confirmed.first.task_program
   %div{:class=>'column max' }

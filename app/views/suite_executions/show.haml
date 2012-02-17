@@ -34,10 +34,10 @@
       =render :partial=>"run_configuration", :locals=>{:exec_conf_values=>@exec_conf_values, :suite_execution=>@suite_execution}
     %div{:style=>"clear:both"}
 
-//Suite show
+-#Suite show
 .div{:id => "div_suite_show", :style=>"display:none;"}
     
-//Tools menu
+-#Tools menu
 -content_for :tools_menu do
   =render :partial => "queue_observers/queue_icon"
   -if @suite_execution.suite_id != 0  
@@ -47,7 +47,7 @@
     %img{:src => "/images/icons/info.png",      :alt=>"info",      :title=>_('Information'), :onClick => "document.getElementById('infoSuiteExecutionShow').toggle();"}  
   -else
     %img{:src => "/images/icons/info.png",      :alt=>"info",      :title=>_('Information'), :onClick => "document.getElementById('infoScriptExecutionShow').toggle();"}
-//Help 
+-#Help 
 =render :partial => "info_suite_execution_show"    
-//JS
+-#JS
 -javascript 'suite_show'

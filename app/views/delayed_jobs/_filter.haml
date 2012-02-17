@@ -1,14 +1,14 @@
 .filter
   -form_for :delayed_jobs, :url => delayed_jobs_path, :html=>{:method=>:get} do
-    /TaskProgram filter
+    -#TaskProgram filter
     =render :partial=> 'task_programs/filter'
            
-    /Date From 
+    -#Date From 
     %label
       =_('From:')
     =calendar_date_select_tag "filter[init_date]", params[:init_date].strftime("%d.%m.%Y %H:%M"),:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24)
 
-    /Date Until    
+    -#Date Until    
     %label
       =_('Until:')
     =calendar_date_select_tag "filter[finish_date]", params[:finish_date].strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date >= (new Date()).stripTime()", :popup => :force, :year_range => DateTime.now..(DateTime.now >>24), :after_show => "set_date();",:onchange => "set_hour();"

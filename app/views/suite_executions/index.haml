@@ -1,4 +1,4 @@
-//Rates
+-#Rates
 -if !@suite_executions.empty?
   =render :partial => "rates"
 
@@ -7,7 +7,7 @@
 %h2.inline
   =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
 
-/Paginate
+-#Paginate
 -if  !@suite_executions.empty?
   -unless params.include? "filter"
     = will_paginate @suite_executions
@@ -19,35 +19,35 @@
     = page_size_link 100
     = page_size_link 150    
         
-/Filter
+-#Filter
 =render :partial => "filter_index" 
 
-/Table
+-#Table
 =render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
 
-//Tools menu
+-#Tools menu
 -content_for :tools_menu do
   =image_tag  "/images/icons/pdf.png", :alt=>"pdf.png", :title=>_('Export to PDF'), :id=>'pdf_icon'
   =image_tag "/images/icons/info.png",:alt=>"info.png", :title=>_('Information'), :id=>'info_icon'
 
-//Help 
+-#Help 
 =render :partial => "info"
 
-//JS
+-#JS
 = calendar_date_select_includes "blue"
 -javascript 'history'
 -javascript 'checkbox_lib'  
 -javascript 'tabla_suiteExe_editable'
 -javascript 'tablesort'
 %script
-  /check_all
+  -#check_all
   $j('#check_all').click(function(){ch_select_all(this, '.check_suite_execution');}); 
 
-  //Tabla editable
+  -#Tabla editable
   jQuery(window).bind("load", function(){
   iniciarTabla();
   })
-  //marked file
+  -#marked file
   var marcado  = ""; 
   var anterior = "";
   var color_anterior = "";
