@@ -168,8 +168,13 @@ class SuiteExecution < ActiveRecord::Base
   end
 
   # return executions from previous day which status is "running" but are already finished
-  def self.idle_executions
+  def self.last_idle_executions
     SuiteExecution.status_running.find :all, :conditions => ["created_at > ?", Date.yesterday.to_s]
+  end
+
+  # update old idle executions from RUNNING or WAITING to NOT_RUN
+  def self.update_all_idle_executions
+    SuiteExecution.update_all "status = #{NOT_RUN}", ["status = #{RUNNING} OR status = #{WAITING} AND created_at < ?", Date.yesterday.to_s]
   end
 
   def count_failures

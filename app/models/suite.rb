@@ -75,6 +75,7 @@ class Suite < ActiveRecord::Base
   def soft_delete
     self.suite_fields_relations.clear
     self.suite_cases_relations.clear
+    self.task_programs.destroy_all
     self.deleted = true
     self.save
   end
