@@ -27,7 +27,7 @@
   %br   
   %label.inline          
     =_('Day of week')    
-  =select "cron", "day_of_week", Date::ABBR_DAYNAMES.zip((0..6).to_a) + [['*']], {:selected => time_now.wday},{:class=>'inline'} 
+  =select "cron", "day_of_week", Date::ABBR_DAYNAMES.zip((0..6).to_a) + [['*']], {:selected => '*'},{:class=>'inline'} 
   =text_field "cron","day_of_week", :title=>_('Day of week'), :class=>'inline hide', :disabled=>'disabled'   
 
 

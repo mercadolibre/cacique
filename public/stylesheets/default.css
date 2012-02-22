@@ -190,7 +190,6 @@ select{
 
 .form_tag input.inline.hide{
   display:none;
-  disabled
 }
 
 .form_tag select.inline{
