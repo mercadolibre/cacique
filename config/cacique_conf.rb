@@ -118,7 +118,8 @@ MAX_SUITE_PROGRAM = 300
 #Timeout that system is going to wait before stop an atomic execution
 ATOMIC_TIMEOUT = 90
 
-#default value for timeout for every execution on cacique
+#default value for timeout for every execution on cacique by default get CCQ_DEFAULT_TIMEOUT
+#User can set that value in every script setting @ccq_timeout=(number of seconds) 
 CCQ_DEFAULT_TIMEOUT=3600
 
 #Constants caching time (seconds)
