@@ -1028,6 +1028,7 @@ table.detail th.exe {
   text-align:center;
 }
 
+
 /************************* Rates ****************************/
 ul.rates {
   border: 1px solid #D2D2D2;
@@ -1054,6 +1055,41 @@ ul.rates li.ok {
 
 ul.rates li.fail{
   color:red; 
+}
+
+.formated_output table {
+  border-width: 1px 1px 0 0;
+  border-style: solid;
+  border-spacing: 0;
+}
+
+.formated_output th, .formated_output td {
+  border-width: 0 0 1px 1px;
+  border-style: solid;
+}
+
+.formated_output th {
+  background: #CCC;
+}
+
+.formated_output blockquote {
+  margin: 0 0 0.5em 0;
+}
+
+.formated_output blockquote p {
+  margin: 0.5em;
+}
+
+.formated_output blockquote.block_error {
+  border: solid 2px #BD362F;
+}
+
+.formated_output blockquote.block_success {
+  border: solid 2px #5BB75B;
+}
+
+.formated_output blockquote.block_warning {
+  border: solid 2px #F89406;
 }
 
 ul.rates li.others{

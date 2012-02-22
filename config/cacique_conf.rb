@@ -48,7 +48,7 @@ FIRST_USER_PASS="admin"
 CACIQUE_LANG="en_US"
 
 #Version
-CACIQUE_VERSION = "0.2.5.4"
+CACIQUE_VERSION = "0.2.5.7"
 
 
 #Function that calculates the server ip
@@ -124,6 +124,9 @@ MAX_SUITE_PROGRAM = 300
 
 #Timeout that system is going to wait before stop an atomic execution
 ATOMIC_TIMEOUT = 90
+
+#default value for timeout for every execution on cacique
+CCQ_DEFAULT_TIMEOUT=3600
 
 #Constants caching time (seconds)
 CACHE_EXPIRE_EXEC = 7200 

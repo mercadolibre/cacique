@@ -147,6 +147,14 @@ table.detail th.exe {background: url(/images/tables/tag_blue.png); color:#ffffff
 ul.rates li{ display:inline; font-weight:bold; margin-left:10px; border-right: 1px solid #D2D2D2}
 ul.rates li.ok {color:DarkGreen}
 ul.rates li.fail{ color:red}
+.formated_output table {border-width: 1px 1px 0 0; border-style: solid; border-spacing: 0}
+.formated_output th, .formated_output td {border-width: 0 0 1px 1px; border-style: solid}
+.formated_output th {background: #CCC}
+.formated_output blockquote {margin: 0 0 0.5em 0}
+.formated_output blockquote p {margin: 0.5em}
+.formated_output blockquote.block_error {border: solid 2px #BD362F}
+.formated_output blockquote.block_success {border: solid 2px #5BB75B}
+.formated_output blockquote.block_warning {border: solid 2px #F89406}
 ul.rates li.others{ color:#2C4B9B}
  .qp_counter {margin: 10px}
 a.qp_disabled {color: #888; text-decoration: none}
