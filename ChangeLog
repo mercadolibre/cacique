@@ -7,11 +7,14 @@ Version 0.2.5.7
   Queue observer: shows task running time
   Textile Output: Added table/blockquote styles
   Outputs: show additional info for root users
+  Added the configuration run in the detail of the report PDF
 
 • Bug fixes:
   Suite execution status didn't show correctly as soon as it started running
   Deleting a Suite deletes its scheduled tasks
   Hide deleted cases from Script editor
+  Deleting a suite, their schedules are eliminated
+  The filter function operates without a selected project
 
 ===================================
 Version 0.2.5.4
