@@ -82,6 +82,7 @@ legend {font-size: 1.4em; font-weight: bold; position: relative; top: -.4em}
 .popup .center{ width:40%}
 .popup ul{ text-align: left; padding: 0 5px}
 .popup ul li.inline{ display:inline}
+.popup ul li.inline.grey{ color:grey}
 .tag{ -moz-background-clip:border; -moz-background-inline-policy:continuous; -moz-background-origin:padding; background:transparent url(/images/background/home_tag.png) repeat-x scroll; border:1px solid #C3C3C3; margin-bottom:20px; padding:5px 20px 5px 20px; width: 300px; text-align:left; -moz-border-radius:10px; position:fixed; left: 35%; top:20%; z-index:3}
 .tag h3{ text-align:center; color:#373737}
 .tag label{ font-size:12px; color:#31576F}

@@ -23,10 +23,26 @@
       =render :partial => 'context_configurations/constant_config', :locals => {:user_configuration => @user_configuration }
     %div{:style=>style_3}
       =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
-%script
-  -#Edit cron
-  $j('.edit_select').click(function(){$j('#cron>select.inline,input.inline').toggle();$j('#cron>:visible').removeAttr('disabled');$j('#cron>:hidden').attr('disabled', 'disabled'); });   
 
-  -#Errors
+
+:javascript
+  //Edit cron
+  $j('.edit_select').click(function(){
+    //Toggle input and selects
+    $j('#cron>select.inline,input.inline').toggle();
+
+    //Disabled hide elements (inputs or selects)    
+    $j('#cron>:visible').removeAttr('disabled');
+    $j('#cron>:hidden').attr('disabled', 'disabled'); 
+
+    //Inputs with Select values
+    $j('#cron>input.inline:visible').each(function(){
+      var element_id = $j(this).attr('id');
+      var new_value  = $j('select.inline#' + element_id + ':hidden').val();
+      $j(this).val(new_value);
+    })
+  });   
+
+  //Errors
   var errors='#{@errors}';
   if(errors) alert(errors);

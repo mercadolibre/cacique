@@ -607,6 +607,10 @@ legend {
   display:inline;
 }
 
+.popup ul li.inline.grey{
+  color:grey;
+}
+
 .tag{
   -moz-background-clip:border;
   -moz-background-inline-policy:continuous;

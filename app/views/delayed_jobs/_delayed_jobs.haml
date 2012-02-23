@@ -9,7 +9,7 @@
       =DelayedJob.s_status(1)   
     .scroll
       -confirmed.each do |dj|  
-        %ul          
+        %ul         
           =render :partial=>'frecuency', :locals=>{:delayed_job=> dj, :weekly_trans=>weekly_trans}   
                       
   -#Last Confirmed
