@@ -1,4 +1,4 @@
-%div{:id=>"div_to_refresh_#{circuit.id}"}
+%tbody{:id=>"div_to_refresh_#{circuit.id}"}
   -no_permission_alert = "alert('No tiene permisos para realizar esta accion')"
   -case_templates.each do |case_template|
     %tr{:id=>case_template.id.to_s, :onclick=>"marcar(this, '#CBE3BE');"}

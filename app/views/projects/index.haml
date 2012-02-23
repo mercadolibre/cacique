@@ -12,36 +12,33 @@
     
     =render :partial => "abm_projects"
     
-    %table.general{:name=>"table_zebra", :style=>"float:none;margin-left:10px;margin-top:20px;"}
-      %tr
-        %th
-          =_('Project')
-        %th
-          =_('Description')
-        %th
-          =_('Manager')
-        %th{:style=>"width:60%;"}
-          =_('Users')
-        %th
-          =_('Actions')
-      -@projects.each do |project|
+    %table.general{:name=>"table_zebra", :cellspacing=>'0'}
+      %thead
         %tr
-          %td{:title=>project.name}
-            =truncate(project.name, :ommision => "...", :length => 20)
-          %td{:title=>project.description}
-            =truncate(project.description, :ommision => "...", :length => 20)
-          %td{:title=>project.user.login.downcase}
-            =truncate(project.user.login.downcase, :ommision => "...", :length => 20)
-          %td
-            -project.users.each do |user|
-              =user.login
-          %td
-            =link_to image_tag('/images/icons/edit.png', :alt=>"edit.png",:style=>"border:none;margin-left:10px;height:14px;",  :title=>_('Edit')), edit_project_path(project.id)
-
-    %br
-    %br
-
-    %div{ :style=>"clear: both"}
+          %td.medium
+            =_('Project')
+          %td.medium
+            =_('Description')
+          %td.small
+            =_('Manager')
+          %td.long
+            =_('Users')
+          %td.very_small
+            =_('Actions')
+      %tbody
+        -@projects.each do |project|
+          %tr
+            %td{:title=>project.name}
+              =truncate(project.name, :ommision => "...", :length => 35)
+            %td{:title=>project.description}
+              =truncate(project.description, :ommision => "...", :length => 35)
+            %td{:title=>project.user.login.downcase}
+              =truncate(project.user.login.downcase, :ommision => "...", :length => 20)
+            %td
+              -project.users.each do |user|
+                =user.login
+            %td
+              =link_to image_tag('/images/icons/edit.png', :alt=>"edit.png",:style=>"border:none;margin-left:10px;height:14px;",  :title=>_('Edit')), edit_project_path(project.id)
   
     
 

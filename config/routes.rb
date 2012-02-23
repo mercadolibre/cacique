@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
         end
      end
   end
-
+  map.resources :admins
   map.resources :crons
   map.resources :delayed_jobs, :collection => { :get_detail_list=>:get, :confirm_program=>:get} 
   map.resources :case_data

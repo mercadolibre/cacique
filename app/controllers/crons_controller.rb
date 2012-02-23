@@ -16,7 +16,7 @@ class CronsController < ApplicationController
   
   def create
     Cron.regenerate
-    redirect_to crons_path
+    redirect_to admins_path
   end
 
 end

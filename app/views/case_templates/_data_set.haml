@@ -22,7 +22,7 @@
         =params[:search][:objective_like]
 -else
   #cases_table{:style => "width:99%;  margin:auto;"}
-    %table.general{  :id=>'table_' + circuit.id.to_s, :cellspacing=>"1", :name=>"table_zebra", :style=>"margin-top:0px;width:100%;"}
+    %table.general{  :id=>'table_' + circuit.id.to_s, :name=>"table_zebra", :cellspacing=>'0'}
       //Row Titles
       =render :partial => '/case_templates/table_titles', :locals=>{ :circuit_case_columns=>circuit_case_columns, :case_template_columns=>case_template_columns, :circuit => circuit}
       //Rows Data

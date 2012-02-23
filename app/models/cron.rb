@@ -194,8 +194,9 @@
 
     #Conexion errors
     rescue Exception => error 
-      raise "CRONEDIT ERROR: AuthenticationFailed #{error.to_s}. Please verify SERVER_CRON, USER_SERVER_CRON and PASS_SERVER_CRON" if error.class == Net::SSH::AuthenticationFailed
-      raise "CRONEDIT ERROR: #{error.to_s}"
+      text_error = "CRONEDIT ERROR: AuthenticationFailed #{error.to_s}. Please verify SERVER_CRON, USER_SERVER_CRON and PASS_SERVER_CRON" if error.class == Net::SSH::AuthenticationFailed
+      text_error = "CRONEDIT ERROR: #{error.to_s}" if text_error.blank?
+      Notifier.deliver_notifier_error(text_error)
     end
   end
 
@@ -207,20 +208,22 @@
 
     #Find all crons
     crons = Cron.all
+    unless crons.empty?
 
-    #Generate all lines to add crons
-    lines_to_add_crons = ""
-    crons.each do |cron|
-      #Generate command
-      lines_to_add_crons += cron.add_line(cron.build_command)
+      #Generate all lines to add crons
+      lines_to_add_crons = ""
+      
+      crons.each do |cron|
+        #Generate command
+        lines_to_add_crons += cron.add_line(cron.build_command)
+      end
+
+      # Generate file code to: Clear all + Create all 
+      code = header_line + clear + lines_to_add_crons
+
+      #Update and execute file (SSH)
+      crons.first.update_file(code)
     end
-
-    # Generate file code to: Clear all + Create all 
-    code = header_line + clear + lines_to_add_crons
-
-    #Update and execute file (SSH)
-    crons.first.update_file(code)
-
   end
 
   #Clear all crons code
