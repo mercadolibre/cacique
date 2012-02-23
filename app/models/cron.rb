@@ -196,6 +196,7 @@
     rescue Exception => error 
       text_error = "CRONEDIT ERROR: AuthenticationFailed #{error.to_s}. Please verify SERVER_CRON, USER_SERVER_CRON and PASS_SERVER_CRON" if error.class == Net::SSH::AuthenticationFailed
       text_error = "CRONEDIT ERROR: #{error.to_s}" if text_error.blank?
+      text_error += ".  -> Please refresh the list of alarms from the admin <- "
       Notifier.deliver_notifier_error(text_error)
     end
   end
