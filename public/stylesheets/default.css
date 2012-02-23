@@ -757,7 +757,7 @@ table.general thead tr td{
 
 table.general thead tr td.def {
   background: url(/images/icons/bar_tag_default.png);
-  border-right:1px solid graytext;
+  border: none;
 }
 
 table.general thead tr td.def a{
@@ -813,6 +813,11 @@ table.general tbody tr td{
 table.general tbody tr.center{
   text-align:center;
 }
+
+table.general tbody tr td.def {
+  border: none;
+}
+
 
 #table{
 	margin: 0 auto;
