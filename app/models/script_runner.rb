@@ -58,7 +58,7 @@ class ScriptRunner < ActiveRecord::Base
       Timeout::timeout(ATOMIC_TIMEOUT) do
         while @ccq_atomic do end 
       end
-      Thread.list.each {|th| kill} 
+      $ccq_execution_thread.kill
     end
     #Marking worker for reboot
     Signal.trap("SIGUSR1") do
