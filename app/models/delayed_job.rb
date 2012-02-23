@@ -81,6 +81,11 @@ class DelayedJob < ActiveRecord::Base
 
   def self.filter(params)
 
+    date        = params[:init_date]
+    init_date   = Time.local(date.year, date.month, date.day, date.hour, date.min, date.sec).getutc
+    date        = params[:finish_date]
+    finish_date = Time.local(date.year, date.month, date.day, date.hour, date.min, date.sec).getutc
+
     user_id  = (params[:filter] && params[:filter][:user_id])   ? params[:filter][:user_id].to_i    : 0 
     suite_id = (params[:filter] && params[:filter][:suite_id])  ? params[:filter][:suite_id].to_i   : 0
 
@@ -110,8 +115,8 @@ class DelayedJob < ActiveRecord::Base
     end
 
     conditions_names << " delayed_jobs.run_at BETWEEN ? AND ? " 
-    conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
-    conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
+    conditions_values << init_date  
+    conditions_values << finish_date
 
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values

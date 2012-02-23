@@ -569,12 +569,20 @@ class SuiteExecution < ActiveRecord::Base
   end  
 
   def self.filter(project,params)
+
+    date        = params[:init_date]
+    init_date   = Time.local(date.year, date.month, date.day, date.hour, date.min, date.sec).getutc
+    date        = params[:finish_date]
+    finish_date = Time.local(date.year, date.month, date.day, date.hour, date.min, date.sec).getutc
+
     user_id     = params[:filter] && params[:filter][:user_id]   && !params[:filter][:user_id].blank?  ? params[:filter][:user_id].to_i    : nil 
     suite_id    = params[:filter] && params[:filter][:suite_id]  && !params[:filter][:suite_id].blank? ? params[:filter][:suite_id].to_i   : nil
     script_id   = params[:filter] && params[:filter][:script_id] && !params[:filter][:script_id].blank? ? params[:filter][:script_id].to_i : nil   
     status      = params[:filter] && params[:filter][:status]    && !params[:filter][:status] && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
     identifier  = params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
     kind        = params[:kind] ? params[:kind] : 0
+
+
 
     #Bulid conditions
     conditions        = Array.new
@@ -616,8 +624,8 @@ class SuiteExecution < ActiveRecord::Base
 
     #Dates
     conditions_names << " suite_executions.created_at BETWEEN ? AND ? " 
-    conditions_values << params[:init_date].strftime("%y-%m-%d %H:%M:%S")   
-    conditions_values << params[:finish_date].strftime("%y-%m-%d %H:%M:%S") 
+    conditions_values << init_date   
+    conditions_values << finish_date
 
     #Script
     if script_id
