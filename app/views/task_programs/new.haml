@@ -35,7 +35,7 @@
     $j('#cron>:visible').removeAttr('disabled');
     $j('#cron>:hidden').attr('disabled', 'disabled'); 
 
-    //Inputs with Select values
+    //Inputs filling with Select values
     $j('#cron>input.inline:visible').each(function(){
       var element_id = $j(this).attr('id');
       var new_value  = $j('select.inline#' + element_id + ':hidden').val();

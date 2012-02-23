@@ -27,6 +27,7 @@
 
 -#Javascripts
 -javascript 'checkbox_lib'  
+
 %script
   -#check_all
   $j('#check_all').click(function(){ch_select_all(this, '.check_cron');}); 
@@ -43,6 +44,3 @@
 
   -#On change fiter project, update filter suites
   $j('#filter_project_id').change(function(){ new Ajax.Updater('select_suites', '/task_programs/show_suites_of_project', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.Element.serialize(this)})    });
-
-  -#Filter: More
-  $j('.more').click(function(){ var element_name = '#' + $j(this).attr('name');$j(element_name).toggle(); })
