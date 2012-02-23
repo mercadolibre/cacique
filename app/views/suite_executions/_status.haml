@@ -3,13 +3,13 @@
   
 //Stop
 -if suite_execution and !suite_execution.finished?
-  //=link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(suite_execution), :method=>:delete) if current_user.has_role?("root")
+  =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(suite_execution), :method=>:delete) if current_user.has_role?("root")
   %script
     ejecucion_completa_#{suite_execution.id}=false;
-    //$j('#play').hide();
-//-else
-//  %script
-//    $j('#play').show();
+    $j('#play').hide();
+-else
+  %script
+    $j('#play').show();
 
 -case suite_execution.status
   -when 0
