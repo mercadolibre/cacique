@@ -1,28 +1,29 @@
-%div#cron{:style=>"display:none;margin-top:10px;color:#848484;"}
+%div#cron{:style=>"display:none;margin-top:10px;color:#848484;width:80%; margin:0 auto;"}
   =image_tag '/images/icons/edit.png',  :alt => 'edit', :width=>'15',:class=>'edit_select'
   -time_now = DateTime.now
+
+  %label.inline       
+    =_('Month')   
+  =select "cron", "month", Date::ABBR_MONTHNAMES[1..12].zip((1..12).to_a) + [['*']], {:selected => time_now.mon},{:class=>'inline'}  
+  =text_field "cron","month", :title=>_('Month'), :class=>'inline hide', :disabled=>'disabled'   
+    
   %label.inline    
     =_('Day')
   =select "cron", "day_of_month", (1..31).zip((1..31).to_a) + [['*']], {:selected => time_now.day},{:class=>'inline'}    
   =text_field "cron", "day_of_month", :title=>_('Day of month'), :class=>'inline hide', :disabled=>'disabled'  
   %br
-  %br  
+  %br
+    
   %label.inline     
     =_('Hour')
-  =select "cron", "hour", (0..23).zip((0..23).to_a) + [['*']], {:selected => time_now.hour},{:class=>'inline'}    
+  =select "cron", "hour", (0..23).zip((0..23).to_a) + [['*']],{:selected => time_now.hour},{:class=>'inline'} 
   =text_field "cron", "hour", :title=>_('Hour'), :class=>'inline hide', :disabled=>'disabled'
-  %br
-  %br    
+    
   %label.inline     
     =_('Min')
-  =select "cron", "min", (0..59).zip((0..59).to_a) + [['*']], {:selected => time_now.min},{:class=>'inline'}   
+  =select "cron", "min", (0..59).zip((0..59).to_a) + [['*']], {:selected => time_now.min},{:class=>'inline'} 
   =text_field "cron", "min", :title=>_('Min'), :class=>'inline hide', :disabled=>'disabled'   
-  %br
-  %br
-  %label.inline       
-    =_('Month')   
-  =select "cron", "month", Date::ABBR_MONTHNAMES[1..12].zip((1..12).to_a) + [['*']], {:selected => time_now.mon},{:class=>'inline'}  
-  =text_field "cron","month", :title=>_('Month'), :class=>'inline hide', :disabled=>'disabled'         
+
   %br
   %br   
   %label.inline          

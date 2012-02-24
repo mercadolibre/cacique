@@ -176,8 +176,7 @@ select{
 }
 
 .form_tag label.inline{
-  display: block;
-  float: left;
+  display: inline;
   max-width: 80px;
   min-width: 40px;
 }
@@ -185,6 +184,7 @@ select{
 .form_tag input.inline{
   width:50px;
   margin-left: 5px;
+  margin-right: 5px;
   display:inline;
 }
 
@@ -195,6 +195,7 @@ select{
 .form_tag select.inline{
   display:inline;
   margin-left: 5px;
+  margin-right: 5px;
 }
 
 .form_tag p i{
