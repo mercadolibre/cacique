@@ -80,9 +80,10 @@ DateTime.now.in_time_zone
   end
 
   def confirm_program
-    @task_program  = TaskProgram.find params[:id]
+    task_program = TaskProgram.find params[:id]
+    @task_programs = [task_program]
     @confirm       = params[:confirm]? params[:confirm] : false
-    @delayed_jobs  = @task_program.delayed_jobs.paginate :page => params[:page], :per_page => 14, :order => 'run_at ASC'
+    @delayed_jobs  = task_program.delayed_jobs.paginate :page => params[:page], :per_page => 14, :order => 'run_at ASC'
     @weekly_trans  = {"Sunday"=>_("Sunday"),"Monday"=>_("Monday"),"Tuesday"=>_("Tuesday"),"Wednesday"=>_("Wednesday"),"Thursday"=>_("Thursday"),"Friday"=>_("Friday"),"Saturday"=>_("Saturday")}    
   end
 
