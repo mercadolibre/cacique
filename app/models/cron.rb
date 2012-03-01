@@ -29,9 +29,15 @@
   before_save :task_program_id_validation
   before_destroy :remove
 
-  validates_format_of :min, :hour, :day_of_month, :month, :day_of_week, :with => /^(\s)*(\*)(\s)*$|^(\s)*[0-9]+(\s)*([-,\/,\,](\s)*[0-9]+(\s)*)*$/,  :message => "Invalid format"
+  validates_format_of :min, :hour, :day_of_month, :month, :day_of_week, :with => /^(\s)*(\*)(\s)*$|^(\s)*(\*)(\s)*\/[0-9]+|^(\s)*[0-9]+(\s)*([-,\/,\,](\s)*[0-9]+(\s)*)*$/,  :message => "Invalid format"
   validates_each :min, :hour, :day_of_month, :month, :day_of_week do |record, attr, value|
-    value.gsub!(" ", "") #without spaces
+
+    #without spaces
+    value.gsub!(" ", "") 
+
+    # Format check: */2
+    value=value.split('*/')[1] if value.match(/\*\//)
+
     if value != "*"
       #Numbers
       values   = value.split(/,|\/|-/).map{|x| x.to_i}
