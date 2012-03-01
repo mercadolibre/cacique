@@ -14,7 +14,7 @@
       .form_button
         =submit_tag _('Schedule')
   
-    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:27%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:47%;float:left;margin-left:1%;")   
+    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:30%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:44%;float:left;margin-left:1%;")   
     %div{:style=>style_1}
       =render :partial => 'select_suites'
       =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
