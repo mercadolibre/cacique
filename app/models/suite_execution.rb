@@ -577,14 +577,12 @@ class SuiteExecution < ActiveRecord::Base
     date        = params[:finish_date]
     finish_date = Time.local(date.year, date.month, date.day, date.hour, date.min, date.sec).getutc
 
-    user_id     = params[:filter] && params[:filter][:user_id]   && !params[:filter][:user_id].blank?  ? params[:filter][:user_id].to_i    : nil 
-    suite_id    = params[:filter] && params[:filter][:suite_id]  && !params[:filter][:suite_id].blank? ? params[:filter][:suite_id].to_i   : nil
-    script_id   = params[:filter] && params[:filter][:script_id] && !params[:filter][:script_id].blank? ? params[:filter][:script_id].to_i : nil   
-    status      = params[:filter] && params[:filter][:status]    && !params[:filter][:status] && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
-    identifier  = params[:filter] && params[:filter][:identifier] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
+    user_id     = params[:filter] && !params[:filter][:user_id].blank?  ? params[:filter][:user_id].to_i    : nil 
+    suite_id    = params[:filter] && !params[:filter][:suite_id].blank? ? params[:filter][:suite_id].to_i   : nil
+    script_id   = params[:filter] && !params[:filter][:script_id].blank? ? params[:filter][:script_id].to_i : nil   
+    status      = params[:filter] && !params[:filter][:status].blank? && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
+    identifier  = params[:filter] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
     kind        = params[:kind] ? params[:kind] : 0
-
-
 
     #Bulid conditions
     conditions        = Array.new
@@ -621,7 +619,7 @@ class SuiteExecution < ActiveRecord::Base
     #status
     if status
       conditions_names  <<  " suite_executions.status = ? "
-      conditions_values <<  status.to_i
+      conditions_values <<  status
     end       
 
     #Dates
@@ -657,7 +655,6 @@ class SuiteExecution < ActiveRecord::Base
     #Build conditions
     conditions << conditions_names.join("and")  
     conditions = conditions + conditions_values 
-
     suite_executions = SuiteExecution.find :all, :conditions=>conditions, :order => 'suite_executions.created_at DESC', :include => query_include
  
     #Paginate
