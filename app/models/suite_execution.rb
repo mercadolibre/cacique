@@ -412,15 +412,17 @@ class SuiteExecution < ActiveRecord::Base
   end
   
   #It will show the command that you should use to run that configuration
-  def self.generate_command(execution_params, function="run")
+  def self.generate_command(execution_params, function="run", user=nil)
 
     command = "cacique #{function} " 
 
     #Suite_id
     execution_params[:suite_ids] = execution_params[:suite_id] if execution_params[:suite_id]
     command += execution_params[:suite_ids].to_a.join(',') 
-    if !current_user
-       userkey=User.find(execution_params[:user_id].to_i).api_key if !current_user
+    if !current_user and !user
+       userkey=User.find(execution_params[:user_id].to_i).api_key
+    elsif user
+       userkey=user.api_key
     else
        userkey=current_user.api_key
     end

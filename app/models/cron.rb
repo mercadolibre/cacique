@@ -137,8 +137,8 @@
   end
 
   #Builds Cacique command 
-  def build_command
-      command = SuiteExecution.generate_command(self.task_program.execution_params, "cron") 
+  def build_command(user=nil)
+      command = SuiteExecution.generate_command(self.task_program.execution_params, "cron", user) 
       "#{RAILS_ROOT}/lib/#{command}"
   end
 
@@ -194,8 +194,7 @@
 
     #Conexion errors
     rescue Exception => error 
-      text_error = "CRONEDIT ERROR: AuthenticationFailed #{error.to_s}. Please verify SERVER_CRON, USER_SERVER_CRON and PASS_SERVER_CRON" if error.class == Net::SSH::AuthenticationFailed
-      text_error = "CRONEDIT ERROR: #{error.to_s}" if text_error.blank?
+      text_error = "CRONEDIT ERROR: AuthenticationFailed #{error.to_s}. Please verify SERVER_CRON, USER_SERVER_CRON and PASS_SERVER_CRON (cacique_conf.rb)" 
       text_error += ".  -> Please refresh the list of alarms from the admin <- "
       Notifier.deliver_notifier_error(text_error)
     end
@@ -216,7 +215,7 @@
       
       crons.each do |cron|
         #Generate command
-        lines_to_add_crons += cron.add_line(cron.build_command)
+        lines_to_add_crons += cron.add_line(cron.build_command(cron.task_program.user))
       end
 
       # Generate file code to: Clear all + Create all 
