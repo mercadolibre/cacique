@@ -11,7 +11,7 @@
           =check_box_tag "execution[#{context_configuration.name}][]", value, value_actived, {:onclick => "change_default(this, '#{context_configuration.name}');"}
         -else       
           =check_box_tag "execution[#{context_configuration.name}][]", value, value_actived, {:disabled => default_actived, :class=>"options_of_#{context_configuration.name}"}
-        =truncate(value, :ommision => "...", :length => 18)
+        =truncate(value, :ommision => "...", :length => 25)
   -when 'radiobutton'
     -context_configuration.all_values.each do |value|
       %div{:title=>value}
