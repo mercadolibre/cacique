@@ -82,7 +82,7 @@ class SuiteExecutionsController < ApplicationController
   #stoping suite_execution!
   def destroy
      suite_execution=SuiteExecution.find(params[:id])
-     if suite_execution.user_id == current_user.id || curren_user.has_role?("root")
+     if suite_execution.user_id == current_user.id || current_user.has_role?("root")
         suite_execution.stop
         redirect_to :back
      end
