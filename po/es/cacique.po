@@ -3246,6 +3246,10 @@ msgstr "Última Confirmada"
 msgid "Alarm"
 msgstr "Alarma"
 
+#: app/views/crons/new.haml: 
+msgid "Every"
+msgstr "Cada"
+ 
 #: app/views/crons/index.haml: 
 msgid "Alarms"
 msgstr "Alarmas"
@@ -3265,6 +3269,14 @@ msgstr "Día"
 #: app/views/crons/index.haml: 
 msgid "Month"
 msgstr "Mes"
+
+#: app/views/crons/index.haml: 
+msgid "Days"
+msgstr "Días"
+
+#: app/views/crons/index.haml: 
+msgid "Months"
+msgstr "Meses"
 
 #: app/views/crons/index.haml: 
 msgid "Day of week"

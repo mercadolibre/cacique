@@ -333,6 +333,25 @@ label {
   border: 0;
 }
 
+.cron{
+  display:none;
+  margin-top:10px;
+  color:#848484;
+  width:95%; 
+  margin:0 auto;
+}
+
+.cron input, .cron select{
+    float: left;
+    width: 80px;
+}
+.cron label{
+    float: left;
+    width: 40px;
+    margin-left:10px;
+    text-align: right;
+}
+
 /*---Edit en case template--*/
 div.row {
   clear: both;

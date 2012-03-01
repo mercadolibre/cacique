@@ -45,6 +45,13 @@ class TaskProgramsController < ApplicationController
     @each_hour_or_min  = [ [_("hs."), "hours"], [_("min"),"min"] ]
     @cell_selects = ContextConfiguration.build_select_data #Build the selects for edit cell
 
+    #Cron values
+    @select_months = [ [_('Every') +' 2 '+ _('Month'), '*/2'], [_('Every') +' '+_('Month'), '*'] ] +  Date::ABBR_MONTHNAMES[1..12].zip((1..12).to_a)
+    @select_dates  = [ [_('Every') +' 7 '+ _('Days'), '*/7'], [_('Every') +' '+_('Day'), '*'] ] +  (1..31).zip((1..31).to_a) 
+    @select_hours  = [ [_('Every') +' 2 '+ _('Hs'), '*/2'], [_('Every') +' 4 '+ _('Hs'), '*/4'],[_('Every') +' '+_('Hs.'), '*'] ] + (0..23).zip((0..23).to_a)
+    @select_mins   = [ [_('Every') +' 5 '+ _('Min.'), '*/5'], [_('Every') +' 15 '+ _('Min.'), '*/15'],[_('Every') +' 20 '+ _('Min.'), '*/20'], [_('Every') +' 30 '+ _('Min.'), '*/30'], [_('Every') +' '+_('Min.'), '*'] ] + (0..59).zip((0..59).to_a)
+    @select_day_of_weekes  =  [[_('Every') +' '+_('Day of week'), '*']] + Date::ABBR_DAYNAMES.zip((0..6).to_a)
+
   end
 
   def confirm

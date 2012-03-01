@@ -46,6 +46,9 @@ label {display: block; text-align: left; size:30px; color:#31576F; font-size:12p
 .div_circuit a{ text-indent: 0px; padding-left:0px; padding-bottom: 3px; font-weight:bold; text-decoration:none; font-size:12px}
 .option_circuit{ padding-top:3px; height: 27px; width: 66px; float:right}
 .small_img{ height: 25px; width: 25px; border: 0}
+.cron{ display:none; margin-top:10px; color:#848484; width:95%; margin:0 auto}
+.cron input, .cron select{ float: left; width: 80px}
+.cron label{ float: left; width: 40px; margin-left:10px; text-align: right}
  div.row {clear: both; padding-top: 5px}
 div.row span.label {float: left; width: 100px; text-align: right; font: 14px Helvetica, Arial, sans-serif; padding-right: 50px; padding-left: 50px}
 div.row span.formw {width: 235px; text-align: left}
