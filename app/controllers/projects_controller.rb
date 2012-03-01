@@ -26,31 +26,22 @@
 
 
 class ProjectsController < ApplicationController
- # protect_from_forgery
-  before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
-  #skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
+  # before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
+  before_filter :has_permission, :only => [:edit, :update, :destroy]
   
-  #get values about projects and users that will be showed on projects selects
-  def box_values
-       @projects = Project.all.sort
-       @users    = User.all.sort
+  def has_permission
+    @project = Project.find params[:id]
+    permit "root or (manager of :project)"
   end
-
 
 #curl -X GET -H "Accept: text/plain" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
 #curl -X GET -H "Accept: application/xml" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
 #curl -X GET -H "Accept: application/json" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
 
-def index
-    permit "root" do
-      respond_to do |format|
-        format.html
-        format.text {render :text => @projects.inspect}
-        format.xml {render :xml=>@projects.to_xml}
-        format.json {render :json=>@projects.to_json}
-      end
-    end  
- 
+  def index
+    @projects = Project.all.sort
+    @users    = User.all.sort
+    @is_root  = current_user.has_role? "root"
   end
 
   def show
@@ -80,20 +71,15 @@ def index
   end
 
   def edit
-     @project    = Project.find params[:id]
-     @assigments = ProjectUser.find_all_by_project_id @project.id
-     @users      = User.all.select{|u| u.active?}.sort_by { |x| x.name.downcase }
+    @assigments = ProjectUser.find_all_by_project_id @project.id
+    @users      = User.all.select{|u| u.active?}.sort_by { |x| x.name.downcase }
   end
 
   def update
-    permit "root" do
-        @project = Project.find params[:id]
-        @project.update_attributes(params[:project])
-        #update mannager
-        @project.assign_manager(params[:project][:user_id]) 
-        flash[:notice] = _("The Project was Correctly Modified") if !@project.errors.empty?
-        redirect_to edit_project_path(@project.id)
-    end
+    @project.update_attributes(params[:project])
+    @project.assign_manager(params[:project][:user_id])
+    flash[:notice] = _("The Project was Correctly Modified") if !@project.errors.empty?
+    redirect_to edit_project_path(@project.id)
   end
 
   def destroy
