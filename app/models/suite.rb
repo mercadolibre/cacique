@@ -441,7 +441,7 @@ class Suite < ActiveRecord::Base
       elsif args.first.instance_of?(Array)
          suites = []
          args.first.each do |suite_id|
-            suites << Rails.cache.fetch("suite_#{suite_id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(suite_id) }
+            suites << Rails.cache.fetch("suite_#{suite_id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(suite_id.to_s) } #to_s: Fix if suite_id==Array
          end
          suites
          

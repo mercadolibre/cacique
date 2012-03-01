@@ -59,10 +59,10 @@ class TaskProgram < ActiveRecord::Base
                                     :identifier=> params[:execution][:identifier],
                                     :execution_params=> params[:execution]
                                     })
-    #Suites                                           
-    params[:execution][:suite_ids] = Suite.find_all_by_project_id(params[:project_id]).map(&:id)  if params[:execution][:suite_ids].include?("0") 
-    task_program.suites << Suite.find( params[:execution][:suite_ids].split(',') )
-
+    #Suites          
+    params[:execution][:suite_ids]= Project.find(params[:project_id]).suites_cache if params[:execution][:suite_ids].include?("0") 
+    task_program.suites << Suite.find( params[:execution][:suite_ids] )
+    
     #CronEdit
     if params[:program][:range] == "alarm"
       Cron.add(task_program, params[:cron])
