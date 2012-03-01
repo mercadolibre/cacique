@@ -9,4 +9,4 @@
     -@suites.each do |suite|
       %div{:title=>suite.name.capitalize,:style=>'color:#848484;'}
         = check_box_tag '[execution][suite_ids][]', suite.id, false, :class=>'suites_ids'
-        = truncate(suite.name.capitalize, :ommision => "...", :length => 50)
+        = truncate(suite.name.capitalize, :ommision => "...", :length => 40)
