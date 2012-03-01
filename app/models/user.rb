@@ -386,7 +386,7 @@ class User < ActiveRecord::Base
     self.project_ids.each do |prj|
       user_projects << Project.find(prj.to_i)
     end
-    user_projects.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
+    user_projects.sort
   end
 
   #Returns true if the user has permissions to manage the project.
@@ -408,7 +408,7 @@ class User < ActiveRecord::Base
     other_ids.each do |identifier|
       other_prj << Project.find(identifier.to_i)
     end
-    other_prj.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
+    other_prj.sort
   end
 
   #user projects refresh

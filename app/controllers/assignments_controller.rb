@@ -32,8 +32,8 @@ class AssignmentsController < ApplicationController
   before_filter :box_values, :only => [:create,:destroy]
 
   def box_values
-       @projects = (Project.find :all).sort_by { |x| x.name.downcase }
-       @users    = (User.find :all).sort_by { |x| x.login.downcase }
+       @projects = Project.all.sort
+       @users    = User.all.sort
   end
   
   

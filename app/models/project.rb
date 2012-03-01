@@ -57,6 +57,10 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :project_users
   after_save :expires_project_cache
   
+  def <=> other
+    self.name.downcase <=> other.name.downcase
+  end
+
   #assing user to project
   def assign(user_id)
     user = User.find user_id
