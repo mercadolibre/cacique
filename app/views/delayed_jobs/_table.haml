@@ -17,7 +17,7 @@
           =_("Programmed by")            
         %th.medium
           =_("Schedule")
-        %th.small
+        %th.medium
           =_('Identifier') 
 
   %tbody
@@ -40,7 +40,7 @@
                 %sub.more
                   =link_to_remote '[...]', :complete => "$j('#delayed_job_list').show();",:update => 'delayed_jobs',  :method => 'get',  :url => delayed_job_path(task_program.id), :before=>"$j('body').css('cursor', 'progress')", :complete=>"$j('body').css('cursor', 'auto')"            
           %td{:title=>task_program.identifier}
-            =truncate( task_program.identifier, :ommision => "...", :length => 20)                          
+            =truncate( task_program.identifier, :ommision => "...", :length => 50)                          
 
 
 -#Delayed Jobs

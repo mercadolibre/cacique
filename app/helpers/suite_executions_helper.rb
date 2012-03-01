@@ -13,8 +13,8 @@ module SuiteExecutionsHelper
 
   def page_size_link per_page
     unless params[:per_page] == per_page.to_s
-      index_path = params[:filter]? suite_executions_path( { 'filter' => params[:filter].merge({:paginate=> per_page}) } ) : suite_executions_path
-      link_to per_page, index_path
+      params[:filter] = {} if !params[:filter]
+      link_to per_page, suite_executions_path( { 'filter' => params[:filter].merge({:paginate=> per_page}) } )
     else
       per_page
     end

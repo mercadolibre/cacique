@@ -662,7 +662,7 @@ class SuiteExecution < ActiveRecord::Base
  
     #Paginate
     number_per_page=9
-    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate)   
+    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate) 
     suite_executions.paginate :page => params[:page], :per_page => number_per_page
 
   end
