@@ -1,7 +1,9 @@
 %table.detail{:name=>"table_zebra", :id => "run_configuration_table_#{suite_execution.id}", :CELLSPACING=>0, :style=>"clear:both; margin:0px;width: 250px;float:right;border:1px solid #BFBFFF; border-bottom:0px;"}
-  %tr
-    %th.exe{:colspan=>"2",:style=>"width:250px;text-align:center;"}
-      =_('Run Configuration')
+  %thead
+    %tr
+      %td.exe{:colspan=>"2",:style=>"width:250px;text-align:center;"}
+        =_('Run Configuration')
+  %tbody
     -exec_conf_values.each do |conf|
       %tr
         %td{:title=>conf.context_configuration.name,:style=>"text-align:center;width:470px;border-left: 1px solid #BFBFFF;"}

@@ -1,38 +1,39 @@
-%table.detail{:name=>"table_zebra"}
+-class_name = [1,2].include?(params[:kind].to_i)? 'special' :''
+%table.detail{:name=>"table_zebra", :class=>'detail ' + class_name}
   %caption
     -#History
   %thead  
-    %tr  
+    %tr{:class=>class_name} 
       -if suite_executions.empty? && params[:filter].nil?
-        %th
+        %td
           =_('No Executions')
           
       -elsif suite_executions.empty? && !params[:filter].nil?
-        %th
+        %td
           =_("No results were found")
 
       -else  
-        %th.very_small
+        %td.very_small
           =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}      
-        %th.very_small{ :class => "sortable"}
+        %td.very_small{ :class => "sortable"}
           T
-        %th.small{:class => "sortable"}
+        %td.small{:class => "sortable"}
           =_('Identifier')
-        %th.long{ :class => "sortable"}
+        %td.long{ :class => "sortable"}
           =_('Name')
-        %th.small{ :class => "sortable"}
+        %td.small{ :class => "sortable"}
           =_('User')
-        %th.small{:class => "sortable"}
+        %td.small{:class => "sortable"}
           =_('Date')
-        %th.very_small{:class => "sortable"}
+        %td.very_small{:class => "sortable"}
           =_('Duration')   
-        %th.small{:class => "sortable"}
+        %td.small{:class => "sortable"}
           Configuration                
-        %th.very_small{:class => "sortable"}
+        %td.very_small{:class => "sortable"}
           Ok        
-        %th.very_small{ :class => "sortable"}
+        %td.very_small{ :class => "sortable"}
           =_('Status')
-
+  %tbody
     -#Data
     -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do      
       -suite_executions.each do |suite_execution| 

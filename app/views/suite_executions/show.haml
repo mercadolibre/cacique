@@ -7,28 +7,31 @@
     =truncate(@name,:ommision => "...", :length =>70)
   %div{ :id=>'suite_execution'}
     %table.detail{:name=>"table_zebra", :id => "tabla", :CELLSPACING=>0, :style=>"margin:0px; width: 290px;float:left;border:1px solid #BFBFFF; border-bottom:0px;"}
-      %tr{:id=>'suite_execution_status'}
-        =render :partial => 'periodically_call_remote_suite_execution_show', :locals => {:suite_execution => @suite_execution}
-        =periodically_call_remote(:url => {:action => 'update_suite_execution_status_show', :suite_execution=> @suite_execution.id}, :condition => "suite_execution_finish == false", :update => 'suite_execution_status', :frequency => 8)
+      %thead
+        %tr{:id=>'suite_execution_status'}
+          =render :partial => 'periodically_call_remote_suite_execution_show', :locals => {:suite_execution => @suite_execution}
+          =periodically_call_remote(:url => {:action => 'update_suite_execution_status_show', :suite_execution=> @suite_execution.id}, :condition => "suite_execution_finish == false", :update => 'suite_execution_status', :frequency => 8)
       
     %table.detail{:name=>"table_zebra", :id => "tabla", :CELLSPACING=>0, :style=>"margin:0px; width: 76%;float:left;border:1px solid #BFBFFF; border-top:0px;"}
-      %tr
-        %th.exe
-          Script
-        %th.exe
-          =_('Case')
-        %th.exe
-          =_('Action')
-        %th.exe
-          Result.
-        %th.exe
-          =_('Time')
-      -@executions.each do |execution|
-        %script
-          var execution_finish_#{execution.id.to_s} = true;
-        %tr{:id=>'status_' + execution.id.to_s}
-          =render :partial => 'periodically_call_remote_execution_show', :locals => {:execution => execution}
-        =periodically_call_remote(:url => {:action => 'update_executions_status', :execution => execution.id}, :condition => "ejecucion_completa_#{execution.id} == false", :update => 'status_' + execution.id.to_s, :frequency => 8)
+      %thead
+        %tr
+          %td.exe.long
+            Script
+          %td.exe.medium
+            =_('Case')
+          %td.exe.very_small
+            =_('Action')
+          %td.exe.very_small
+            Result.
+          %td.exe.very_small
+            =_('Time')
+      %tbody
+        -@executions.each do |execution|
+          %script
+            var execution_finish_#{execution.id.to_s} = true;
+          %tr{:id=>'status_' + execution.id.to_s}
+            =render :partial => 'periodically_call_remote_execution_show', :locals => {:execution => execution}
+          =periodically_call_remote(:url => {:action => 'update_executions_status', :execution => execution.id}, :condition => "ejecucion_completa_#{execution.id} == false", :update => 'status_' + execution.id.to_s, :frequency => 8)
 
     %div{:style=>"float:right;width:23%;"}
       =render :partial=>"run_configuration", :locals=>{:exec_conf_values=>@exec_conf_values, :suite_execution=>@suite_execution}
