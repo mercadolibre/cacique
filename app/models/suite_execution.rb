@@ -579,7 +579,7 @@ class SuiteExecution < ActiveRecord::Base
 
     user_id     = params[:filter] && !params[:filter][:user_id].blank?  ? params[:filter][:user_id].to_i    : nil 
     suite_id    = params[:filter] && !params[:filter][:suite_id].blank? ? params[:filter][:suite_id].to_i   : nil
-    script_id   = params[:filter] && !params[:filter][:script_id].blank? ? params[:filter][:script_id].to_i : nil   
+    script_id   = params[:filter] && !params[:filter][:circuit_id].blank? ? params[:filter][:circuit_id].to_i : nil   
     status      = params[:filter] && !params[:filter][:status].blank? && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
     identifier  = params[:filter] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
     kind        = params[:kind] ? params[:kind] : 0
@@ -610,6 +610,12 @@ class SuiteExecution < ActiveRecord::Base
     conditions_names  <<  " suite_executions.kind = ? "
     conditions_values <<  kind  
 
+    #Only scripts
+    if script_id == 0
+      conditions_names  <<  " suite_executions.suite_id != ? "
+      conditions_values <<  0         
+    end
+
     #suite
     if suite_id
       conditions_names  <<  " suite_executions.suite_id = ? "
@@ -628,28 +634,10 @@ class SuiteExecution < ActiveRecord::Base
     conditions_values << finish_date
 
     #Script
-    if script_id
+    if script_id and script_id != 0
       conditions_names  <<  " executions.circuit_id = ? "
       conditions_values <<  script_id  
       query_include     << :executions
-    end
-
-    #Context configurations
-     if params[:context_configurations]
-      query_include << :execution_configuration_values
-      #Get boolean context configuration
-      boolean_context_configuration = (ContextConfiguration.find_all_by_view_type "boolean").map(&:id)
-      params[:context_configurations].each do | context_configuration_id , context_configuration_values |
-        if (!context_configuration_values.empty? or boolean_context_configuration.include?(context_configuration_id.to_i))
-          #Boolean
-          if boolean_context_configuration.include?(context_configuration_id.to_i) and context_configuration_values.empty?
-            values_sql_statment =  "('')"
-          else
-            values_sql_statment =  "(" + context_configuration_values.collect{|ccv| "\'" + ccv + "\'"}.to_a.join(',') + ")"
-          end
-          conditions_names  << " EXISTS (SELECT * FROM execution_configuration_values WHERE suite_executions.id = execution_configuration_values.suite_execution_id AND execution_configuration_values.context_configuration_id = #{context_configuration_id.to_i} AND execution_configuration_values.value in #{values_sql_statment})  " 
-        end
-      end
     end
 
     #Build conditions
