@@ -582,7 +582,7 @@ class SuiteExecution < ActiveRecord::Base
     script_id   = params[:filter] && !params[:filter][:circuit_id].blank? ? params[:filter][:circuit_id].to_i : nil   
     status      = params[:filter] && !params[:filter][:status].blank? && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
     identifier  = params[:filter] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
-    kind        = params[:kind] ? params[:kind] : 0
+    kind        = params[:kind]
 
     #Bulid conditions
     conditions        = Array.new
@@ -647,7 +647,7 @@ class SuiteExecution < ActiveRecord::Base
  
     #Paginate
     number_per_page=9
-    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate) 
+    number_per_page= params[:paginate].to_i if params[:paginate]
     suite_executions.paginate :page => params[:page], :per_page => number_per_page
 
   end

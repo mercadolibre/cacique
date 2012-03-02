@@ -35,13 +35,18 @@
 
     -#Data
     -form_tag({:action=>"get_report"},{:id=>"generar_pdf"}) do      
-      -suite_executions.each do |suite_execution|
+      -suite_executions.each do |suite_execution| 
         -#verifies the name of the suite, or if an execution unit, the script
-        -entity = (suite_execution.suite_id==0)? suite_execution.executions.first.circuit : suite_execution.suite
-        -if entity
-          =render :partial=>'history_table_row',:locals=>{:entity =>entity,:suite_execution=>suite_execution}
-        -else
+        -if !suite_execution.executions.first
           %tr
-            %td{:colspan=>"10"}
-              ="Error  (Please, delete Suite execution #{suite_execution.id})"
+            %td{:colspan=>'10'}
+              ="Error: This suite execution has not executions ( #{suite_execution.id} )"       
+        -else 
+          -entity = (suite_execution.suite_id==0) ? suite_execution.executions.first.circuit : suite_execution.suite   
+          -if entity
+            =render :partial=>'history_table_row',:locals=>{:entity =>entity,:suite_execution=>suite_execution}
+          -else
+            %tr
+              %td{:colspan=>'10'}
+                ="Error  (Please, delete Suite execution #{suite_execution.id})"
  

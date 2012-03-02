@@ -37,7 +37,7 @@ class SuiteExecutionsController < ApplicationController
   skip_before_filter :context_stuff, :only => [:update_suite_execution_status, :update_executions_status]
 
   def index
-
+    
     @errores ||= Array.new
     CalendarDateSelect.format=(:finnish)   
     @readonly    = true unless current_user.has_role?("editor", @project)
@@ -62,7 +62,9 @@ class SuiteExecutionsController < ApplicationController
     params[:init_date]   = params[:filter] && params[:filter][:init_date] ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (1*24*60*60)  #1 days after
     params[:finish_date] = params[:filter] && params[:filter][:finish_date] ? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") :  DateTime.now.in_time_zone
 
-    @kind = SuiteExecution.s_kind(params[:kind].to_i)
+    params[:kind] = params[:filter][:kind].to_i if params[:filter] and params[:filter][:kind]
+    params[:kind] = 0 if !params[:kind]
+    @kind = SuiteExecution.s_kind(params[:kind])
 
     #Suite executions
     @suite_executions = SuiteExecution.filter(@project,params)
