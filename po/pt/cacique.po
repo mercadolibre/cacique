@@ -3055,6 +3055,10 @@ msgstr "Não executado porque ocorreu um erro ao tentar se comunicar com Starlin
 msgid "Not executed because the scheduler was pending to confirm"
 msgstr "Não executado porque a programação estava pendente para confirmar"
 
+#: app/views/delayed_jobs/index.rb:
+msgid "Scheduled"
+msgstr "Programado"
+
 #: app/models/delayed_job.rb:
 msgid "To be confirmed"
 msgstr "Para ser confirmado"

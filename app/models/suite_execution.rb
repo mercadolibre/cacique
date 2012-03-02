@@ -93,13 +93,13 @@ class SuiteExecution < ActiveRecord::Base
   def s_kind
     case self.kind
       when 0
-        _("History")
+        _('History')
       when 1
-        _("Alarm")
+        _('Alarm')
       when 2
-        _("Task Program")
+        _('Scheduled')
       else
-        "Invalid"
+        'Invalid'
     end
   end
 
@@ -107,13 +107,13 @@ class SuiteExecution < ActiveRecord::Base
   def self.s_kind(kind)
     case kind.to_i
       when 0
-        _("History")
+        _('History')
       when 1
-        _("Alarms")
+        _('Alarm')
       when 2
-        _("Task Programs")
+        _('Scheduled')
       else
-        "Invalid"
+        'Invalid'
     end
   end
 
