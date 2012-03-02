@@ -1,0 +1,25 @@
+%table.general{:name=>"table_zebra", :style=>"float:none;margin-left:10px;margin-top:20px;"}
+  %tr
+    %th{:style=>"width:15%;"}
+      =_('Project')
+    %th{:style=>"width:20%;"}
+      =_('Description')
+    %th{:style=>"width:10%;"}
+      =_('Manager')
+    %th{:style=>"width:50%;"}
+      =_('Users')
+    %th{:style=>"width:5%;"}
+      =_('Actions')
+  -projects.each do |project|
+    %tr
+      %td{:title=>project.name}
+        =truncate(project.name, :ommision => "...", :length => 40)
+      %td{:title=>project.description}
+        =truncate(project.description, :ommision => "...", :length => 60)
+      %td{:title=>project.user.login.downcase}
+        =truncate(project.user.login.downcase, :ommision => "...", :length => 20)
+      %td
+        -project.users.each do |user|
+          =user.login
+      %td
+        =link_to image_tag('/images/icons/edit.png', :alt=>"edit.png",:style=>"border:none;margin-left:10px;height:14px;", :title=>_('Edit')), edit_project_path(project.id) if (project.user == current_user) || @is_root

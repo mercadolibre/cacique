@@ -39,9 +39,11 @@ class ProjectsController < ApplicationController
 #curl -X GET -H "Accept: application/json" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
 
   def index
-    @projects = Project.all.sort
-    @users    = User.all.sort
-    @is_root  = current_user.has_role? "root"
+    @users = User.all.sort
+    projects = Project.all(:include => [:users, :user]).sort
+    @my_projects = projects.select{|p| p.users.include? current_user }
+    @other_projects = projects.reject{|p| p.users.include? current_user }
+    @is_root = current_user.has_role? "root"
   end
 
   def show
