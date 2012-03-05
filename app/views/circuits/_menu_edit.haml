@@ -53,7 +53,7 @@
       //If there are changes, it is saved and executed, if not, just run
       =image_tag "/images/icons/play.png", :alt=>"play",:title=>_('Run'), :id=>"play_#{@execution_running.id}",  :style=>"margin-bottom:3px;", :onClick => "if(!changed_flag){location='/suite_executions/create?case_template_id=' +  $j('#cases_id').val() + '&where_did_i_come=circuits_edit&project_id=#{@project_id}&circuit_id=#{@circuit.id}'}else{" + remote_function(:method=>:put, :url=>project_circuit_path(@circuit.project_id, @circuit), :with => "'content=' + encodeURI( encode_text( script_content.getValue()) ) + '&last_updated_at=' + encodeURI($j(\'#last_updated_at\').val()) + '&and_play=true'") + "}"
       //stop
-      =link_to(image_tag("/images/icons/stop.png",:alt=>"stop",:title=>_('Stop'),:id=>"stop_#{@execution_running.id}",:style=>"margin-bottom:2px;"), suite_execution_path(@execution_running.suite_execution_id), :method=>:delete) 
+      =#link_to(image_tag("/images/icons/stop.png",:alt=>"stop",:title=>_('Stop'),:id=>"stop_#{@execution_running.id}",:style=>"margin-bottom:2px;"), suite_execution_path(@execution_running.suite_execution_id), :method=>:delete) 
       //Status
       %div{:id=>"status_#{@execution_running.id}", :style=>"margin:auto;vertical-align:2px;display:inline;"}
         =render :partial=>'execution', :locals=> {:execution=>@execution_running}
