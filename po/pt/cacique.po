@@ -1688,16 +1688,16 @@ msgid "Sure to remove relations?"
 msgstr "Tem certeza que quer excluir o relacionamento?"
 
 #: app/views/projects/index.haml:
-msgid "Here you manage all projects. As a "
-msgstr "Aqui você gerencia todos os projetos. Como um usuário "
+msgid "Here are listed all your projects / others projects."
+msgstr "Aqui estão listados todos os seus projetos e outros projetos."
 
 #: app/views/projects/index.haml:
-msgid "Root"
-msgstr "Administrador"
+msgid "You can create new projects and edit the projects on which you are the Manager."
+msgstr "Você pode criar novos projetos e editar os projetos em que você é o gerente."
 
 #: app/views/projects/index.haml:
-msgid " user, you can create new projects, edit existing and designate Managers."
-msgstr " pode Criar novos projetos, Editar existentes e designará Responsável."
+msgid "As a ROOT, you can edit any project."
+msgstr "Como ROOT, você pode editar qualquer projeto."
 
 #: app/views/session/new.haml:
 msgid "Do not have an account?"

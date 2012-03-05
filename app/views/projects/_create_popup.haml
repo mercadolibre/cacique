@@ -12,12 +12,13 @@
         %label{:for => "description"}
           =_('Description')
         = f.text_field :description
-        %label
-          =_('Manager')
-        %select{:id => "project_user_id", :name=>"project[user_id]"}      
-          -@users.sort.each do |user|
-            %option{ :value => user.id}
-              =user.login
+        - if @is_root
+          %label
+            =_('Manager')
+          %select{:id => "project_user_id", :name=>"project[user_id]"}
+            -@users.sort.each do |user|
+              %option{ :value => user.id}
+                =user.login
         %br
         %br
         =submit_tag _('Create'), :style=>"cursor:pointer;"

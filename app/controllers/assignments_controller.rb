@@ -32,8 +32,8 @@ class AssignmentsController < ApplicationController
   before_filter :box_values, :only => [:create,:destroy]
 
   def box_values
-       @projects = (Project.find :all).sort_by { |x| x.name.downcase }
-       @users    = (User.find :all).sort_by { |x| x.login.downcase }
+       @projects = Project.all.sort
+       @users    = User.all.sort
   end
   
   
@@ -68,9 +68,9 @@ def index_other
 
 # Create User Assignment
   def create
-   permit "root" do
-       @project = Project.find params[:project_id]
-       @user    = User.find params[:user_id]
+    @project = Project.find params[:project_id]
+    @user    = User.find params[:user_id]
+    permit "root or (manager of :project)" do
        @project.assign(params[:user_id]) 
        if !@project.errors.empty?
          @text_error = @project.errors.full_messages
@@ -83,9 +83,9 @@ def index_other
   end
 
 # Delete User Assignment
- def destroy
-    permit "root" do
-       @project = Project.find params[:id]
+  def destroy
+    @project = Project.find params[:id]
+    permit "root or (manager of :project)" do
        @project.deallocate(params[:user_id])
        if !@project.errors.empty?
          @text_error = _("Unable to deallocate Project Manager")

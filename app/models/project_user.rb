@@ -59,18 +59,19 @@ class ProjectUser < ActiveRecord::Base
 
   def assign_roles
     #assign editor rol to user
-    user    = User.find self.user_id
+    user = User.find self.user_id
     project = Project.find self.project_id
-	  user.has_role("editor", project)
-	  user.has_role("viewer", project)
+    # TODO: this needs cleanup
+    user.has_role("editor", project, :nocheck)
+    user.has_role("viewer", project, :nocheck)
   end
 
   def deallocate_roles
     # unassign editor rol  to user
     user = User.find self.user_id
     project = Project.find self.project_id
-	  user.has_no_role("editor", project)
-	  user.has_no_role("viewer", project)
+    user.has_no_role("editor", project, :nocheck)
+    user.has_no_role("viewer", project, :nocheck)
   end
 
 end

@@ -375,22 +375,23 @@ class User < ActiveRecord::Base
     Rails.cache.delete("circuit_edit_#{self.id}")
   end
 
+  # return a cached array of user project ids
+  def project_ids
+    Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
+  end
+
   #return the projects asigned to user
   def my_projects
-    user_projects=Array.new
-    values= Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
-
-    values.each do |prj|
+    user_projects = []
+    self.project_ids.each do |prj|
       user_projects << Project.find(prj.to_i)
     end
-    user_projects.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
+    user_projects.sort
   end
 
   #Returns true if the user has permissions to manage the project.
   def has_permission_admin_project?(project_id)
     return true if self.has_role?("root")
-
-    project_ids = Rails.cache.fetch("user_projects_#{self.id}"){ self.projects.map(&:id) }
     return project_ids.include?(project_id.to_i)
   end
 
@@ -402,12 +403,12 @@ class User < ActiveRecord::Base
     all_ids= Rails.cache.fetch("projects_ids"){Project.all.map(&:id)}
     #calculate id for the other projects
     #if user id is not cached,  does here
-    other_ids= all_ids - self.my_projects.map(&:id)
+    other_ids= all_ids - project_ids
 
     other_ids.each do |identifier|
       other_prj << Project.find(identifier.to_i)
     end
-    other_prj.sort{|x,y| x.name <=> y.name}.sort_by { |x| x.name.downcase }
+    other_prj.sort
   end
 
   #user projects refresh

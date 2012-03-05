@@ -52,11 +52,17 @@ class Project < ActiveRecord::Base
   validates_presence_of :description, :message=> _("Enter Project Description")
   validates_presence_of :user_id, :message => _("Enter a Project Manager")
   validates_uniqueness_of  :name, :case_sensitive => false, :message => _("The project already exists!")
+  validates_format_of :name, :with => /\A[^']+\Z/, :message => _("can't contain single quotes")
 
   acts_as_authorizable
   has_many :users, :through => :project_users
   after_save :expires_project_cache
-  
+  after_create {|project| project.assign project.user_id } # after creating a project, add the manager as a user too
+
+  def <=> other
+    self.name.downcase <=> other.name.downcase
+  end
+
   #assing user to project
   def assign(user_id)
     user = User.find user_id
@@ -77,18 +83,13 @@ class Project < ActiveRecord::Base
     user = User.find user_id   
     return unless user.active?
     self.assign(user_id) if !self.users.include?(user) #if user is not assig
+    self.user.has_no_role("manager", self, :nocheck) unless self.user == user 
+    user.has_role("manager", self, :nocheck)
     self.user_id = user.id
     user.reload_cached_projects
     self.save
   end
   
-  #create user project relation
-  def creater_user_relation(user_id)
-    #create user relation if not exist
-    relation = ProjectUser.find(:first,:conditions => ["project_id = ? and user_id = ?", self.id, user_id]) 
-    self.assign(user_id) if relation.nil?
-  end
- 
   #delete user project relation
   def deallocate(user_id)
        user = User.find user_id
@@ -140,7 +141,6 @@ class Project < ActiveRecord::Base
   def expires_project_cache
     Rails.cache.delete "project_#{id}"
   end
-
 
   #def circuits
   #  return category_circuits(self.categories)
