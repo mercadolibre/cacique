@@ -83,6 +83,8 @@ class Project < ActiveRecord::Base
     user = User.find user_id   
     return unless user.active?
     self.assign(user_id) if !self.users.include?(user) #if user is not assig
+    self.user.has_no_role("manager", self, :nocheck) unless self.user == user 
+    user.has_role("manager", self, :nocheck)
     self.user_id = user.id
     user.reload_cached_projects
     self.save

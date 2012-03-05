@@ -55,6 +55,7 @@ class ProjectsController < ApplicationController
       # if current_user is not root, it's assigned as a manager (can't assign another user)
       params[:project][:user_id] = current_user.id if params[:project][:user_id].blank? || current_user.has_no_role?("root")
       @project = Project.create(params[:project])
+      @project.assign_manager params[:project][:user_id]
 
       flash[:notice] = _("The Project was Correctly Create") if @project.valid?
     end
