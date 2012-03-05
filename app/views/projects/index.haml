@@ -3,19 +3,20 @@
     %h1
       =_('Project Management')
     %br
-    %h7
-      =_('Here you manage all projects. As a ')
-      %b
-        =_('Root')
-      =_(' user, you can create new projects, edit existing and designate Managers.')
-      %br
+    %ul
+      %li
+        =_('Here are listed all your projects / others projects.')
+      %li
+        =_('You can create new projects and edit the projects on which you are the Manager.')
+      - if @is_root
+        %li
+          =_('As a ROOT, you can edit any project.')
     
     = render :partial => "abm_projects"
     
     = render :partial => "table", :locals => { :projects => @my_projects } unless @my_projects.empty?
     = render :partial => "table", :locals => { :projects => @other_projects } unless @other_projects.empty?
 
-    %br
     %br
 
     %div{ :style=>"clear: both"}

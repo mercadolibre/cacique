@@ -1815,16 +1815,16 @@ msgid "Sure to remove relations?"
 msgstr "¿Esta seguro de eliminar la relación?"
 
 #: app/views/projects/index.haml:
-msgid "Here you manage all projects. As a "
-msgstr "Aquí gestionaras todos los proyectos. Como Usuario "
+msgid "Here are listed all your projects / others projects."
+msgstr "Aquí están listados todos sus proyectos / otros proyectos"
 
 #: app/views/projects/index.haml:
-msgid "Root"
-msgstr "Administrador"
+msgid "You can create new projects and edit the projects on which you are the Manager."
+msgstr "Puedes crear nuevos proyectos y editar aquellos en el cual eres Responsable"
 
 #: app/views/projects/index.haml:
-msgid " user, you can create new projects, edit existing and designate Managers."
-msgstr " podras Crear Nuevos Proyectos, Editar ya existentes y designar Responsables."
+msgid "As a ROOT, you can edit any project."
+msgstr "Como ADMINISTRADOR, puedes editar cualquier proyecto"
 
 #: app/views/session/new.haml:
 msgid "Do not have an account?"
