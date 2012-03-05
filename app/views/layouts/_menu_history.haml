@@ -1,12 +1,13 @@
 %li
+  %a{ :href => suite_executions_path(:kind=>0)}
+    %span
+      Manual 
+%li
   %a{ :href => suite_executions_path(:kind=>1)}
     %span
       =_('Alarms')
 %li
   %a{ :href =>suite_executions_path(:kind=>2)}
     %span
-      =_('Task Program')
-%li
-  %a{ :href => suite_executions_path}
-    %span
-      Normal   
+      =_('Scheduled')
+ 

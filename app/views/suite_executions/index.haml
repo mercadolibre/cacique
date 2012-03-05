@@ -25,10 +25,8 @@
 -#Table
 =render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
 
--#Tools menu
--content_for :tools_menu do
-  =image_tag  "/images/icons/pdf.png", :alt=>"pdf.png", :title=>_('Export to PDF'), :id=>'pdf_icon'
-  =image_tag "/images/icons/info.png",:alt=>"info.png", :title=>_('Information'), :id=>'info_icon'
+-#Menu
+=render :partial=> 'menu'
 
 -#Help 
 =render :partial => "info"

@@ -1,0 +1,16 @@
+-#Tools menu
+-content_for :tools_menu do
+
+  -#PDF Report
+  =image_tag  "/images/icons/pdf.png", :alt=>"pdf.png", :title=>_('Export to PDF'), :id=>'pdf_icon'
+
+  -#Alarms or scheduled
+  -if [1,2].include?(params[:kind].to_i)
+    -#Calendar
+    =link_to image_tag('/images/icons/calendar.png', :alt=>'calendar',  :title=>_('Schedule List')), delayed_jobs_path
+    -#Calendar new
+    =link_to image_tag('/images/icons/calendar_new.png',:alt=>'calendar',:title=>_('New Schedule')),new_task_program_path
+
+  -#Info
+  =image_tag "/images/icons/info.png",:alt=>"info.png", :title=>_('Information'), :id=>'info_icon'
+  

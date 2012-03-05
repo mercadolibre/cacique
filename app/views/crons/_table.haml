@@ -1,31 +1,31 @@
-%table.detail
+%table.detail.special
   %caption
     -#Alams
   %thead
-    %tr
+    %tr.special
       -if crons.empty?
-        %th
+        %td
           =_('Without Schedule')      
       -else      
-        %th.very_small
+        %td.very_small
           =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}
-        %th.small
+        %td.small
           =_("Project")   
-        %th.medium
+        %td.medium
           =_("Suite")                  
-        %th.small
+        %td.small
           =_("Programmed by")  
-        %th.small        
+        %td.small        
           =_('Month')   
-        %th.small{:title=>_('Day of month')}      
+        %td.small{:title=>_('Day of month')}      
           =_('Day')
-        %th.small         
+        %td.small         
           =_('Hour')                             
-        %th.small
+        %td.small
           Min
-        %th.small            
+        %td.small            
           =('Day of week')        
-        %th.medium
+        %td.medium
           =_('Identifier')
   %tbody 
     -form_for :task_programs,:url=>{:controller=>:task_programs,:action=>:destroy},:html=>{:id=>'form_delete'}  do                     

@@ -1,23 +1,23 @@
-%table.detail
+%table.detail.special
   %caption
     -#Task Programs
   %thead
-    %tr
+    %tr.special
       -if task_programs.empty?
-        %th
+        %td
           =_('Without Schedule')      
       -else       
-        %th.very_small
+        %td.very_small
           =check_box_tag 'all', '0', checked = false,  { :id=>'check_all'}
-        %th.small
+        %td.small
           =_("Project")   
-        %th.medium
+        %td.medium
           =_("Suite")                  
-        %th.small
+        %td.small
           =_("Programmed by")            
-        %th.medium
+        %td.medium
           =_("Schedule")
-        %th.medium
+        %td.medium
           =_('Identifier') 
 
   %tbody

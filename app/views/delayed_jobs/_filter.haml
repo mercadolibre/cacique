@@ -1,5 +1,5 @@
 .filter
-  -form_for :delayed_jobs, :url => delayed_jobs_path, :html=>{:method=>:get} do
+  -form_for :delayed_job,:url=>{:action=>:index}, :html => { :method=>:get, :enctype => "multipart/form-data"} do
     -#TaskProgram filter
     =render :partial=> 'task_programs/filter'
            

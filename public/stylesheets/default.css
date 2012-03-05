@@ -942,43 +942,12 @@ table.detail{
   background:white;
 }
 
+table.detail.special{
+  border:1px solid #e1821e;
+}
 
-table.detail th{
+table.detail thead td{
 	background: #336699;
-  color:#ffffff;
-  padding:3px;
-  font-family:sans-serif;
-  font-size:11px;
-  font-weight:bold;
-  text-align:center;
-}
-
-table.detail th.very_small{
-  width:2%;
-}
-
-table.detail th.small{
-  width:10%;
-}
-
-table.detail th.medium{
-  width:20%;
-}
-
-table.detail th.long{
-  width:30%;
-}
-
-table.detail th a{
-  color:#ffffff;
-  font-family:sans-serif;
-  font-size:11px;
-  font-weight:bold;
-}
-
-
-table.detail th.d{
-	background: #626894;
   color:#ffffff;
   padding:5px;
   font-family:sans-serif;
@@ -987,7 +956,38 @@ table.detail th.d{
   text-align:center;
 }
 
-table.detail td{
+table.detail thead tr.special td{
+  background: url(/images/icons/bar_tag_orange.png);
+}
+
+table.detail thead td.exe { 
+  background: url(/images/tables/tag_blue.png);
+}
+
+table.detail thead td.very_small{
+  width:2%;
+}
+
+table.detail thead td.small{
+  width:10%;
+}
+
+table.detail thead td.medium{
+  width:20%;
+}
+
+table.detail thead td.long{
+  width:30%;
+}
+
+table.detail thead td a{
+  color:#ffffff;
+  font-family:sans-serif;
+  font-size:11px;
+  font-weight:bold;
+}
+
+table.detail tbody td{
   color:#848484;
   padding:5px;
   font-family:sans-serif;
@@ -998,63 +998,61 @@ table.detail td{
   vertical-align:middle;
 } 
 
-table.detail td.green{
+table.detail tbody td.green{
   color:green;
 }
 
-table.detail td img{
+table.detail tbody td img{
   border:none;
 }
 
-table.detail td.img img{
+table.detail tbody td.img img{
   border:none;
   width: 12px; 
   height: 14px;
 }
 
-table.detail td a{
+table.detail tbody td a{
   cursor:pointer; 
   text-decoration:underline;
   color:#848484;
   font-weight:normal;
 }
 
-table.detail td ul {
+table.detail tbody td ul {
   text-align: left;
   margin: 0;
 }
-table.detail td ul.height{
+table.detail tbody td ul.height{
   height:20px;
   display:inline-block
 }
 
-table.detail td sub.more{
+table.detail tbody td sub.more{
   float: right;
   cursor:pointer;
 }
 
-table.detail td sub.more a{
+table.detail tbody td sub.more a{
   text-decoration:none;
 }
 
-table.detail td b.right{
+table.detail tbody td b.right{
    float: right;
 }
 
-table.detail td ul li.inline{
+table.detail tbody td ul li.inline{
   display:inline;
 }
 
-table.detail td ul.inline{
+table.detail tbody td ul.inline{
   text-align: left;
   display:inline;
 }
 
-table.detail td ul.inline li.inline{
+table.detail tbody td ul.inline li.inline{
   display:inline;
 }
-
-
 
 table.detail tr.oddRow { 
   background-color: #F5F6F7;
@@ -1065,17 +1063,6 @@ table.detail tr.evenRow {
   
 table.detail tr:hover{
   background: #D8DCDF;
-}
-
-
-table.detail th.exe { 
-	background: url(/images/tables/tag_blue.png);
-  color:#ffffff;
-  padding:5px;
-  font-family:sans-serif;
-  font-size:11px;
-  font-weight:bold;
-  text-align:center;
 }
 
 

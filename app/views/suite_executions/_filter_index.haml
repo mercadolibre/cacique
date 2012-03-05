@@ -1,8 +1,8 @@
 .filter
-  -form_for :suite_execution, :url => {:controller => 'suite_executions', :action => :index} do
-  
+  -form_for :suite_execution, :url=>{:action=>:index}, :html => { :method=>:get, :enctype => "multipart/form-data"} do
+
     -#Kind
-    %input{:name=>'kind', :value=>params[:kind].to_i, :type=>'hidden'}  
+    %input{:name=>'kind', :value=>params[:kind], :type=>'hidden'}  
 
     -#Identifier
     %label

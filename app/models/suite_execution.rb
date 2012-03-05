@@ -93,13 +93,13 @@ class SuiteExecution < ActiveRecord::Base
   def s_kind
     case self.kind
       when 0
-        _("History")
+        _('History')
       when 1
-        _("Alarm")
+        _('Alarm')
       when 2
-        _("Task Program")
+        _('Scheduled')
       else
-        "Invalid"
+        'Invalid'
     end
   end
 
@@ -107,13 +107,13 @@ class SuiteExecution < ActiveRecord::Base
   def self.s_kind(kind)
     case kind.to_i
       when 0
-        _("History")
+        _('History')
       when 1
-        _("Alarms")
+        _('Alarm')
       when 2
-        _("Task Programs")
+        _('Scheduled')
       else
-        "Invalid"
+        'Invalid'
     end
   end
 
@@ -582,7 +582,7 @@ class SuiteExecution < ActiveRecord::Base
     script_id   = params[:filter] && !params[:filter][:circuit_id].blank? ? params[:filter][:circuit_id].to_i : nil   
     status      = params[:filter] && !params[:filter][:status].blank? && params[:filter][:status].to_i != -1 ? params[:filter][:status].to_i : nil
     identifier  = params[:filter] && !params[:filter][:identifier].blank? ? params[:filter][:identifier] : nil
-    kind        = params[:kind] ? params[:kind] : 0
+    kind        = params[:kind]
 
     #Bulid conditions
     conditions        = Array.new
@@ -647,7 +647,7 @@ class SuiteExecution < ActiveRecord::Base
  
     #Paginate
     number_per_page=9
-    number_per_page= params[:filter][:paginate].to_i if params[:filter] && params[:filter].include?(:paginate) 
+    number_per_page= params[:paginate].to_i if params[:paginate]
     suite_executions.paginate :page => params[:page], :per_page => number_per_page
 
   end

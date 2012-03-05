@@ -130,30 +130,31 @@ table.homein td li{ font-family:sans-serif; font-weight:lighter; font-weight:bol
 .div.executions_header .header_item{ width: 60px; height:17px; float:left; padding: 5px; padding-left:10px; color:#ffffff; font: 12px sans-serif; font-weight:bold; text-align:center}
 .div.executions_header .header_item img{ display: block; margin: auto}
 table.detail{ width:100%; border-collapse:collapse; clear:both; border:1px solid #336699; background:white}
-table.detail th{ background: #336699; color:#ffffff; padding:3px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
-table.detail th.very_small{ width:2%}
-table.detail th.small{ width:10%}
-table.detail th.medium{ width:20%}
-table.detail th.long{ width:30%}
-table.detail th a{ color:#ffffff; font-family:sans-serif; font-size:11px; font-weight:bold}
-table.detail th.d{ background: #626894; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
-table.detail td{ color:#848484; padding:5px; font-family:sans-serif; font-size:11px; text-align:left; text-align:center; border:1px solid #D2D2D2; vertical-align:middle}
-table.detail td.green{ color:green}
-table.detail td img{ border:none}
-table.detail td.img img{ border:none; width: 12px; height: 14px}
-table.detail td a{ cursor:pointer; text-decoration:underline; color:#848484; font-weight:normal}
-table.detail td ul {text-align: left; margin: 0}
-table.detail td ul.height{ height:20px; display:inline-block }
-table.detail td sub.more{ float: right; cursor:pointer}
-table.detail td sub.more a{ text-decoration:none}
-table.detail td b.right{ float: right}
-table.detail td ul li.inline{ display:inline}
-table.detail td ul.inline{ text-align: left; display:inline}
-table.detail td ul.inline li.inline{ display:inline}
+table.detail.special{ border:1px solid #e1821e}
+table.detail thead td{ background: #336699; color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
+table.detail thead tr.special td{ background: url(/images/icons/bar_tag_orange.png)}
+table.detail thead td.exe {background: url(/images/tables/tag_blue.png)}
+table.detail thead td.very_small{ width:2%}
+table.detail thead td.small{ width:10%}
+table.detail thead td.medium{ width:20%}
+table.detail thead td.long{ width:30%}
+table.detail thead td a{ color:#ffffff; font-family:sans-serif; font-size:11px; font-weight:bold}
+table.detail tbody td{ color:#848484; padding:5px; font-family:sans-serif; font-size:11px; text-align:left; text-align:center; border:1px solid #D2D2D2; vertical-align:middle}
+table.detail tbody td.green{ color:green}
+table.detail tbody td img{ border:none}
+table.detail tbody td.img img{ border:none; width: 12px; height: 14px}
+table.detail tbody td a{ cursor:pointer; text-decoration:underline; color:#848484; font-weight:normal}
+table.detail tbody td ul {text-align: left; margin: 0}
+table.detail tbody td ul.height{ height:20px; display:inline-block }
+table.detail tbody td sub.more{ float: right; cursor:pointer}
+table.detail tbody td sub.more a{ text-decoration:none}
+table.detail tbody td b.right{ float: right}
+table.detail tbody td ul li.inline{ display:inline}
+table.detail tbody td ul.inline{ text-align: left; display:inline}
+table.detail tbody td ul.inline li.inline{ display:inline}
 table.detail tr.oddRow {background-color: #F5F6F7}
 table.detail tr.evenRow {background-color: #FDFAFA}
 table.detail tr:hover{ background: #D8DCDF}
-table.detail th.exe {background: url(/images/tables/tag_blue.png); color:#ffffff; padding:5px; font-family:sans-serif; font-size:11px; font-weight:bold; text-align:center}
  ul.rates {border: 1px solid #D2D2D2; border-top:0px; width:auto; float:right; padding:5px; margin-left:5px; font-size: 10px; font-weight: normal; margin-top: 0}
 ul.rates li{ display:inline; font-weight:bold; margin-left:10px; border-right: 1px solid #D2D2D2}
 ul.rates li.ok {color:DarkGreen}
