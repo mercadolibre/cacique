@@ -54,7 +54,7 @@
               %td
                 =show_min_sec(now - execution.updated_at.to_i)
               %td 
-                =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(execution.suite_execution.id), :method=>:delete) if current_user.has_role?("root")
+                =#link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(execution.suite_execution.id), :method=>:delete) if current_user.has_role?("root")
             -else
               %td
                 \--
@@ -94,7 +94,7 @@
         %td{:title=>tasks_values[:task_name]}
           =truncate(tasks_values[:task_name],:ommision => "...", :length =>80)
         %td
-          =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
+          =#link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
         %tr
 
 
