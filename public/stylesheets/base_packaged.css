@@ -8,6 +8,7 @@ h1 {text-align:left; letter-spacing:1px; font-size: 14px; font-weight: bold; col
 h1.top {margin: 20px 0 5px}
 h2 {width:95%; margin: 0 auto; margin-top:5px; font-size: 12px; font-family:sans-serif; color: #626894; line-height: 20px}
 h2.inline {display:inline}
+h2.inline.orange{ color: #e48d30}
 h3 {font-size: 12.5px; font-family:sans-serif; color: #4F5DD5}
 ul {margin-left: 0; padding-left: 0; list-style-position: inside}
 a {color:#373737; font-weight: bold; font-family:sans-serif}
@@ -171,7 +172,7 @@ ul.rates li.fail{ color:red}
 ul.rates li.others{ color:#2C4B9B}
  .qp_counter {margin: 10px}
 a.qp_disabled {color: #888; text-decoration: none}
-.pagination{ margin-left:10px; margin-bottom:2px; padding-top:8px; width:auto; font-weight:bold; float: right}
+.pagination{ margin-left:10px; margin-bottom:2px; padding-top:8px; width:auto; font-weight:bold; float: right; color:#8F8F8F}
 .pagination_buttons{ clear: both; text-align:center}
 .pagination_buttons a{ text-decoration: none}
  .buscar{ float:right; width:160px; margin-right:30px; background: #ffffff; border:1px solid #c1c1c1; -moz-border-radius:5px; margin-top:1px; padding:2px}

@@ -8,7 +8,7 @@
 
   -#Paginate
   -if !@task_programs.empty?
-    = will_paginate @task_programs, :params => { 'filter' => params[:filter]}
+    = will_paginate @task_programs, :params => params.merge({:per_page=>params[:per_page]})
     .pagination
       = _('Show') + ":"
       = page_size_link 50

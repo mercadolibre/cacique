@@ -8,7 +8,7 @@
  
   -#Paginate
   -if !@crons.empty?
-    = will_paginate @crons, :params => { 'filter' => params[:filter] }
+    = will_paginate @crons, :params => params.merge({:per_page=>params[:per_page]})
     .pagination
       = _('Show') + ":"
       = page_size_link 50

@@ -137,7 +137,7 @@
 
     #Paginate
     number_per_page=10
-    number_per_page= params[:paginate].to_i if params[:paginate]
+    number_per_page= params[:per_page].to_i if params[:per_page]
     crons.paginate :page => params[:page], :per_page => number_per_page
     
   end

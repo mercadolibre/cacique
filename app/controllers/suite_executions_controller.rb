@@ -37,7 +37,7 @@ class SuiteExecutionsController < ApplicationController
   skip_before_filter :context_stuff, :only => [:update_suite_execution_status, :update_executions_status]
 
   def index
-    
+
     @errores ||= Array.new
     CalendarDateSelect.format=(:finnish)   
     @readonly    = true unless current_user.has_role?("editor", @project)
