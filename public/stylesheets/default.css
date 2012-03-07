@@ -174,6 +174,7 @@ select{
 
 .form_tag{
   -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   border:1px solid #C3C3C3;
   padding:10px;
   color:#31576F;
@@ -214,6 +215,7 @@ select{
 
 .form_tag_flap{
  -moz-border-radius:10px 10px 0px 0px;
+ -webkit-border-radius:10px 10px 0px 0px;
   border:1px solid #C3C3C3;
   border-bottom:0px;
   padding:5px;
@@ -224,6 +226,7 @@ select{
   float:right;
   margin-right:40px;
   -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   border:1px solid #C3C3C3;
   color:#31576F;
 }
@@ -269,6 +272,7 @@ select{
 .login {
   float:left;
   -moz-border-radius:50px;
+  -webkit-border-radius:50px;
   border:20px solid #338DCF;
   background:#FFFFFF;
   width: 600px;
@@ -394,6 +398,8 @@ legend {
 .t_tab{
   -moz-border-radius-topleft:10px;
   -moz-border-radius-topright:10px;
+  -webkit-border-radius-topleft:10px;
+  -webkit-border-radius-topright:10px;
   border-bottom:none;
   width:33%;
   height: 100%;
@@ -414,6 +420,7 @@ legend {
   background:#FFFFFF; 
   font: 12px sans-serif;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   padding:10px;
   padding-left:30px;
   padding-top:30px;
@@ -466,6 +473,7 @@ legend {
   border: 1px solid red;
   background-color: #FBEFFB;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   padding:5px;
   margin:0 auto 10px;
 }
@@ -476,6 +484,7 @@ legend {
   border: 1px solid red;
   background-color: #FBEFFB;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   padding:5px;
   margin:0 auto 10px;
 }
@@ -489,6 +498,7 @@ legend {
   background-color: #c00;
   color: #fff;
   -moz-border-radius:8px;
+  -webkit-border-radius:8px;
 }
 
 #errorExplanation p {
@@ -545,6 +555,7 @@ legend {
   display:none;
   padding:10px;
   -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   margin:20px 0 auto;
 }
 
@@ -604,6 +615,7 @@ legend {
   padding:5px 20px 5px 20px;
   width: 40%;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   position:fixed;
   left: 30%; 
   top:20%;
@@ -645,6 +657,7 @@ legend {
   width: 300px;
   text-align:left;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   position:fixed;
   left: 35%; 
   top:20%;
@@ -680,6 +693,7 @@ legend {
   height:70%; 
   text-align:left;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   position:fixed;
   left: 22%; 
   top:20%;
@@ -697,6 +711,7 @@ legend {
   position: relative; 
   margin:5px auto 0;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   overflow:auto;
   height:85%; 
 }
@@ -868,6 +883,7 @@ table.home {
   margin-top: 120px;
   margin-left: 10px;
   -moz-border-radius:100px 30px 80px;
+  -webkit-border-radius:100px 30px 80px;
   background:#293484;
   border:4px double #288EB1;
   border-collapse:separate;
@@ -880,6 +896,7 @@ table.homein {
   background:#FFFFFF;
   margin: 0 auto; 
   -moz-border-radius:100px 30px 80px;
+  -webkit-border-radius:100px 30px 80px;
 }
 
 table.homein tr{
@@ -889,6 +906,7 @@ table.homein tr{
   background:#FFFFFF;
   margin:3px;
   -moz-border-radius:100px 30px 80px;
+  -webkit-border-radius:100px 30px 80px;
 }
 
 table.homein th{
@@ -1173,6 +1191,7 @@ a.qp_disabled {
   background: #ffffff;
   border:1px solid  #c1c1c1;
   -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   margin-top:1px;
   padding:2px;
 }
@@ -1181,6 +1200,7 @@ a.qp_disabled {
   background: inherit;
   border:inherit;
   -moz-border-radius:inherit;
+  -webkit-border-radius:inherit;
 }
 .buscar #filter_text {
   width: 130px;
@@ -1292,6 +1312,7 @@ table th.safari{
   background:#288EB1;
   border: #31576F 2px solid;
   -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
   margin: 0 auto;
 }
 .div_button input{
@@ -1313,6 +1334,7 @@ table th.safari{
   padding-left:0px; 
   width:900px; 
   -moz-border-radius:20px;
+  -webkit-border-radius:20px;
   background:#F2F2F2;
 }
 
@@ -1323,6 +1345,7 @@ table th.safari{
   margin: 0 auto;
   margin-top:10px;
  -moz-border-radius:30px;
+ -webkit-border-radius:30px;
  width:100%;
 }
 
@@ -1345,6 +1368,7 @@ table th.safari{
   border: #8F8F8F 1px solid; 
   padding-left: 10px; 
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
   margin-top:5px;
   margin-left:20px;
   text-align:left;
@@ -1422,6 +1446,7 @@ table th.safari{
 
 .div_hover{
   -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   border:1px solid #C3C3C3;
   padding:10px;
 }
@@ -1434,6 +1459,7 @@ table th.safari{
   background: #EEEEED;
   padding:12px;
   -moz-border-radius:0px 2px 5px 5px; 
+  -webkit-border-radius:0px 2px 5px 5px; 
   color:#373737;
   font-size:12px;
   border:1px solid #C6C5C4;
@@ -1449,6 +1475,8 @@ table th.safari{
 .edit_table{
   -moz-border-radius:20px;
   -moz-border-radius-topleft:0px;
+  -webkit-border-radius:20px;
+  -webkit-border-radius-topleft:0px;
   padding: 15px 15px 15px 15px;
   height: 50%; 
 	margin-left:10%;
@@ -1469,6 +1497,7 @@ position: relative;
   padding: 10px;
   background: #D1E1E7;
   -moz-border-radius:20px;
+  -webkit-border-radius:20px;
   position:fixed;
 }
 
@@ -1482,6 +1511,8 @@ position: relative;
 .t_func{
   -moz-border-radius-topleft:10px;
   -moz-border-radius-topright:10px;
+  -webkit-border-radius-topleft:10px;
+  -webkit-border-radius-topright:10px;  
   border-bottom:none;
   width:30%;
   height: 100%;
@@ -1502,6 +1533,8 @@ position: relative;
   font: 11px sans-serif;
   -moz-border-radius:10px;
   -moz-border-radius-topleft:0px;
+  -webkit-border-radius:10px;
+  -webkit-border-radius-topleft:0px;  
   padding:10px;
   padding-left:30px;
   position: relative; 
@@ -1560,6 +1593,7 @@ table.relation.in td{
    color: #FFFFFF;
    font: 12px sans-serif; 
    -moz-border-radius: 5% 10% 5% 10%;  
+   -webkit-border-radius: 5% 10% 5% 10%; 
    width:140px;
    height:30px;
    line-height:30px;
@@ -1578,7 +1612,8 @@ table.relation.in td{
    margin-top:10px;
    margin-left:20px;
    font: 12px sans-serif; 
-   -moz-border-radius: 5% 10% 5% 10%;  
+   -moz-border-radius: 5% 10% 5% 10%; 
+   -webkit-border-radius: 5% 10% 5% 10%; 
    width:140px;
    height:30px;
    line-height:30px;
@@ -1744,6 +1779,7 @@ table.relation.in td{
   background: #FFFFFF;
   margin: 0 auto;
   -moz-border-radius:10px;
+  -webkit-border-radius:10px;
 }
 
 .tabs_circuit{
@@ -1767,6 +1803,8 @@ table.relation.in td{
   font: 14px sans-serif;
   -moz-border-radius:10px;
   -moz-border-radius-topleft:0px;
+  -webkit-border-radius:10px;
+  -webkit-border-radius-topleft:0px;  
   padding:10px;
   padding-left:30px;
 }
@@ -1776,6 +1814,7 @@ table.relation.in td{
 .circuit_move:hover{
   background:#F0F3F4;
   -moz-border-radius:20px;
+  -webkit-border-radius:20px;
   border:1px solid #BBC8CC;
   padding:20px; 
   padding-top:10px;
@@ -1796,6 +1835,7 @@ table.relation.in td{
    min-height:190px;
    padding:15px 8px 20px 8px;
    -moz-border-radius:20px;
+   -webkit-border-radius:20px;
    margin-top:10px;
 }
 
@@ -1880,6 +1920,7 @@ table.relation.in td{
   font-family:sans-serif;
   border:1px solid #375dc0; 
   -moz-border-radius:20px;
+  -webkit-border-radius:20px;
   text-align:left;
   width:140px; 
   height: auto; 
@@ -1988,6 +2029,7 @@ div.TabView div.Pages div.Page div.Pad { padding: 7px 7px; }
 .menuItem {
   padding:4px 10px 4px 10px;
   -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
   font-size: 14px;
 }
 
@@ -2156,12 +2198,13 @@ dTreeNode a{
 .dtree c:hover{
 	background: #CFD7DF;
 	-moz-border-radius:3px;
+  -webkit-border-radius:3px;
 }
 
 .dtree a.node:hover, .dtree a.nodeSel:hover {
 	background: #CFD7DF;
 	-moz-border-radius:5px;
-
+  -webkit-border-radius:5px;
 }
 .dtree a.nodeSel {
 	background-color: #c0d2ec;
