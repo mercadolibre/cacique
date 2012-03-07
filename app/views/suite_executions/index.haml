@@ -4,15 +4,13 @@
 
 %h1.top
   =@kind
-%h2.inline
-  =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
+  -class_name = [1,2].include?(params[:kind].to_i)? 'orange' :''
+%h2{:class=> 'inline ' + class_name}
+  =truncate(@project.name.capitalize,:ommision => "...", :length =>90)
 
 -#Paginate
 -if  !@suite_executions.empty?
-  -unless params.include? "filter"
-    = will_paginate @suite_executions
-  -else
-    = will_paginate @suite_executions, :params => { 'filter' => params[:filter] }
+  = will_paginate @suite_executions, :params => params.merge({:kind=>params[:kind]})
   .pagination
     = _('Show') + ":"
     = page_size_link 50

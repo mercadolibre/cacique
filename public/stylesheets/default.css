@@ -81,6 +81,10 @@ h2.inline {
   display:inline;
 }
 
+h2.inline.orange{
+  color: #e48d30;
+}
+
 h3 {
 	font-size: 12.5px;
   font-family:sans-serif;
@@ -1150,7 +1154,9 @@ a.qp_disabled {
   width:auto;
   font-weight:bold;
   float: right;
+  color:#8F8F8F;
 }
+
 .pagination_buttons{
 	clear: both;
   text-align:center;
