@@ -100,6 +100,7 @@ legend {font-size: 1.4em; font-weight: bold; position: relative; top: -.4em}
 .infoData dd{ font-size:13px; text-align:left}
 .infoData b{ color:#2C4B9B}
  table.general {margin: 0 auto; width: 100%; border: 1px solid #C6C5C4; clear:both}
+table.general.center{ width:95%}
 table.general.min{ width:30%; margin: 0}
 table.general tr {color: #668AA2; cursor:pointer}
 table.general thead tr td{ background: url(/images/icons/bar_tag.png); color:#F0FFF0; font-size:11px; text-align:center; font-family:sans-serif; padding: 3px 8px; height:25px; border-right:1px solid grey; width:25%; font-weight:bold}
@@ -113,7 +114,7 @@ table.general tr.oddRow {background-color:#E6E6E6}
 table.general tr.evenRow {background-color: #F7F7FA}
 table.general tr:hover{ background:#BDBDBD}
 table.general thead tr td a{ color:#F0FFF0; font-size:11px; text-decoration:none}
-table.general tbody tr td{ font-family:sans-serif; font-size:11.3px; height:20px; padding: 4px 5px; color:#373737; border-right: 1px solid #C6C5C4}
+table.general tbody tr td{ font-family:sans-serif; font-size:11.3px; height:20px; padding: 4px 5px; color:#373737; border-right:1px solid #C6C5C4}
 table.general tbody tr.center{ text-align:center}
 table.general tbody tr td.def {border: none}
 #table{ margin: 0 auto; width: 600px; empty-cells: show}

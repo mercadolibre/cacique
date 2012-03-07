@@ -751,6 +751,10 @@ table.general {
   clear:both;
 }
 
+table.general.center{
+  width:95%;
+}
+
 table.general.min{
   width:30%; 
   margin: 0;
@@ -812,13 +816,11 @@ table.general tr.evenRow {
   background:#BDBDBD;
 }
 
-
 table.general thead tr td a{
   color:#F0FFF0;
   font-size:11px; 
   text-decoration:none;
 }
-
 
 table.general tbody tr td{
   font-family:sans-serif;
@@ -826,7 +828,7 @@ table.general tbody tr td{
   height:20px;
   padding: 4px 5px;
   color:#373737;
-  border-right: 1px solid #C6C5C4;
+  border-right:1px solid #C6C5C4;
 }
 
 table.general tbody tr.center{
