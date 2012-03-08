@@ -125,23 +125,26 @@ class Execution < ActiveRecord::Base
     Rails.cache.write("exec_#{id}",execution)
   end
  
- def stop
-   if self.status==1
-     stop_running_exec
-   else
-     stop_waiting
-   end
- end 
- def stop_waiting
-     QueueObserver.new.delete_execution(self.suite_execution.id)
- end
+  def stop
+    if self.status==1
+      stop_running_exec
+    else
+      stop_waiting
+    end
+  end 
+
+  def stop_waiting
+    QueueObserver.new.delete_execution(self.suite_execution.id)
+  end
  
- def stop_running_exec
-   require 'socket'
-   connect_mannager
-   str = @mannager.send("stop;#{self.pid};#{self.id}",500)
-   @mannager.close
- end
+  def stop_running_exec
+    require 'socket'
+    connect_mannager
+    if @mannager
+      str = @mannager.send("stop;#{self.pid};#{self.id}",500)
+      @mannager.close
+    end
+  end
  
   def finished?
       #Not Waiting or Running
@@ -161,7 +164,7 @@ class Execution < ActiveRecord::Base
 private
 
  def connect_mannager
-   require 'socket'
-    @mannager = TCPSocket.new( ip, MANNAGER_PORT )
+    @mannager = Manager.connect(ip)
  end
+
 end

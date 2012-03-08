@@ -39,17 +39,18 @@ require "socket"
 class QueueObserver < ActiveRecord::Base
     #send a signal to refresh workers on cache
     def self.refresh_workers
-      Rails.cache.read("registred_workers").keys.each do |ip|
-      begin
-        cn = TCPSocket::new( ip,33133)
-        cn.print "refresh"
-        cn.close
-        rescue Errno::ECONNREFUSED
-          hash=Rails.cache.read "registred_workers"
-          hash.delete(ip)
-          Rails.cache.write "registred_workers", hash
-      end
-      
+      registred_workers = Rails.cache.read("registred_workers")
+      if registred_workers
+        registred_workers.keys.each do |ip|
+          manager = Manager.conect(refresh)
+          if !manager
+            hash=Rails.cache.read "registred_workers"
+            hash.delete(ip)
+            Rails.cache.write "registred_workers", hash
+          end
+        end
+      else
+        Notifier.deliver_notifier_error("Error reading registred_workers from the cache")
       end
     end
 
