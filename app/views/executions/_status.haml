@@ -2,15 +2,16 @@
   ejecucion_completa_#{execution.id}=true
 
 //Stop
--if (execution and !execution.finished?)
+-if ((execution and execution.finished?) or params[:error] =='1')
+  %script
+    $j("#stop_#{execution.id}").hide();
+    $j("#play_#{execution.id}").show();
+-else
   %script
     ejecucion_completa_#{execution.id}=false;
     $j("#play_#{execution.id}").hide();
     $j("#stop_#{execution.id}").show();
--else
-  %script
-    $j("#stop_#{execution.id}").hide();
-    $j("#play_#{execution.id}").show();
+
 
 -case execution.status
   -when 0

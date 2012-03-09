@@ -204,6 +204,7 @@ class CircuitsController < ApplicationController
   end
 
   def edit
+
    if params[:rename]
    #Edit NAME and DESCRIPTION
       @circuit = Circuit.find params[:circuit_id]

@@ -85,8 +85,10 @@ class SuiteExecutionsController < ApplicationController
   def destroy
      suite_execution=SuiteExecution.find(params[:id])
      if suite_execution.user_id == current_user.id || current_user.has_role?("root")
-        suite_execution.stop
-        redirect_to :back
+        suite_execution = suite_execution.stop
+        url = request.env["HTTP_REFERER"]
+        url += "?error=1" if !suite_execution.finished?
+        redirect_to url_for(url)
      end
   end
 
