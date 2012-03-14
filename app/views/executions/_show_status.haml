@@ -57,10 +57,23 @@
     %br
     %br
     %br
-    %div{:id=>"formated_output_#{execution.id.to_s}"}
-      =RedCloth.new( sanitize( execution.output ), [:filter_html, :filter_styles, :filter_classes, :filter_ids] ).to_html
+    %div.formated_output{:id=>"formated_output_#{execution.id.to_s}"}
+      =RedCloth.new( sanitize( execution.output ), [:filter_html, :filter_styles, :filter_ids] ).to_html
     %div{:id=>"raw_output_#{execution.id.to_s}", :style=>"display:none;"}
       -execution.output.split("\n").each do |line|
         =h line
         %br 
+
+  /Roots Info
+  -if current_user.has_role?("root")    
+    %b{:style=>'color:#2C4B9B;font-size:13px;text-decoration:underline;'}
+      Execution Info
+    %ul
+      %li
+        IP:
+        =execution.ip
+      %li
+        PID:
+        =execution.pid
+
   %div{ :style=>'clear: both'}

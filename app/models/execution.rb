@@ -153,6 +153,11 @@ class Execution < ActiveRecord::Base
     circuit_id == other.circuit_id && case_template_id == other.case_template_id
   end
 
+  # return executions from previous day which status is "running" but are already finished
+  def self.update_all_idle_executions
+    Execution.update_all "status = 5", ["status = 0 OR status = 1 AND created_at < ?", Date.yesterday.to_s]
+  end
+
 private
 
  def connect_mannager

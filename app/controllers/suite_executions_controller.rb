@@ -452,7 +452,17 @@ class SuiteExecutionsController < ApplicationController
   def get_report
       unless params[:suite_executions].nil?
         respond_to do |format|
-           @executions=SuiteExecution.find(params[:suite_executions].reverse.collect!{|x| x.to_i}) 
+
+           #Suites execution
+           @suite_executions=SuiteExecution.find(params[:suite_executions].reverse.collect!{|x| x.to_i}) 
+
+           #Run configurations
+           @run_configurations = Hash.new
+           @suite_executions.each do |se| 
+               @run_configurations[se.id] = se.execution_configuration_values
+           end
+
+           #app/views/suite_executions/get_report.pdf
            prawnto :prawn=>{:page_size=>"A4",:background=>"#{RAILS_ROOT}/public/images/cacique/pdf_background.jpg", :inline=>false, :filename => "cacique_report.pdf"}
            format.pdf{ render :layout => false  }
         end
