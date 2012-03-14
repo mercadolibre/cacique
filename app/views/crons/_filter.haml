@@ -1,0 +1,6 @@
+.filter
+  -form_for :cron,:url=>{:action=>:index}, :html => { :method=>:get, :enctype => "multipart/form-data"} do
+    -#TaskProgram filter
+    =render :partial=> 'task_programs/filter'
+    %label
+      =submit_tag 'Ok', :class=>'submit_min'

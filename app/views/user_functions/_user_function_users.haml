@@ -14,37 +14,41 @@
     %div{:style=>"max-height:200px;overflow:auto;margin-left:10px;margin-top:30px;"}
       -if !@scripts.empty?
         %table.detail{:style=>" width: auto;min-width:90%;  margin: 0 auto;"}
-          %tr
-            %th{:style=>"width:30%;"}
-              =_('Script')
-            %th{:style=>"width:30%;"}
-              =_('User')
-            %th{:style=>"width:30%;"}
-              =_('Project')
-          -@scripts.each do |script|
+          %thead
             %tr
-              %td{:title=>script.name.capitalize}
-                =truncate(script.name.capitalize,:ommision => "...", :length =>20)
-              %td{:title=>script.user.name.capitalize}
-                =truncate(script.user.name.capitalize,:ommision => "...", :length =>20)
-              %td{:title=>script.project.name.capitalize}
-                =truncate(script.project.name.capitalize,:ommision => "...", :length =>20)
+              %td{:style=>"width:30%;"}
+                =_('Script')
+              %td{:style=>"width:30%;"}
+                =_('User')
+              %td{:style=>"width:30%;"}
+                =_('Project')
+          %tbody
+            -@scripts.each do |script|
+              %tr
+                %td{:title=>script.name.capitalize}
+                  =truncate(script.name.capitalize,:ommision => "...", :length =>20)
+                %td{:title=>script.user.name.capitalize}
+                  =truncate(script.user.name.capitalize,:ommision => "...", :length =>20)
+                %td{:title=>script.project.name.capitalize}
+                  =truncate(script.project.name.capitalize,:ommision => "...", :length =>20)
       -if !@functions.empty?
         %table.detail{:style=>" width: auto;min-width:90%; margin: 20px auto 0;"}
-          %tr
-            %th{:style=>"width:30%;"}
-              =_('Function')
-            %th{:style=>"width:30%;"}
-              =_('User')
-            %th{:style=>"width:30%;"}
-              =_('Project')
-          -@functions.each do |function|
+          %thead
             %tr
-              %td{:title=>function.name.capitalize}
-                =truncate(function.name.capitalize,:ommision => "...", :length =>20)
-              %td{:title=>function.user.name.capitalize}
-                =truncate(function.user.name.capitalize,:ommision => "...", :length =>20)
-              -value = (function.project_id == 0 )? _('Generals') : function.project.name.capitalize
-              %td{:title=>value }
-                =truncate(value,:ommision => "...", :length =>20)       
+              %td{:style=>"width:30%;"}
+                =_('Function')
+              %td{:style=>"width:30%;"}
+                =_('User')
+              %td{:style=>"width:30%;"}
+                =_('Project')
+          %tbody      
+            -@functions.each do |function|
+              %tr
+                %td{:title=>function.name.capitalize}
+                  =truncate(function.name.capitalize,:ommision => "...", :length =>20)
+                %td{:title=>function.user.name.capitalize}
+                  =truncate(function.user.name.capitalize,:ommision => "...", :length =>20)
+                -value = (function.project_id == 0 )? _('Generals') : function.project.name.capitalize
+                %td{:title=>value }
+                  =truncate(value,:ommision => "...", :length =>20)       
 

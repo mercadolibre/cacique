@@ -1,98 +1,102 @@
 -javascript 'checkbox_lib'
 
-%h1{:title=>"Queue Observer"}
+%h1{:title=>'Queue Observer'}
   =_('Queue Observer')
 
-%h2
+%h2{:style=>'color:#585858;'}
   =_('Running Tasks')
 
 - now = Time.now.to_i # Avoids to calculate Time.now for every row
 -if !@running.empty?
   -form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:restart}, :html => {:id => "form"} do 
-    %table.detail{:style=> "margin: 5px auto;width: 95%;"}
-      %tr
-        %th{:colspan=>6, :style=>"width:10%;background:#193055;font-size: 10px;font-weight: bold;line-height:20px;"}
-          =check_box_tag '[ips][]',0,false,:onClick=>"ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');",:style=>"float:left;"
-          All Workers
-      -@running.each do |ip, tasks|
+    %table.general.center{:cellspacing=>'0', :name=>'table_zebra'}
+      %thead
         %tr
-          %th{:style=>"width:10%;"}
-            PID
-          %th{:style=>"width:20%;"}
-            =_('User')
-          %th{:style=>"width:25%;"}
-            =_('Project')
-          %th{:style=>"width:5%;"}
-            T
-          %th{:style=>"width:35%;"}
-            Task
-          %th{:style=>"width:5%;"}
-            =_('Running time')
+          %td{:colspan=>7, :style=>'background:#494747;color:#B7B3B3;line-height:20px;'}
+            =check_box_tag '[ips][]',0,false,:onClick=>"ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');",:style=>"float:left;"
+            All Workers
+        -@running.each do |ip, tasks|
           %tr
-            %td{:colspan=>6, :style=>"background:#E6E6E6;color:#585858;font-size: 10px;font-weight: bold;line-height:20px;text-align: left;"}
-              =check_box_tag "ips[]",ip ,false, :class=>'workers_ids', :style=>"float: left; margin-right: 10px;"
+            %td.very_small{:style=>'line-height:20px;width:5%;'}
+              =check_box_tag "ips[]",ip ,false, :class=>'workers_ids'
               =ip
-        -tasks.each do |pid, execution|
-          %tr
-            %td
-              =pid
-            -if execution
-              %td{:title=>execution.user.name}
-                =truncate(execution.user.name,:ommision => "...", :length =>25)
-              %td{:title=>execution.suite_execution.project.name}
-                =truncate(execution.suite_execution.project.name,:ommision => "...", :length =>30)
-              %td
-                -entity = (execution.suite_execution.suite_id==0)? execution.suite_execution.executions.first.circuit : execution.suite_execution.suite
-                =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
-              %td{:title=>execution.circuit.name}
-                -if entity.instance_of? Suite
-                  %b
-                    =truncate(execution.suite_execution.suite.name, :ommision => "...", :length =>60)
-                    \:
-                =truncate(execution.circuit.name,:ommision => "...", :length =>50)
-              %td
-                =show_min_sec(now - execution.updated_at.to_i)
-            -else
-              %td
-                \--
-              %td
-                \--
-              %td
-                \--
-              %td
-                \--
-              %td
-                \--
+            %td.small
+              =_('User')
+            %td.small
+              =_('Project')
+            %td.very_small
+              T
+            %td.medium
+              Task
+            %td.very_small
+              =_('Running time')
+            %td.very_small
+          %tbody                
+            -tasks.each do |pid, execution|
+              %tr.center
+                %td
+                  =pid
+                -if execution
+                  %td{:title=>execution.user.name}
+                    =truncate(execution.user.name,:ommision => "...", :length =>25)
+                  %td{:title=>execution.suite_execution.project.name}
+                    =truncate(execution.suite_execution.project.name,:ommision => "...", :length =>70)
+                  %td
+                    -entity = (execution.suite_execution.suite_id==0)? execution.suite_execution.executions.first.circuit : execution.suite_execution.suite
+                    =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
+                  %td{:title=>execution.circuit.name}
+                    -if entity.instance_of? Suite
+                      %b
+                        =truncate( execution.suite_execution.suite.name + ' : ',:ommision => "...", :length =>40)                    
+                    =truncate(execution.circuit.name,:ommision => "...", :length =>50)
+                  %td
+                    =show_min_sec(now - execution.updated_at.to_i)
+                  %td 
+                    =#link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(execution.suite_execution.id), :method=>:delete) if current_user.has_role?("root")
+                -else
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
 -else
   %h2
     =_('At this time run instances are not available.')
 
+%br
+%br
 -@tasks.each do |name, queue|
   -if queue.size>0
-    %h2
+    %h2{:style=>'color:#585858;'}
       =name.to_s.gsub("execution_workers__","").gsub("_"," ")
-    %table.detail{:style=> "margin: 5px auto;width: 95%;"}
-      %th{ :class => "sortable"}
-        =_('User')
-      %th{ :class => "sortable"}
-        =_('Project')
-      %th{ :class => "sortable"}
-        =_('Task')
-      -if @admin
-        %th{ :class => "sortable", :style=>"width:5%;"}
+    %table.general.center{:cellspacing=>'0', :name=>'table_zebra'}
+      %thead
+        %td{ :class => "sortable"}
+          =_('User')
+        %td{ :class => "sortable"}
+          =_('Project')
+        %td{ :class => "sortable"}
+          =_('Task')
+        %td{ :class => "sortable", :style=>"width:5%;"}
           =_('Actions')
-      %tr 
-      -queue.each do |tasks_values|
-        %td{:title=>tasks_values[:username]}
-          =truncate(tasks_values[:username],:ommision => "...", :length =>50)
-        %td{:title=>tasks_values[:project]}
-          =truncate(tasks_values[:project],:ommision => "...", :length =>50)
-        %td{:title=>tasks_values[:task_name]}
-          =truncate(tasks_values[:task_name],:ommision => "...", :length =>80)
-        -if @admin
-          %td
-            =link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
-        %tr
+      %tbody
+        -queue.each do |tasks_values|
+          %tr.center
+            %td{:title=>tasks_values[:username]}
+              =truncate(tasks_values[:username],:ommision => "...", :length =>90)
+            %td{:title=>tasks_values[:project]}
+              =truncate(tasks_values[:project],:ommision => "...", :length =>90)
+            %td{:title=>tasks_values[:task_name]}
+              =truncate(tasks_values[:task_name],:ommision => "...", :length =>90)
+            %td
+              =#link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
 
 
 //Tools menu

@@ -37,55 +37,54 @@ class SuiteExecutionsController < ApplicationController
   skip_before_filter :context_stuff, :only => [:update_suite_execution_status, :update_executions_status]
 
   def index
-    @project ||= Project.find params[:project_id]
-    @errores = Array.new
-    @user_names  ||= User.all
+
+    @errores ||= Array.new
     CalendarDateSelect.format=(:finnish)   
-    @init_date = params[:filter] && params[:filter][:init_date]? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (2*24*60*60) #2 days later
-    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone
     @readonly    = true unless current_user.has_role?("editor", @project)
-    row_per_page = (params[:filter] && params[:filter][:paginate])? params[:filter][:paginate].to_i : 12
-    @status = [  [_("all"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5], [_("Stopped"),6] ]
-    @context_configurations = ContextConfiguration.find_all_by_enable true
 
-   #show filters
-   if params[:filter]
-      @show_model   = params[:filter][:model]
-      @suite_names  ||= @project.suites
-      @script_names ||= @project.circuits      
-      @suite_names  ||= @project.suites
-      @script_names ||= @project.circuits
+    #Project
+    @project ||= Project.find params[:project_id]
 
-      suite_executions = SuiteExecution.filter(@project,params[:filter])
-      #select cases values
-      if params[:filter][:circuit_id] && !params[:filter][:circuit_id].empty?
-         circuit = Circuit.find params[:filter][:circuit_id]
-         @case_names = circuit.case_templates
-      end     
+    #Status
+    @status = [  [_("All"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5], [_("Stopped"),6] ]
 
-      #Paginate
-      @total_rate = suite_executions.count
-      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page
-   else
-      suite_executions = SuiteExecution.filter(@project, Hash.new)
-      @total_rate = suite_executions.count
-      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
-   end
-   #Get percentages of states
-   @rates =  SuiteExecution.get_rates(suite_executions)
+    #Users
+    @users  = User.all
 
-   #Run configurations
-   @run_configurations = Hash.new
-   @suite_executions.each do |se| 
-       @run_configurations[se.id] = se.execution_configuration_values
-   end
-   
+    #Scripts
+    @scripts = @project.circuits      
+
+    #Suites
+    suites_ids = Rails.cache.fetch("project_suites_#{@project.id}"){Project.find(@project.id).suite_ids}
+    @suites    = Suite.find(suites_ids)
+
+    #Dates
+    params[:init_date]   = params[:filter] && params[:filter][:init_date] ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (1*24*60*60)  #1 days after
+    params[:finish_date] = params[:filter] && params[:filter][:finish_date] ? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") :  DateTime.now.in_time_zone
+
+    params[:kind] = params[:filter][:kind].to_i if params[:filter] and params[:filter][:kind]
+    params[:kind] = 0 if !params[:kind]
+    @kind = SuiteExecution.s_kind(params[:kind])
+
+    #Suite executions
+    @suite_executions = SuiteExecution.filter(@project,params)
+
+    #Get percentages of states
+    @rates =  SuiteExecution.get_rates(@suite_executions)
+    @total_rate = @suite_executions.count
+
+    #Run configurations
+    @run_configurations = Hash.new
+    @suite_executions.each do |se| 
+      @run_configurations[se.id] = se.execution_configuration_values
+    end
+
   end
 
   #stoping suite_execution!
   def destroy
      suite_execution=SuiteExecution.find(params[:id])
-     if suite_execution.user_id == current_user.id || curren_user.has_role?("root")
+     if suite_execution.user_id == current_user.id || current_user.has_role?("root")
         suite_execution.stop
         redirect_to :back
      end
@@ -166,6 +165,7 @@ class SuiteExecutionsController < ApplicationController
   end
 
   def create
+
     if !params[:execution].nil? and params[:execution].include?(:suite_id) 
       #if run a suite, i have suite_id
       suite_id = params[:execution][:suite_id]
@@ -207,9 +207,16 @@ class SuiteExecutionsController < ApplicationController
     else
       user_id = current_user.id
     end
-    
+
+    #Kind of suite execution
+    kind = (params[:execution] and params[:execution][:kind])?  params[:execution][:kind].first.to_i : 0
+
     combinations.each do |combination|
-      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,:project_id=>@project_id, :identifier=>identifier,:user_id=>user_id)
+      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,
+                                               :project_id=>@project_id, 
+                                               :identifier=>identifier,
+                                               :user_id=>user_id,
+                                               :kind=>kind)
       #add run parameters to suite_execution
       @suite_execution.create_configuration_to_run(combination)     
       #Executions are generated for the suite
@@ -235,9 +242,6 @@ class SuiteExecutionsController < ApplicationController
       @suite_execution.load_cache          
       #caching last executions of suite_execution
       @suite_execution.load_last_executions_cache    
-      
-      #means it is a suite scheduled
-      task_program.add_suite_execution_id(@suite_execution.id) if task_program
      
       suite_executions << @suite_execution
     end
@@ -482,7 +486,6 @@ class SuiteExecutionsController < ApplicationController
     #Save User Configuration
     @user_configuration = current_user.user_configuration
     @user_configuration.update_configuration(params[:execution])
-
     command = SuiteExecution.generate_command( params[:execution], "run")
   
     if params[:execution]["where_did_i_come"] == "new_program"

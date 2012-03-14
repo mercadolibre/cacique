@@ -7,17 +7,17 @@
     ejecucion_completa_#{execution.id}=false;
     //$j("#play_#{execution.id}").hide();
     //$j("#stop_#{execution.id}").show();
-//-else
-//  %script
-//    $j("#stop_#{execution.id}").hide();
-//    $j("#play_#{execution.id}").show();
+-else
+  %script
+    //$j("#stop_#{execution.id}").hide();
+    //$j("#play_#{execution.id}").show();
 
 -case execution.status
   -when 0
     =image_tag 'icons/waiting_1.png', :style=>'border:none;', :alt=>'waiting_1.png', :title=>execution.s_status
 
   -when 1 
-    =image_tag '/images/load/spinner.gif', :style=>'border:none;', :alt => 'spinner', :title=>execution.s_status
+    =link_to image_tag('/images/load/spinner.gif', :style=>'border:none;cursor:pointer;', :alt => 'spinner', :title=>execution.s_status), "/suite_executions/#{execution.suite_execution.id.to_s}"
 
   -when 2
     =image_tag 'icons/ok_1.png', :style=>'border:none;cursor:pointer;', :alt=>'ok_1.png', :title=>execution.s_status, :onclick=> "$j('#show_status_#{execution.id.to_s}').show();"

@@ -39,28 +39,29 @@
          
     = will_paginate @suites_pag, :per_page => 15 , :params => { 'search' => params[:search]}
     %table.detail{:id=>"table_suites", :name=>"table_zebra",:cellspacing=>"0"}
-      %tr
-        %th{:style=>" width:40%;", :class => "sortable"}
-          Suites
-        %th{:style=>" width:50%;", :class => "sortable"}
-          =_("Description")
-        %th
+      %thead 
+        %tr
+          %td{:style=>" width:40%;", :class => "sortable"}
+            Suites
+          %td{:style=>" width:50%;", :class => "sortable"}
+            =_("Description")
+          %td
         -if @suites_pag.empty?
           %tr
             %td{:colspan=>"2", :style=>"text-align:center;"}
               %i
                 =_("No results were found for") 
-                =@param_search
-                
+                =@param_search     
         -else
-          - for suite in @suites_pag  do
-            %tr{:onClick=>"marcar(this,'#BBD5DF');", :id=>suite.id.to_s, :style=>"cursor:pointer;"}
-              %td{:title=>suite.name.capitalize, :style=>"width:120px;font-weight:bold; padding-left:20px;"}
-                =truncate(suite.name.capitalize,:ommision => "...", :length =>60)
-              %td{:title=> suite.description}
-                =truncate(suite.description.capitalize,:ommision => "...", :length =>60)
-              %td
-                %img{:src => "/images/icons/show.png", :alt=>"suite_show.png",:title=>_('Detail'), :onClick => remote_function(:complete => "document.getElementById('div_suite_show').show();showDiv('show_graph');",:update => "div_suite_show",  :method => "get",  :url =>  "/suites/show/#{ suite.id.to_s}"  ) }
+          %tbody 
+            - for suite in @suites_pag  do
+              %tr{:onClick=>"marcar(this,'#BBD5DF');", :id=>suite.id.to_s, :style=>"cursor:pointer;"}
+                %td{:title=>suite.name.capitalize, :style=>"width:120px;font-weight:bold; padding-left:20px;"}
+                  =truncate(suite.name.capitalize,:ommision => "...", :length =>60)
+                %td{:title=> suite.description}
+                  =truncate(suite.description.capitalize,:ommision => "...", :length =>60)
+                %td
+                  %img{:src => "/images/icons/show.png", :alt=>"suite_show.png",:title=>_('Detail'), :onClick => remote_function(:complete => "document.getElementById('div_suite_show').show();showDiv('show_graph');",:update => "div_suite_show",  :method => "get",  :url =>  "/suites/show/#{ suite.id.to_s}"  ) }
 
 
 //Suite show

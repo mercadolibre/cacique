@@ -98,6 +98,13 @@ PORT_QUEUE=CONFIG[:starling][:port]
 #Directory for file sharing
 SHARED_DIRECTORY = "<shared_directory>"
 
+#Machine responsible for executing the task scheduling
+#(added to cron)
+SERVER_CRON = "<server_cron>"
+USER_SERVER_CRON = "<user_server_cron>"
+PASS_SERVER_CRON =  "<pass_server_cron>"
+DIRECTORY_SERVER_CRON = "<directory_server_cron>"
+
 #Circuits versions
 VERSION_MAX_ENTRIES_FACTOR_CIRCUIT = 5
 CIRCUIT_MIN_VERSION_ENTRIES = 5

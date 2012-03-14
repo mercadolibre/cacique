@@ -95,5 +95,15 @@ class Notifier < ActionMailer::Base
     name = @body['suite_name'].length <= 30  ? @body['suite_name'] : @body['suite_name'][0..27] + "..."
     @subject = "[Cacique] Suite Program Confirm: #{name} " 
   end
+  
+  #System administrator is notified of an error
+  def notifier_error(text_error)
+    @recipients = ADMIN_EMAIL
+    @from = EMAIL
+    @subject = "[CCQ] [Application ERROR]"
+    @text_error = text_error   
+    @content_type = "text/html"
+  end
+
 
 end

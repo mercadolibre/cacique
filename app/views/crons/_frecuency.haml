@@ -1,0 +1,66 @@
+-#Month
+-if cron.month == '*'
+  -cron_month =_('Every') +' '+_('Month') 
+-elsif cron.month.match(/\*\//)
+  -value=cron.month.split('*/')[1] 
+  -cron_month = _('Every') +" #{value} "+_('Months') 
+-else
+  -months = cron.month.split(/,|\/|-/).map{ |d| Date::ABBR_MONTHNAMES[d.to_i]}.join(', ')
+  -if !months.empty?
+    -cron_month = months 
+  -else  
+    -cron_month = cron.month
+%td{:title=> "#{cron_month}  (#{cron.month})"}
+  =truncate( cron_month, :ommision => '...', :length => 15) 
+     
+
+-#Day_of_month
+-if cron.day_of_month == '*'
+  -cron_day_of_month =_('Every') +' '+_('Day') 
+-elsif cron.day_of_month.match(/\*\//)
+  -value=cron.day_of_month.split('*/')[1] 
+  -cron_day_of_month =_('Every') +" #{value} "+_('Days') 
+-else
+  -cron_day_of_month = cron.day_of_month
+%td{:title=> "#{cron_day_of_month}  (#{cron.day_of_month})"}
+  =truncate( cron_day_of_month, :ommision => '...', :length => 15) 
+
+-#Hour
+-if cron.hour == '*'
+  -cron_hour=_('Every') +' '+_('Hour') 
+-elsif cron.hour.match(/\*\//)
+  -value=cron.hour.split('*/')[1] 
+  -cron_hour= _('Every') +" #{value} "+_('Hour') 
+-else
+  -cron_hour = cron.hour
+%td{:title=> "#{cron_hour}  (#{cron.hour})"} 
+  =truncate( cron_hour, :ommision => '...', :length => 15)  
+
+
+-#Min
+-if cron.min == '*'
+  -cron_min =_('Every') +' '+_('Min.') 
+-elsif cron.min.match(/\*\//)
+  -value=cron.min.split('*/')[1] 
+  -cron_min =_('Every') +" #{value} "+_('Min.') 
+-else
+  -cron_min = cron.min  
+%td{:title=> "#{cron_min}  (#{cron.min})"} 
+  =truncate( cron_min, :ommision => '...', :length => 15)  
+    
+
+-#Day of week
+-if cron.day_of_week == '*'
+  -cron_day_of_week =_('Every') +' '+_('Day of week')       
+-elsif cron.day_of_week.match(/\*\//)
+  -value=cron.day_of_week.split('*/')[1] 
+  -cron_day_of_week = _('Every') +" #{value} "+_('Day of week')    
+-else
+  -day_of_weeks = cron.day_of_week.split(/,|\/|-/).map{ |d| Date::ABBR_DAYNAMES[d.to_i]}.join(', ')
+  -if !day_of_weeks.empty?
+    -cron_day_of_week = day_of_weeks
+  -else  
+    -cron_day_of_week = cron.day_of_week
+%td{:title=> "#{cron_day_of_week}  (#{cron.day_of_week})"}  
+  =truncate( cron_day_of_week, :ommision => '...', :length => 15) 
+

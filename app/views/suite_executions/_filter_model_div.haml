@@ -1,28 +1,12 @@
-//Suite
--if show_model == 'suites'
-  .filter_model{:id=>"filter_suites", :style=>" float:left;margin-left:10px;"}
-    .form_tag{:style=>"width:230px;"}
-      = image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite", :style=>"margin-left:10px;")
-      %label{:style=>"margin-left:10px; display:inline;"}
-        Suite:
-      -value =  params[:filter][:suite_id] && !params[:filter][:suite_id].empty? ? params[:filter][:suite_id].to_i : ""
-      =select("filter", "suite_id", suite_names.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60), p.id ] }.sort!,{ :include_blank => _('All'), :selected => value},{ :style => "width: 132px; magin-left: 90px; margin-bottom:5px;"})
-      //Programs
-      -value =  params[:filter][:programs]  ? params[:filter][:programs]: false
-      =check_box_tag "filter[programs]", "1", value, :style=>"margin-left:10px;"
-      %label{:style=>"display:inline;"}
-        Programadas      
-//Script
--if show_model == 'scripts' 
-  .filter_model{:id=>"filter_scripts", :style=>" float:left;margin-left:10px;"}
-    .form_tag{:style=>"width:230px; margin-bottom: 5px;"}
-      =image_tag("icons/script.png", :alt=>"script.png", :title=>"Script", :style=>"margin-left:10px;")
-      %label{:style=>"margin-left:10px; display:inline;"}
-        Script:
-      -value = params[:filter][:circuit_id] && !params[:filter][:circuit_id].empty? ? params[:filter][:circuit_id].to_i: ''
-      =select("filter", "circuit_id",script_names.collect {|p| [truncate(p.name.capitalize, :ommision => "...", :length => 60), p.id ] }.sort!,{ :selected => value, :include_blank => _('All')},{ :onChange=>remote_function(:update => "filter_case",  :method => "get",  :url =>  "/suite_executions/show_cases_filter/",:with => 'Form.Element.serialize(this)'), :style => "width: 132px; magin-left: 90px; margin-bottom:12px;"})
-      //Case
-      #filter_case
-        -if( params[:filter][:circuit_id] && show_model == 'scripts'  && !params[:filter][:circuit_id].empty? )
-          .filter_case
-            =render :partial => "filter_script", :locals => {:case_names=>case_names, :display=>display}
+-#Suite
+%label
+  =image_tag('icons/suite_min.png', :alt=>'suite_min.png', :title=>'Suite', :width=>16, :heigth=>16)
+-value =  params[:filter] && params[:filter][:suite_id] && !params[:filter][:suite_id].empty? ? params[:filter][:suite_id].to_i : ""
+
+=select('filter', 'suite_id', [['---', 0]] + suites.collect{|p| [ p.name, p.id ] }.sort!,{:selected => value, :include_blank => _('All')})
+
+-#Script
+%label
+  =image_tag('icons/script.png', :alt=>'script.png', :title=>'Script')
+-value = params[:filter] && params[:filter][:circuit_id] && !params[:filter][:circuit_id].empty? ? params[:filter][:circuit_id].to_i : ''
+=select('filter', 'circuit_id',[['---', 0]] + scripts.collect{|p| [p.name, p.id ] }.sort!,{:selected => value, :include_blank => _('All')})
