@@ -302,9 +302,9 @@ class ExecutionWorker < Workling::Base
       rescue  Exception => e
 
         @execution.status = 3 #Error
-        @execution.error  = e
+        @execution.error  = e.to_s
         cache_execution.status = 3
-        cache_execution.error  = e
+        cache_execution.error  = e.to_s
 
       ensure
         @execution.time_spent = Time.now - starting_time
