@@ -1,0 +1,13 @@
+.main{:style=>"padding:1.5% 1%;"}
+  %h1
+    =_("Programed task confirmation")
+  -if @confirm
+    %h{:style => "color:#088A4B;"}
+      =_('The schedules were confirmed successful')  
+  -else    
+    .form_button{:style=>"float:left;"} 
+      -alert= _('Are you sure you confirm the programming?')   
+      %input{:type=>"button", :value=>_("Confirm"), :onclick=>"if( confirm('#{alert}') ){location='/delayed_jobs/save_confirm_program/#{@task_programs.first.id}'}"}
+           
+  -#Table
+  =render :partial => 'table', :locals => {:task_programs => @task_programs, :delayed_jobs=>@delayed_jobs}

@@ -13,14 +13,10 @@
           =_('As a ROOT, you can edit any project.')
     
     = render :partial => "abm_projects"
-    
     = render :partial => "table", :locals => { :projects => @my_projects } unless @my_projects.empty?
     = render :partial => "table", :locals => { :projects => @other_projects } unless @other_projects.empty?
 
-    %br
 
-    %div{ :style=>"clear: both"}
-  
     
 
 

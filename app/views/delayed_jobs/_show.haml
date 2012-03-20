@@ -1,0 +1,5 @@
+.popup{ :id => 'delayed_job_list'}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>'delayed_job_list'}  
+  %h1
+    =_('Delayed Jobs')
+  =render :partial=>'delayed_jobs', :locals=>{:delayed_jobs=>delayed_jobs, :weekly_trans=>weekly_trans}

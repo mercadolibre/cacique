@@ -1,4 +1,22 @@
 ===================================
+Version 0.2.5.10
+===================================
+• Alarms (New Fixture!):
+  -Schedules ideal for very frequent runs, for example every day, every 15 minutes
+  - Alarms are created on a machine that can be configured in cacique_conf.rb
+• Schedules: Groupings suites
+• Command execution:
+  - Support the "-api key" param
+  - It provides the ability to select multiple suites
+• History: 
+  Separation of executions by type:
+  Alarms, schedules and manuals executions
+
+• Minor features:
+-You can see the execution time in history, either for the current date or earlier.
+-Several improvements in style tables, containers, etc..
+
+===================================
 Version 0.2.5.7
 ===================================
 • Executions: Timeout to avoid scripts running forever

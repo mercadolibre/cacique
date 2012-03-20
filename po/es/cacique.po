@@ -2502,10 +2502,6 @@ msgstr "Complete un objetivo haciendo doble click"
 msgid "History of"
 msgstr "Historial de"
 
-#: app/views/suite_executions/index.haml:
-msgid "History of Execution from: "
-msgstr "Historial de Ejecuciones de: "
-
 #: app/views/notes/index.haml:
 msgid "General Notes"
 msgstr "Notas Generales"
@@ -3234,6 +3230,10 @@ msgstr "No se ejecuto porque ocurrio un error al intentar comunicarse con  Starl
 msgid "Not executed because the scheduler was pending to confirm"
 msgstr "No se ejecuto porque la programacion se encontraba pendiente a confirmar"
 
+#: app/views/delayed_jobs/index.rb:
+msgid "Scheduled"
+msgstr "Programadas"
+
 #: app/models/delayed_job.rb:
 msgid "To be confirmed"
 msgstr "A confirmar"
@@ -3244,7 +3244,48 @@ msgstr "Confirmada"
 
 #: app/models/delayed_job.rb:
 msgid "Last Confirmed"
-msgstr "Ultima Confirmada"
+msgstr "Última Confirmada"
+
+#: app/views/crons/new.haml: 
+msgid "Alarm"
+msgstr "Alarma"
+
+#: app/views/crons/new.haml: 
+msgid "Every"
+msgstr "Cada"
+ 
+#: app/views/crons/index.haml: 
+msgid "Alarms"
+msgstr "Alarmas"
+
+#: app/views/crons/index.haml: 
+msgid "Hour"
+msgstr "Hora"
+
+#: app/views/crons/index.haml: 
+msgid "Day of month"
+msgstr "Día del mes"
+
+#: app/views/crons/index.haml: 
+msgid "Day"
+msgstr "Día"
+
+#: app/views/crons/index.haml: 
+msgid "Month"
+msgstr "Mes"
+
+#: app/views/crons/index.haml: 
+msgid "Days"
+msgstr "Días"
+
+#: app/views/crons/index.haml: 
+msgid "Months"
+msgstr "Meses"
+
+#: app/views/crons/index.haml: 
+msgid "Day of week"
+msgstr "Día de la semana"
+
 
 #: app/views/task_programs/confirm_program.haml: 
 msgid "Programed task confirmation"

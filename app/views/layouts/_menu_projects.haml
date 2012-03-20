@@ -27,25 +27,26 @@
     %li
       %a{ :href => "/user_functions", :title => _("Add/Remove Functions") }
         %span
-          = _("Functions")
+          = _("Functions")            
 
-    -if @project_actual            
+    -if @project_actual   
       %li
         %a.parent{ :href => "/suites" }
           %span
             Suites
       %li
-        %a{ :href => "/suite_executions" }
+        %a.parent{ :href => suite_executions_path(:kind=>0) }
           %span
             =_('History')
-
+        %ul         
+          =render :partial=> "layouts/menu_history"
     %li
       //By default is redirected to notes admin
       %a.parent{:id=>"admin_hover", :href => "#" }
         %span
           =_('Admin')
       %ul{:id=>"div_admin", :style=>"width: 180px;"}
-        =render :partial=> "admin/menu_admin"
+        =render :partial=> "layouts/menu_admin"
 
     //Help  
     %li

@@ -1,21 +1,21 @@
-//Script Name
+-#Script Name
 %td.exe{:title=>execution.circuit.name, :style=>"text-align:center;max-width:80%;min-width:50%;border-left: 1px solid #BFBFFF;"}
-  =link_to truncate(execution.circuit.name,:ommision => "...", :length => 55), edit_project_circuit_path(execution.circuit.project_id,execution.circuit_id)
+  =link_to truncate(execution.circuit.name,:ommision => "...", :length => 100), edit_project_circuit_path(execution.circuit.project_id,execution.circuit_id)
 
-//Case template 
+-#Case template 
 %td.exe{:style=>"max-width:25%;min-width:40%;"}
   =execution.case_template_id == 0 ?  _("Without Cases") : link_to( truncate(execution.case_template.objective,:ommision => "...", :length => 40), project_circuit_case_templates_path(execution.circuit.project_id,execution.circuit_id), {:title=>execution.case_template.objective} )
 
-//Actions
+-#Actions
 %td.exe{:style=>"border-right: 1px solid #BFBFFF;width:2%;"}
   =link_to image_tag("/images/icons/play.png", :alt=>"Run", :title=>_('Run'), :id=>"play_#{execution.id}", :style=>"width: 12px; height: 14px;"), "/executions/retry_run/#{execution.id}"
-  =link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop'), :id=>"stop_#{execution.id}"), suite_execution_path(execution.suite_execution_id), :method=>:delete
+  =#link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop'), :id=>"stop_#{execution.id}"), suite_execution_path(execution.suite_execution_id), :method=>:delete
 
-//Status
+-#Status
 %td.exe{:style=>"width:2%;"}
   =render :partial=>'executions/status', :locals=> {:execution=>execution}
 
-//Time spend
+-#Time spend
 %td.exe{:title=>execution.time_spent,:style=>"width:2%;"}
   -if !execution.time_spent.nil?
     =truncate(execution.time_spent.to_s + ".s", :ommision => "...", :length => 10)

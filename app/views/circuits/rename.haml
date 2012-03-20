@@ -19,11 +19,13 @@
             =_("We found no candidate values ​​as variables in the file")
     -else
       %table.detail{ :style=>"width:70%;margin: 20px auto;"}
-        %tr
-          %th.d
-            =_('Input Value')
-          %th.d
-            =_('Field Name')
+        %thead
+          %tr
+            %td.d
+              =_('Input Value')
+            %td.d
+              =_('Field Name')
+        %tbody
           -@fields.each do |field|
             %tr
               //if @fields have checks or radio, must show values or name

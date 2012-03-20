@@ -5,7 +5,6 @@ class AddWebdriverUserFunctions < ActiveRecord::Migration
 	  @user = User.first if @user.nil?
 	  raise "Error: No se encontro 'cacique' ni ningun otro usuario para asociarle las funciones" if @user.nil?
 
-	UserFunction.reset_column_information
   	@user_function = UserFunction.new( 	:project_id => 0,
   						:user_id => @user.id,
   						:name => "webdriver_init",

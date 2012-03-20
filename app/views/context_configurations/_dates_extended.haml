@@ -1,0 +1,8 @@
+%div#extended{:style=>"display:none;"}
+  %label{ :style=>"width:50px;float:left;color:#848484;"}
+    =_('From:')
+  =calendar_date_select_tag "program[init_date]", @init_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;"
+  %br
+  %label{ :style=>"width:50px;float:left;color:#848484;"}
+    =_('Until:')
+  =calendar_date_select_tag "program[finish_date]", @finish_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;"

@@ -1,0 +1,22 @@
+-#Project
+%label
+  =_("Project") 
+-value =(@project_id !=0) ? @project_id.to_i: ''  
+=select("filter", "project_id", @projects.collect {|p| [ truncate(p.name.capitalize, :ommision => "...", :length => 60) , p.id ] }.sort!,{ :selected => value })
+  
+-#Suite
+%label 
+  =image_tag('icons/suite_min.png', :alt=>'suite_min.png', :title=>'Suite', :width=>16, :heigth=>16)
+=render :partial =>"task_programs/select_suites_of_project", :locals=> {:suite_id =>@suite_id, :suites=>@suites}  
+
+-#User   
+%label
+  =image_tag('icons/user.png', :alt=>'user.png', :title=>_('User'), :width=>16, :heigth=>16)
+-value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i: ''  
+=select("filter", "user_id", @users.collect {|u| [ truncate(u.name, :ommision => "...", :length => 60) , u.id ] }.sort!,{ :selected => value, :include_blank => _('All')})
+              
+-#Identifier     
+%label
+  =_('Identifier:')
+-value = params[:filter] && params[:filter][:identifier]  ? params[:filter][:identifier]: ''
+=text_field("filter", "identifier", {:value=>value})

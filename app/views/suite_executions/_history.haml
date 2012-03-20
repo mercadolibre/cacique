@@ -1,5 +1,3 @@
--display = params[:filter]? '': 'none'
-
 .history_filter{:id=>"filter_form", :style => "display:#{display};margin-bottom:10px;"}
   -form_for :suite_execution, :url => {:controller => 'suite_executions', :action => :index} do
     .error{:style => "color:Tomato;font-family:sans-serif; font-size:11px;font-weight:normal;"}
@@ -11,13 +9,13 @@
     .form_tag{:style=>"width:500px;float:left;margin-bottom:10px;"}
       .filter{:style=>" font-size:12px; color: #31576F; font-family:font-family:arial,sans-serif;font-weight:normal ;margin-top: 10px;float:left; "}
 
-      //Identifier
+      -#Identifier
       %label{:style=>" display:inline;"}
         =_('Identifier:')
       -value = display== '' && params[:filter][:identifier]  ? params[:filter][:identifier]: ''
       =text_field("filter", "identifier", {:value=>value, :style => "color:black ;width: 125px;"})
 
-      //Model: suite or script
+      -#Model: suite or script
       %label{:style=>"margin-left: 20px;display:inline;"}
         =_('Execution of:')
       -value = display== '' && params[:filter][:model]  ? params[:filter][:model]: ''
@@ -25,19 +23,19 @@
       %br
       %br
 
-      //Date From
+      -#Date From
       %label{:style=>"display:inline;"}
         =_('From:')
       -value = display== '' && params[:filter][:init_date] ? params[:filter][:init_date]: ''
       =calendar_date_select_tag "filter[init_date]", HISTORY_INIT_DATE,:size=>13 ,:time => true,:natural => true ,:valid_date_check => "date < (new Date()).stripTime()", :popup => :force, :year_range => "1.1.2010".to_datetime..0.years.ago
 
-      //Date Until
+      -#Date Until
       %label{:style=>"margin-left: 10px;display:inline;"}
         =_('Until:')
       -value = display== '' && params[:filter][:finish_date] ? params[:filter][:finish_date]: ''
       =calendar_date_select_tag "filter[finish_date]", @finish_date.strftime("%d.%m.%Y %H:%M"),:size => 13 ,:time => true, :natural => true ,:valid_date_check => "date <= (new Date()).stripTime()", :popup => :force, :year_range => "1.1.2010".to_datetime..0.years.ago, :after_show => "set_date();",:onchange => "set_hour();"
 
-      //Quantity
+      -#Quantity
       %label{:style=>"margin-left: 10px;display:inline;"}
         =_('Quantity:')
       -value = display== '' && params[:filter][:paginate] ? params[:filter][:paginate].to_i: ''

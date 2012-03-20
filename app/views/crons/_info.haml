@@ -1,0 +1,20 @@
+.info{:id=>"infoTaskPrograms", :style=>"display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoTaskPrograms"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Alarms')
+      %p{:style=>"text-align:center;"}
+        =_('Here you can Schedule the execution of a Suite')
+        %br
+        =_('You can set parameters like Day, Week, Hour & quantity of Executions')
+
+    %h3
+      %img{:src => "/images/icons/calendar_new.png", :alt=>"newprogram"}
+      =_('New Schedule')
+    %p
+      =_('Create a New Programed Suite Execution')
+
+
+
+

@@ -1,0 +1,48 @@
+%h1
+  =_('Scheduled')
+         
+=link_to _('Scheduled'), delayed_jobs_path, :class=>'tab_view selected'    
+=link_to _('Alarms'), crons_path, :class=>'tab_view' 
+
+.tab_container  
+
+  -#Paginate
+  -if !@task_programs.empty?
+    = will_paginate @task_programs, :params => params.merge({:per_page=>params[:per_page]})
+    .pagination
+      = _('Show') + ":"
+      = page_size_link 50
+      = page_size_link 100
+      = page_size_link 150
+
+  -#Filter
+  =render :partial=>"filter" 
+
+  -#Table
+  =render :partial => 'table', :locals => {:task_programs => @task_programs, :delayed_jobs=>@delayed_jobs}
+  
+-#Tools menu
+-content_for :tools_menu do
+  =render :partial=>'menu'  
+
+-#Javascripts
+-javascript 'checkbox_lib'   
+= calendar_date_select_includes "blue"
+
+%script
+  -#check_all
+  $j('#check_all').click(function(){ch_select_all(this, '.check_delayed_job');}); 
+
+  -#Delete
+  var text_to_ask='#{_('Are You sure to delete Scheduling?')}';
+  $j('#delete_icon').click( function(){if( confirm(text_to_ask) ){$j('#form_delete').submit();}}); 
+  
+  -#Info
+  $j('#info_icon').click(function(){$j('#infoTaskPrograms').toggle();}); 
+
+  -#Show suites: More
+  $j('.more').click(function(){ var element_name = '#' + $j(this).attr('name');$j(element_name).toggle(); })
+
+  -#On change fiter project, update filter suites
+  $j('#filter_project_id').change(function(){ new Ajax.Updater('select_suites', '/task_programs/show_suites_of_project', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.Element.serialize(this)})    });
+

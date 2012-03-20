@@ -13,65 +13,34 @@
   .form_tag 
     //RANGE  
     %div{:style=>"width:80px; float:left;color:#848484;"}
-      =radio_button_tag "program[range]", "today", true, {:onclick=>"$j('#extended').hide();$j('#frecuency').hide();$j('#one').show();"}  
+      =radio_button_tag "program[range]","today",true,{:onclick=>"CCQUI.show_and_hide('#repetitions_and_init_date,#one', '#extended,#frecuency,#cron');"}  
       =_('A Day')
-    %div{ :style=>"width:100px; float:left;margin-bottom:10px;color:#848484;"}
-      =radio_button_tag "program[range]", "extend", false, {:onclick=>"$j('#one').hide();$j('#extended').show();$j('#frecuency').show();"}   
+    %div{ :style=>"width:80px; float:left;margin-bottom:10px;color:#848484;"}
+      =radio_button_tag "program[range]", "extend", false, {:onclick=>"CCQUI.show_and_hide('#repetitions_and_init_date,#frecuency,#extended', '#one,#cron');" } 
       =_('Range')
+    %div{ :style=>"width:80px; float:left;margin-bottom:10px;color:#848484;"}     
+      =radio_button_tag "program[range]", "alarm", false, {:onclick=>"CCQUI.show_and_hide('#cron', '#repetitions_and_init_date,#frecuency,#extended, #one');"}
+      =_('Alarm')   
     %div{ :style=>"border-top:1px solid #C3C3C3;clear: both;margin-bottom:10px;"}
     
     //DATES ONE          
-    %div#one
+    #one
       %label{ :style=>"float:left;color:#848484;"}
         =_('Date')
       =calendar_date_select_tag "program[one_date]", @init_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;margin-left:10px;"
+ 
+    //DATES EXTENDED 
+    =render :partial =>"context_configurations/dates_extended"    
 
-      
-    //DATES EXTENDED         
-    %div#extended{:style=>"display:none;"}
-      %label{ :style=>"width:50px;float:left;color:#848484;"}
-        =_('From:')
-      =calendar_date_select_tag "program[init_date]", @init_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;"
-      %br
-      %label{ :style=>"width:50px;float:left;color:#848484;"}
-        =_('Until:')
-      =calendar_date_select_tag "program[finish_date]", @finish_date.strftime("%d.%m.%Y"),:size=>12 , :popup => :force, :valid_date_check => "date > (new Date()).stripTime()", :year_range => DateTime.now..(DateTime.now >>24), :style=>"text-align:center;"
-    
-    %div{ :style=>"border-top:1px solid #C3C3C3;clear: both; margin-top:10px;"}    
-      %label{:style=>"margin-top:10px;color:#848484;"}
-        =_('Start Time')
-        %input{:name=>"program[init_hour]", :value=>(@init_date + 10*60).strftime("%H:%M"),:style=>"width:50px;text-align:center"} 
-        Hs.                   
-      //REPEAT    
-      %label{:style=>"margin-top:10px;color:#848484;"}
-        =_('Daily repetitions')
-        %input#repeat{:name=>"program[runs]",:value=>"1", :style=>"width:30px;text-align:center;", :onkeyup =>"change_repeat($j(this).val())"}
-        (Max. 500)
-      #range_repeat{:style=>"display:none;"}
-        = select "program", "range_repeat", @range_repeat,{},{:onchange=>"change_select_range_each($j(this).val())",:style=>"float:left;margin: 5px 5px 0 0;"}
-        #each{:class=>"range_each",:style=>"margin-top:5px;float:left;width:100px;"}   
-          %input{:name=>"program[per_each]",:value=>"1", :style=>"text-align:center;float:left;width:30px;margin: 0 5px 0 0;"} 
-          = select "program", "each_hour_or_min", @each_hour_or_min,{},{:style=>"float:left;"}
-        %div{ :style=>"clear: both"}
-        //SPECIFIC  
-        .form_tag#specific{:class=>"range_each",:style=>"display:none;margin-top:5px;max-height:100px; overflow:auto;"} 
-          //Must be complete by js, function: specific_hours() 
-        %div{ :style=>"clear: both"}  
-  
-    //FRECUENCY                       
-    %div#frecuency{:style=>"display:none;margin-top:10px;border-top:1px solid #C3C3C3;padding-top:10px;color:#848484;"}
-      =_('Frequency:')
-      %br
-        =radio_button_tag "program[frecuency]", "daily", true, {:class=>"calendar_options"} 
-        =_('Daily')
-        =radio_button_tag "program[frecuency]", "weekly", false, {:class=>"calendar_options"} 
-        =_('Weekly')
-      %div{ :style=>"clear: both"}   
-      .form_tag#weekly{:class=>"program_calendar",:style=>"display:none;margin-top:10px;padding:5px;"}   
-        -@weekly.each do |value|
-          =check_box_tag "program[week_days][]", value, false
-          =@weekly_trans[value]
-          %br      
+    //REPETITIONS
+    =render :partial => "context_configurations/repetitions_and_init_date"
+
+    //FRECUENCY    
+    =render :partial =>"context_configurations/frecuency"                   
+ 
+    //CRON    
+    =render :partial =>"context_configurations/cron"   
+     
     %div{ :style=>"clear: both"}                  
 
         

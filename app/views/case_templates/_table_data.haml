@@ -1,4 +1,4 @@
-%div{:id=>"div_to_refresh_#{circuit.id}"}
+%tbody{:id=>"div_to_refresh_#{circuit.id}"}
   -no_permission_alert = "alert('No tiene permisos para realizar esta accion')"
   -case_templates.each do |case_template|
     %tr{:id=>case_template.id.to_s, :onclick=>"marcar(this, '#CBE3BE');"}
@@ -6,23 +6,23 @@
       // CASE TEMPLATE INDEX
       -if @controller_data == 'case_templates'
         //Ejecutar
-        %td{:style=>"padding-left:8px;width:10px;"}
+        %td.def{:style=>"padding-left:8px;width:10px;"}
           =check_box_tag "execution_run[]", case_template.id, false, :id => "case_"+circuit.id.to_s
         //Status
-        %td
+        %td.def
           -if case_template.last_execution
             %div{:id=>'status_' + case_template.last_execution.id.to_s, :style=>"margin:0 auto;width: -moz-fit-content;"}
               //stop
-              =link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') , :id=>"stop_#{case_template.last_execution.id}", :style=>"display:none; margin-bottom:2px;"), suite_execution_path(case_template.last_execution.suite_execution_id), :method=>:delete
+              =#link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') , :id=>"stop_#{case_template.last_execution.id}", :style=>"display:none; margin-bottom:2px;"), suite_execution_path(case_template.last_execution.suite_execution_id), :method=>:delete
               =render :partial => 'executions/status', :locals => {:execution => case_template.last_execution}
       // SUITE COMMENT
       -if @controller_data == 'suite_executions'
-        %td{:style=>"width:10px;"}
+        %td.def{:style=>"width:10px;"}
           %input{ :id => "case_"+circuit.id.to_s, :type => "checkbox", :checked=>"checked", :name => "cases[]", :value => case_template.id, :onClick=>"BrokenRelations($j(this),#{case_template.circuit_id},#{case_template.id});"}
 
       // SUITE EDIT
       -if @controller_data == 'suites'
-        %td{:style=>"width:10px;"}
+        %td.def{:style=>"width:10px;"}
           //Si ya pertenece a la suite se chekea
           -if (@suite.case_template_ids.include?(case_template.id))
             %input{ :type => "checkbox", :checked=>true, :id => "case_"+circuit.id.to_s, :name => "case_templates[]", :value => case_template.id,:onClick=>"update_cases(this.checked,#{@suite.id},#{case_template.id});"}
@@ -35,17 +35,17 @@
       -case_template_columns.each do |case_template_column|
         -case case_template_column
           - when 'id' 
-            %td{ :title => case_template.send(case_template_column),  :id=>case_template_column, :style=>"width:40px;text-align:center;"}
+            %td.def{ :title => case_template.send(case_template_column),  :id=>case_template_column, :style=>"width:40px;text-align:center;"}
               =truncate(case_template.send(case_template_column).to_s, :ommision => "..",:length => 8)             
           - when 'objective'
-            %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>case_template_column, :title => case_template.send(case_template_column), :style=>"width:300px;",:ondblclick => no_permission_alert}
+            %td.def{:name=>case_template.readonly ? "" : "edit_cell", :id=>case_template_column, :title => case_template.send(case_template_column), :style=>"width:300px;",:ondblclick => no_permission_alert}
               %div{ :style=>"width:300px;"}
                 =truncate(case_template.send(case_template_column).to_s,  :ommision => "...",:length => 40)
           - when 'created_at'
-            %td{ :id=>case_template_column,  :title => case_template.send(case_template_column)}
+            %td.def{ :id=>case_template_column,  :title => case_template.send(case_template_column)}
               =case_template.send(case_template_column).to_s(:short).split("-")[1]
           -when 'priority'
-            %td{:name=>case_template.readonly ? "" : "edit_cell", :id=>case_template_column,  :title => case_template.send(case_template_column), :ondblclick => no_permission_alert}
+            %td.def{:name=>case_template.readonly ? "" : "edit_cell", :id=>case_template_column,  :title => case_template.send(case_template_column), :ondblclick => no_permission_alert}
               =case_template.send(case_template_column)
 
       //Case data
