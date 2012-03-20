@@ -1,4 +1,15 @@
 ===================================
+Version 0.2.5.11
+===================================
+• Managers: 
+  - Any user can create a project
+  - When creating the project, the user becomes the manager of it,
+    and is allowed to add / delete users.
+
+• Minor features:
+  - When the execution status is "Running ...", the icon acts as a link
+  
+===================================
 Version 0.2.5.10
 ===================================
 • Alarms (New Fixture!):

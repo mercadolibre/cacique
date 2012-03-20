@@ -14,6 +14,8 @@
     
     = render :partial => "abm_projects"
     = render :partial => "table", :locals => { :projects => @my_projects } unless @my_projects.empty?
+    %br
+    %br
     = render :partial => "table", :locals => { :projects => @other_projects } unless @other_projects.empty?
 
 
