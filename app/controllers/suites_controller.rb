@@ -61,13 +61,16 @@ class SuitesController < ApplicationController
 
   #May or not receive update errors
   def edit(suite_update =nil)
-
      #May or not receive update errors
      if suite_update.nil?
 	   @suite = Suite.find(params[:id], :include => {:schematics => [:circuit, :case_template]})
     else
        @suite = suite_update
      end
+    if @suite.deleted?
+      redirect_to suites_url
+      return true
+    end
 
     permit "editor of :suite" do
 	    session[:suite_id] = params[:id] # Saves the suite id, in the session, for updating the schematic relation in the sort action.
@@ -92,7 +95,7 @@ class SuitesController < ApplicationController
     @case_templates = @circuit.case_templates 
 
     #Variables
-    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
+    @case_template_columns = CaseTemplate.get_default_columns
     @circuit_case_columns  = @circuit.circuit_case_columns #Columns variables  
     @columns_data_show     = CircuitCaseColumn.find_all_by_circuit_id(@circuit.id).select{|x| !x.default?} #Columns case template variables without default
     @cell_selects          = ContextConfiguration.build_select_data #Build the selects for edit cell
@@ -104,7 +107,7 @@ class SuitesController < ApplicationController
   def delete
     @suite = Suite.find params[:id]
     permit "editor of :suite" do
-      @suite.destroy
+      @suite.soft_delete
       redirect_to '/suites/'
     end
   end

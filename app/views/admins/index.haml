@@ -1,0 +1,17 @@
+%h1
+  Admin
+
+%table.general.min{:cellspacing=>'0'}
+  %caption
+    -#Actions
+  %thead
+    %tr
+      %td.medium
+        Action
+      %td.very_small 
+  %tbody     
+    %tr.oddRow.center
+      %td
+        Regenerate Cron Tasks 
+      %td 
+        =link_to image_tag('/images/icons/task.png', :title=>'Regenerate cron tasks', :alt=>'tasks', :width=>27, :height=>28),crons_path, :method=>:create    

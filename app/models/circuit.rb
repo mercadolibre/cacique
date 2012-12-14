@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: circuits
+#
+#  id          :integer(4)      not null, primary key
+#  name        :string(255)
+#  description :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  category_id :integer(4)
+#  source_code :text
+#  user_id     :integer(4)
+#  project_id  :integer(4)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,25 +39,7 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: circuits
-#
-#  id          :integer(4)      not null, primary key
-#  name        :string(255)
-#  description :text
-#  created_at  :datetime
-#  updated_at  :datetime
-#  category_id :integer(4)
-#  source_code :text
-#  user_id     :integer(4)
-#
 
-require "#{RAILS_ROOT}/lib/generator/processor"
-require "#{RAILS_ROOT}/lib/generator/fake_selenium"
-require "#{RAILS_ROOT}/lib/generator/selenium_data_collector"
-require "#{RAILS_ROOT}/lib/generator/selenium_generate_circuit"
 require 'spreadsheet/excel'
 include Spreadsheet
 
@@ -50,20 +48,22 @@ class Circuit < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   has_many :case_templates, :dependent => :destroy
-  has_many :schematics, :dependent => :destroy
+  has_many :schematics
   has_many :data_recovery_names, :dependent => :destroy
   has_many :suites, :through => :schematics
 
-  has_many :suite_cases_relations_origin,      :foreign_key => :circuit_origin     , :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
-  has_many :suite_cases_relations_destination, :foreign_key => :circuit_destination, :dependent => :destroy,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_origin,      :foreign_key => :circuit_origin     , :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
+  has_many :suite_cases_relations_destination, :foreign_key => :circuit_destination, :dependent => :delete_all,  :class_name=>"SuiteCasesRelation"
 
-  has_many :suite_fields_relations_origin,      :foreign_key => :circuit_origin_id     , :dependent => :destroy,  :class_name=>"SuiteFieldsRelation"
-  has_many :suite_fields_relations_destination, :foreign_key => :circuit_destination_id, :dependent => :destroy,  :class_name=>"SuiteFieldsRelation"
+  has_many :suite_fields_relations_origin,      :foreign_key => :circuit_origin_id     , :dependent => :delete_all,  :class_name=>"SuiteFieldsRelation"
+  has_many :suite_fields_relations_destination, :foreign_key => :circuit_destination_id, :dependent => :delete_all,  :class_name=>"SuiteFieldsRelation"
 
   has_many :circuit_case_columns,    :dependent => :destroy
   accepts_nested_attributes_for :circuit_case_columns
-  has_many :circuit_access_registry, :dependent => :destroy
   has_many :executions, :dependent => :destroy
+
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
   
   validates_presence_of :user_id, :message => _("Must complete an Owner")
   validates_presence_of :name, :message => _("Must complete Name field")
@@ -87,7 +87,15 @@ class Circuit < ActiveRecord::Base
 
   include SaveModelAccess
 
-  #Calumn name Verify
+  def <=> other
+    self.name.downcase <=> other.name.downcase
+  end
+
+  def active?
+    !deleted
+  end
+
+  #Column name Verify
   def case_column_names_valid?(column_names)
     valid = true
      #model CircuitCaseColumn Validation
@@ -125,6 +133,18 @@ class Circuit < ActiveRecord::Base
   def save
 	  check_access
 	  return super
+  end
+
+  def soft_delete
+    self.suite_cases_relations_origin.clear
+    self.suite_cases_relations_destination.clear
+    self.suite_fields_relations_origin.clear
+    self.suite_fields_relations_destination.clear
+    self.deleted = true
+    self.save
+
+    suites.clear
+    CaseTemplate.delete_by_circuit self.id
   end
 
   #Add col to script
@@ -172,28 +192,6 @@ class Circuit < ActiveRecord::Base
      @case_template.save
   end
 
-  #data from selenium recorder
-  def self.selenium_data_collector( params )
-  	dc = SeleniumDataCollector.new
-	  file = params[:name]
-	  processor = Processor.new( dc )
-	  processor.process_test_case( file )
-	  return dc.data.to_a
-  end
-
-  #data script generator
-  def self.selenium_generate_circuit( params )
-    circuit = params[:circuit]
-    path_name = params[:name]
-	  circuit.source_code = SeleniumGenerateCircuit.generate do |dc|
-		  dc.subs_data.add_selenium_driver_init( path_name )
-		  dc.subs_data.subs_hash = params[:data]
-	  	processor = Processor.new( dc )
-		  processor.process_test_case( path_name )
-	  end
-	circuit.save
-  end
-
   #find scrip by name
   #return nill for an scrip outside the prject
   def search_circuit(name_)
@@ -206,7 +204,6 @@ class Circuit < ActiveRecord::Base
   #data pool xls generator
   def export_cases
         
-    @exclude_columns_template = ["user_id","circuit_id", "updated_at"]
     @exclude_columns_data = ["case_template_id","updated_at","created_at", "id"]
      
     workbook = Excel.new("#{RAILS_ROOT}/public/excels/casos_de_#{self.id}.xls")
@@ -214,12 +211,10 @@ class Circuit < ActiveRecord::Base
     columna = 0
 
     #TITLES
-    case_template_columns = CaseTemplate.column_names
+    case_template_columns = CaseTemplate.get_default_columns
     case_template_columns.each do |column_name|
-      if !@exclude_columns_template.include?(column_name)
-        hoja_cases.write(0,columna,column_name)
-        columna += 1
-      end
+      hoja_cases.write(0,columna,column_name)
+      columna += 1
     end
 
     case_data_columns = CaseTemplate.data_column_names(self)
@@ -238,14 +233,12 @@ class Circuit < ActiveRecord::Base
     @cases_templates.each do |case_template|
       columna_aux = 0
       case_template_columns.each do |column_template|
-        if !@exclude_columns_template.include?(column_template)
-          if column_template == "created_at"
-            hoja_cases.write(fila,columna_aux,case_template.send(column_template).to_s(:short).split("-")[1])
-          else
-            hoja_cases.write(fila,columna_aux,case_template.send(column_template))
-          end
-          columna_aux += 1
+        if column_template == "created_at"
+          hoja_cases.write(fila,columna_aux,case_template.send(column_template).to_s(:short).split("-")[1])
+        else
+          hoja_cases.write(fila,columna_aux,case_template.send(column_template))
         end
+        columna_aux += 1
       end
 
       case_data_columns.each do |column_data|
@@ -341,6 +334,7 @@ class Circuit < ActiveRecord::Base
               attributes_template["circuit_id"] = self.id
               attributes_template["user_id"]  = user_id
               attributes_template["created_at"] = nil
+              attributes_template["deleted"] = false
               case_template = CaseTemplate.create(attributes_template)
               case_template.save
  
@@ -378,6 +372,8 @@ class Circuit < ActiveRecord::Base
  #search last script execution
  def last_execution_self
    Execution
+   DataRecovery
+   DataRecoveryName
   #search first in cache
   execution_id = Rails.cache.read("user_#{current_user.id}_circuit_#{self.id}_self")
   if execution_id
@@ -439,7 +435,7 @@ class Circuit < ActiveRecord::Base
         circuits
   end
   
-  def update_user_last_edited_scripts      
+  def update_user_last_edited_scripts
       #Update the last script edited of project
       if current_user
         user_scrips_edit = Rails.cache.read("circuit_edit_#{current_user.id}")
@@ -461,18 +457,9 @@ class Circuit < ActiveRecord::Base
  end
 
 
-  def save_source_code(originalcontent, content, commit_message)
-    
+  def save_source_code(content, commit_message)
      actual_version = self.versions.last
-
-     #changes verify
-     original_source_code =  Digest::SHA1.hexdigest(self.source_code)
-
-     if original_source_code != originalcontent
-       return self.circuit_access_registry.last
-     end
-
-	 self.source_code = CGI.unescapeHTML( content )
+	   self.source_code = CGI.unescapeHTML( content )
      self.save
 
      last_version = self.versions.last
@@ -490,16 +477,23 @@ class Circuit < ActiveRecord::Base
      
   end
 
+  def stop_execution
+    require 'socket'  
+    #streamSock.send( "Hello\n" ) 
+    str = @mannager.send("stop;#{self.id}")
+    str = streamSock.recv( 100 )  
+    print str  
+    streamSock.close  
+  end
 
+  def caching_last_execution(execution)
+     Rails.cache.write("last_exec_circuit_#{self.id}",execution.id)
+  end
 
-
-
-
-
-
-
-
-
+  def get_last_execution
+      execution_id = Rails.cache.read("last_exec_circuit_#{self.id}")
+      Rails.cache.read("exec_#{execution_id}") #Updated execution
+  end
 
 private
   #Delete carriage return to resguard views tree
@@ -512,5 +506,10 @@ private
     super delete
   end
 
+
+  def create_mannager_connection(ip,pid)
+     require 'socket'
+       @mannager = TCPSocket.new( ip, MANNAGER_PORT )
+  end
 
 end

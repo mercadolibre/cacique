@@ -1,0 +1,9 @@
+-suites = task_program.suites
+%ul
+  =render :partial=>'task_programs/suite', :locals=>{:suite=>suites.first}
+  -if suites.count>1                
+    %div{:id=>"more_suites_#{task_program.id}", :class=>'hide'}
+      -suites[1..suites.count].each do |suite|
+        =render :partial=>'task_programs/suite', :locals=>{:suite=>suite}
+    %sub.more{:name=>"more_suites_#{task_program.id}"}
+      [...] 

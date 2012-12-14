@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: projects
+#
+#  id          :integer(4)      not null, primary key
+#  name        :string(255)
+#  description :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  user_id     :integer(4)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,19 +36,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: projects
-#
-#  id          :integer(4)      not null, primary key
-#  name        :string(255)
-#  description :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  user_id     :integer(4)
-#
-
 class Project < ActiveRecord::Base
 
   has_many :suites, :dependent => :destroy
@@ -52,38 +52,44 @@ class Project < ActiveRecord::Base
   validates_presence_of :description, :message=> _("Enter Project Description")
   validates_presence_of :user_id, :message => _("Enter a Project Manager")
   validates_uniqueness_of  :name, :case_sensitive => false, :message => _("The project already exists!")
+  validates_format_of :name, :with => /\A[^']+\Z/, :message => _("can't contain single quotes")
 
   acts_as_authorizable
   has_many :users, :through => :project_users
   after_save :expires_project_cache
-  
+  after_create {|project| project.assign project.user_id } # after creating a project, add the manager as a user too
+
+  def <=> other
+    self.name.downcase <=> other.name.downcase
+  end
+
   #assing user to project
   def assign(user_id)
-      user = User.find user_id
-      if self.users.include?(user)
-         self.errors.add(:relation, _('User is already assigned to the project'))
-         return false
-       end
-      ProjectUser.create(:user_id=>user_id, :project_id=>self.id)
-      user.reload_cached_projects
+    user = User.find user_id
+    if self.users.include?(user)
+      self.errors.add(:relation, _('User is already assigned to the project'))
+      return false
+    end
+    unless user.active?
+      self.errors.add(:relation, _('User is inactive'))
+      return false
+    end
+    ProjectUser.create(:user_id=>user_id, :project_id=>self.id)
+    user.reload_cached_projects
   end
   
   #Assing manager for the proyect
   def assign_manager(user_id)
     user = User.find user_id   
+    return unless user.active?
     self.assign(user_id) if !self.users.include?(user) #if user is not assig
+    self.user.has_no_role("manager", self, :nocheck) unless self.user == user 
+    user.has_role("manager", self, :nocheck)
     self.user_id = user.id
     user.reload_cached_projects
     self.save
   end
   
-  #create user project relation
-  def creater_user_relation(user_id)
-    #create user relation if not exist
-    relation = ProjectUser.find(:first,:conditions => ["project_id = ? and user_id = ?", self.id, user_id]) 
-    self.assign(user_id) if relation.nil?
-  end
- 
   #delete user project relation
   def deallocate(user_id)
        user = User.find user_id
@@ -136,7 +142,6 @@ class Project < ActiveRecord::Base
     Rails.cache.delete "project_#{id}"
   end
 
-
   #def circuits
   #  return category_circuits(self.categories)
   #end
@@ -182,7 +187,7 @@ class Project < ActiveRecord::Base
 
   #get project suite id
   def suites_cache
-     return Rails.cache.fetch("project_suites_#{self.id}",:expires_in => CACHE_EXPIRE_PROYECT_SUITES){self.suites.map(&:id)}
+     return Rails.cache.fetch("project_suites_#{self.id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { self.suites.active.map(&:id) }
   end
 
 

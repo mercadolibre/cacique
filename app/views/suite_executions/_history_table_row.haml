@@ -1,0 +1,51 @@
+-no_permission_alert="alert('User has no permission to perform this action')"
+
+%tr{:onClick=>"marcar(this,'#D8DCDF');"}
+
+  -#Checkbox
+  %td
+    =check_box_tag "suite_executions[]", suite_execution.id, false, :class=>"check_suite_execution"
+ 
+  -#Name entity
+  %td{:style=>"width:30px;"}
+    =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
+
+  -#identifier
+  %td{:name=> @readonly ? "" : "edit_cell", :id=>suite_execution.id, :title => suite_execution.identifier, :ondblclick => no_permission_alert}
+    =h truncate(suite_execution.identifier, :ommision => "...", :length => 20)
+
+  -#Name
+  %td{:title=>entity.name}
+    =h truncate(entity.name, :ommision => "...", :length => 65)
+
+  -#User
+  %td
+    =h truncate(suite_execution.user.name, :ommision => "...", :length => 25)
+  
+  -#Date        
+  %td
+    -if suite_execution.created_at.today?
+      =h suite_execution.created_at.to_s(:short).split("-")[0]
+    -else
+      =h suite_execution.created_at.to_s(:short)
+
+  -#Time spent
+  %td
+    =truncate(suite_execution.time_spent.to_s,:ommision => "...", :length => 10)
+    \.s  
+
+  -#Run configuration     
+  %td
+    =render :partial => 'run_configuration_values', :locals=>{:exec_conf_values=> @run_configurations[suite_execution.id]}            
+
+  -#Average
+  %td.green
+    = suite_execution.status_percentage.to_s + '%'
+ 
+  -#Status
+  %td 
+    %div{:id=>'status_' + suite_execution.id.to_s}
+      =render :partial => 'status', :locals=>{:suite_execution => suite_execution}
+    =periodically_call_remote(:url => {:action => 'update_suite_execution_status_index', :suite_execution => suite_execution.id}, :condition => "!ejecucion_completa_#{suite_execution.id.to_s}", :update => 'status_' + suite_execution.id.to_s, :frequency => 5)
+                     
+

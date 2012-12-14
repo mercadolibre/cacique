@@ -21,19 +21,12 @@ msgid "Impossible to modify "
 msgstr "No es posible modificar "
 
 #: app/controllers/categories_controller.rb:
-<<<<<<< HEAD:po/cacique.pot
-msgid "ERROR: Can´t delete module: "
-msgstr "ERROR: No se puede eliminar el módulo "
-
-#: app/controllers/categories_controller.rb:
-msgid " Module is not empty."
-=======
 msgid "ERROR: Can´t delete folder: "
 msgstr "ERROR: No se puede eliminar la carpeta "
 
 #: app/controllers/categories_controller.rb:
 msgid " Folder is not empty."
->>>>>>> testeo:po/cacique.pot
+
 msgstr " primero debe eliminar su contenido"
 
 #: app/controllers/categories_controller.rb:
@@ -61,13 +54,10 @@ msgid "ERROR TO SAVE FILE IN "
 msgstr "ERROR AL GUARDAR EL ARCHIVO EN "
 
 #: app/controllers/circuits_controller.rb:
-<<<<<<< HEAD:po/cacique.pot
-=======
 msgid "Modification was successful"
 msgstr "La Modificación se realizo correctamente"
 
 #: app/controllers/circuits_controller.rb:
->>>>>>> testeo:po/cacique.pot
 msgid "Impossible to edit "
 msgstr "No es posible editar "
 
@@ -101,7 +91,6 @@ msgstr "El usuario no tiene permisos para realizar esta acción"
 
 #: app/controllers/projects_controller.rb:
 msgid "The Project was Correctly Create"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "O projeto foi criar corretamente"
 
 #: app/controllers/projects_controller.rb:
@@ -115,21 +104,6 @@ msgstr "O usuário foi corretamente Modificado"
 #: app/controllers/projects_controller.rb:
 msgid "The User has been Assign to the Project"
 msgstr "O usuário foi Atribuir ao Projeto"
-=======
-msgstr "El Proyecto se ha Creado Correctamente"
-
-#: app/controllers/projects_controller.rb:
-msgid "The Project was Correctly Modified"
-msgstr "El Proyecto se ha Modificado Correctamente"
-
-#: app/controllers/projects_controller.rb:
-msgid "The User has been modified"
-msgstr "El Usuario ha sido Modificado"
-
-#: app/controllers/projects_controller.rb:
-msgid "The User has been Assign to the Project"
-msgstr "El Usuario ha sido Asignado al Proyecto"
->>>>>>> testeo:po/cacique.pot
 
 #: app/controllers/sessions_controller.rb:
 msgid "Wellcome to Cacique!"
@@ -171,8 +145,6 @@ msgstr "No se puede borrar la funcion "
 msgid ". This affect the execution\n"
 msgstr " porque afectaria el funcionamiento de la corrida\n"
 
-<<<<<<< HEAD:po/cacique.pot
-=======
 #: app/controllers/user_functions_controller.rb:
 msgid "This function can not be Deleted"
 msgstr "Esta función no puede ser eliminada"
@@ -185,7 +157,6 @@ msgstr "La Función se creo correctamente"
 msgid "Invalid Time Format. Time must be after the current."
 msgstr "Formato de hora invalido. La Hora debe ser posterior a la actual."
 
->>>>>>> testeo:po/cacique.pot
 #: app/controllers/users_controller.rb:
 msgid "Password was changed successfully. "
 msgstr "La Contraseña fue modificada con éxito. "
@@ -794,11 +765,7 @@ msgstr "Se copiarán los script seleccionados"
 
 #: app/views/categories/_case_confirm.haml:
 msgid "into Drafts Folder"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "na pasta Rascunhos"
-=======
-msgstr "en la carpeta Borradores"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/_case_confirm.haml:
 msgid "Copy Data Set"
@@ -810,11 +777,7 @@ msgstr "Copiar"
 
 #: app/views/categories/_edit.haml:
 msgid "Rename Folder"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Renombrar Pasta"
-=======
-msgstr "Renombrar Carpeta"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/_edit.haml:
 msgid "Name"
@@ -834,7 +797,6 @@ msgstr "Importar scripts de otros proyectos"
 
 #: app/views/categories/_tree_menu.haml:
 msgid "Move Scripts to another Folder"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Mova scripts para outra pasta"
 
 #: app/views/categories/_tree_menu.haml:
@@ -844,17 +806,6 @@ msgstr "Expandir tudo"
 #: app/views/categories/_tree_menu.haml:
 msgid "Collapse All"
 msgstr "Recolher Tudo"
-=======
-msgstr "Mover Scripts a otra Carpeta"
-
-#: app/views/categories/_tree_menu.haml:
-msgid "Expand All"
-msgstr "Expandir todo"
-
-#: app/views/categories/_tree_menu.haml:
-msgid "Collapse All"
-msgstr "Contraer todo"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/_tree_menu.haml:
 msgid "Copy Script"
@@ -862,7 +813,6 @@ msgstr "Copiar Script"
 
 #: app/views/categories/_tree_menu.haml:
 msgid "The selected script will copy"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "O roteiro selecionado irá copiar"
 
 #: app/views/categories/_tree_menu.haml:
@@ -880,29 +830,10 @@ msgstr "Criar"
 #: app/views/categories/_tree_menu.haml:
 msgid "This action will remove this Folder. Are You sure?"
 msgstr "Esta acção irá remover esta pasta. Você tem certeza?"
-=======
-msgstr "Se copiará el script seleccionado"
 
 #: app/views/categories/_tree_menu.haml:
-msgid "in the same folder as the original"
-msgstr "en al misma carpeta donde se encuentra el original"
-
-#: app/views/categories/_tree_menu.haml:
-msgid "New Folder"
-msgstr "Nueva Carpeta"
-
-#: app/views/categories/_tree_menu.haml:
-msgid "Create"
-msgstr "Crear"
-
-#: app/views/categories/_tree_menu.haml:
-msgid "This action will remove this Folder. Are You sure?"
-msgstr "¿Esta seguro que desea eliminar la carpeta?"
->>>>>>> testeo:po/cacique.pot
-
-#: app/views/categories/_tree_menu.haml:
-msgid "This action will remove Data Set, History and Suite associations. Are You sure?"
-msgstr "Será eliminado el set de datos asociado al script, junto con el historial de ejecuciones y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
+msgid "This action will remove Data Set and Suite associations. Are You sure?"
+msgstr "Será eliminado el set de datos asociado al script y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
 
 #: app/views/categories/admin.haml:
 msgid "Edit"
@@ -910,11 +841,7 @@ msgstr "Editar"
 
 #: app/views/categories/admin.haml:
 msgid "Select Folder"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Selecione a Pasta"
-=======
-msgstr "Seleccione la carpeta"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/admin.haml:
 msgid "to administrate"
@@ -922,7 +849,6 @@ msgstr "que desea administrar."
 
 #: app/views/categories/admin.haml:
 msgid "Project Administration"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Administrar Projectos"
 
 #: app/views/categories/admin.haml:
@@ -936,21 +862,6 @@ msgstr "Criar Pasta"
 #: app/views/categories/admin.haml:
 msgid "Example:"
 msgstr "Exemplo:"
-=======
-msgstr "Administrar Proyectos"
-
-#: app/views/categories/admin.haml:
-msgid "Folders should be used to group Scripts (with same caracteristics)"
-msgstr "Las Carpetas deben ser utilizados para agrupar Scripts que tengan características comunes"
-
-#: app/views/categories/admin.haml:
-msgid "Create Folder"
-msgstr "Crear Carpeta"
-
-#: app/views/categories/admin.haml:
-msgid "Example:"
-msgstr "Ejemplo de agrupación por carpetas:"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/admin.haml:
 msgid "Publish"
@@ -966,11 +877,7 @@ msgstr "Servicios"
 
 #: app/views/categories/admin.haml:
 msgid "Grouping Scripts in Folders is used, for example,"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Agrupamento de scripts em Pastas é utilizado, por exemplo,"
-=======
-msgstr "La agrupación de Scripts en carpetas sirve, por ejemplo,"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/admin.haml:
 msgid "to share the same Data Set"
@@ -978,7 +885,6 @@ msgstr "para compartir el mismo set de datos."
 
 #: app/views/categories/admin.haml:
 msgid "Edit Folder"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Editar Pasta"
 
 #: app/views/categories/admin.haml:
@@ -996,25 +902,6 @@ msgstr "Excluir a pasta selecionada"
 #: app/views/categories/admin.haml:
 msgid "You may not remove a folder containing Scripts"
 msgstr "Você não pode remover uma pasta contendo scripts"
-=======
-msgstr "Editar Carpeta"
-
-#: app/views/categories/admin.haml:
-msgid "Edit the Folder name and description"
-msgstr "Permite editar el nombre y descripción de la Carpeta"
-
-#: app/views/categories/admin.haml:
-msgid "Delete Folder"
-msgstr "Eliminar Carpeta"
-
-#: app/views/categories/admin.haml:
-msgid "Delete the selected folder"
-msgstr "Se eliminará la carpeta seleccionada"
-
-#: app/views/categories/admin.haml:
-msgid "You may not remove a folder containing Scripts"
-msgstr "No se podrá eliminar una carpeta que contenga Scripts"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/circuits_result.haml:
 msgid "No results were found for the search"
@@ -1034,7 +921,6 @@ msgstr "Elegir scripts de los proyectos:"
 
 #: app/views/categories/move.haml:
 msgid "Move Scripts on"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Mover scripts en"
 
 #: app/views/categories/move.haml:
@@ -1048,21 +934,6 @@ msgstr "2- Escolha a pasta de destino:"
 #: app/views/categories/move.haml:
 msgid "Select destination"
 msgstr "Selecione destino"
-=======
-msgstr "Mover scripts de carpeta en Proyecto: "
-
-#: app/views/categories/move.haml:
-msgid "1- Choose scripts to move"
-msgstr "1- Elegir scripts"
-
-#: app/views/categories/move.haml:
-msgid "2- Choose destination folder:"
-msgstr "2- Elegir la carpeta destino:"
-
-#: app/views/categories/move.haml:
-msgid "Select destination"
-msgstr "Seleccione destino"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/categories/move.haml:
 msgid "Move Script >>"
@@ -1164,13 +1035,6 @@ msgstr "Ejecutar"
 msgid "By"
 msgstr "Por"
 
-<<<<<<< HEAD:po/cacique.pot
-=======
-#: app/views/circuits/edit.haml:
-msgid "You have Unsaved Changes, do you want to Save before Exit?"
-msgstr "Tiene Cambios sin guardar, ¿desea guardarlos antes de salir?"
-
->>>>>>> testeo:po/cacique.pot
 #: app/views/circuits/error.haml:
 msgid "The loaded Script Contains Errors:"
 msgstr "El Script cargado contiene un error:"
@@ -1185,11 +1049,7 @@ msgstr "Cerrar"
 
 #: app/views/circuits/new.haml:
 msgid "New Script for: "
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Nuevo script para el módulo: "
-=======
-msgstr "Nuevo script para: "
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/circuits/new.haml:
 msgid "Create Empty Script"
@@ -1316,13 +1176,9 @@ msgid "Reference Stuff"
 msgstr "Material de consulta"
 
 #: app/views/homes/index.haml:
-<<<<<<< HEAD:po/cacique.pot
 msgid "Cacique on My Computer"
 msgstr "Cacique en mi PC"
-=======
-msgid "Cacique on your PC"
-msgstr "Cacique en tu PC"
->>>>>>> testeo:po/cacique.pot
+
 
 #: app/views/homes/index.haml:
 msgid "logo_cacique_ing.png"
@@ -1377,13 +1233,8 @@ msgid "Logout"
 msgstr "Salir"
 
 #: app/views/layouts/_menues.haml:
-<<<<<<< HEAD:po/cacique.pot
 msgid "Modules"
 msgstr "Módulos"
-=======
-msgid "Folders"
-msgstr "Carpetas"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_menues.haml:
 msgid "header.png"
@@ -1458,21 +1309,6 @@ msgid "In detail you can see a diagram with the scripts in the suite and its rel
 msgstr "En el detalle se puede observar un diagrama con los scripts de la suite y sus relaciones."
 
 #: app/views/layouts/_view_menu_info.haml:
-<<<<<<< HEAD:po/cacique.pot
-=======
-msgid "These icons show the Execution Result."
-msgstr "Estos iconos muestran el resultado de la Ejecución."
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "Clicking on them can get more information such as: Position Error or Recovery Data."
-msgstr "Haciendo click en ellos podremos obtener más información como: Posición de Errores o Datos Recuperados."
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "Show, line by line, the Execution Progress."
-msgstr "Muestra, linea por linea, el Avance de la Ejecución."
-
-#: app/views/layouts/_view_menu_info.haml:
->>>>>>> testeo:po/cacique.pot
 msgid "The view lets you select a script and analyze its relationship with others. View of those who receives and sends data."
 msgstr "La vista permite seleccionar un script y analizar su relación con otros. Ver de quienes recibe y a quién le envía datos."
 
@@ -1494,11 +1330,7 @@ msgstr "* Cambiar el orden de ejecución de los scripts."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "* Add and/or remove Cases."
-<<<<<<< HEAD:po/cacique.pot
 msgstr "* Agregar y/o quitar casos."
-=======
-msgstr "* Agregar y/o quitar Casos."
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Relation"
@@ -1569,21 +1401,12 @@ msgid "All historical will also be removed."
 msgstr "Todo el historial de ejecuciones también será eliminado."
 
 #: app/views/layouts/_view_menu_info.haml:
-<<<<<<< HEAD:po/cacique.pot
 msgid "Module"
 msgstr "Módulo"
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Each module is a group of scripts."
 msgstr "Cada módulo es una agrupación de scripts."
-=======
-msgid "Folder"
-msgstr "Carpeta"
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "Each folder is a group of scripts."
-msgstr "Cada carpeta es una agrupación de scripts."
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "This group is defined by the user and is useful to sort the scripts."
@@ -1598,18 +1421,6 @@ msgid "Move Script"
 msgstr "Mover Script"
 
 #: app/views/layouts/_view_menu_info.haml:
-<<<<<<< HEAD:po/cacique.pot
-msgid "Allow to move scripts between modules."
-msgstr "Permite mover scripts entre módulos."
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "Allow to Expand All module tree nodes."
-msgstr "Permite Expandir todos los nodos del árbol de Módulos."
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "Allow to Collapse All module tree nodes."
-msgstr "Permite Contraer todos los nodos del árbol de Módulos."
-=======
 msgid "Allow to move scripts between folders."
 msgstr "Permite mover scripts entre carpetas."
 
@@ -1620,7 +1431,6 @@ msgstr "Permite Expandir todos los nodos del árbol de Proyecto."
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Allow to Collapse All Project tree nodes."
 msgstr "Permite Contraer todos los nodos del árbol de Proyecto."
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "A script is an automated test."
@@ -1771,21 +1581,12 @@ msgid "in environment, platform and site chosen in the control panel."
 msgstr "en el entorno, plataforma y site elegidos en el panel de control."
 
 #: app/views/layouts/_view_menu_info.haml:
-<<<<<<< HEAD:po/cacique.pot
-msgid "Be executed with the selected settings"
-msgstr "Se ejecutará con la configuración seleccionada"
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "You can configure site, platform and environment for the implementation for case executions"
-msgstr "Es posible configurar el site, plataforma y entorno para la ejecución de los casos."
-=======
 msgid "It will run as configured in "
 msgstr "Se ejecutará con la configuración establecida en "
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "You can set different parameters, such as Explorer."
 msgstr "Es posible configurar diferentes parametros, como por ejemplo el Explorador."
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Cacique stores last settings used by user."
@@ -1797,11 +1598,7 @@ msgstr "Editar Caso"
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "You can edit the cases by double click on the field to modify."
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Es posible editar los casos haciendo doble click sobre el campo a modificar."
-=======
-msgstr "Puedes editar los casos haciendo doble click sobre el campo a modificar."
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "New Case"
@@ -1885,11 +1682,7 @@ msgstr "Ejecución de Script"
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Run the selected Suite."
-<<<<<<< HEAD:po/cacique.pot
 msgstr "Executar o Suite selecionada."
-=======
-msgstr "Ejecuta la Suite seleccionada."
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/scaffold.haml:44
 msgid "Import XLS"
@@ -2005,11 +1798,7 @@ msgstr "Desde:"
 
 #: app/views/suite_executions/_history.haml:
 msgid "Until:"
-<<<<<<< HEAD:po/cacique.pot
-msgstr "Hasta:"
-=======
 msgstr "Até:"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/suite_executions/_history.haml:
 msgid "All"
@@ -2155,8 +1944,6 @@ msgstr "Objetivo del Caso:"
 msgid "Executions:"
 msgstr "Ejecuciones:"
 
-<<<<<<< HEAD:po/cacique.pot
-=======
 #: app/views/suite_executions/show.haml:
 msgid "Action"
 msgstr "Acción"
@@ -2181,7 +1968,6 @@ msgstr "Duración"
 msgid "Identifier"
 msgstr "Identificador"
 
->>>>>>> testeo:po/cacique.pot
 #: app/views/user_functions/_edit.haml:
 msgid "Edit Functions"
 msgstr "Editar Función"
@@ -2250,13 +2036,10 @@ msgstr "Funciones Generales"
 msgid "Go to Functions by Projects --> "
 msgstr "Ir a Funciones Por Proyecto --> "
 
-<<<<<<< HEAD:po/cacique.pot
-=======
 #: app/views/user_functions/index.haml:
 msgid "Go to General Functions --> "
 msgstr "Ir a Funciones Generales --> "
 
->>>>>>> testeo:po/cacique.pot
 #: app/views/users/_permissions.haml:
 msgid "Permissions"
 msgstr "Permisos"
@@ -2314,11 +2097,7 @@ msgid "Select any User"
 msgstr "Seleccione un Usuario"
 
 #: app/views/users/new.haml:
-<<<<<<< HEAD:po/cacique.pot
-msgid "Complete with yuor personal data"
-=======
 msgid "Fill with yuor personal data"
->>>>>>> testeo:po/cacique.pot
 msgstr "Complete sus datos"
 
 #: app/views/users/new.haml:
@@ -2334,11 +2113,7 @@ msgid "Register"
 msgstr "Registrarse"
 
 #: app/views/users/password_recovery.haml:
-<<<<<<< HEAD:po/cacique.pot
-msgid "Complete User or Mail for"
-=======
 msgid "Fill User or Mail for"
->>>>>>> testeo:po/cacique.pot
 msgstr "Complete su usuario o email"
 
 #: app/views/users/password_recovery.haml:
@@ -2666,13 +2441,8 @@ msgid "Actions"
 msgstr "Acciones"
 
 #: app/views/circuits/_script_tutorial.haml:
-<<<<<<< HEAD:po/cacique.pot
-msgid "To create a Script, first must we do a right click in our Project Modules"
-msgstr "Para crear un Script, primero debemos hacer un Click-Derecho sobre el Módulo de nuestro Proyecto"
-=======
 msgid "To create a Script, first must we do a right click in our Project Folder"
 msgstr "Para crear un Script, primero debemos hacer un Click-Derecho sobre la Carpeta de nuestro Proyecto"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/circuits/_script_tutorial.haml:
 msgid " to see the popup menu, and press"
@@ -2699,13 +2469,8 @@ msgid "With"
 msgstr "Con el campo"
 
 #: app/views/circuits/_script_tutorial.haml:
-<<<<<<< HEAD:po/cacique.pot
-msgid "Field, we upload an Script (previuosly generated) to our Module."
-msgstr "podemos cargar un Script (creado previamente) a nuestro Modulo."
-=======
 msgid "Field, we upload an Script (previuosly generated) to our Folder."
 msgstr "podemos cargar un Script (creado previamente) a nuestra Carpeta."
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/circuits/_script_tutorial.haml:
 msgid "To finish press"
@@ -2723,8 +2488,6 @@ msgstr "Veremos el cuerpo de nuestro nuevo Script"
 msgid "STEP"
 msgstr "PASO"
 
-<<<<<<< HEAD:po/cacique.pot
-=======
 #: app/views/circuits/_script_tutorial.haml:
 msgid "Right click"
 msgstr "Click Derecho"
@@ -2749,7 +2512,6 @@ msgstr "Agrega Scripts"
 msgid "Sort Scripts and Add Cases"
 msgstr "Ordena Scripts y Agrega Casos"
 
->>>>>>> testeo:po/cacique.pot
 #: app/views/suites/_suite_tutorial.haml:
 msgid "To create a Suite, first must we do a click in"
 msgstr "Para crear una Suite, primero debemos hacer un Click en"
@@ -2927,21 +2689,12 @@ msgid "No Suite Selected"
 msgstr "No selecciono ninguna Suite"
 
 #: app/views/layouts/_js_translate:
-<<<<<<< HEAD:po/cacique.pot
-msgid "Must Select Destination Module"
-msgstr "Debe selecionar el módulo destino"
-
-#: app/views/layouts/_js_translate:
-msgid "Selected scripts will be moved to the module"
-msgstr "Los scripts seleccionados serán movidos al módulo "
-=======
 msgid "Must Select Destination Folder"
 msgstr "Debe selecionar la carpeta destino"
 
 #: app/views/layouts/_js_translate:
 msgid "Selected scripts will be moved to the Folder "
 msgstr "Los scripts seleccionados serán movidos a la carpeta "
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_js_translate:
 msgid "There are no related fields"
@@ -2961,11 +2714,7 @@ msgstr "Debe seleccionar una opcion de cada columna"
 
 #: app/views/layouts/_js_translate:
 msgid "This Relations Exists"
-<<<<<<< HEAD:po/cacique.pot
-msgstr "Esa Eelación ya Existe"
-=======
 msgstr "Esa Relación ya Existe"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/layouts/_js_translate:
 msgid "Complete All Configuration"
@@ -2979,13 +2728,10 @@ msgstr "El Nombre de la columna debe comenzar con minúsculas"
 msgid "You must select at least one execution"
 msgstr "Debe selccionar al menos una ejecución"
 
-<<<<<<< HEAD:po/cacique.pot
-=======
 #: app/views/layouts/_js_translate:
 msgid " for "
 msgstr " por "
 
->>>>>>> testeo:po/cacique.pot
 #: app/views/suite/_suite_cases.haml:
 msgid "Managing Cases"
 msgstr "Administrar Casos"
@@ -3056,11 +2802,7 @@ msgstr "Si se agregan imagenes con formato"
 
 #: app/views/context_configurations/_config_info.haml:
 msgid "into the folder"
-<<<<<<< HEAD:po/cacique.pot
 msgstr "para a pasta"
-=======
-msgstr "en la carpeta"
->>>>>>> testeo:po/cacique.pot
 
 #: app/views/context_configurations/_config_info.haml:
 msgid "for each value entered in the configuration and with the same name,"
@@ -3217,8 +2959,6 @@ msgstr "Agregar y Eliminar Funciones"
 #: app/views/users/_permissions.haml:
 msgid "Manage Users"
 msgstr "Gestionar Usuarios"
-<<<<<<< HEAD:po/cacique.pot
-=======
 
 #: app/views/suite_executions/workling_error.haml:
 msgid "At this time run instances are not available."
@@ -3400,5 +3140,3 @@ msgstr "Função foi removido com sucesso"
 msgid "Function was updated Successfuly"
 msgstr "Função foi atualizado com sucesso"
 
-
->>>>>>> testeo:po/cacique.pot

@@ -12,6 +12,7 @@ function show_help(){
 	echo "ARGUMENTOS"
 	echo "-u <usuario>               Usuario de Cacique"
 	echo "-p <password>              Password de Cacique"
+	echo "-apikey <user key>         Key generada por usuario en cacique"
 	echo " "
         echo "OPTIONS:"
         echo "-i <identifier>            Cambia el identificador de la ejecucion"
@@ -83,14 +84,30 @@ for i in  $@ ; do
 done
 
 
+function authenticate_string(){
+        if [ -z $APIKEY ]
+        then
+           AUTH_STRING="-u $USER_NAME:$USER_PASS"
+        else
+           AUTH_STRING="-d api_key=$APIKEY"
+        fi
+}
+
+
 #realiza una nueva corrida unitaria, recive como parametro el ID del caso luego pregunta el status hasta que termine la ejecucion
+
+function script_execution(){
+         authenticate_string
+	 SUITE_EXE_ID=`curl -X POST -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$id" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" $SEND_MAIL_OK $SEND_MAIL_FAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION $AUTH_STRING`
+}
 function suite_execution() {
     #la siguiente linea muestra el comando que se va a lanzar con las opciones pasadas, descomentar para ver el comando 
-   
-    #echo "curl -X POST -u $USER_NAME:$USER_PASS -s -H \"Accept: text/plain\"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d \"[execution][suite_id]=$id\" -d \"[execution][identifier]=$IDENTIFIER\" -d \"[execution][cant_corridas]=$N_TIMES\" $SEND_MAIL_OK $SEND_MAIL_FAIL -d \"[execution][remote_control_mode]=$RC_MODE\" -d \"[execution][remote_control_addr]=$IP_CLIENT\" -d \"[execution][cases_comment]=$CASE_COMMENT\" -d \"[execution][remote_control_port]=$PORT_CLIENT\" $CONFIGURATION"
+	authenticate_string   
+	for i in $(echo "$id"  | nawk '{gsub(/,/," \n",$0);print}')
+	do
 
-
-    SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$id" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" $SEND_MAIL_OK $SEND_MAIL_FAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION`
+    		SUITE_EXE_ID=`curl -X POST -u $USER_NAME:$USER_PASS -s -H "Accept: text/plain"  http://$SERVER_IP:$SERVER_PORT/suite_executions/create -d "[execution][suite_id]=$i" -d "[execution][identifier]=$IDENTIFIER" -d "[execution][cant_corridas]=$N_TIMES" $SEND_MAIL_OK $SEND_MAIL_FAIL -d "[execution][remote_control_mode]=$RC_MODE" -d "[execution][remote_control_addr]=$IP_CLIENT" -d "[execution][cases_comment]=$CASE_COMMENT" -d "[execution][remote_control_port]=$PORT_CLIENT" $CONFIGURATION $AUTH_STRING`
+	done
 }
 
 
@@ -141,6 +158,11 @@ while (( $# ))
 	USER_PASS=$2
 	shift
 	;;
+   -apikey )
+        APIKEY=$2
+        shift
+        ;;
+
    -host )
 	BENDER_HOST=$2
 	shift
@@ -158,11 +180,11 @@ while (( $# ))
 	shift
 	;;
     -smo)
-	SEND_MAIL_OK=" -d [execution][send_mail_ok]=true -d [execution][emails_to_send_ok][]=$2 "
+	SEND_MAIL_OK="$SEND_MAIL_OK -d [execution][emails_to_send_ok][]=$2 "
 	shift
 	;;
     -smf)
-	SEND_MAIL_FAIL=" -d [execution][send_mail_fail]=true -d [execution][emails_to_send_fail][]=$2 "
+	SEND_MAIL_FAIL="$SEND_MAIL_FAIL -d [execution][emails_to_send_fail][]=$2 "
 	shift
 	;;
     -ip)
@@ -216,6 +238,9 @@ while (( $# ))
 shift
 done
 
+if [[ ! -z $SEND_MAIL_OK   ]]; then SEND_MAIL_OK=" -d [execution][send_mail_ok]=true  $SEND_MAIL_OK  "; fi
+if [[ ! -z $SEND_MAIL_FAIL ]]; then SEND_MAIL_FAIL=" -d [execution][send_mail_fail]=true $SEND_MAIL_FAIL "; fi
+
 case $ACTION in
 		run)
 			suite_execution	$ID
@@ -229,6 +254,9 @@ case $ACTION in
 		program)
 			suite_execution $ID
 			;;
+    cron)
+      suite_execution $ID
+      ;;      
 		runlist)
 			#en ACTION tiene el $1 inicial y en id tiene el $2 inicial
 			file_counter=0

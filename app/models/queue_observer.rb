@@ -1,3 +1,14 @@
+
+# Schema version: 20110630143837
+#
+# Table name: queue_observers
+#
+#  id         :integer(4)      not null, primary key
+#  values     :string(600)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,17 +34,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: queue_observers
-#
-#  id         :integer(4)      not null, primary key
-#  values     :string(600)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 require "socket"
 
 class QueueObserver < ActiveRecord::Base
@@ -69,41 +69,20 @@ class QueueObserver < ActiveRecord::Base
       Suite
       DataRecoveryName
       ExecutionConfigurationValue
-      task_running={}
+      task_running={} #Format: {ip_mannager1 => [ [pid1, execution], [pid2, execution],... ] , ip_mannager2 => [], ..}
       workers_hash=Rails.cache.read("registred_workers")
       if workers_hash
         workers_hash.each do |ip,pids|
+          task_running[ip] = []
           pids.each do |pid|
-             task=Rails.cache.read "worker_#{ip}_#{pid}"
-             if (!task.instance_of? String) && (task != nil)
-               #Not Dry!!! this need refactoring, should be the same as queue
-               task_value={}
-               task_value[:circuit]=task.circuit.name 
-               task_value[:user_name]=task.user.login
-               task_value[:project]=task.suite_execution.project.name
-               task_value[:suite_execution_id]= task.suite_execution_id
-               if task.suite_execution.suite.nil?
-                 task_value[:suite]="" 
-               else
-                 task_value[:suite]=task.suite_execution.suite.name
-               end
-             task_running["#{ip}_#{pid}"]=task_value
-             else
-               task_running["#{ip}_#{pid}"]="Empty"
-             end
-          end
+             pid_and_execution = []
+             execution= Rails.cache.read "worker_#{ip}_#{pid}"
+             task_running[ip] << [pid, execution]
+          end#worker_pids
+        end#mannager_ips
       end
       task_running
-      else
-        task_value={}
-        task_value[:circuit]="No hay workers disponibles" 
-        task_value[:user_name]=""
-        task_value[:project]=""
-        task_value[:suite_execution_id]=""
-        task_value[:suite]=""
-      end
     end
-
 
     def get_values
         info=QueueObserver.run
@@ -187,7 +166,7 @@ class QueueObserver < ActiveRecord::Base
       self.refill_queued_data(tasks)
       SuiteExecution.cancel id.to_i
     end
-     
+
     #pull all task 
     def get_queued_data
       ExecutionConfigurationValue
@@ -219,5 +198,13 @@ class QueueObserver < ActiveRecord::Base
         end
       end
     end
+
+#Worker restart
+ def self.restart_worker(ip)
+     @mannager = TCPSocket.new( ip, MANNAGER_PORT )
+     @mannager.send("restart_all",500)
+     @mannager.close
+ end
+
 
 end

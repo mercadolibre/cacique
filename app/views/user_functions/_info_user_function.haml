@@ -1,0 +1,37 @@
+//USER FUNCTION INFO
+.info{:id=>"infoUserFunction", :style=>"display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoUserFunction"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Function')
+      %p{:style=>"text-align:center;"}
+        =_('A function is a piece of code that has a specific objective, which is executed when called from another function or script')
+
+    %h3
+      %img{:src => "/images/icons/new.png", :alt=>"new.png"}
+      =_('New Function')
+    %p
+      =_('Create a function in the selected project. At the time of its creation is possible to use the property for public or private use and the option to hide the code of the function or leave visible')
+      %br
+      %br
+      =image_tag("icons/private.png", :alt=>"private.png", :title=> _("Private use"), :style=>"margin-left:5px;")
+      =_("Private use")
+      =image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public use"), :style=>"margin-left:5px;")
+      =_("Public")
+      %br
+      =_("The function can not be used by all users")
+      %br
+      %br
+      =image_tag("icons/eye_disabled.png", :alt=>"eye_disabled.png", :title=> _("Hidden code"), :style=>"margin-left:5px;")
+      =_("Hidden code")       
+      =image_tag("icons/eye.png", :alt=>"eye.png", :title=> _("Public code"), :style=>"margin-left:5px;")
+      =_("Public code")
+      %br
+      =_("Will hide the code and the example of the function")
+    %h3
+      %img{:src => "/images/icons/filter.png", :alt=>"filter.png"}
+      =_('Filter')
+    %p
+      =_('Apply filters to search')
+

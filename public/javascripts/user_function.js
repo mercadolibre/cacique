@@ -25,7 +25,6 @@
  */
 //Only generated global variable to keep count of the new arguments are added
 //So do not repeat ids of the inputs of arguments.
-var cant_args_add = 0;
 
 //Used to add parameters in the new, add an input to the table
   function add_argument(){
@@ -62,8 +61,7 @@ var cant_args_add = 0;
 
 //Function to send the modified script
   function sendContent(){
-    form = document.getElementById('form_edit_free');
-    content = codepress_content_free.getCode();
+    content = script_content.getValue();
     encoded_content = encode_text(content);
     params = "content=" + encodeURI(encoded_content) 
     document.getElementById('user_function_code').value=encoded_content
@@ -72,13 +70,3 @@ var cant_args_add = 0;
 function respond(xmlHttpRequest, responseHeader){
 }
 
-//To show or hide the message of "Hide the code of the function" option
- function show_hide_message(){
- 	div = document.getElementById('message');
- 	if(div.style.display == 'block'){
- 		div.style.display = 'none';
- 	}
- 	else{
- 		div.style.display = 'block';
- 	}
- }

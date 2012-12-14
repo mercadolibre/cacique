@@ -1,57 +1,36 @@
-//
-// @Authors:    
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//      
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-
 -javascript 'tablesort'
 -javascript 'case_template'
 -javascript 'tabla_editable'
 -javascript 'select_all'
 -javascript 'checked_default'
+-javascript 'checkbox_lib'
 
 %script
-  function onload(){
+  jQuery(window).bind("load", function(){
   iniciarTabla();  //Edit Table cells
   $j('#div_edit_free').height($j(window).height() -200);
-  }
+  })
   = @cell_selects.to_javascript_function("cell_selects")  #Selects values for edit data cells
 
 .main
-  #TabView.TabView
-    .Tabs
-      .tab_view{:onclick=>"location='#{edit_project_circuit_path(@circuit.project_id,@circuit)}'"}
-        =_('Edit Script')
-      .tab_view{:onclick=>"location='#{project_circuit_case_templates_path(@project_id,@circuit)}'", :style=> "opacity:10;padding-top:4px;position:relative;top:2px;"}
-        =_('Data Set')
-      %div{ :style=>"clear: both"}     
-  .edit_free_table{:id=>"div_edit_free", :style=>"overflow:auto;width:98%;"}  
+  =link_to _('Edit Script'), edit_project_circuit_path(@circuit.project_id,@circuit), :class=>'tab_view' 
+  =link_to _('Data Set'), project_circuit_case_templates_path(@project_id,@circuit) , :class=>'tab_view selected' 
+  
+  .tab_container#div_edit_free{:style=>"overflow:auto;width:98%;"}  
     %div{ :style=>"width:500px;float:left; margin-bottom:10px;"}
       %div{ :id => "modified_file", :style => "width:20px;float:left;"}
       %b
         =truncate(@circuit.name.capitalize, :ommision => "...", :length => 60)
-    %div{ :style=>"float:right;",  :title=>@circuit.user.name}
-      = will_paginate @cases_pag, :params => {:circuit_id => @circuit.id}
+        
+    /Paginate
+    = will_paginate @cases_pag, :params => params.merge({:circuit_id => @circuit.id})
+    .pagination
+      %span
+        = _('Show') + ":"
+        = page_size_link 10
+        = page_size_link 20
+        = page_size_link 50
+
     //Errors 
     = error_messages_for :circuit
     %div{ :style=>"clear: both"}
@@ -66,9 +45,9 @@
 
 
 //Status Refresh  
-#status
 -@case_templates.each do |case_template|
-  =periodically_call_remote(:url => {:controller => :case_templates, :action => "update_status", :project_id => @circuit.project_id, :circuit_id => @circuit.id, :case_template => case_template.id}, :method=>:get, :condition => "!ejecucion_completa_#{case_template.id.to_s}", :update => 'status_' + case_template.id.to_s, :frequency => 5)
+  -if case_template.last_execution
+    =periodically_call_remote(:url => {:controller => :case_templates, :action => "update_status", :project_id => @circuit.project_id, :circuit_id => @circuit.id, :case_template => case_template.id}, :method=>:get, :condition => "!ejecucion_completa_#{case_template.last_execution.id}", :update => 'status_' + case_template.last_execution.id.to_s, :frequency => 8)
 
 //Category Menu
 -content_for :left_category_menu do  

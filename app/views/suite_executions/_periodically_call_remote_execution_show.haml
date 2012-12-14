@@ -1,99 +1,21 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-%script
-  execution_finish_#{execution.id.to_s} = true;
+-#Script Name
+%td.exe{:title=>execution.circuit.name, :style=>"text-align:center;max-width:80%;min-width:50%;border-left: 1px solid #BFBFFF;"}
+  =link_to truncate(execution.circuit.name,:ommision => "...", :length => 100), edit_project_circuit_path(execution.circuit.project_id,execution.circuit_id)
 
-%td.exe{:title=>execution.circuit.name, :style=>"text-align:center;max-width:80%;min-width:30%;border-left: 1px solid #BFBFFF;"}
-  //Edit script
-  =link_to truncate(execution.circuit.name,:ommision => "...", :length => 50), edit_project_circuit_path(execution.circuit.project_id,execution.circuit_id)
-%td.exe{:style=>"max-width:25%;min-width:25%;"}
+-#Case template 
+%td.exe{:style=>"max-width:25%;min-width:40%;"}
   =execution.case_template_id == 0 ?  _("Without Cases") : link_to( truncate(execution.case_template.objective,:ommision => "...", :length => 40), project_circuit_case_templates_path(execution.circuit.project_id,execution.circuit_id), {:title=>execution.case_template.objective} )
+
+-#Actions
+%td.exe{:style=>"border-right: 1px solid #BFBFFF;width:2%;"}
+  =link_to image_tag("/images/icons/play.png", :alt=>"Run", :title=>_('Run'), :id=>"play_#{execution.id}", :style=>"width: 12px; height: 14px;"), "/executions/retry_run/#{execution.id}"
+  =#link_to image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop'), :id=>"stop_#{execution.id}"), suite_execution_path(execution.suite_execution_id), :method=>:delete
+
+-#Status
 %td.exe{:style=>"width:2%;"}
-  -if execution.status == 1
-    %script
-      execution_finish_#{execution.id.to_s} = false;
-    %img{:src => "/images/load/spinner.gif", :alt => "load", :style=>"width:14px; height:14px;"}
-  -elsif execution.status == 0
-    %script
-      execution_finish_#{execution.id.to_s} = false;
-    =image_tag("/images/icons/waiting_1.png",:style=>'border:none;', :alt=>"waiting_1.png", :title=>execution.s_status)
-  -elsif execution.status == 2
-    =image_tag("/images/icons/ok_1.png",:onclick=>"document.getElementById('data_#{execution.id.to_s}').style.display = ''",:style=>'border:none;cursor:pointer;', :alt=>"ok_1.png", :title=>execution.s_status)
-    //DATA RECOVERY
-    //Popup data recovery
-    .tag{ :id => "data_#{execution.id.to_s}", :style=>" display:none; border:1ps solid #D1E1E7; width: 270px;height: 200px;left: 480px; top: 150px;"}
-      =render :partial =>"layouts/popup_header", :locals=>{:element =>"data_#{execution.id.to_s}"}    
-      .p{:style=>"width:280px;  height:230px; color:grey;"}
-        %img{:src => "/images/icons/recovery.png",  :alt=>"recovery.png",:title => "Datos recuperados", :style=>"float:left;"}
-        %h3
-          =_('Generated Data:')
-        -if !execution.filtered_data_recoveries.empty? && !execution.filtered_data_recoveries.nil?            
-          %ul{:style=>"color:#2C4B9B;margin-top:30px;font-size:12px;height:130px;overflow:auto;"}
-            -execution.filtered_data_recoveries.each do |data_recovery|
-              %li{:style=>"margin-bottom:5px;"}
-                =data_recovery.data_name + ':'
-                =data_recovery.data   
-        -else
-          %br
-          %br         
-          %h2{:style=>"text-align:center;"}
-            %i
-              =_('The current script does not retrieve data')   
-  -elsif execution.status == 6
-    =image_tag("/images/icons/cancel.png", :alt=>"cancel_execution.png", :title=>execution.s_status)
-  -elsif execution.status == 3
-    -has_error = ( !execution.error.nil? || !execution.position_error.nil? )
-    -on_click= (has_error)? "document.getElementById('error_#{execution.id.to_s}').style.display = ''": ""   
-    =image_tag("/images/icons/fail_1.png",:onclick=>"#{on_click}",:style=>'border:none;cursor:pointer;', :alt=>"fail_1.png",       :title=>execution.s_status)
-    
-    -if has_error
-      //popup error
-      .tag{ :id => "error_#{execution.id.to_s}", :style=>" display:none;width:600px; max-height:425px;padding-bottom:20px; left:320px;top:120px;"}
-        =render :partial =>"layouts/popup_header", :locals=>{:element =>"error_#{execution.id.to_s}"}  
-        //ERROR        
-        -if !execution.error.nil?     
-          %h3{:style=>"color:red;"}
-            Error
-          %p{:style=>"height:auto;max-height:160px;width:100%;border:1px solid #C6C5C4;padding:5px;-moz-border-radius:5px;"}
-            =CGI.escapeHTML(execution.error)
-          %div{ :style=>"clear: both"} 
-        //POS ERROR
-        -if !execution.position_error.nil?
-          %h3
-            =_('Position Error:')
-          %div{:style=>"overflow:auto;width:100%;max-height:150px;border:1px solid #C6C5C4;padding:5px;-moz-border-radius:5px;"}
-            -CGI.escapeHTML(execution.position_error.to_s).split("\n").each do |line|
-              %pre{ :style => " color: #{line[0..0]=="*" ? "red":"000"};" }
-                =line.gsub(/^\*/,"")     
+  =render :partial=>'executions/status', :locals=> {:execution=>execution}
 
-  -elsif execution.status == 5
-    =image_tag("/images/icons/fail_execution.png",:style=>'border:none;', :alt=>"fail_execution.png",:title=>execution.s_status)
-  -else
-    =execution.s_status
-
+-#Time spend
 %td.exe{:title=>execution.time_spent,:style=>"width:2%;"}
   -if !execution.time_spent.nil?
     =truncate(execution.time_spent.to_s + ".s", :ommision => "...", :length => 10)
@@ -101,37 +23,6 @@
     %i
       \---
 
-%td.exe{:title=>execution.output,:style=>"width:2%;max-height:425px;"}
-  //OUTPUT & SNAPSHOT
-  -if (!execution.output.nil? and !execution.output.empty?) || (!execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?)
-    =image_tag("/images/icons/output.png",:onclick=>"document.getElementById('output_#{execution.id.to_s}').style.display = ''",:style=>'border:none;cursor:pointer;', :alt=>"output", :title=>_("Output"))
-    .tag{ :id => "output_#{execution.id.to_s}",:style=>" display:none; left: 320px; top: 150px;width:600px; height:390px;"}
-      =render :partial =>"layouts/popup_header", :locals=>{:element =>"output_#{execution.id.to_s}"} 
-      //Output          
-      %h1{:style=>"color:#045FB4;text-align:center;"}
-        =_('Output')
-      %h3
-        =truncate(execution.circuit.name,:ommision => "...", :length => 90)
-      %div{:style=>"height:auto;width:100%;max-height:75%;overflow:auto;"}
-        //Snapshot
-        -if !execution.execution_snapshots.empty? && !execution.execution_snapshots.nil?
-          %h3{:style=>"text-align:left;color:#31576F"}
-            Snapshots
-          %ul{:style=>"max-height:100px;overflow:auto;margin-left:20px; border:1px solid #C6C5C4;-moz-border-radius:10px;width:250px;padding:5px;"}
-            -execution.execution_snapshots.each do |snapshot|
-              %li{:style=>"color:#31576F;"}
-                =link_to truncate(snapshot.name.capitalize, :ommision => "...", :length => 30), "/executions/show_snapshot/0?snapshot_id=" + snapshot.id.to_s, :popup=> true, :style=>"font-size:12px; color:#31576F; font-weight:normal;"                  
-        -if (!execution.output.nil? and !execution.output.empty?)
-          %h3{:style=>"text-align:left;color:#31576F"}
-            =_('Output')
-          %div{:style=>"margin-left:20px;"}                
-            =CGI.escapeHTML(execution.output.to_s).gsub("\n","<br/>")  
-      %div{ :style=>"clear: both"}        
-  -else
-    \---
 
-%td.exe{:style=>"border-right: 1px solid #BFBFFF;width:2%;"}
-  //ACTIONS
-  -if [2,3,5,6].include?(execution.status)
-    =link_to image_tag("/images/icons/play.png", :alt=>"Run", :title=>_("Run"),:style=>"  width: 12px; height: 14px;"), "/executions/retry_run/#{execution.id}"
+
     

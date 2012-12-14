@@ -1,43 +1,30 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
 -javascript 'user_function'
 
 .main
   %h1
-    =link_to image_tag('icons/new.png', :alt=>"new.png", :style=>"border:none;"), url_for(:controller => "user_functions", :action => "new", :project_id => @project_id.to_i), :title=>_("Add Function")
     =_('Functions')
-  %form{ :url=>"user_functions",:id=> "form_filter", :style=>"margin-left:2%;"}
-    =select("filter", "project_id", @projects.collect {|p| [ truncate(p.name, :ommision => "...", :length => 60), p.id ] }.sort!,{ :selected => @project_id.to_i,:include_blank => _('Generals')},{ :onchange=>"$j('#form_filter').submit();", :style => "width: 200px;"})
-  =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move, :paginate => true}
-    
+
+  //Select Project
+  #select_project_div{:style => "display:#{display};"}
+    %form{ :url=>"user_functions",:id=> "form_filter"}
+      = hidden_field_tag "filter[text]", @param_search
+      = hidden_field_tag "filter[only_selected_project]", true
+      =select("filter", "project_id", [[_('Generals'), 0]]  +  @projects.collect {|p| [ truncate(p.name, :ommision => "...", :length => 60), p.id ] }.sort!,{ :selected => (@project_id != "") ? @project_id.to_i: @project_id,:include_blank => _('Public')},{ :onchange=>"$j('#form_filter').submit();", :style => "width: 200px;"}) 
+  
+  //Table
+  -if @user_functions.empty?
+    %h2
+      %i
+        =_('This project has no specific functions')
+  -else
+    %div{ :style=>"float:right;"}
+      = will_paginate @user_functions, :params => {:filter => {:text => @param_search, :project_id=> @project_id} }
+    %br
+    %br
+    =render :partial => "functions", :locals => {:user_functions => @user_functions, :can_move => @can_move}
+
 //Tools menu
 -content_for :tools_menu do
-  =render :partial=> "admin/menu_admin"
-  .buscar 
-    - form_for :filter, url_for(:controller=>"user_functions", :action=>"index"), :html => {:method => :get} do |f|
-      = f.text_field 'project_id', :value=>@project_id, :style => 'display:none;'
-      = f.text_field 'text', :value=>(@param_search.nil? ? _('Search Function') : @param_search), :style => 'width: 130px' , :onblur=>"if (this.value == '') {this.value = '#{_('Search Function')}'; ;this.style.color='grey'}", :onfocus=>"if (this.value == '#{_('Search Function')}') {this.value = '';this.style.color='black'}"
-      %input{:type=>"image",:src=>"/images/icons/search.png"}
+  =render :partial =>"menu_user_function"
+
+

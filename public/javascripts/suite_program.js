@@ -25,3 +25,4 @@ function change_select_range_each(value){
   $j('#' + value).show();
   if(value == "specific")specific_hours();
 }
+

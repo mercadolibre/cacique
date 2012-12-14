@@ -1,28 +1,3 @@
-//
-// @Authors:    
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//      
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
 -javascript 'select_all'
 -javascript 'checked_default'
 -javascript 'checkbox_lib'
@@ -30,8 +5,8 @@
 = calendar_date_select_includes "blue"
 = stylesheet_link_tag 'blue.css'
 
-.main{:style=>"width:90%;padding:1.5% 0;margin:0 auto;"}
-  -remote_form_for @suite_execution, :url =>{:controller=>:task_programs, :action=> :confirm}, :html => {:id => "form_to_run_suite"} do
+.main{:style=>"width:95%;padding:1.5% 0;margin:0 auto;"}
+  -remote_form_for @suite_execution, :before => "$j('form .form_button input').attr('disabled',true);", :url =>{:controller=>:task_programs, :action=> :confirm}, :html => {:id => "form_to_run_suite"} do
     =text_field "execution", "where_did_i_come", :value => "new_program", :style => "display:none;"
     %h1
       =image_tag("icons/calendar-and-tasks.png", :alt=>"calendar-and-tasks.png")
@@ -39,7 +14,7 @@
       .form_button
         =submit_tag _('Schedule')
   
-    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:25%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:49%;float:left;margin-left:1%;")   
+    -(@column_1.empty? or @column_2.empty?) ?    (style_1 = "width:34%;float:left;margin-rigth:1%;"; style_2="width:33%;float:left;margin: 0 1%;"; style_3="width:29%;float:left;margin-left:1%;") :(style_1 = "width:30%;float:left;margin-rigth:1%;"; style_2="width:23%;float:left;margin: 0 1%;"; style_3="width:44%;float:left;margin-left:1%;")   
     %div{:style=>style_1}
       =render :partial => 'select_suites'
       =render :partial => 'context_configurations/calendar_config', :locals => {:init_date => @init_date}
@@ -50,7 +25,24 @@
       =render :partial => 'context_configurations/variable_config', :locals => {:column_1 => @column_1, :column_2 => @column_2 }
 
 
+:javascript
+  //Edit cron
+  $j('.edit_select').click(function(){
+    //Toggle input and selects
+    $j('#cron>select.inline,input.inline').toggle();
 
+    //Disabled hide elements (inputs or selects)    
+    $j('#cron>:visible').removeAttr('disabled');
+    $j('#cron>:hidden').attr('disabled', 'disabled'); 
 
+    //Inputs filling with Select values
+    $j('#cron>input.inline:visible').each(function(){
+      var element_id = $j(this).attr('id');
+      var new_value  = $j('select.inline#' + element_id + ':hidden').val();
+      $j(this).val(new_value);
+    })
+  });   
 
-
+  //Errors
+  var errors='#{@errors}';
+  if(errors) alert(errors);

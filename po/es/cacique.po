@@ -449,6 +449,10 @@ msgstr "Reintento worker: "
 msgid "Error!. Several Retries"
 msgstr "Error!. Demasiados Intentos"
 
+#: app/models/script_runner.rb:
+msgid "You are not authorized to use the function"
+msgstr "No tiene permisos para ejecutar la función"
+
 #: app/models/suite.rb:
 msgid "Enter a Name"
 msgstr "Ingrese un nombre"
@@ -754,6 +758,10 @@ msgstr "Error"
 msgid "Post Error"
 msgstr "Post Error"
 
+#: app/views/case_templates/show.haml:
+msgid "Show"
+msgstr "Mostrar"
+
 #: app/views/categories/_case_confirm.haml:
 msgid "Import Scripts"
 msgstr "Importar Scripts"
@@ -839,8 +847,8 @@ msgid "This action will remove this Folder. Are You sure?"
 msgstr "¿Está seguro que desea eliminar la carpeta?"
 
 #: app/views/categories/_tree_menu.haml:
-msgid "This action will remove Data Set, History and Suite associations. Are You sure?"
-msgstr "Será eliminado el set de datos asociado al script, junto con el historial de ejecuciones y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
+msgid "This action will remove Data Set and Suite associations. Are You sure?"
+msgstr "Será eliminado el set de datos asociado al script y además se quitará de las suites en las que se encuentre involucrado, ¿Está seguro de eliminar el script?"
 
 #: app/views/categories/admin.haml:
 msgid "Edit"
@@ -865,10 +873,6 @@ msgstr "Las Carpetas deben ser utilizados para agrupar Scripts que tengan caract
 #: app/views/categories/admin.haml:
 msgid "Create Folder"
 msgstr "Crear Carpeta"
-
-#: app/views/categories/admin.haml:
-msgid "Example:"
-msgstr "Ejemplo de agrupación por carpetas:"
 
 #: app/views/categories/admin.haml:
 msgid "Publish"
@@ -1043,6 +1047,10 @@ msgid "Run"
 msgstr "Ejecutar"
 
 #: app/views/circuits/edit.haml:
+msgid "Stop"
+msgstr "Detener"
+
+#: app/views/circuits/edit.haml:
 msgid "By"
 msgstr "Por"
 
@@ -1061,6 +1069,30 @@ msgstr "Este Script no pertenece a ninguna Suite"
 #: app/views/circuits/edit.haml:
 msgid "You have Unsaved Changes, do you want to Save before Exit?"
 msgstr "Tiene Cambios sin guardar, ¿desea guardarlos antes de salir?"
+
+#: app/views/circuits/edit.haml:
+msgid "Unable to save! "
+msgstr "No es posible guardar! "
+
+#: app/views/circuits/edit.haml:
+msgid "It was edited by the user "
+msgstr "Fue editado por el usuario "
+
+#: app/views/circuits/edit.haml:
+msgid "Save your changes in another medium, refresh the page and try again"
+msgstr "Guarde sus cambios en otro medio, refresque la página y intentelo nuevamente"
+
+#: app/views/circuits/ruby.haml:
+msgid "You can generate html output with a script execution by using the RedCloth gem."
+msgstr "Es posible generar la salida de una ejecución del script con formato html a través de la utilización de la gema RedCloth."
+
+#: app/views/circuits/ruby.haml:
+msgid "Generate a script with the following code:"
+msgstr "Generar un script con el siguiente código:"
+
+#: app/views/circuits/ruby.haml:
+msgid "When you script run, you can see the output in HTML format."
+msgstr "Al ejecutar el script, se puede ver la salida en formato HTML."
 
 #: app/views/circuits/error.haml:
 msgid "The loaded Script Contains Errors:"
@@ -1097,6 +1129,10 @@ msgstr "Para utilizar datos variables al realizar repetidas pruebas, es posible 
 #: app/views/circuits/new.haml:
 msgid "Data Set"
 msgstr "Set de Datos"
+
+#: app/views/circuits/rename.haml:
+msgid "We found no candidate values ​​as variables in the file"
+msgstr "No se encontraron valores candidatos como variables en el archivo"
 
 #: app/views/circuits/rename.haml:
 msgid "Define Names for"
@@ -1345,10 +1381,6 @@ msgstr "Estos iconos muestran el resultado de la Ejecución."
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Clicking on them can get more information such as: Position Error or Recovery Data."
 msgstr "Haciendo click en ellos podremos obtener más información como: Posición de Errores o Datos Recuperados."
-
-#: app/views/layouts/_view_menu_info.haml:
-msgid "Show, line by line, the Execution Progress."
-msgstr "Muestra, linea por linea, el Avance de la Ejecución."
 
 #: app/views/layouts/_view_menu_info.haml:
 msgid "In this section you can select a script and analyze its relationship with others. View of those who receives and sends data."
@@ -1783,16 +1815,16 @@ msgid "Sure to remove relations?"
 msgstr "¿Esta seguro de eliminar la relación?"
 
 #: app/views/projects/index.haml:
-msgid "Here you manage all projects. As a "
-msgstr "Aquí gestionaras todos los proyectos. Como Usuario "
+msgid "Here are listed all your projects / others projects."
+msgstr "Aquí están listados todos sus proyectos / otros proyectos"
 
 #: app/views/projects/index.haml:
-msgid "Root"
-msgstr "Administrador"
+msgid "You can create new projects and edit the projects on which you are the Manager."
+msgstr "Puedes crear nuevos proyectos y editar aquellos en el cual eres Responsable"
 
 #: app/views/projects/index.haml:
-msgid " user, you can create new projects, edit existing and designate Managers."
-msgstr " podras Crear Nuevos Proyectos, Editar ya existentes y designar Responsables."
+msgid "As a ROOT, you can edit any project."
+msgstr "Como ADMINISTRADOR, puedes editar cualquier proyecto"
 
 #: app/views/session/new.haml:
 msgid "Do not have an account?"
@@ -1822,9 +1854,21 @@ msgstr "Recordar mi sesión"
 msgid "Log in"
 msgstr "Ingresar"
 
+
+#: app/views/suite_executions/index.haml:
+msgid "Yes"
+msgstr "Si"
+
+msgid "No"
+msgstr "No"
+
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Complete"
 msgstr "Completa"
+
+#: app/views/suite_executions/_bar_image.haml:
+msgid "Stopped"
+msgstr "Detenida"
 
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Waiting"
@@ -1987,10 +2031,6 @@ msgid "Execution:"
 msgstr "Ejecución:"
 
 #: app/views/suite_executions/get_report.pdf.prawn:
-msgid "Identifier:"
-msgstr "Identificador de corrida:"
-
-#: app/views/suite_executions/get_report.pdf.prawn:
 msgid "Run Start:"
 msgstr "Inicio de corrida:"
 
@@ -2091,12 +2131,36 @@ msgid "General Functions"
 msgstr "Funciones Generales"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to Functions by Projects --> "
-msgstr "Ir a Funciones Por Proyecto --> "
+msgid "Privacy"
+msgstr "Privacidad"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to General Functions --> "
-msgstr "Ir a Funciones Generales --> "
+msgid "Public"
+msgstr "Públicas"
+
+#: app/views/user_functions/index.haml:
+msgid "Last modified by the user"
+msgstr "Última modificación realizada por el usuario"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacity"
+msgstr "Privacidad"
+
+#: app/views/user_functions/index.haml:
+msgid "could be being used in"
+msgstr "podría estar siendo utilizada en"
+
+#: app/views/user_functions/index.haml:
+msgid "The function is not used"
+msgstr "La función no se utiliza"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "A function is a piece of code that has a specific objective, which is executed when called from another function or script"
+msgstr "Una función es un fragmento de código que tiene un objetivo específico, que se ejecuta cuando es llamada desde otra función o script"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "Create a function in the selected project. At the time of its creation is possible to use the property for public or private use and the option to hide the code of the function or leave visible"
+msgstr "Crea una función en el proyecto seleccionado. Al momento de su creación  es posible utilizar la propiedad de uso público o privado y la opción de ocultar el código de la función o dejarlo visible"
 
 #: app/views/users/_permissions.haml:
 msgid "Permissions"
@@ -2438,10 +2502,6 @@ msgstr "Complete un objetivo haciendo doble click"
 msgid "History of"
 msgstr "Historial de"
 
-#: app/views/suite_executions/index.haml:
-msgid "History of Execution from: "
-msgstr "Historial de Ejecuciones de: "
-
 #: app/views/notes/index.haml:
 msgid "General Notes"
 msgstr "Notas Generales"
@@ -2509,6 +2569,14 @@ msgstr "Sin Parámetros Configurables"
 #: app/views/context_configurations/index.haml:
 msgid "Actions"
 msgstr "Acciones"
+
+#: app/views/circuits/_functions.haml:
+msgid "Select the function you want to add:"
+msgstr "Seleccione la función que desea agregar:"
+
+#: app/views/circuits/_functions.haml:
+msgid "Show code"
+msgstr "Ver código"
 
 #: app/views/circuits/_script_tutorial.haml:
 msgid "To create a Script, first must we do a right click in our Project Folder"
@@ -2638,6 +2706,22 @@ msgstr "Gracias por elegir Cacique!"
 msgid "Sure to remove the Function"
 msgstr "¿Esta seguro que desea eliminar la Función"
 
+#: app/views/user_functions/show.haml:
+msgid "Hidden code"
+msgstr "Código oculto"
+
+#: app/views/user_functions/show.haml:
+msgid "Public code"
+msgstr "Código público"
+
+#: app/views/user_functions/show.haml:
+msgid "Public use"
+msgstr "Uso público"
+
+#: app/views/user_functions/show.haml:
+msgid "Private use"
+msgstr "Uso privado"
+
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"
 msgstr "Cola de Tareas"
@@ -2645,6 +2729,14 @@ msgstr "Cola de Tareas"
 #: app/views/queue_observers/_show.haml:
 msgid "Conection Error"
 msgstr "Error al conectarse"
+
+#: app/views/queue_observers/index.haml:
+msgid "Restarting the worker"
+msgstr "Reinicio del worker"
+
+#: app/views/queue_observers/index.haml:
+msgid "Update the job queue"
+msgstr "Actualizar la cola de tareas"
 
 #: app/controllers/application_controllers.rb:
 msgid "Invalid Action"
@@ -3138,6 +3230,10 @@ msgstr "No se ejecuto porque ocurrio un error al intentar comunicarse con  Starl
 msgid "Not executed because the scheduler was pending to confirm"
 msgstr "No se ejecuto porque la programacion se encontraba pendiente a confirmar"
 
+#: app/views/delayed_jobs/index.rb:
+msgid "Scheduled"
+msgstr "Programadas"
+
 #: app/models/delayed_job.rb:
 msgid "To be confirmed"
 msgstr "A confirmar"
@@ -3148,7 +3244,48 @@ msgstr "Confirmada"
 
 #: app/models/delayed_job.rb:
 msgid "Last Confirmed"
-msgstr "Ultima Confirmada"
+msgstr "Última Confirmada"
+
+#: app/views/crons/new.haml: 
+msgid "Alarm"
+msgstr "Alarma"
+
+#: app/views/crons/new.haml: 
+msgid "Every"
+msgstr "Cada"
+ 
+#: app/views/crons/index.haml: 
+msgid "Alarms"
+msgstr "Alarmas"
+
+#: app/views/crons/index.haml: 
+msgid "Hour"
+msgstr "Hora"
+
+#: app/views/crons/index.haml: 
+msgid "Day of month"
+msgstr "Día del mes"
+
+#: app/views/crons/index.haml: 
+msgid "Day"
+msgstr "Día"
+
+#: app/views/crons/index.haml: 
+msgid "Month"
+msgstr "Mes"
+
+#: app/views/crons/index.haml: 
+msgid "Days"
+msgstr "Días"
+
+#: app/views/crons/index.haml: 
+msgid "Months"
+msgstr "Meses"
+
+#: app/views/crons/index.haml: 
+msgid "Day of week"
+msgstr "Día de la semana"
+
 
 #: app/views/task_programs/confirm_program.haml: 
 msgid "Programed task confirmation"
@@ -3191,8 +3328,8 @@ msgid "to project: "
 msgstr "al proyecto: "
 
 #: app/views/user_functions/_move.haml:
-msgid "Move to Generic Functions"
-msgstr "Mover a Funciones Genéricas"
+msgid "Generals"
+msgstr "Generales"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Function properly moved"
@@ -3472,11 +3609,17 @@ msgstr "Usted no tiene permisos para Ver"
 
 #: app/views/user_functions/new.haml:
 msgid "Hide the code of the function"
-msgstr "Ocultar el codigo de la función"
+msgstr "Ocultar el código de la función"
 
 #: app/views/user_functions/new.haml:
 msgid "Will hide the code and the example of the function"
 msgstr "Se ocultará el código y el ejemplo de la función"
+
+msgid "Private use"
+msgstr "Uso privado"
+
+msgid "The function can not be used by all users"
+msgstr "La función no puede ser utilizada por todos los usuarios"
 
 #: app/controllers/circuits_controller.rb
 msgid "Last Edit"
@@ -3514,11 +3657,38 @@ msgstr "Proyecto"
 msgid "Actions"
 msgstr "Acciones"
 
-#: app/views/controllers/users_controller.rb:
+#: app/controllers/users_controller.rb:
 msgid "Your user has been created successfully,<br/> Please contact to "
 msgstr "El usuario ha sido creado con éxito, <br/> Póngase en contacto con "
 
-#: app/views/controllers/users_controller.rb:
+#: app/controllers/users_controller.rb:
 msgid " to activate it."
 msgstr " para activarlo."
+
+#: app/views/data_files/new.rb:
+msgid "There is already a file with that name"
+msgstr "Ya existe una archivo con ese nombre"
+
+#: app/views/data_files/new.rb:
+msgid "Files"
+msgstr "Archivos"
+
+#: app/views/data_files/new.rb:
+msgid "New file"
+msgstr "Nuevo archivo"
+
+#: app/views/data_files/index.rb:
+msgid "Without files"
+msgstr "Sin archivos"
+
+#: app/views/data_files/index.rb:
+msgid "The added file, can be accessed from any script of the project using the File class in Ruby. For more information:"
+msgstr "El archivo que se agregue, podrá ser accedido desde cualquier script del proyecto, utilizando la clase File de ruby. Para mas información:"
+
+
+#: app/views/data_files/index.rb:
+msgid "Example usage:"
+msgstr "Ejemplo de uso:"
+
+
 

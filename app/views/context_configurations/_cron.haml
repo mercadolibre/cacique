@@ -1,0 +1,38 @@
+.cron#cron
+  =image_tag '/images/icons/edit.png',  :alt => 'edit', :width=>'15',:class=>'edit_select'
+  -time_now = DateTime.now
+
+  %label.inline       
+    =_('Month')   
+  =select "cron", "month", @select_months,{:include_blank => _("- Select -")},{:class=>'inline'}  
+  =text_field "cron","month", :title=>_('Month'), :class=>'inline hide', :disabled=>'disabled'   
+    
+  %label.inline    
+    =_('Day')
+  =select "cron", "day_of_month", @select_dates,{:include_blank => _("- Select -")},{:class=>'inline'}    
+  =text_field "cron", "day_of_month", :title=>_('Day of month'), :class=>'inline hide', :disabled=>'disabled'  
+  %br
+  %br
+    
+  %label.inline    
+    =_('Hour')
+  =select "cron", "hour", @select_hours,{:include_blank => _("- Select -")},{:class=>'inline'} 
+  =text_field "cron", "hour", :title=>_('Hour'), :class=>'inline hide', :disabled=>'disabled'
+    
+  %label.inline    
+    =_('Min')
+  =select "cron", "min", @select_mins, {:include_blank => _("- Select -")}, {:class=>'inline'} 
+  =text_field "cron", "min", :title=>_('Min'), :class=>'inline hide', :disabled=>'disabled'   
+
+  %br
+  %br   
+  %label.inline.long          
+    =_('Day of week')    
+  =select "cron","day_of_week",@select_day_of_weekes, {:include_blank =>_("- Select -")},{:class=>'inline'}
+  =text_field "cron","day_of_week", :title=>_('Day of week'), :class=>'inline hide', :disabled=>'disabled'   
+
+
+
+
+
+

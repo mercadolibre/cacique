@@ -25,8 +25,8 @@
 
 
 /* Select all checkbox */  
-function ch_select_all(checker, attr_class){
-  $j("." + attr_class).attr('checked', checker.checked);
+function ch_select_all(checker, selector){
+  $j(selector).attr('checked', checker.checked);
 }
 
 

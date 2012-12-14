@@ -409,6 +409,10 @@ msgstr "Reintento worker: "
 msgid "Error!. Several Retries"
 msgstr "Error!. Demasiados Intentos"
 
+#: app/models/script_runner.rb:
+msgid "You are not authorized to use the function"
+msgstr "Você não está autorizado a executar a função"
+
 #: app/models/suite.rb:
 msgid "Enter a Name"
 msgstr "Ingrese un nombre"
@@ -686,6 +690,10 @@ msgstr "Erro"
 msgid "Post Error"
 msgstr "Post Error"
 
+#: app/views/case_templates/show.haml:
+msgid "Show"
+msgstr "Mostrar"
+
 #: app/views/layouts/_view_menu_info.haml:
 msgid "Export Script"
 msgstr "Script Exportação"
@@ -918,6 +926,19 @@ msgstr "Salvar alterações"
 msgid "Without Edit Permissions "
 msgstr "Sem permissões de edição "
 
+#: app/views/circuits/edit.haml:
+msgid "Unable to save! "
+msgstr "Não foi possível salvar!"
+
+#: app/views/circuits/edit.haml:
+msgid "It was edited by the user "
+msgstr "Foi editado pelo usuário "
+
+#: app/views/circuits/edit.haml:
+msgid "Save your changes in another medium, refresh the page and try again"
+msgstr "Salve as alterações em outro meio, atualize a página e tente novamente"
+
+
 #: app/views/layouts/_view_menu_info.haml:
 msgid "If you do not make any changes, or not have edit permissions for the script,"
 msgstr "Se você não fizer alguma alteração, ou não têm permissões para editar o script,"
@@ -964,7 +985,11 @@ msgstr "Ajuda Ruby"
 
 #: app/views/circuits/edit.haml:
 msgid "Run"
-msgstr "Executar"
+msgstr "Parar"
+
+#: app/views/circuits/edit.haml:
+msgid "Stop"
+msgstr "Detener"
 
 #: app/views/circuits/edit.haml:
 msgid "By"
@@ -1023,6 +1048,10 @@ msgid "Data Set"
 msgstr "Dados"
 
 #: app/views/circuits/rename.haml:
+msgid "We found no candidate values ​​as variables in the file"
+msgstr "Não encontramos valores candidato como variáveis ​​no arquivo"
+
+#: app/views/circuits/rename.haml:
 msgid "Define Names for"
 msgstr "Definir nomes"
 
@@ -1053,6 +1082,18 @@ msgstr "Adicionar Script"
 #: app/views/circuits/rename_save.haml:
 msgid "Edit Script"
 msgstr "Editar Script"
+
+#: app/views/circuits/ruby.haml:
+msgid "You can generate html output with a script execution by using the RedCloth gem."
+msgstr "Você pode gerar a saída html com uma execução de script usando a gem RedCloth."
+
+#: app/views/circuits/ruby.haml:
+msgid "Generate a script with the following code:"
+msgstr "Gerar um script com o seguinte código:"
+
+#: app/views/circuits/ruby.haml:
+msgid "When you script run, you can see the output in HTML format."
+msgstr "Ao executar o script, você pode ver a saída em formato HTML."
 
 #: app/views/circuits/ruby.haml:
 msgid "About Ruby"
@@ -1647,16 +1688,16 @@ msgid "Sure to remove relations?"
 msgstr "Tem certeza que quer excluir o relacionamento?"
 
 #: app/views/projects/index.haml:
-msgid "Here you manage all projects. As a "
-msgstr "Aqui você gerencia todos os projetos. Como um usuário "
+msgid "Here are listed all your projects / others projects."
+msgstr "Aqui estão listados todos os seus projetos e outros projetos."
 
 #: app/views/projects/index.haml:
-msgid "Root"
-msgstr "Administrador"
+msgid "You can create new projects and edit the projects on which you are the Manager."
+msgstr "Você pode criar novos projetos e editar os projetos em que você é o gerente."
 
 #: app/views/projects/index.haml:
-msgid " user, you can create new projects, edit existing and designate Managers."
-msgstr " pode Criar novos projetos, Editar existentes e designará Responsável."
+msgid "As a ROOT, you can edit any project."
+msgstr "Como ROOT, você pode editar qualquer projeto."
 
 #: app/views/session/new.haml:
 msgid "Do not have an account?"
@@ -1686,6 +1727,13 @@ msgstr "Lembrar o meu login"
 msgid "Log in"
 msgstr "Entrar"
 
+#: app/views/suite_executions/index.haml:
+msgid "Yes"
+msgstr "Se"
+
+msgid "No"
+msgstr "Não"
+
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Complete"
 msgstr "Completa"
@@ -1693,6 +1741,10 @@ msgstr "Completa"
 #: app/views/suite_executions/_bar_image.haml:
 msgid "Waiting"
 msgstr "En lista de espera"
+
+#: app/views/suite_executions/_bar_image.haml:
+msgid "Stopped"
+msgstr "Parou"
 
 #: app/views/suite_executions/_group_execution_status.haml:
 msgid "Total Time"
@@ -1900,8 +1952,20 @@ msgid "General Functions"
 msgstr "Recursos Gerais"
 
 #: app/views/user_functions/index.haml:
-msgid "Go to Functions by Projects --> "
-msgstr "Ir para Recursos do Projeto --> "
+msgid "Public"
+msgstr "Público"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacity"
+msgstr "Privacidade"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "A function is a piece of code that has a specific objective, which is executed when called from another function or script"
+msgstr "Uma função é um pedaço de código que tem um objetivo específico, que é executado quando chamado a partir de outra função ou script"
+
+#: app/views/user_functions/_info_user_function.haml:
+msgid "Create a function in the selected project. At the time of its creation is possible to use the property for public or private use and the option to hide the code of the function or leave visible"
+msgstr "Crie uma função no projeto selecionado. No momento da sua criação é possível usar a propriedade para uso público ou privado e a opção de ocultar o código da função ou deixar visível"
 
 #: app/views/circuits/_functions.haml:
 msgid "This project has no specific functions"
@@ -2291,6 +2355,14 @@ msgstr "Sem parâmetros configuráveis"
 msgid "Actions"
 msgstr "Ações"
 
+#: app/views/circuits/_functions.haml:
+msgid "Select the function you want to add:"
+msgstr "Selecione a função que você deseja adicionar"
+
+#: app/views/circuits/_functions.haml:
+msgid "Show code"
+msgstr "Modo de exibição Source"
+
 #: app/views/circuits/_script_tutorial.haml:
 msgid "To create a Script, first must we do a right click in our Project Folder"
 msgstr "Para criar um Script, devemos em primeiro lugar com o botão direito sobre o Pasta do nosso Projecto"
@@ -2419,6 +2491,38 @@ msgstr "Obrigado por escolher o Cacique!"
 msgid "Sure to remove the Function"
 msgstr "Tem certeza que quer apagar a função"
 
+#: app/views/user_functions/show.haml:
+msgid "Hidden code"
+msgstr "Código oculto"
+
+#: app/views/user_functions/index.haml:
+msgid "Privacy"
+msgstr "privacidade"
+
+#: app/views/user_functions/show.haml:
+msgid "Public code"
+msgstr "Código público"
+
+#: app/views/user_functions/show.haml:
+msgid "Public use"
+msgstr "Uso público"
+
+#: app/views/user_functions/show.haml:
+msgid "Private use"
+msgstr "Uso privado"
+
+#: app/views/user_functions/index.haml:
+msgid "Last modified by the user"
+msgstr "Modificada pela última vez pelo usuário"
+
+#: app/views/user_functions/index.haml:
+msgid "could be being used in"
+msgstr "poderia estar sendo usado em"
+
+#: app/views/user_functions/index.haml:
+msgid "The function is not used"
+msgstr "A função não é usada"
+
 #: app/views/queue_observers/_queue_icon.haml:
 msgid "Queued Task"
 msgstr "Tarefa Fila"
@@ -2426,6 +2530,14 @@ msgstr "Tarefa Fila"
 #: app/views/queue_observers/_show.haml:
 msgid "Conection Error"
 msgstr "Erro de conexão"
+
+#: app/views/queue_observers/index.haml:
+msgid "Restarting the worker"
+msgstr "Reinicie o Worker"
+
+#: app/views/queue_observers/index.haml:
+msgid "Update the job queue"
+msgstr "Atualize a fila de trabalhos"
 
 #: app/controllers/application_controllers.rb:
 msgid "Invalid Action"
@@ -2943,6 +3055,10 @@ msgstr "Não executado porque ocorreu um erro ao tentar se comunicar com Starlin
 msgid "Not executed because the scheduler was pending to confirm"
 msgstr "Não executado porque a programação estava pendente para confirmar"
 
+#: app/views/delayed_jobs/index.rb:
+msgid "Scheduled"
+msgstr "Programado"
+
 #: app/models/delayed_job.rb:
 msgid "To be confirmed"
 msgstr "Para ser confirmado"
@@ -2954,6 +3070,50 @@ msgstr "Confirmada"
 #: app/models/delayed_job.rb:
 msgid "Last Confirmed"
 msgstr "Confirmado última"
+
+#: app/views/crons/new.haml: 
+msgid "Alarm"
+msgstr "Alarme"
+
+#: app/views/crons/new.haml: 
+msgid "Every"
+msgstr "A cada"
+
+#: app/views/crons/index.haml: 
+msgid "Alarms"
+msgstr "Alarmes"
+
+#: app/views/crons/index.haml: 
+msgid "Alarms"
+msgstr "Alarmes"
+
+#: app/views/crons/index.haml: 
+msgid "Hour"
+msgstr "Tempo"
+
+#: app/views/crons/index.haml: 
+msgid "Day of month"
+msgstr "Dia do mês"
+
+#: app/views/crons/index.haml: 
+msgid "Day"
+msgstr "Dia"
+
+#: app/views/crons/index.haml: 
+msgid "Month"
+msgstr "Mês"
+
+#: app/views/crons/index.haml: 
+msgid "Days"
+msgstr "Dia"
+
+#: app/views/crons/index.haml: 
+msgid "Months"
+msgstr "Mês"
+
+#: app/views/crons/index.haml: 
+msgid "Day of week"
+msgstr "Dia da semana"
 
 
 #: app/views/task_programs/confirm_program.haml: 
@@ -2997,8 +3157,8 @@ msgid "to project: "
 msgstr "ao projeto: "
 
 #: app/views/user_functions/_move.haml:
-msgid "Move to Generic Functions"
-msgstr "Mover-se para funções genéricas"
+msgid "Generals"
+msgstr "generais"
 
 #: app/controllers/user_functions_controller.rb:
 msgid "Function properly moved"
@@ -3229,6 +3389,12 @@ msgstr "Esconder o código da função"
 msgid "Will hide the code and the example of the function"
 msgstr "Vai esconder o código eo exemplo da função"
 
+msgid "Private use"
+msgstr "Uso privado"
+
+msgid "The function can not be used by all users"
+msgstr "A função não pode ser usado por todos os usuários"
+
 #: app/controllers/circuits_controller.rb
 msgid "Last Edit"
 msgstr "Última Edição"
@@ -3273,3 +3439,30 @@ msgstr "Seu usuário foi criado com sucesso, <br/> Entre em contato com "
 #: app/views/controllers/users_controller.rb:
 msgid " to activate it."
 msgstr " ativá-lo."
+
+#: app/views/data_files/new.rb:
+msgid "There is already a file with that name"
+msgstr "Já existe um arquivo com esse nome"
+
+#: app/views/data_files/new.rb:
+msgid "Files"
+msgstr "Registros"
+
+#: app/views/data_files/new.rb:
+msgid "New file"
+msgstr "Novo arquivo"
+
+#: app/views/data_files/index.rb:
+msgid "Without files"
+msgstr "Nenhum arquivo"
+
+#: app/views/data_files/index.rb:
+msgid "The added file, can be accessed from any script of the project using the File class in Ruby. For more information:"
+msgstr "O arquivo é adicionado, pode ser acessado de qualquer roteiro do projeto usando a classe File em Ruby Para mais informações:".
+
+#: app/views/data_files/index.rb:
+msgid "Example usage:"
+msgstr "Exemplo de uso:"
+
+
+

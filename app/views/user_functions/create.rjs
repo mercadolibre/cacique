@@ -1,0 +1,8 @@
+if @user_function.errors.empty?
+  page.alert(@message)
+  page <<    "add_asterisk =true;"
+  page.redirect_to url_for(:controller=>:user_functions, :action=>:edit, :id=>@user_function.id)
+else
+  page.replace_html('errors', error_messages_for(:user_function))
+end
+

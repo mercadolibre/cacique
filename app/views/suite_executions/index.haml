@@ -1,48 +1,55 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
--javascript 'history'
-
-//Rates
+-#Rates
 -if !@suite_executions.empty?
-  %div{:style=>"width:96%;"}
-    =render :partial => "rates"
+  =render :partial => "rates"
 
-.main{:style=>"width:100%;padding:0%;"}
-  %h1{:title=>"#{_('History of Execution from: ')} " + @project.name.capitalize, :style=>"   margin: 20px auto 0;;"}
-    =_('History of Execution from: ')
-    =truncate(@project.name.capitalize,:ommision => "...", :length =>70)
-  =render :partial => "filter_index"
-  #history_table{:style=>"clear:both;"}
-    =render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
+%h1.top
+  =@kind
+  -class_name = [1,2].include?(params[:kind].to_i)? 'orange' :''
+%h2{:class=> 'inline ' + class_name}
+  =truncate(@project.name.capitalize,:ommision => "...", :length =>90)
 
-//Tools menu
--content_for :tools_menu do
-  %img{:src => "/images/icons/pdf.png",     :alt=>"pdf.png",     :title=>_('Export to PDF'),  :onClick => "EnviarFormulario();"}
-  %img{:src => "/images/icons/filter.png",  :alt=>"filter.png",  :title=>_('Filter'),         :onClick => "document.getElementById('filter_form').toggle();"}
-  %img{:src => "/images/icons/info.png",    :alt=>"info.png",    :title=>_('Information'),    :onClick => "document.getElementById('infoSuiteExecution').toggle();"}
+-#Paginate
+-if  !@suite_executions.empty?
+  = will_paginate @suite_executions, :params => params.merge({:kind=>params[:kind]})
+  .pagination
+    = _('Show') + ":"
+    = page_size_link 50
+    = page_size_link 100
+    = page_size_link 150    
+        
+-#Filter
+=render :partial => "filter_index" 
 
-//Help 
-=render :partial => "info_suite_execution"
+-#Table
+=render :partial => "history_table", :locals => {:suite_executions => @suite_executions, :filter => params[:filter]}
+
+-#Menu
+=render :partial=> 'menu'
+
+-#Help 
+=render :partial => "info"
+
+-#JS
+= calendar_date_select_includes "blue"
+-javascript 'history'
+-javascript 'checkbox_lib'  
+-javascript 'tabla_suiteExe_editable'
+-javascript 'tablesort'
+%script
+  -#check_all
+  $j('#check_all').click(function(){ch_select_all(this, '.check_suite_execution');}); 
+
+  -#Tabla editable
+  jQuery(window).bind("load", function(){
+  iniciarTabla();
+  })
+  -#marked file
+  var marcado  = ""; 
+  var anterior = "";
+  var color_anterior = "";
+
+  /PDF
+  $j('#pdf_icon').click(function(){EnviarFormulario();}); 
+
+  /Info
+  $j('#info_icon').click(function(){$j('#infoSuiteExecution').toggle();}); 

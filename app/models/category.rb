@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: categories
+#
+#  id          :integer(4)      not null, primary key
+#  name        :string(255)
+#  description :string(255)
+#  parent_id   :integer(4)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  project_id  :integer(4)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,20 +37,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: categories
-#
-#  id          :integer(4)      not null, primary key
-#  name        :string(255)
-#  description :string(255)
-#  parent_id   :integer(4)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  project_id  :integer(4)
-#
-
 class Category < ActiveRecord::Base
   acts_as_tree
   has_many :circuits,    :dependent => :destroy
@@ -80,6 +80,9 @@ class Category < ActiveRecord::Base
 
   end
 
+  def active_circuits
+    circuits.active.sort
+  end
 
   def search_circuit(name_)
 

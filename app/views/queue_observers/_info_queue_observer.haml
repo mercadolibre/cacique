@@ -1,0 +1,23 @@
+//QUEUE OBSERVERS INFO
+.info{:id=>"infoQueueObserver", :style=>"display:none;"}
+  =render :partial =>"layouts/popup_header", :locals=>{:element =>"infoQueueObserver"} 
+  .infoData
+    %h2{:style=>"text-align:center;"}
+      %b
+        =_('Queue Observer')
+      %p{:style=>"text-align:center;"}
+        =_('Shows the number of waiting Executions in the system')
+
+    %h3
+      %img{:src => "/images/icons/refresh.png", :alt=>"refresh.png"}
+      =_('Refresh')
+    %p
+      =_('Update the job queue')
+      %br
+      %br
+    %h3
+      %img{:src => "/images/icons/restart.png", :alt=>"restart.png"}
+      =_('Restart')
+    %p
+      =_('Restarting the worker')
+

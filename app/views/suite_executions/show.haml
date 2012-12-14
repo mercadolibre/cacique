@@ -1,29 +1,3 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
--javascript 'suite_show'
 %script
   var suite_execution_finish = true;
 
@@ -33,39 +7,40 @@
     =truncate(@name,:ommision => "...", :length =>70)
   %div{ :id=>'suite_execution'}
     %table.detail{:name=>"table_zebra", :id => "tabla", :CELLSPACING=>0, :style=>"margin:0px; width: 290px;float:left;border:1px solid #BFBFFF; border-bottom:0px;"}
-      %tr{:id=>'suite_execution_status'}
-        =render :partial => 'periodically_call_remote_suite_execution_show', :locals => {:suite_execution => @suite_execution}
-        =periodically_call_remote(:url => {:action => 'update_suite_execution_status_show', :suite_execution=> @suite_execution.id}, :condition => "suite_execution_finish == false", :update => 'suite_execution_status', :frequency => 8)
+      %thead
+        %tr{:id=>'suite_execution_status'}
+          =render :partial => 'periodically_call_remote_suite_execution_show', :locals => {:suite_execution => @suite_execution}
+          =periodically_call_remote(:url => {:action => 'update_suite_execution_status_show', :suite_execution=> @suite_execution.id}, :condition => "suite_execution_finish == false", :update => 'suite_execution_status', :frequency => 8)
       
     %table.detail{:name=>"table_zebra", :id => "tabla", :CELLSPACING=>0, :style=>"margin:0px; width: 76%;float:left;border:1px solid #BFBFFF; border-top:0px;"}
-      %tr
-        %th.exe
-          Script
-        %th.exe
-          =_('Case')
-        %th.exe
-          Result.
-        %th.exe
-          =_('Time')
-        %th.exe
-          =_('Output')
-        %th.exe
-          =_('Action')
-      -@executions.each do |execution|
-        %script
-          var execution_finish_#{execution.id.to_s} = true;
-        %tr{:id=>'status_' + execution.id.to_s}
-          =render :partial => 'periodically_call_remote_execution_show', :locals => {:execution => execution}
-        =periodically_call_remote(:url => {:action => 'update_executions_status', :execution => execution.id}, :condition => "execution_finish_#{execution.id.to_s} == false", :update => 'status_' + execution.id.to_s, :frequency => 8)
+      %thead
+        %tr
+          %td.exe.long
+            Script
+          %td.exe.medium
+            =_('Case')
+          %td.exe.very_small
+            =_('Action')
+          %td.exe.very_small
+            Result.
+          %td.exe.very_small
+            =_('Time')
+      %tbody
+        -@executions.each do |execution|
+          %script
+            var execution_finish_#{execution.id.to_s} = true;
+          %tr{:id=>'status_' + execution.id.to_s}
+            =render :partial => 'periodically_call_remote_execution_show', :locals => {:execution => execution}
+          =periodically_call_remote(:url => {:action => 'update_executions_status', :execution => execution.id}, :condition => "ejecucion_completa_#{execution.id} == false", :update => 'status_' + execution.id.to_s, :frequency => 8)
 
     %div{:style=>"float:right;width:23%;"}
       =render :partial=>"run_configuration", :locals=>{:exec_conf_values=>@exec_conf_values, :suite_execution=>@suite_execution}
     %div{:style=>"clear:both"}
 
-//Suite show
+-#Suite show
 .div{:id => "div_suite_show", :style=>"display:none;"}
     
-//Tools menu
+-#Tools menu
 -content_for :tools_menu do
   =render :partial => "queue_observers/queue_icon"
   -if @suite_execution.suite_id != 0  
@@ -75,6 +50,7 @@
     %img{:src => "/images/icons/info.png",      :alt=>"info",      :title=>_('Information'), :onClick => "document.getElementById('infoSuiteExecutionShow').toggle();"}  
   -else
     %img{:src => "/images/icons/info.png",      :alt=>"info",      :title=>_('Information'), :onClick => "document.getElementById('infoScriptExecutionShow').toggle();"}
-//Help 
+-#Help 
 =render :partial => "info_suite_execution_show"    
-    
+-#JS
+-javascript 'suite_show'

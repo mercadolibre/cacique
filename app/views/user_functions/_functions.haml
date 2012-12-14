@@ -1,85 +1,63 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
 %div{:id => "functions"}
-  -if paginate
-    %div{ :style=>"float:right;margin-right:5%;"}
-      = will_paginate user_functions, :params => {:filter => {:text => @param_search, :project_id=> @project_id} }
-  %br
-  %br
-  -if user_functions.empty?
-    %h2
-      %i
-        =_('This project has no specific functions')
-  -else  
-    %table.general{:name=>"table_zebra", :cellspacing=>"0",:style=>"border:1px solid grey;"}
-      %tr
-        %th{:style=>"width:25%;border-right:1px solid grey;"}
-          =_('Name')
-        %th{:style=>"border-right:1px solid grey;"}
-          =_('Description:')
-        %th{:style=>"width:10%;border-right:1px solid grey;"}
+
+%table.general{:name=>"table_zebra", :cellspacing=>'0'}
+  %thead
+    %tr
+      %td{:style=>"width:25%;"}
+        =_('Name')
+        \:
+      %td{:style=>"width:35%;"}
+        =_('Description:')
+      %td{:style=>"width:10%;"}
+        =_('Created by:')
+      %td{:style=>"width:10%;"}
+        =_('Project')
+      %td{:style=>";width:5%;"}
+        =_('Privacity')
+      -if controller.action_name == "index"
+        %td{:style=>"width:10%;"}
           =_('Actions')
-      -user_functions.each do |function|
-        %tr
-          %td{:title=>function.name, :style=>"width:25%;height:30px;border-right:1px solid #C6C5C4;font-size:12px;font-weight:bold;text-decoration:underline;cursor:pointer;", :onClick => "document.getElementById('code_#{function.id}').style.display='block';"}
-            =truncate(function.name, :ommision => "...", :length => 60)
-          %td{:title=>function.description, :style=>"border-right:1px solid #C6C5C4;"}
-            =truncate(function.description, :ommision => "...", :length => 150)
-          %td{:style=>"width:10%;border-right:1px solid #C6C5C4;"}
-            -if @has_permission and !function.hide?
-              =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:15px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
-              -if can_move
-                %img{:src => "/images/icons/move.png", :alt=>"move.png", :title=>_('Move Function'), :style=>"height:15px;margin-left:10px;width:15px;",:onClick => remote_function(:url => {:controller => "user_functions", :action => "show_move", :id => function.id}, :complete =>  "$j('#move').show();" , :update => "move")}
-              -msg = _('Sure to remove the Function')
-              %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
-                %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:8px;height:14px;",  :title=>_('Delete')}
-          
-        .tag{:id => "code_#{function.id}", :style => "display:none;top:25%;left:15%;width:70%;"}
-          //=render :partial =>"layouts/popup_header", :locals=>{:element =>"otro_#{function.id.to_s}"}
-          %img{:src => "/images/icons/cross_grey.png", :alt=>"cross_grey", :onClick => "document.getElementById('code_#{function.id}').style.display='none';", :style=>"cursor:pointer;float:right;"}
-          %h3
-            =function.name
-          %h2
-            =_('Created by:')
-            =function.user.name
-          -if function.hide?
-            %p{:style=>"min-height: 220px;max-height: 240px; overflow:auto;"}
-              %b{:style=>"float:left;font: 28px sans-serif;color: #9f0100;margin-left:3%;"}
-                =_("Access Denied")
-                %div{:style=>"font: 18px bold arial;color: grey;text-align:left;"}
-                  %br
-                  =_("You do not have View Permissions")
-            %p{:style=>"min-height: 50px;max-height: 160px; overflow:auto;"}
-          -else
-            %p{:style=>"min-height: 220px;max-height: 240px; overflow:auto;"}
-              =function.source_code.gsub("\n","<br>") 
-            %h2
-              =_('Example')
-            %p{:style=>"min-height: 50px;max-height: 160px; overflow:auto;"}
-              =function.example.gsub("\n","<br>") 
-                      
+  %tbody
+    -user_functions.each do |function|
+      %tr{:style=>"cursor:default;;"}
+        %td{:title=>function.name, :style=>"height:30px;font-size:12px;font-weight:bold;"}
+          =link_to truncate(function.name, :ommision => "...", :length => 60), url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
+        %td{:title=>function.description}
+          =truncate(function.description, :ommision => "...", :length => 130)
+        %td{:title=>function.user.name, :style=>"text-align:center;"}
+          =truncate(function.user.name.capitalize , :ommision => "...", :length => 25)
+        -value = (function.project_id == 0 )? _('Generals') : function.project.name.capitalize
+        %td{:title=>value, :style=>"text-align:center;"}
+          =truncate(value, :ommision => "...", :length => 20)
+        %td
+          %div{:style=>"margin: 0 auto; width: -moz-fit-content;"}
+
+            //Code hide
+            -if function.hide 
+              =link_to image_tag("icons/eye_disabled.png", :alt=>"eye_disabled.png", :style=>"border:none;"), url_for(:controller => 'user_functions',:action => 'show', :id => function.id ), :title=> _("Hidden code"), :style=>"margin-left:5px;"
+            -else
+              =link_to image_tag("icons/eye.png", :alt=>"eye.png", :title=> _("Public code"), :style=>"border:none;"), url_for(:controller => 'user_functions',:action => 'show', :id => function.id), :style=>"margin-left:5px;"
+
+            //Public or private
+            -if function.visibility or function.project_id == 0
+              =image_tag("icons/public.png", :alt=>"public.png", :title=> _("Public use"), :style=>"margin-left:5px;cursor:pointer;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) )
+            -else
+              =image_tag("icons/private.png", :alt=>"user.png", :title=> _("Private use"), :style=>"margin-left:5px;cursor:pointer;", :onClick => remote_function(:complete => "$j('#user_function_uses').show();",:update => "user_function_uses",  :method => "get",  :url => { :controller => :user_functions , :action => :user_function_uses, :id => function.id } ) )
+
+        -if controller.action_name == "index"
+          %td{:style=>"width:10%;"}
+            //Actions
+            %div{:style=>"margin: 0 auto; width: -moz-fit-content;"}
+              -if @has_permission
+                =link_to image_tag('/images/icons/edit.png', :alt=>"lapiz_azul.png", :style=>"border:none;margin-left:5px;height:14px;",  :title=>_('Edit')),  url_for(:controller => 'user_functions',:action => 'edit', :id => function.id )
+                -if !@public
+                  -msg = _('Sure to remove the Function')
+                  %a{:onclick => "if(confirm('#{msg}: #{function.name} ?'))location='/user_functions/delete/#{function.id}'", :style => "cursor:pointer;"}
+                    %img{:src => '/images/icons/cross.png', :alt=>"cross_blue.png", :style=>"border:none;margin-left:5px;height:14px;",  :title=>_('Delete')}
+                  %img{:src => "/images/icons/move.png", :alt=>"move.png", :title=>_('Move Function'), :style=>"height:15px;margin-left:5px;width:15px;",:onClick => remote_function(:url => {:controller => "user_functions", :action => "show_move", :id => function.id}, :complete =>  "$j('#move').show();" , :update => "move")}
+
+                          
 .tag{:id => "move", :style => "display:none;top:25%;left:40%;width:20%;"}
 
+//Scripts using the function
+#user_function_uses{:style=>"display:none;"}

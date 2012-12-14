@@ -1,0 +1,21 @@
+=render :partial=>'notifier/css'
+
+%body
+  %h1= "User '#{@user.name}' (#{@user.login}) has been deactivated"
+
+  %h2= "History of scheduled tasks for #{@user.name} (#{@total_tasks}) tasks:"
+  %table
+    %tr
+      %th Project
+      %th Suite
+      %th # Scheduled Tasks
+    - @tasks.each do |task|
+      %tr
+        %td= task.project.name
+        %td= task.suite.name
+        %td= task.executions
+
+  %style
+    table { border-spacing:0; border-width:1px 0 0 1px;border-style:solid; }
+    td { width: 150px; border-width:0 1px 1px 0;border-style:solid; padding:4px; }
+    th { width: 150px; border-width:0 1px 1px 0;border-style:solid; padding:4px; }

@@ -1,95 +1,113 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
--javascript 'tablesort'
-%h1{:title=>"Queue Observer"}
+-javascript 'checkbox_lib'
+
+%h1{:title=>'Queue Observer'}
   =_('Queue Observer')
 
-%h2
+%h2{:style=>'color:#585858;'}
   =_('Running Tasks')
-  -if @admin
-    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"Refresh workers info", :title=>"Refresca los pids de los workers"), :action => "refresh"
 
-%table.detail
-  %tr
-    %th{:class => "sortable"}
-      Worker
-    %th{:class => "sortable"}
-      =_('Task')
-    %th{:class => "sortable"}
-      =_('User')
-    %th{:class => "sortable"}
-      =_('Project')
-    %th{:class => "sortable"}
-      Suite
-  -@running.each do |name, task|
-    %tr
-      %td
-        =name.gsub("_"," ")
-      -if task.instance_of? Hash
-        %td
-          =truncate(task[:circuit],:ommision => "...", :length =>50)
-        %td
-          =truncate(task[:user_name],:ommision => "...", :length =>25)
-        %td
-          =truncate(task[:project],:ommision => "...", :length =>30)
-        %td
-          =truncate(task[:suite],:ommision => "...", :length =>60)
-      -else
-        %td
-          \--
-        %td
-          \--
-        %td
-          \--
-        %td
-          \--
+- now = Time.now.to_i # Avoids to calculate Time.now for every row
+-if !@running.empty?
+  -form_for :queue_observers, :url=>{:controller=>:queue_observers, :action=>:restart}, :html => {:id => "form"} do 
+    %table.general.center{:cellspacing=>'0', :name=>'table_zebra'}
+      %thead
+        %tr
+          %td{:colspan=>7, :style=>'background:#494747;color:#B7B3B3;line-height:20px;'}
+            =check_box_tag '[ips][]',0,false,:onClick=>"ch_select_all(this,'workers_ids');disable_all($j(this).is(':checked'),'workers_ids');",:style=>"float:left;"
+            All Workers
+        -@running.each do |ip, tasks|
+          %tr{:style=>'background: url("/images/icons/bar_tag.png"); border-right: 1px solid grey;color: #F0FFF0;font-size: 11px;font-weight: bold; height: 25px;padding: 3px 5px;text-align: center;'}
+            %td.very_small{:style=>'line-height:20px;width:5%; padding: 3px 5px;color:#373737;'}
+              =check_box_tag "ips[]",ip ,false, :class=>'workers_ids'
+              =ip
+            %td.small{:style=>'padding: 3px 5px;color:#373737;'}
+              =_('User')
+            %td.small{:style=>'padding: 3px 5px;color:#373737;'}
+              =_('Project')
+            %td.very_small{:style=>'padding: 3px 5px;color:#373737;'}
+              T
+            %td.medium{:style=>'padding: 3px 5px;color:#373737;'}
+              Task
+            %td.very_small{:style=>'padding: 3px 5px;color:#373737;'}
+              =_('Running time')
+            %td.very_small{:style=>'padding: 3px 5px;color:#373737;'}
+          %tbody                
+            -tasks.each do |pid, execution|
+              %tr.center
+                %td
+                  =pid
+                -if execution
+                  %td{:title=>execution.user.name}
+                    =truncate(execution.user.name,:ommision => "...", :length =>25)
+                  %td{:title=>execution.suite_execution.project.name}
+                    =truncate(execution.suite_execution.project.name,:ommision => "...", :length =>70)
+                  %td
+                    -entity = (execution.suite_execution.suite_id==0)? execution.suite_execution.executions.first.circuit : execution.suite_execution.suite
+                    =(entity.instance_of? Suite)? image_tag("icons/suite_min.png", :alt=>"suite_min.png", :title=>"Suite") : image_tag("icons/script.png", :alt=>"script.png", :title=>"Script")
+                  %td{:title=>execution.circuit.name}
+                    -if entity.instance_of? Suite
+                      %b
+                        =truncate( execution.suite_execution.suite.name + ' : ',:ommision => "...", :length =>40)                    
+                    =truncate(execution.circuit.name,:ommision => "...", :length =>50)
+                  %td
+                    =show_min_sec(now - execution.updated_at.to_i)
+                  %td 
+                    =#link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), suite_execution_path(execution.suite_execution.id), :method=>:delete) if current_user.has_role?("root")
+                -else
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
+                  %td
+                    \--
+-else
+  %h2
+    =_('At this time run instances are not available.')
 
+%br
+%br
 -@tasks.each do |name, queue|
   -if queue.size>0
-    %h2
+    %h2{:style=>'color:#585858;'}
       =name.to_s.gsub("execution_workers__","").gsub("_"," ")
-    %table.detail
-      %th{ :class => "sortable"}
-        =_('Task')
-      %th{ :class => "sortable"}
-        =_('User')
-      %th{ :class => "sortable"}
-        =_('Project')
-      -if @admin
-        %th{ :class => "sortable"}
+    %table.general.center{:cellspacing=>'0', :name=>'table_zebra'}
+      %thead
+        %td{ :class => "sortable"}
+          =_('User')
+        %td{ :class => "sortable"}
+          =_('Project')
+        %td{ :class => "sortable"}
+          =_('Task')
+        %td{ :class => "sortable", :style=>"width:5%;"}
           =_('Actions')
-      %tr 
-      -queue.each do |tasks_values|
-        %td
-          =tasks_values[:task_name]
-        %td
-          =tasks_values[:username]
-        %td
-          =tasks_values[:project]
-        -if @admin
-          %td
-            =link_to "X", {:action => "delete", :id=> tasks_values[:suite_execution_id]} if @admin
-        %tr
+      %tbody
+        -queue.each do |tasks_values|
+          %tr.center
+            %td{:title=>tasks_values[:username]}
+              =truncate(tasks_values[:username],:ommision => "...", :length =>90)
+            %td{:title=>tasks_values[:project]}
+              =truncate(tasks_values[:project],:ommision => "...", :length =>90)
+            %td{:title=>tasks_values[:task_name]}
+              =truncate(tasks_values[:task_name],:ommision => "...", :length =>90)
+            %td
+              =#link_to(image_tag("/images/icons/stop.png", :alt=>"stop",:title=>_('Stop') ), execution_path(tasks_values[:suite_execution_id]), :method=>:delete) if current_user.has_role?("root")
+
+
+//Tools menu
+-content_for :tools_menu do
+  -if @admin
+    =image_tag "icons/restart.png", :style=>'border:none;', :alt=>"restart.png", :title=>_('Restarting the worker'), :onclick=>"$j('#form').submit();"
+    =link_to image_tag("icons/refresh.png", :style=>'border:none;', :alt=>"refresh.png", :title=>_('Update the job queue') ), :action => "refresh"
+
+  //Info
+  =image_tag( "/images/icons/info.png", :alt=>"info",:title=>_('Information'),   :onClick => "$j('#infoQueueObserver').show();", :style=>"padding-right:20px;")
+
+//Help 
+=render :partial => "info_queue_observer"
+

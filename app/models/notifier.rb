@@ -40,7 +40,7 @@ class Notifier < ActionMailer::Base
    @from = EMAIL
    @subject = _("[Cacique] Password Recovery")
    @body['user'] = user
-   @body['url'] = "http://" + IP_SERVER.to_s + ":" + server_port.to_s + "/users/change_password/" + user.salt.to_s
+   @body['url'] = "http://" + SERVER_DOMAIN + ":" + server_port.to_s + "/users/change_password/" + user.salt.to_s
    @content_type = "text/html"
   end
 
@@ -53,13 +53,23 @@ class Notifier < ActionMailer::Base
    @content_type = "text/html"
   end
 
+  def user_inactive(manager, user, tasks)
+   @recipients = manager.email
+   @from = EMAIL
+   @subject = _("[Cacique] user #{user.login} is no longer active")
+   @body['user'] = user
+   @body['tasks'] = tasks
+   @body['total_tasks'] = tasks.sum {|t| t.executions.to_i}
+   @content_type = "text/html"
+  end
+
   def suite_execution_alert(suite_execution,emails_to_send)
     @recipients = emails_to_send
     @from = EMAIL
     @subject = "[CCQ] [#{suite_execution.s_status}] #{suite_execution.suite.name}"
     @body['suite_execution'] = suite_execution
     @attachment = {:content_type => "image/png",:filename=> "image.png", :body=> File.read(Rails.root.join('public/images/cacique/logo_cacique.png'))}
-    @url = "http://" + IP_SERVER.to_s + "/suite_executions/#{suite_execution.id}"  
+    @url = "http://" + SERVER_DOMAIN + "/suite_executions/#{suite_execution.id}"  
     @content_type = "text/html"
   end 
   
@@ -69,7 +79,7 @@ class Notifier < ActionMailer::Base
       @from = EMAIL
       @subject = "[CCQ] [#{@execution.s_status}] #{@execution.circuit.name} "
       @body['execution'] = @execution
-      @url = "http://" + IP_SERVER.to_s + "/suite_executions/#{suite_execution.id}"      
+      @url = "http://" + SERVER_DOMAIN + "/suite_executions/#{suite_execution.id}"      
       @content_type = "text/html"
   end
   
@@ -77,7 +87,7 @@ class Notifier < ActionMailer::Base
     task_program = TaskProgram.find task_program_id
     @recipients = user_mail
     @from = EMAIL
-    @body['url_confirm'] = "http://" + IP_SERVER.to_s + ":" + server_port.to_s + "/task_programs/confirm_program/#{task_program_id}"
+    @body['url_confirm'] = "http://" + SERVER_DOMAIN + ":" + server_port.to_s + "/task_programs/confirm_program/#{task_program_id}"
     @body['suite_name'] = Suite.find(suite_id).name
     @body['next_execution'] = task_program.delayed_jobs[1] 
     @content_type = "text/html" 
@@ -85,5 +95,15 @@ class Notifier < ActionMailer::Base
     name = @body['suite_name'].length <= 30  ? @body['suite_name'] : @body['suite_name'][0..27] + "..."
     @subject = "[Cacique] Suite Program Confirm: #{name} " 
   end
+  
+  #System administrator is notified of an error
+  def notifier_error(text_error)
+    @recipients = ADMIN_EMAIL
+    @from = EMAIL
+    @subject = "[CCQ] [Application ERROR]"
+    @text_error = text_error   
+    @content_type = "text/html"
+  end
+
 
 end

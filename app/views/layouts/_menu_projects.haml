@@ -18,26 +18,35 @@
           =_('Other Projects')
       %ul{:id=>"div_all_projects"}
  
-    -if !@project_actual.nil?   
+    -if @project_actual   
       %li  
         -url_circuit = (!@user_last_edited_scripts.nil? and !@user_last_edited_scripts[@project_actual.id].nil?)? edit_project_circuit_path(@project_actual.id,@user_last_edited_scripts[@project_actual.id].to_s) : project_circuits_path(@project_actual.id)
         %a.parent{ :href => url_circuit }
           %span
             Scripts
-        %li
-          %a.parent{ :href => "/suites" }
-            %span
-              Suites
-        %li
-          %a{ :href => "/suite_executions" }
-            %span
-              =_('History')
+    %li
+      %a{ :href => "/user_functions", :title => _("Add/Remove Functions") }
+        %span
+          = _("Functions")            
 
+    -if @project_actual   
+      %li
+        %a.parent{ :href => "/suites" }
+          %span
+            Suites
+      %li
+        %a.parent{ :href => suite_executions_path(:kind=>0) }
+          %span
+            =_('History')
+        %ul         
+          =render :partial=> "layouts/menu_history"
     %li
       //By default is redirected to notes admin
-      %a{ :href => "/user_functions" }
+      %a.parent{:id=>"admin_hover", :href => "#" }
         %span
           =_('Admin')
+      %ul{:id=>"div_admin", :style=>"width: 180px;"}
+        =render :partial=> "layouts/menu_admin"
 
     //Help  
     %li

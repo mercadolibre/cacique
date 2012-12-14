@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: project_users
+#
+#  id         :integer(4)      not null, primary key
+#  project_id :integer(4)
+#  user_id    :integer(4)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -24,18 +36,6 @@
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
 # == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: project_users
-#
-#  id         :integer(4)      not null, primary key
-#  project_id :integer(4)
-#  user_id    :integer(4)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
-# == Schema Information
 # Schema version: 20091126193447
 #
 # Table name: project_users
@@ -59,18 +59,19 @@ class ProjectUser < ActiveRecord::Base
 
   def assign_roles
     #assign editor rol to user
-    user    = User.find self.user_id
+    user = User.find self.user_id
     project = Project.find self.project_id
-	  user.has_role("editor", project)
-	  user.has_role("viewer", project)
+    # TODO: this needs cleanup
+    user.has_role("editor", project, :nocheck)
+    user.has_role("viewer", project, :nocheck)
   end
 
   def deallocate_roles
     # unassign editor rol  to user
     user = User.find self.user_id
     project = Project.find self.project_id
-	  user.has_no_role("editor", project)
-	  user.has_no_role("viewer", project)
+    user.has_no_role("editor", project, :nocheck)
+    user.has_no_role("viewer", project, :nocheck)
   end
 
 end

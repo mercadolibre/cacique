@@ -1,34 +1,10 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
 -javascript 'tabla_editable'
 -javascript 'tablesort'
 -javascript 'select_all'
 -javascript 'checked_default'
+-javascript 'checkbox_lib'
 
-//Selected filed in table of cases
+-#Selected filed in table of cases
 %script
   var marcado  = "";
   var anterior = "";
@@ -59,7 +35,15 @@
         =render :partial => 'context_configurations/suite_config',    :locals => {:suite_id => @suite.id, :command=>@command}
   
 
-//Tools menu
+%script
+  function submit_and_hide(img) {
+  $j(img).hide();
+  $j(img).next().show();
+  $j('#form_to_run_suite').submit();
+  }
+
+-#Tools menu
 -content_for :tools_menu do
-  =image_tag("/images/icons/play.png", :alt=>"run", :title=>_('Run'), :onClick => "$j('#form_to_run_suite').submit();")
+  =image_tag("/images/icons/play.png", :alt=>"run", :title=>_('Run'), :onClick => "submit_and_hide(this);")
+  =image_tag("/images/load/spinner.gif", :alt=>"running", :title=>_('Running ...'), :style => 'display:none; cursor:default;')
   =render :partial => "queue_observers/queue_icon"

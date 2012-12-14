@@ -26,31 +26,24 @@
 
 
 class ProjectsController < ApplicationController
- # protect_from_forgery
-  before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
-  #skip_before_filter :context_stuff, :only => [:get_all_projects, :get_my_projects]
+  # before_filter :box_values, :only => [:index,:create,:update,:destroy,:assign,:deallocate]
+  before_filter :has_permission, :only => [:edit, :update, :destroy]
   
-  #get values about projects and users that will be showed on projects selects
-  def box_values
-       @projects = (Project.find :all).sort_by { |x| x.name.downcase }
-       @users    = (User.find :all).sort_by { |x| x.name.downcase }
+  def has_permission
+    @project = Project.find params[:id]
+    permit "root or (manager of :project)"
   end
-
 
 #curl -X GET -H "Accept: text/plain" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
 #curl -X GET -H "Accept: application/xml" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
 #curl -X GET -H "Accept: application/json" localhost:3000/projects -d api_key=268e7639fbd4d54656bd4393ee50941414621dc7
 
-def index
-    permit "root" do
-      respond_to do |format|
-        format.html
-        format.text {render :text => @projects.inspect}
-        format.xml {render :xml=>@projects.to_xml}
-        format.json {render :json=>@projects.to_json}
-      end
-    end  
- 
+  def index
+    @users = User.all.sort
+    projects = Project.all(:include => [:users, :user]).sort
+    @my_projects = projects.select{|p| p.users.include? current_user }
+    @other_projects = projects.reject{|p| p.users.include? current_user }
+    @is_root = current_user.has_role? "root"
   end
 
   def show
@@ -58,42 +51,27 @@ def index
   end
 
   def create
-    permit "root" do
-       unless params[:project].nil?
-         
-         projectname = params[:project].to_s
-         if projectname.match(/'+/)
-           flash[:notice] = _("ATENTION: Project Name can´t contain single quotes")
-           render :index         
-         else
-           @project = Project.create(params[:project])
-           @project.creater_user_relation(params[:project][:user_id])
-           flash[:notice] = _("The Project was Correctly Create") if @project.valid?
-           redirect_to :projects
-         end
-       
-       else
-         redirect_to :projects
-       end
-       
+    if params[:project]
+      # if current_user is not root, it's assigned as a manager (can't assign another user)
+      params[:project][:user_id] = current_user.id if params[:project][:user_id].blank? || current_user.has_no_role?("root")
+      @project = Project.create(params[:project])
+      @project.assign_manager params[:project][:user_id]
+
+      flash[:notice] = _("The Project was Correctly Create") if @project.valid?
     end
+    redirect_to :projects
   end
 
   def edit
-     @project    = Project.find params[:id]
-     @assigments = ProjectUser.find_all_by_project_id @project.id
-     @users      = User.all.sort_by { |x| x.name.downcase }
+    @assigments = ProjectUser.find_all_by_project_id @project.id
+    @users      = User.all.select{|u| u.active?}.sort_by { |x| x.name.downcase }
   end
 
   def update
-    permit "root" do
-        @project = Project.find params[:id]
-        @project.update_attributes(params[:project])
-        #update mannager
-        @project.assign_manager(params[:project][:user_id]) 
-        flash[:notice] = _("The Project was Correctly Modified") if !@project.errors.empty?
-        redirect_to edit_project_path(@project.id)
-    end
+    @project.update_attributes(params[:project])
+    @project.assign_manager(params[:project][:user_id])
+    flash[:notice] = _("The Project was Correctly Modified") if !@project.errors.empty?
+    redirect_to edit_project_path(@project.id)
   end
 
   def destroy

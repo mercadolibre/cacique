@@ -36,9 +36,8 @@ class QueueObserversController < ApplicationController
   def index
       @admin=current_user.has_role? "root"
       queue=QueueObserver.new
-      @running=queue.get_running_info
-      #@tasks=[]
-      @tasks=queue.get_named_tasks
+      @running=queue.get_running_info #Format: {ip_mannager1 => [ [pid1, execution], [pid2, execution],... ] , ip_mannager2 => [], ..}
+      @tasks=queue.get_named_tasks 
   end
 
 
@@ -50,11 +49,22 @@ class QueueObserversController < ApplicationController
     end
   end
 
-
   def refresh 
     permit "root" do
       QueueObserver.refresh_workers
       redirect_to :controller => "queue_observers", :action => "index"
     end
   end
+
+  def restart
+   if params[:ips]
+     workers_hash=Rails.cache.read("registred_workers") #Format: {ip_mannager=>[pid1,pid2,..]}
+     params[:ips] = workers_hash.keys if params[:ips].first == "0" #All managers
+     params[:ips].each do |ip|
+         QueueObserver.restart_worker(ip)
+     end
+   end
+   redirect_to :action => "refresh"
+  end
+
 end

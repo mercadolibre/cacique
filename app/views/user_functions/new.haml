@@ -1,81 +1,46 @@
-//
-//  @Authors:
-//      Brizuela Lucia                  lula.brizuela@gmail.com
-//      Guerra Brenda                   brenda.guerra.7@gmail.com
-//      Crosa Fernando                  fernandocrosa@hotmail.com
-//      Branciforte Horacio             horaciob@gmail.com
-//      Luna Juan                       juancluna@gmail.com
-//
-//  @copyright (C) 2010 MercadoLibre S.R.L
-//
-//
-//  @license        GNU/GPL, see license.txt
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see http://www.gnu.org/licenses/.
-//
--javascript 'user_function'
--javascript 'onclick_iframe'
-
-%script{ :language => "javascript", :src => "/codepress.js" }
 %script
-  //used in codepress
-  var add_event = true;
-  var add_asterisk = true;
-  function restrictEnterKey(event) {
-  var key=(event.charCode)?event.charCode:((event.keyCode)?event.keyCode:((event.which)?event.which:0));
-  if (add_asterisk){
-  if((key == 13) || (key == 8) || ( (key >= 41) && (key <= 255) )){
-  document.getElementById('modified_file').innerHTML = '*';
-  add_asterisk = false;
-  }
-  }
-  }
-  function is_read_only(){
-  ="return #{!@has_permission}"
-  }
-   
+  ="var cant_args_add = #{@arguments.count};"
+
 %h1
   =_('New Function')
   
 #checker{:style=>"display:none; "}
 
 .form{:style=>" margin-left:30px; margin-top:20px;"}
-  -form_for @user_function, :url => { :controller => "user_functions",:action => 'create'} do |f|
+  -remote_form_for @user_function, :url => { :controller => "user_functions",:action => 'create'},  :html=>{:id=>"form_new"} do |f|
     = error_messages_for :user_function
-    =f.text_field :project_id, {:style => "display:none;"}
-    %label{:for => "name" } 
-      =_('Name')
+    #errors
+
+    %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:15px 20px;" }
+      =f.text_field :project_id, {:style => "display:none;"}
+      //Name
+      %label{:for => "name" } 
+        =_('Name')
+        %br
+        =f.text_field :name, {:size => 28, :maxlength => 50,:onblur=>"document.getElementById('function_head').innerHTML='Def ' + this.value"}
       %br
-      =f.text_field :name, {:size => 28, :maxlength => 50,:onblur=>"document.getElementById('function_head').innerHTML='Def ' + this.value"}
-    %br
-    %br
-    %label{:for => "description"} 
-      =_('Description')
+      //Description
+      %label{:for => "description"} 
+        =_('Description')
+        %br
+        =f.text_area :description, {:rows => 6, :style => "width:60%;"}
       %br
-      =f.text_area :description, {:rows => 6, :style => "width:750px;"}
-    %br
-    %br
-    %label{:for => "hide"} 
-      =f.check_box :hide, {:onClick => "show_hide_message();"}
-      =_('Hide the code of the function')
-      %div{:id => "message", :style => "display:#{(@user_function.hide ? 'block' : 'none' )};color:red;"}
-        =_("Will hide the code and the example of the function")
-    %br
-    %div{ :style => "-moz-background-inline-policy:continuous;-moz-border-radius:10px 10px 10px 10px;border:1px solid #C3C3C3;padding:5px 20px;" }
+      //Checks
+      -if(@project_id != 0)
+        %label{:for => "visibility",  :title=>_("The function can not be used by all users")}  
+          -value = FUNCTION_PRIVATED_DEFAULT ? 'checked' : ''
+          =f.check_box :visibility, {:checked=>value}, checked_value = "0", unchecked_value = "1"
+          =_('Private use')
+      %label{:for => "hide", :title=>_("Will hide the code and the example of the function")} 
+        -value = FUNCTION_HIDE_DEFAULT ? 'checked' : ''
+        =f.check_box :hide, { :checked=> value}
+        =_('Hide the code of the function')
+      %br
+      //Arguments
       %label{:for => "cant_args"}
+        =image_tag 'icons/add_blue.gif', :alt=>'add_blue.gif', :title=>_('New'), :onClick => "add_argument();", :style=>"cursor:pointer; width:15px; height:15px;"
         =_('Arguments')
         %br
-        %img{:src => "/images/icons/add_blue.gif", :alt=>"add_blue.gif", :title=>_('New'), :onClick => "add_argument();", :style=>"cursor:pointer; width:15px; height:15px;"}
         #div_arguments_table
           %table{:id => 'arguments_table'}
             - n = 0
@@ -90,40 +55,32 @@
             %script
               cant_args_add = #{n};
       %br
-      %br
+      //Code
       %label{:for => "source_code"}
         =_('Code')
-        %div{:style=>"margin-top:10px;font-size:12px; color: #375DC0;"}
-        #definition{:style=>"width: 100 px;"}
-          =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text(codepress_content_free.getCode()))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
-          %div{ :id => "modified_file", :style => "width:1%;float:left;display:none;"}
-          %div{:id => "function_head"}
-            Def
-        %input{ :type => "hidden", :name => "content",         :value => "" }
-        %textarea{ :id => "codepress_content_free", :name=>"content_free", :class => "codepress ruby linenumbers-on", :style=>"width:100%; height:335px;"}
+      .tab_container{:style=>"width:95%; height:600px;padding-bottom:0;"}
+        %div{:id => "function_head"}
+          Def
+        %input{ :type => "hidden", :name => "content",:value => "" }
+        %textarea{ :id=>"scriptTextArea",}
           =@source_code.gsub("\r\n","\r").gsub("\n\r","\r").gsub("\n","\r") if @source_code
         =f.hidden_field :code, :value => ""
-        %div{:style=>"margin-top:0px; font-size:12px; color: #375DC0;"}
-          End
+        End
       %br
       %br
       %label{:for => "example"} 
         =_('Example')
         %br
-        =f.text_area :example, {:rows => 6, :style => "width:750px;"}
+        =f.text_area :example, {:rows => 4, :style => "width:60%;"}
       %br
       %br
-    %br  
-    %div{ :style => "float:right;" }
-      = submit_tag _('Create'),:onclick => "sendContent();" ,:style => "margin-right:10px;cursor:pointer;"
-      -if @user_function.project_id == 0
-        -url_cancel = "/user_functions"
-      -else
-        -url_cancel = "/user_functions?filter[project_id]=#{@user_function.project_id}"
-      %input{:type=>"button", :value=> _("Cancel"), :onclick => "if(confirm('#{_("Are you sure you want to quit?")}'))location='#{url_cancel}';", :style=>"cursor:pointer;"}
-    %br
-    %br
-    
+
+
 //Tools menu
 -content_for :tools_menu do
-  =render :partial=> "admin/menu_admin"
+  =image_tag("/images/icons/save.png",:alt=>"save",:title =>_("Save"),:onclick => "changed_flag=false;sendContent();$j('#form_new').trigger('onsubmit');",:style => "margin-right:10px;cursor:pointer;")
+
+  //Sintax check
+  =link_to_remote image_tag("/images/icons/bug.png", :alt=>"syntax check", :title=>_('Syntax Check'), :style=>"align: left;border: none;display: inline;"), :url => {:controller => "circuits", :action => "checkit"},:with=>"'code='+encodeURIComponent(encode_text( script_content.getValue() ))", :update => "checker", :complete => "document.getElementById('checker').toggle();", :method => :post
+
+= render :partial=> "circuits/script_editor", :locals => { :id=>"scriptTextArea", :readonly=>@readonly }

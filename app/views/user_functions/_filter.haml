@@ -1,0 +1,52 @@
+-javascript 'checkbox_lib'
+
+.filter
+  -form_for :user_function, :url => url_for(:controller => :user_functions, :action => :search) do
+
+    /Projects
+    %label{:style=>'float:left;'}
+      =_('Projects:')
+    .form_tag{:style=>'max-height: 60px; width: 200px; overflow: auto;float:left;'}
+      = check_box_tag '[filter][projects_ids][]', 0, false, :onClick => "ch_select_all(this, '.projects_ids');disable_all($j(this).is(':checked'), 'project_ids');"
+      %b{:style=>'color:#848484;'}
+        All
+      %br
+      -@projects.each do |project|
+        %div{:title=>project.name.capitalize,:style=>'color:#848484;'}
+          -value = ( (!params[:filter] and params[:project_id] and project.id == params[:project_id].to_i) or (params[:filter] and params[:filter][:projects_ids] and params[:filter][:projects_ids].include?(project.id.to_s)) )
+          = check_box_tag '[filter][projects_ids][]', project.id, value, :class=>'project_ids'
+          = truncate(project.name.capitalize, :ommision => '...', :length => 30)
+           
+    /Name or description
+    %label
+      =_('Name')
+      \/
+      =_('Description')
+      \:
+    -value = params[:filter] && params[:filter][:text]  ? params[:filter][:text] : ''
+    =text_field("filter", "text", {:value=>value})
+
+    /Created by
+    %label
+      =image_tag('icons/user.png', :alt=>'user.png', :title=>_('Created by:'), :width=>16, :heigth=>16)
+    -value = params[:filter] && params[:filter][:user_id]  ? params[:filter][:user_id].to_i : ''
+    =select("filter", "user_id", @users.collect {|u| [ truncate(u.name.capitalize, :ommision => "...", :length => 60), u.id ] }.sort!,{ :selected => value, :include_blank => _('All')})  
+
+    /Public 
+    %label{:style=>"display:inline-block;width:80px;"}
+      =_('Privacity')
+      \:
+    -value = (params[:filter] and !params[:filter][:visibility].nil?) ? params[:filter][:visibility].to_s : ""
+    =select("filter", "visibility", [[_('Public use'), "true" ],[_('Private use'), "false" ]],{ :selected => value, :include_blank => _('All')}) 
+
+    /Submit
+    %label
+      =submit_tag _("Apply"), :class=>'submit' 
+
+    %br
+    %br
+
+
+
+    
+

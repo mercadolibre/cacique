@@ -1,0 +1,25 @@
+%li
+  %a{ :href => "/notes", :title => _('Add/Remove Notes') }
+    %span
+      =_('General Notes')
+%li
+  %a{ :href => "/projects", :title => _("Projects Administration") }
+    %span
+      = _("Projects")
+%li
+  %a{ :href => "/users", :title => _("Users Administration") }
+    %span
+      = _("Users")
+%li
+  %a{ :href => "/graphs", :title => _("Summary") }
+    %span
+      = _("Summary")
+%li
+  %a{ :href => "/context_configurations", :title => _("Run Configuration") }
+    %span
+      = _("Run Configuration")
+%li
+  %a{ :href => admins_path, :title => _("Admin") }
+    %span
+      = _("Admin")      
+

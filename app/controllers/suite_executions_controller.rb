@@ -38,44 +38,56 @@ class SuiteExecutionsController < ApplicationController
 
   def index
 
-    @project ||= Project.find params[:project_id]
-    @errores = Array.new
-    @user_names  ||= User.all
+    @errores ||= Array.new
     CalendarDateSelect.format=(:finnish)   
-    @init_date = params[:filter] && params[:filter][:init_date]? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (7*24*60*60) #7 days later
-    @finish_date = params[:filter] && params[:filter][:finish_date]? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") : DateTime.now.in_time_zone
     @readonly    = true unless current_user.has_role?("editor", @project)
-    row_per_page = (params[:filter] && params[:filter][:paginate])? params[:filter][:paginate].to_i : 12
-    @status = [  [_("all"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5] ]
 
-   #show filters
-   if params[:filter]
-      @show_model   = params[:filter][:model]
-      @suite_names  ||= @project.suites
-      @script_names ||= @project.circuits      
-      @suite_names  ||= @project.suites
-      @script_names ||= @project.circuits  
-      suite_executions = SuiteExecution.get_suite_exec_with_filters(@project,params[:filter])
-      #select cases values
-      if params[:filter][:circuit_id] && !params[:filter][:circuit_id].empty?
-         circuit = Circuit.find params[:filter][:circuit_id]
-         @case_names = circuit.case_templates
-      end      
-      #Paginate
-      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page
-   else
-      suite_executions = SuiteExecution.get_suite_exec_with_filters(@project, Hash.new)
-      @suite_executions = suite_executions.paginate :page => params[:page], :per_page => row_per_page     
-   end
-   #Get percentages of states
-   @rates =  SuiteExecution.get_rates(suite_executions)
+    #Project
+    @project ||= Project.find params[:project_id]
 
-   #Run configurations
-   @run_configurations = Hash.new
-   @suite_executions.each do |se| 
-       @run_configurations[se.id] = se.execution_configuration_values
-   end
-   
+    #Status
+    @status = [  [_("All"),-1], [_("Waiting ..."), 0] , [_("Running ..."),1], [_("Success"),2] , [_("Error"),3] , [_("Comented"),4] , [_("Not Run"),5], [_("Stopped"),6] ]
+
+    #Users
+    @users  = User.all
+
+    #Scripts
+    @scripts = @project.circuits      
+
+    #Suites
+    suites_ids = Rails.cache.fetch("project_suites_#{@project.id}"){Project.find(@project.id).suite_ids}
+    @suites    = Suite.find(suites_ids)
+
+    #Dates
+    params[:init_date]   = params[:filter] && params[:filter][:init_date] ? DateTime.strptime(params[:filter][:init_date], "%d.%m.%Y %H:%M"): DateTime.now.in_time_zone - (1*24*60*60)  #1 days after
+    params[:finish_date] = params[:filter] && params[:filter][:finish_date] ? DateTime.strptime(params[:filter][:finish_date], "%d.%m.%Y %H:%M") :  DateTime.now.in_time_zone
+
+    params[:kind] = params[:filter][:kind].to_i if params[:filter] and params[:filter][:kind]
+    params[:kind] = 0 if !params[:kind]
+    @kind = SuiteExecution.s_kind(params[:kind])
+
+    #Suite executions
+    @suite_executions = SuiteExecution.filter(@project,params)
+
+    #Get percentages of states
+    @rates =  SuiteExecution.get_rates(@suite_executions)
+    @total_rate = @suite_executions.count
+
+    #Run configurations
+    @run_configurations = Hash.new
+    @suite_executions.each do |se| 
+      @run_configurations[se.id] = se.execution_configuration_values
+    end
+
+  end
+
+  #stoping suite_execution!
+  def destroy
+     suite_execution=SuiteExecution.find(params[:id])
+     if suite_execution.user_id == current_user.id || current_user.has_role?("root")
+        suite_execution.stop
+        redirect_to :back
+     end
   end
 
   def show_model_filter
@@ -153,6 +165,7 @@ class SuiteExecutionsController < ApplicationController
   end
 
   def create
+
     if !params[:execution].nil? and params[:execution].include?(:suite_id) 
       #if run a suite, i have suite_id
       suite_id = params[:execution][:suite_id]
@@ -194,9 +207,16 @@ class SuiteExecutionsController < ApplicationController
     else
       user_id = current_user.id
     end
-    
+
+    #Kind of suite execution
+    kind = (params[:execution] and params[:execution][:kind])?  params[:execution][:kind].first.to_i : 0
+
     combinations.each do |combination|
-      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,:project_id=>@project_id, :identifier=>identifier,:user_id=>user_id)
+      @suite_execution = SuiteExecution.create(:suite_id=>suite_id,
+                                               :project_id=>@project_id, 
+                                               :identifier=>identifier,
+                                               :user_id=>user_id,
+                                               :kind=>kind)
       #add run parameters to suite_execution
       @suite_execution.create_configuration_to_run(combination)     
       #Executions are generated for the suite
@@ -222,9 +242,6 @@ class SuiteExecutionsController < ApplicationController
       @suite_execution.load_cache          
       #caching last executions of suite_execution
       @suite_execution.load_last_executions_cache    
-      
-      #means it is a suite scheduled
-      task_program.add_suite_execution_id(@suite_execution.id) if task_program
      
       suite_executions << @suite_execution
     end
@@ -302,7 +319,9 @@ class SuiteExecutionsController < ApplicationController
           params[:project_id] = Circuit.find(params[:circuit_id]).project_id if params[:project_id].nil?
           url = project_circuit_case_templates_path(params[:project_id],params[:circuit_id])
       elsif params[:where_did_i_come] == "circuits_edit"
-        url = edit_project_circuit_path(params[:project_id],params[:circuit_id]) + "?execution_running=#{suite_executions.last.executions.first.id}"
+        execution = suite_executions.last.executions.first
+        execution.circuit.caching_last_execution(execution)
+        url = edit_project_circuit_path(params[:project_id],params[:circuit_id])
       elsif params[:where_did_i_come] == "suite_executions_new"
         if params[:execution][:cant_corridas] != "1"
           #Run Suite N Times
@@ -355,6 +374,9 @@ class SuiteExecutionsController < ApplicationController
   def update_executions_status
     Execution
     Circuit
+    DataRecovery
+    DataRecoveryName
+    SuiteExecution
     #search suite runned in cache
     execution  = Rails.cache.fetch("exec_#{params[:execution]}"){Execution.find(params[:execution])}
 
@@ -403,16 +425,13 @@ class SuiteExecutionsController < ApplicationController
       @suite.case_templates.each do |c|
 	 @circuit_case[c.id] = c.circuit.name
       end
-
-    #case template table
-    @columns_template  = CaseTemplate.column_names
  
     #Script column obtain
        #hash Format: [circuit_id =>{data sets column}]
        @suite_circuits_data = Hash.new
        @suite_circuits_data = @suite.circuits_data()
     #Case template columns
-    @case_template_columns = CaseTemplate.column_names - ["circuit_id", "user_id", "updated_at", "case_template_id"] #Columns default (id, objective,etc..)
+    @case_template_columns = CaseTemplate.get_default_columns
 
     #Broken relations
     @circuits  = @suite.circuits
@@ -437,7 +456,17 @@ class SuiteExecutionsController < ApplicationController
   def get_report
       unless params[:suite_executions].nil?
         respond_to do |format|
-           @executions=SuiteExecution.find(params[:suite_executions].reverse.collect!{|x| x.to_i}) 
+
+           #Suites execution
+           @suite_executions=SuiteExecution.find(params[:suite_executions].reverse.collect!{|x| x.to_i}) 
+
+           #Run configurations
+           @run_configurations = Hash.new
+           @suite_executions.each do |se| 
+               @run_configurations[se.id] = se.execution_configuration_values
+           end
+
+           #app/views/suite_executions/get_report.pdf
            prawnto :prawn=>{:page_size=>"A4",:background=>"#{RAILS_ROOT}/public/images/cacique/pdf_background.jpg", :inline=>false, :filename => "cacique_report.pdf"}
            format.pdf{ render :layout => false  }
         end
@@ -457,7 +486,6 @@ class SuiteExecutionsController < ApplicationController
     #Save User Configuration
     @user_configuration = current_user.user_configuration
     @user_configuration.update_configuration(params[:execution])
-
     command = SuiteExecution.generate_command( params[:execution], "run")
   
     if params[:execution]["where_did_i_come"] == "new_program"

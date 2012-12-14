@@ -27,8 +27,8 @@
 class RunSuiteProgram < Struct.new(:params)
 
   def perform
-    dj = DelayedJob.find(params[:delayed_job_id])
-  
+    dj = DelayedJob.find(params[:delayed_job_id]) 
+      
     #Manejo de Estados
     case dj.status
       when 0
@@ -37,11 +37,8 @@ class RunSuiteProgram < Struct.new(:params)
         ContextConfiguration.all_enable.each do |context_configuration|
           context_configurations[context_configuration.name.to_sym] = params[context_configuration.name.to_sym].to_s
         end
-
         suite_execution = SuiteExecution.generate_suite_execution_with_message("Not executed because the programming was pending to confirm", params[:suite_id], params[:identifier], params[:user_id], context_configurations)
 
-        task_program = TaskProgram.find(params[:task_program_id])
-        task_program.add_suite_execution_id(suite_execution.id)
       when 1
         #Ejecuto Normalmente
         run_program( params )
@@ -60,12 +57,9 @@ class RunSuiteProgram < Struct.new(:params)
         ContextConfiguration.all_enable.each do |context_configuration|
           context_configurations[context_configuration.name.to_sym] = params[context_configuration.name.to_sym].to_s
         end
-
         suite_execution = SuiteExecution.generate_suite_execution_with_message("Not executed because the programming has an unknown state: #{dj.status}", params[:suite_id], params[:identifier], params[:user_id], context_configurations)
-
-        task_program = TaskProgram.find(params[:task_program_id])
-        task_program.add_suite_execution_id(suite_execution.id)    
     end
+  dj.destroy
   rescue
     puts $!
     puts $@
@@ -82,6 +76,7 @@ class RunSuiteProgram < Struct.new(:params)
     command.gsub!("\<user_pass\>",FIRST_USER_PASS)
 
     system("#{RAILS_ROOT}/lib/#{command}")
+
   rescue
     puts $!
     puts $@

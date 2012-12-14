@@ -56,7 +56,7 @@ class CircuitsController < ApplicationController
 	       upload = Hash.new
 	       upload[:fileUpload] = params['fileUpload'].read
 	       upload[:name] = @name
-               upload[:file_name] = params['fileUpload'].original_filename
+         upload[:file_name] = params['fileUpload'].original_filename
 	       DataFile.save( upload )
 	       redirect_to url_for(:controller=>:circuits, :action=>:rename, 
                                    :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id, 
@@ -84,22 +84,23 @@ class CircuitsController < ApplicationController
    @circuit = Circuit.find( params[:id] )
    #Update SOURCE CODE 
    if params[:name].nil?
-      content = params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join   
-      actual_version = @circuit.versions.last
-      @previous_version = actual_version.number
-   
+      content = params[:content].empty? ? "" : params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join   
+      #Version
+      @previous_version = @circuit.versions.last.number
       permit 'editor of :circuit' do
-         if (car = @circuit.save_source_code(params[:originalcontent], params[:content].split("_")[1..-1].map{|x| decode_char(x) }.join, params[:commit_message])) == true
-           #Version
-           @previous_version = last_version.number if @previous_version.nil? 
-
-           #Script access registry
-           CircuitAccessRegistry.create(:ip_address=>request.remote_ip,:circuit_id=> @circuit.id,:user_id=> current_user.id)
-           render :partial => "original_content", :locals => { :source_code => @circuit.source_code, :exito => true, :previous_version => @previous_version, :circuit_id => @circuit.id }
+         # Verified if another user has edited the script
+         if (@circuit.updated_at.to_s != params[:last_updated_at])
+          @text_error =  _("Unable to save! ") + ". "
+          @text_error += _("It was edited by the user ") + User.find(@circuit.versions.last.user_id).name + ". "
+          @text_error += _("Save your changes in another medium, refresh the page and try again")
          else
-           render :xml => "<div style='color:red;'>" + _("Could not save the script because it is not updated") + "<br>" + _("Last Edit") + ": #{car.user.name} ( #{car.user.login} )"+"\nIP: "+"#{car.ip_address}</div>";
+           @circuit.save_source_code(content,params[:commit_message])
          end
-       end
+         @play = true if params[:and_play]
+         respond_to do |format|
+          format.js # run the update.rjs template
+         end
+     end
    else
       #Update NAME and DESCRIPTION 
       if  current_user.has_role?( "editor", @circuit)  
@@ -116,11 +117,10 @@ class CircuitsController < ApplicationController
       else
         text_error = [_("Impossible to edit ")+"- "+_("You do not have Edit Permissions")]
       end
-        render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @circuit.project, :text_error => text_error}   
+      render :partial => "categories/tree_menu", :locals => { :categories=> @categories, :project=> @circuit.project, :text_error => text_error}   
    end
 
   end
-
 
   def get_suites_of_script 
        circuit  = Circuit.find params[:id].to_i
@@ -128,22 +128,16 @@ class CircuitsController < ApplicationController
        render :partial => "suites_of_script", :locals => {:circuit_name=>circuit.name, :suites => suites}
   end
 
-
   def rename
     @category    = Category.find params[:category_id]
     @name        = params[:name]
     @description = params[:description]
     @errors      = params[:errors]
     begin
-      @fields = Circuit.selenium_data_collector( {:name => "#{RAILS_ROOT}/lib/temp/#{@name}"} )
-      #Fields codify
-      @fields.each do |t|
-        t.id = CGI.escape(t.id)
-        t.args = t.args.map{ |a| CGI.escape(a) }
-      end
-
-    rescue Exception => @error
-      redirect_to url_for(:controller=>:circuits, :action=>:error, :project_id=>params[:project_id], :error=>@error, :category_id=>@category.id)
+      @fields = Parser.parser_data( "#{RAILS_ROOT}/lib/temp/#{@name}" )
+    rescue Exception => errors
+      @errors = errors
+      render :action => 'new'
     end
   end
 
@@ -157,28 +151,15 @@ class CircuitsController < ApplicationController
     @circuit.user_id     = current_user.id
     @circuit.project_id  = @category.project_id
 
+    #New columns
     new_columns = []
-    
-    if !params[:save].nil?
-      #If is not first Scrip
-      params[:save].each_pair do |k_,v_|
-        k = CGI.unescape(k_)
-        if !v_.empty?
-          v = CGI.unescape(v_)
-          v.gsub!(" ","_")
-          v.downcase!
-          if v == _("-Select-") or v == _("-select-")
-            @complete_fields[k.split("&&")[1]] = nil
-          else
-            @complete_fields[k.split("&&")[1]] = v.to_s.split("(")[0]
-          end
-        else
-          @complete_fields[k.split("&&")[1]] = nil
-        end
-      end
-      new_columns = @complete_fields.map{|k,v| v.to_s.downcase }.select{|col_name| col_name.to_s != "updated_at" and col_name.to_s != "created_at" and col_name.to_s != "id" and col_name.to_s != "case_template_id" and col_name.to_s != ""}
-      new_columns = new_columns.select{|x| x!=""}
-      new_columns.collect!{|col| col.downcase.gsub(" ","_")}
+    if params[:save]
+      fields = params[:save].each{|value, field_name| field_name.downcase.gsub(" ","_")}
+      columns_default  = ["updated_at" , "created_at", "id", "case_template_id"]
+      fields.each do |value, field_name|
+         @complete_fields[field_name]=CGI.unescape(value)  if !columns_default.include?(field_name) and !field_name.empty? and !value.empty?
+      end 
+      new_columns = @complete_fields.keys
 
       #Add the columns of context_configuration.field_default
       context_configurations =  ContextConfiguration.find(:all, :conditions => "enable = '1' AND field_default = 1")
@@ -188,37 +169,19 @@ class CircuitsController < ApplicationController
     end
 
     #Add columns to script
-	if !@circuit.case_column_names_valid?(new_columns)
+	  if !@circuit.case_column_names_valid?(new_columns)
 	   render :partial => "errors", :locals => {:errors => @circuit.errors, :circuit_id => nil} 
-	else
-	  @circuit.save
-	  @circuit.add_case_columns(new_columns)
+	  else
+	   @circuit.save
+	   @circuit.add_case_columns(new_columns)
 
-      if Circuit.selenium_generate_circuit({
-        :name => "#{RAILS_ROOT}/lib/temp/#{params[:circuit][:name]}",
-        :data => @complete_fields,
-        :circuit => @circuit,
-        :project_id => params[:project_id],
-        })
-
+      if Parser.generate_script(@complete_fields, @circuit)
           #Add Maker
           last_version = @circuit.versions.last
           last_version.user_id = current_user.id
           last_version.save
 
-          #First script create:
-          #set field and values in hash
-          #Format: [field1=>value1, field2=>value2]
-          #Complete_fiels format:{"3:date_5"=>"hello2", "2:TESTDATO_CUATRO"=>"hello1", "5:button"=>"hello4", "4:1912496"=>"hello3"}
-          #must flipped to value=>field
-          @new_data_set = Hash.new
-          @complete_fields.each_pair do |k,v|
-          new_value = k.split(':')[1]
-            if v != nil
-              @new_data_set[v]= new_value
-            end
-          end
-          @circuit.add_first_data_set( @new_data_set )
+          @circuit.add_first_data_set( @complete_fields )
           #Se tiene que hacer un render al partial de errores porque en la vista las validaciones del
           #formulario se realizan por ajax. Luego en el partial se hace un redirect a circuits edit.
           render :partial => "errors", :locals => {:errors => nil, :circuit_id => @circuit.id} 
@@ -240,13 +203,6 @@ class CircuitsController < ApplicationController
      end 
   end
 
-  def versions
-    @circuit = Circuit.find params[:id]
-    @versions = @circuit.versions.paginate :page => params[:page], :order => 'id DESC', :per_page => 10
-  end
-
-
-
   def edit
    if params[:rename]
    #Edit NAME and DESCRIPTION
@@ -255,13 +211,14 @@ class CircuitsController < ApplicationController
    else
    #Edit SOURCE CODE
       Execution
-    
-      if !Circuit.exists?(params[:id])
+      DataRecovery
+      DataRecoveryName    
+      if !Circuit.active.exists?(params[:id])
         Circuit.expires_cache_circuit(params[:id], @project_actual)
         redirect_to "/circuits"
         return true
       end
-    
+      @user_functions_names = Rails.cache.read("functions") || []
       @circuit = Circuit.find params[:id]
       @last_circuit_version = Circuit.find params[:id]
       @project_id = params[:project_id]
@@ -278,15 +235,18 @@ class CircuitsController < ApplicationController
         @version=@circuit.versions.last if @version.nil?
         @version_number=@version.number
       else
-        @version = @circuit.versions.last
+          @version = @circuit.versions.last
+          unless @version
+            @circuit.save
+            @version=@circuit.versions.last
+          end
       end
       #Version
       @previous_version = @circuit.versions.map{|v| v.number}.select{|n| n<@circuit.version}.max
       @next_version = @circuit.versions.map{|v| v.number}.select{|n| n>@circuit.version}.min
 
       #Edit permission
-      @readonly = false
-      @readonly = true unless current_user.has_role?("editor", @circuit)
+      @readonly = !current_user.has_role?("editor", @circuit)
 
       permit "viewer of :circuit" do
         @lines = Array.new
@@ -298,20 +258,11 @@ class CircuitsController < ApplicationController
         #send DIV to AJAX
         @all_projects = current_user.other_projects
         @my_projects = current_user.my_projects
-        if params.has_key?(:execution_running)
-          #Caching case_template
-          Rails.cache.write("last_exec_circuit_#{@circuit.id}",params[:execution_running])
-          @execution_running = Rails.cache.fetch("exec_#{params[:execution_running]}"){ Execution.find(params[:execution_running])}
-        else
-          #search in cache last executed script
-          execution_id = Rails.cache.read "last_exec_circuit_#{@circuit.id}"
-          if execution_id
-            @execution_running = Rails.cache.fetch("exec_#{execution_id}"){ Execution.find( execution_id )}
-          else
-            @execution_running = nil
-          end 
-        end
-      end
+
+        #Search in cache last executed script
+        @execution_running = @circuit.get_last_execution
+
+     end
      respond_to do |format|
        format.html
        format.xml{ render :edit, :layout=> false }
@@ -320,9 +271,9 @@ class CircuitsController < ApplicationController
   end
 
   def destroy
-    @circuit = Circuit.find params[:id]
+    @circuit = Circuit.find params[:circuit_id]
       if  current_user.has_role?( "editor",  @circuit)
-       @circuit.destroy
+       @circuit.soft_delete
        @js = "window.location.reload()"
        render :inline => "<%= javascript_tag(@js) %>"
       else
@@ -365,7 +316,7 @@ class CircuitsController < ApplicationController
  end
 
  def checkit
-   code=params[:code].split("_")[1..-1].map{|x| decode_char(x) }.join
+   code= params[:code].empty? ? "" : params[:code].split("_")[1..-1].map{|x| decode_char(x) }.join
    check_data = Circuit.syntax_checker(code)
    render :partial => "circuits/check_data", :locals => { :status=>check_data[:status], :errors=>check_data[:errors], :warnings=>check_data[:warnings]}
  end

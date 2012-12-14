@@ -2,7 +2,7 @@
 
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
- ENV['RAILS_ENV'] ||= 'development'
+ ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.9' unless defined? RAILS_GEM_VERSION
@@ -16,6 +16,9 @@ ENV['HOME'] = RAILS_ROOT unless ENV['HOME']
 $LOAD_PATH << RAILS_ROOT
 
 #STARLING_PORT = 22122
+
+#TO FIX RMAGIC VERSIONS PROBLEM
+RMAGICK_BYPASS_VERSION_TEST = true
 
 # configuracion de rails-authorization-plugin
 AUTHORIZATION_MIXIN = "object roles"
@@ -48,7 +51,7 @@ Rails::Initializer.run do |config|
   # Make Time.zone default to the specified zone, and make Active Record store time values
   # in the database in UTC, and return them converted to the specified local zone.
   # Run "rake -D time" for a list of tasks for finding time zone names. Comment line to use default local time.
-  config.time_zone = 'Buenos Aires'
+  config.time_zone = 'Georgetown'
 
 
   # The internationalization framework can be changed to have another default locale (standard is :en) or more load paths.
@@ -81,6 +84,8 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # Please note that observers generated using script/generate observer need to have an _observer suffix
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+
+
 end
 
     CalendarDateSelect.format = :finnish

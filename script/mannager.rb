@@ -1,31 +1,38 @@
 #!/usr/bin/env ruby
-
+ 
 require "rubygems" 
 require "socket"  
 require 'memcache'
+gem "RbYAML"
+require "yaml"
 
-SERVER_IP="127.0.0.1"
+
+config_file = File.read(Dir.pwd + "/config/cacique.yml")
+CONFIG = YAML.load(config_file)
+
+SERVER_IP=CONFIG[:server][:ip]
+MEMCACHED_IP=CONFIG[:memcached][:ip]
+MANNAGER_PORT=CONFIG[:mannager][:port]
  
-cache = MemCache.new "#{SERVER_IP}:11211"
+cache = MemCache.new "#{MEMCACHED_IP}:11211"
 #srv=TCPServer.open(33133)
 
 class WorkerMannager
 
   def initialize
-    @cache = MemCache.new "#{SERVER_IP}:11211"
-   
+    @cache = MemCache.new "#{MEMCACHED_IP}:11211"
     @ip=self.get_ip 
-    puts @ip
-    begin    
-      @cn=TCPServer.open(33133)
+    begin
+      @cn=TCPServer.open(MANNAGER_PORT)
     rescue  Exception => e
-      puts "Can't open host due: #{e.message}"
+       puts "Can't open host due: #{e.message}"
+       exit(1)
     end
+
+    @ip=self.get_ip 
     Signal.trap("TERM") {finalize}
     Signal.trap("SIGUSR1") {register_worker}
   end
-
-
 
   def finalize
     self.unregister_worker
@@ -69,25 +76,59 @@ class WorkerMannager
     end
   end 
   
+  #this methods handles request
   def listen
-   #sock=@cn.accept_nonblock
-    while true
-      begin
-        sock = @cn.accept_nonblock
-      rescue Errno::EAGAIN, Errno::ECONNABORTED, Errno::EPROTO, Errno::EINTR
-        IO.select([@cn])
-        retry
-      end
-     begin
-     action = case sock.read
-       when "refresh" then self.register_worker 
-       else puts "Invalid Score"
+    require "socket"
+    loop do
+      Thread.start(@cn.accept) do |s|
+        request=s.recv(1000)
+        request=request.split(";")
+         case request.first
+         when "refresh"
+           register_worker
+         when "stop"
+           stop(request[1],request[2])
+           register_worker
+         when "restart_all"
+           register_worker
+           restart_all 
+           register_worker
+         else
+           s.write("Ops, that is not an available command")
+           s.close    Process.kill("SIGUSR1",pid.to_i)
+          end
        end
-    rescue
-      rescue Errno::EAGAIN, Errno::ECONNABORTED, Errno::EPROTO, Errno::EINTR
-      retry
     end
-    end
+  end
+  
+  def stop(pid,exe)
+     puts "Stopping execution #{exe} with pid #{pid}"
+     Process.kill("SIGUSR2", pid.to_i)
+  end
+
+
+  def restart_all
+     #Get executions running or not
+      task_running=[] 
+      task_not_running=[]
+      workers_hash=@cache.get("registred_workers")
+      workers_hash={} if workers_hash==nil
+      pids = workers_hash[@ip]
+      pids.each do |pid|
+          begin
+             task_not_running << pid if @cache.get("worker_#{@ip.to_s}_#{pid.to_s}").nil?
+          rescue ArgumentError => msg
+               task_running << pid #undefined class/module Execution
+          end
+      end
+      puts "Restarting executions: \n Running #{task_running.join(',')}\n Not running: #{task_not_running.join(',')}"
+
+      task_running.each do |pid|
+          Process.kill("SIGUSR1",pid.to_i)
+      end
+      task_not_running.each do |pid|
+          system("kill -9 #{pid.to_i}")
+      end
   end
 
 end

@@ -79,19 +79,34 @@ Array.prototype.inArray = function (value) {
  
  
 //ON LOAD EVENT!!!!!!!!!!!!!!!!!!!! 
-  
+function on_load_event(ready) {
+  if (document.addEventListener) { // native event
+    document.addEventListener("DOMContentLoaded", ready, false);
+  } else if (window.addEventListener) {
+    window.addEventListener('load', ready, false);
+  } else if (window.attachEvent) {
+    window.attachEvent('onload', ready);
+  } else {
+    var fn = window.onload; // very old browser, copy old onload
+    window.onload = function() { // replace by new onload and call the old one
+      fn && fn();
+      ready();
+    }
+  }
+}
+
 //Function to the table a zebra style
 //to work, the table must have :name=>'table_zebra'
 
 //when load page, all tables with name 'table_zebra'
 ////assigned zebra style
-function onload(){
+on_load_event(function() {
   // zebras Tables
   var tables = document.getElementsByName("table_zebra");
   for (var i = 0; i < tables.length; i++) {
     zebra(tables[i]);  
-  }	
-}
+  }
+});
 
 
 function zebra(table) {
@@ -147,3 +162,18 @@ function zebra(table) {
 	  return encoded_value 
   }
     
+//Cacique Ui
+var CCQUI = {};
+
+//Toggle text
+CCQUI.toggle_text = function(element, text1, text2) {
+  var new_text =  ( element.text().search(text1) == -1 )? text1 : text2;
+  element.text(new_text); 
+};
+
+//Hide and show elements
+var CCQUI = {};
+CCQUI.show_and_hide = function(show, hide) {
+    $j(hide).hide();
+    $j(show).show();
+};

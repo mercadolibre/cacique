@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110630143837
+#
+# Table name: suites
+#
+#  id          :integer(4)      not null, primary key
+#  name        :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  description :text
+#  project_id  :integer(4)
+#
+
  #
  #  @Authors:    
  #      Brizuela Lucia                  lula.brizuela@gmail.com
@@ -23,19 +36,6 @@
  #  You should have received a copy of the GNU General Public License
  #  along with this program.  If not, see http://www.gnu.org/licenses/.
  #
-# == Schema Information
-# Schema version: 20101129203650
-#
-# Table name: suites
-#
-#  id          :integer(4)      not null, primary key
-#  name        :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  description :text
-#  project_id  :integer(4)
-#
-
 class Suite < ActiveRecord::Base
   # belongs_to :category
 
@@ -43,11 +43,14 @@ class Suite < ActiveRecord::Base
   has_many :circuits, :through => :schematics, :order => :position
   has_many :case_templates, :through => :schematics
   has_many :suite_executions,  :dependent => :destroy
-  has_many :suite_fields_relations, :dependent => :destroy
-  has_many :suite_cases_relations,  :dependent => :destroy
+  has_many :suite_fields_relations, :dependent => :delete_all
+  has_many :suite_cases_relations,  :dependent => :delete_all
   has_many :suite_containers, :dependent => :destroy
-  has_many :task_programs, :dependent => :destroy 
+  has_and_belongs_to_many :task_programs
+
   belongs_to :project
+  named_scope :active, :conditions => { :deleted => false }
+  named_scope :deleted, :conditions => { :deleted => true }
 
   validates_presence_of :name, :message => _("Enter a Name")
   validates_presence_of :description, :message => _("Enter a Description")
@@ -60,11 +63,22 @@ class Suite < ActiveRecord::Base
 
   include SaveModelAccess
 
+  def active?
+    !deleted
+  end
 
   def self.new_suite(suite_params, suite_circuits)
-	    @suite = Suite.new(suite_params)
-	    @suite.circuits = Circuit.find(suite_circuits) if suite_circuits
+      @suite = Suite.new(suite_params)
+      @suite.circuits = Circuit.find(suite_circuits) if suite_circuits
       @suite
+  end
+
+  def soft_delete
+    self.suite_fields_relations.clear
+    self.suite_cases_relations.clear
+    self.task_programs.destroy_all
+    self.deleted = true
+    self.save
   end
 
   #obtain col from every suite's script
@@ -84,14 +98,14 @@ class Suite < ActiveRecord::Base
     #delete suite case (Tabla Schamatics)
     case_template = CaseTemplate.find case_id
     self.case_templates.delete(case_template)
-	  #Delete suite-case relations with cases from another suite
-	  case_template_ids = self.case_templates.map(&:id)
-	  array_relations_to_save = Array.new
+    #Delete suite-case relations with cases from another suite
+    case_template_ids = self.case_templates.map(&:id)
+    array_relations_to_save = Array.new
 
-	  self.suite_cases_relations.each do |suite_case_relation|
-		   array_relations_to_save << suite_case_relation.id if case_template_ids.include?(suite_case_relation.case_origin) and case_template_ids.include?(suite_case_relation.case_destination)
-	  end
-	  self.suite_cases_relation_ids = array_relations_to_save
+    self.suite_cases_relations.each do |suite_case_relation|
+      array_relations_to_save << suite_case_relation.id if case_template_ids.include?(suite_case_relation.case_origin) and case_template_ids.include?(suite_case_relation.case_destination)
+   end
+    self.suite_cases_relation_ids = array_relations_to_save
   end
 
 
@@ -189,15 +203,15 @@ class Suite < ActiveRecord::Base
     not ( ids_origin.include?(suite_cases_relation.case_origin.to_s) and ids_destination.include?(suite_cases_relation.case_destination.to_s) )
     }
     #new relation cases update
-	    new_cases.split(";").each do |pair_cases|
-	     case_origin = pair_cases.split(",")[0]
-	     case_destination = pair_cases.split(",")[1]
-	     SuiteCasesRelation.create(:suite_id=>self.id,
+     new_cases.split(";").each do |pair_cases|
+       case_origin = pair_cases.split(",")[0]
+       case_destination = pair_cases.split(",")[1]
+       SuiteCasesRelation.create(:suite_id=>self.id,
                                  :case_origin=>case_origin.to_i,
                                  :circuit_origin=> CaseTemplate.find(case_origin.to_i).circuit_id,
                                  :case_destination=>case_destination.to_i,
                                  :circuit_destination =>CaseTemplate.find(case_destination.to_i).circuit_id)
-	   end
+     end
     
  end
  
@@ -209,18 +223,17 @@ class Suite < ActiveRecord::Base
     @category = @project.categories.find_by_name(import_folder)
     
     if @category.nil?
-	   @category = Category.new
-	   @category.name = import_folder
-	   @category.description = _("folder where you saved the script imported")
-	   @category.parent_id = 0
-	   @category.project_id = @project.id
-	   @category.save
-	end
+      @category = Category.new
+      @category.name = import_folder
+      @category.description = _("folder where you saved the script imported")
+      @category.parent_id = 0
+      @category.project_id = @project.id
+      @category.save
+    end
 
     #copy scripts to my project
     par_circuit_ids = @category.import_circuits(@project, self.circuit_ids, 'off')
-    	
-    	
+    
     #new suite generation
     @new_suite = Suite.new_suite(self.attributes,self.circuit_ids)
     @new_suite.project_id = project_id
@@ -229,8 +242,8 @@ class Suite < ActiveRecord::Base
     # imported scripts asociation
     @new_circuits = Circuit.find par_circuit_ids.values
     @new_suite.circuits = @new_circuits
-	@new_suite.save
-	
+    @new_suite.save
+
     #copy the suite cases
     if copy_cases == 'on'
       par_case_template_ids = Hash.new
@@ -254,35 +267,35 @@ class Suite < ActiveRecord::Base
       #Associate imported cases to the suite
       @new_case_templates = CaseTemplate.find par_case_template_ids.values
       @new_suite.case_templates = @new_case_templates
-	  @new_suite.save
-	  
-	  #copy suite_cases_relations only if cases are copied
-	  self.suite_cases_relations.each do |suite_case_relation|
-	   @new_suite_cases_relation = SuiteCasesRelation.new(suite_case_relation.attributes)
-	   @new_suite_cases_relation.suite_id = @new_suite.id
-	   @new_suite_cases_relation.case_origin = par_case_template_ids[suite_case_relation.case_origin]
-	   @new_suite_cases_relation.case_destination = par_case_template_ids[suite_case_relation.case_destination]
-	   @new_suite_cases_relation.circuit_origin = par_circuit_ids[suite_case_relation.circuit_origin]
-	   @new_suite_cases_relation.circuit_destination = par_circuit_ids[suite_case_relation.circuit_destination]
-	   @new_suite_cases_relation.save
-	  end
-	end
-	
-	#copy suite_fields_relations
-	self.suite_fields_relations.each do |suite_field_relation|
-	   @new_suite_fields_relation = SuiteFieldsRelation.new(suite_field_relation.attributes)
-	   @new_suite_fields_relation.suite_id = @new_suite.id
-	   @new_suite_fields_relation.circuit_origin_id = par_circuit_ids[suite_field_relation.circuit_origin_id]
-	   @new_suite_fields_relation.circuit_destination_id = par_circuit_ids[suite_field_relation.circuit_destination_id]
-	   @new_suite_fields_relation.save
-	end
+      @new_suite.save
+  
+    #copy suite_cases_relations only if cases are copied
+    self.suite_cases_relations.each do |suite_case_relation|
+      @new_suite_cases_relation = SuiteCasesRelation.new(suite_case_relation.attributes)
+      @new_suite_cases_relation.suite_id = @new_suite.id
+      @new_suite_cases_relation.case_origin = par_case_template_ids[suite_case_relation.case_origin]
+      @new_suite_cases_relation.case_destination = par_case_template_ids[suite_case_relation.case_destination]
+      @new_suite_cases_relation.circuit_origin = par_circuit_ids[suite_case_relation.circuit_origin]
+      @new_suite_cases_relation.circuit_destination = par_circuit_ids[suite_case_relation.circuit_destination]
+      @new_suite_cases_relation.save
+    end
+  end
+
+  #copy suite_fields_relations
+  self.suite_fields_relations.each do |suite_field_relation|
+    @new_suite_fields_relation = SuiteFieldsRelation.new(suite_field_relation.attributes)
+    @new_suite_fields_relation.suite_id = @new_suite.id
+    @new_suite_fields_relation.circuit_origin_id = par_circuit_ids[suite_field_relation.circuit_origin_id]
+    @new_suite_fields_relation.circuit_destination_id = par_circuit_ids[suite_field_relation.circuit_destination_id]
+    @new_suite_fields_relation.save
+  end
 
   end
 
   def expire_cache
     Rails.cache.delete "suite_#{self.id}"
     #update project suites in cache
-    Rails.cache.write("project_suites_#{self.project_id}",self.project.suites.map(&:id),:expires_in => CACHE_EXPIRE_PROYECT_SUITES)
+    Rails.cache.write("project_suites_#{self.project_id}", self.project.suites.active.map(&:id), :expires_in => CACHE_EXPIRE_PROYECT_SUITES)
     true
   end
 
@@ -290,18 +303,18 @@ class Suite < ActiveRecord::Base
 
 #--------------------------------Special Structure build---------------------------------#
 
-	#get script relations
+  #get script relations
   def get_circuits_relations
-    	#relation scripts (hash format: script id -> [[parent],[chidren]] )
-	    circuit_relations = Hash.new
-    	self.circuits.each do |c|
-	      relation = Array.new
-	      circuits_children = self.suite_fields_relations.find(:all, :conditions => "circuit_origin_id = #{c.id}", :select => "circuit_destination_id").map{ |x| x.circuit_destination_id }
-	      circuits_parents  = self.suite_fields_relations.find(:all, :conditions => "circuit_destination_id = #{c.id}", :select => "circuit_origin_id").map{ |x| x.circuit_origin_id }
-	      #delete repetitions (unic)
-        relation                =  [circuits_parents.uniq, circuits_children.uniq]
-	      circuit_relations[c.id] = relation
-	    end
+    #relation scripts (hash format: script id -> [[parent],[chidren]] )
+    circuit_relations = Hash.new
+    self.circuits.each do |c|
+      relation = Array.new
+      circuits_children = self.suite_fields_relations.find(:all, :conditions => "circuit_origin_id = #{c.id}", :select => "circuit_destination_id").map{ |x| x.circuit_destination_id }
+      circuits_parents  = self.suite_fields_relations.find(:all, :conditions => "circuit_destination_id = #{c.id}", :select => "circuit_origin_id").map{ |x| x.circuit_origin_id }
+      #delete repetitions (unic)
+      relation                =  [circuits_parents.uniq, circuits_children.uniq]
+      circuit_relations[c.id] = relation
+    end
       circuit_relations
   end
 
@@ -309,7 +322,7 @@ class Suite < ActiveRecord::Base
  #for 2 scripts:
  #hash format: { origin script + destination script => [[case1, case2], [,] ..] }
  def get_circuit_cases
-	   circuits_cases= Hash.new
+     circuits_cases= Hash.new
      self.suite_cases_relations.each do |suite_case|
 	      case_pair = Array.new
 	      #generate key
@@ -403,32 +416,40 @@ class Suite < ActiveRecord::Base
    end
  end
 
- #Search suite with pattern
- def self.get_all(pattern, project)
-   pattern.lstrip! unless pattern.nil?
-   pattern.rstrip! unless pattern.nil?
-   result=Array.new
-   if pattern.empty?
-     #obtain project suites from cache
-      suites=[]
-      project.suites_cache.each do |identifier|
-        suites << Suite.find(identifier)
-      end
-     result=  suites
-   else
-     result= Suite.project_id_equals(project.id).name_like(pattern).to_a | Suite.project_id_equals(project.id).description_like(pattern).to_a
-   end
-   result.sort_by { |x| x.name.downcase }
- end
+  #Search suite with pattern
+  def self.get_all(pattern, project)
+    pattern.strip! unless pattern.nil?
+    if pattern.empty?
+      #Obtain project suites from cache
+      #project.suites_cache are active suites
+      result = Suite.find(project.suites_cache)
+    else
+      suites = Suite.active.project_id_equals(project.id)
+      result = suites.name_like(pattern).to_a | suites.description_like(pattern).to_a
+    end
+    result.sort_by { |x| x.name.downcase }
+  end
 #--------------------------------------------------------------------------------------------#
 
   protected
    def self.find(*args)
+      #One suite "1"
       if args.first.instance_of?(Fixnum) and args.length == 1
-        Rails.cache.fetch("suite_#{args.first}",:expires_in => CACHE_EXPIRE_PROYECT_SUITES){super(*args)}
+        Rails.cache.fetch("suite_#{args.first}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(args.first) }
+
+      #Many suites "1,2,3..."
+      elsif args.first.instance_of?(Array)
+         suites = []
+         args.first.each do |suite_id|
+            suites << Rails.cache.fetch("suite_#{suite_id}", :expires_in => CACHE_EXPIRE_PROYECT_SUITES) { super(suite_id.to_s) } #to_s: Fix if suite_id==Array
+         end
+         suites
+         
+      #Super
       else
         super(*args)
       end
+
    end
 
 

@@ -1,0 +1,71 @@
+--- 
+# After modifing this file...
+#   development: reload the server
+#   production: rake asset:packager:build_all
+javascripts: 
+- base:
+  - dtree
+  - side-bar
+- editor:
+  - editcircuit
+  - checked_default
+  - checkbox_lib
+  - user_function
+  - editor_changes
+  - ../CodeMirror/lib/codemirror
+  - ../CodeMirror/lib/simple-hint
+  - ../CodeMirror/lib/javascript-hint
+  - ../CodeMirror/mode/ruby/ruby
+  - ../CodeMirror/util/dialog
+  - ../CodeMirror/util/searchcursor
+  - ../CodeMirror/util/search
+- secondary:
+  - select_all
+  - tablesort
+  - case_template
+  - import_suite
+  - tabla_editable
+  - home
+  - user_function
+  - suite_program
+  - relation2
+  - relation3
+  - jquery
+  - jQuery_noConflict
+  - move_circuit
+  - prototype
+  - context_configuration
+  - suite_show
+  - richtext
+  - jquery.easing
+  - checked_default
+  - history
+  - import_circuit
+  - controls
+  - styler
+  - relation1
+  - editcircuit
+  - dragdrop
+  - suite_comment
+  - jquery-1.3.2.min
+  - suite_edit
+  - mootools
+  - all
+  - editor_changes
+  - checkbox_lib
+  - swfobject
+  - effects
+  - datetime
+  - tabla_suiteExe_editable
+  - application
+  - execution_show
+stylesheets: 
+- base:
+  - default
+- secondary:
+  - highlight
+  - editor
+- editor:
+  - ../CodeMirror/lib/codemirror
+  - ../CodeMirror/theme/eclipse
+  - ../CodeMirror/util/dialog

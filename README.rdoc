@@ -1,0 +1,63 @@
+
+== Cacique, Do it once
+
+Cacique was born with the need of MercadoLibre to expedite the testing process for 
+your application. Based in Selenium to record the tests script, Cacique manage all 
+cases, Data Set, Suites executions and Script editing.
+
+* Easy to automate testing without knowing about develop language
+* Ability to develop and maintain tests (scripts).
+* Run tests on different platforms with different input data and external to the script
+* Configurable for different work environments
+* Easy to concatenate multiple scripts.
+
+
+“Do it Once” speaks of re-using tests. Our main objective was to
+create a collaborative tool with a library of scripts and suites to
+share with other users.
+
+== Overview
+* {Cacique presentation}[http://cacique.mercadolibre.com/sites/default/files/CCQ_presentation.pdf]
+* {Cacique presentación (Spanish version)}[http://cacique.mercadolibre.com/sites/default/files/CCQ_presentacion.pdf]
+* {Cacique in 3 Steps: Record, Create and Run Scripts on Cacique!}[http://prezi.com/yixolaj62kcn/cacique-en-3-pasos/]
+* {Cacique uses examples}[http://prezi.com/5pb4ml8q2sg8/cacique-uses/] 
+
+
+== Getting Started
+
+=== Install
+
+  git clone https://github.com/mercadolibre/cacique.git
+
+=== Manual Guide
+
+Follow the steps in the {Installation Guide}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true].
+* {English Version}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_installation_manual.pdf?raw=true]
+* {Spanish Version}[https://github.com/mercadolibre/cacique/blob/master/doc/CCQ_manual_instalacion.pdf?raw=true]
+
+== More documentation
+
+* {Home Page}[http://cacique.mercadolibre.com]
+* If you have any questions, please visit the {Forum}[http://cacique.mercadolibre.com/forum/].
+
+== Next on Cacique..
+
+=== Usability
+* Improve browsing of functions
+* Add stop for executions that are running
+* Edition and refactor of execution's scheduler
+* Debbuger online
+* Auto re-execution on failure
+* Group executions by run configuration  
+* Extend suite's scheduled to scripts
+ 
+=== Rails 3 + ruby 1.9 + HTML5
+* Analysis and Research
+* Make plan for implementración
+
+== Contributing
+If you want get involved, please contact us!
+
+== Contacts
+
+cacique@mercadolibre.com
